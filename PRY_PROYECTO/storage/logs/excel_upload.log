@@ -159,3 +159,597 @@ ValueError: Must specify a fill 'value' or 'method'.
 [2025-11-13 03:31:54] Exit code: 0
 [2025-11-13 03:31:54] Output: Actualizacion exitosa
 [2025-11-13 03:31:54] Archivo temporal eliminado
+[2025-11-13 03:40:43] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:40:43] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113034043.xlsx
+[2025-11-13 03:40:43] Python detectado: /usr/bin/python3
+[2025-11-13 03:40:43] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113034043.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:40:44] Exit code: 0
+[2025-11-13 03:40:44] Output: Actualizacion exitosa
+[2025-11-13 03:40:44] Archivo temporal eliminado
+[2025-11-13 03:41:31] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:41:31] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113034131.xlsx
+[2025-11-13 03:41:31] Python detectado: /usr/bin/python3
+[2025-11-13 03:41:31] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113034131.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:41:31] Exit code: 0
+[2025-11-13 03:41:31] Output: Actualizacion exitosa
+[2025-11-13 03:41:31] Archivo temporal eliminado
+[2025-11-13 03:42:44] Archivo recibido: Atributos_Sistema_Restaurante.xlsx (6416 bytes)
+[2025-11-13 03:42:44] ERROR: Error al guardar el archivo
+[2025-11-13 03:42:50] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:42:50] ERROR: Error al guardar el archivo
+[2025-11-13 03:47:22] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:47:22] ERROR: Error al guardar el archivo
+[2025-11-13 03:48:59] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:48:59] ERROR: Error al guardar el archivo
+[2025-11-13 03:57:26] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:57:26] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113035726.xlsx
+[2025-11-13 03:57:26] Python detectado: /usr/bin/python3
+[2025-11-13 03:57:26] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113035726.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:57:27] Exit code: 0
+[2025-11-13 03:57:27] Output: Actualizacion exitosa
+[2025-11-13 03:57:27] Archivo temporal eliminado
+[2025-11-13 04:30:57] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 04:30:57] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043057.xlsx
+[2025-11-13 04:30:57] Python detectado: /usr/bin/python3
+[2025-11-13 04:30:57] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043057.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:30:58] Exit code: 0
+[2025-11-13 04:30:58] Output: Actualizacion exitosa
+[2025-11-13 04:30:58] Archivo temporal eliminado
+[2025-11-13 04:35:00] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 04:35:00] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043500.xlsx
+[2025-11-13 04:35:00] Python detectado: /usr/bin/python3
+[2025-11-13 04:35:00] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043500.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:35:01] Exit code: 0
+[2025-11-13 04:35:01] Output: Actualizacion exitosa
+[2025-11-13 04:35:01] Archivo temporal eliminado
+[2025-11-13 04:35:30] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:35:30] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043530.xlsx
+[2025-11-13 04:35:30] Python detectado: /usr/bin/python3
+[2025-11-13 04:35:30] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043530.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:35:31] Exit code: 1
+[2025-11-13 04:35:31] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 192, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 153, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 101, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 04:35:31] Archivo temporal eliminado
+[2025-11-13 04:37:41] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:37:41] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043741.xlsx
+[2025-11-13 04:37:41] Python detectado: /usr/bin/python3
+[2025-11-13 04:37:41] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043741.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:37:41] Exit code: 1
+[2025-11-13 04:37:41] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 192, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 153, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 101, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 04:37:41] Archivo temporal eliminado
+[2025-11-13 04:38:02] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:38:02] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043802.xlsx
+[2025-11-13 04:38:02] Python detectado: /usr/bin/python3
+[2025-11-13 04:38:02] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113043802.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:38:02] Exit code: 1
+[2025-11-13 04:38:02] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 192, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 153, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 101, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 04:38:02] Archivo temporal eliminado
+[2025-11-13 04:44:51] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:44:51] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113044451.xlsx
+[2025-11-13 04:44:51] Python detectado: /usr/bin/python3
+[2025-11-13 04:44:51] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113044451.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:44:52] Exit code: 1
+[2025-11-13 04:44:52] Output: Advertencia: usando hoja 'categorias_platos' como coincidencia para 'categorias'
+Error ❌: (1146, "Table 'crud_proyecto.categorias' doesn't exist")
+[2025-11-13 04:44:52] Archivo temporal eliminado
+[2025-11-13 04:45:09] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:45:09] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113044509.xlsx
+[2025-11-13 04:45:09] Python detectado: /usr/bin/python3
+[2025-11-13 04:45:09] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113044509.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:45:10] Exit code: 1
+[2025-11-13 04:45:10] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 04:45:10] Archivo temporal eliminado
+[2025-11-13 04:48:52] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:48:52] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113044852.xlsx
+[2025-11-13 04:48:52] Python detectado: /usr/bin/python3
+[2025-11-13 04:48:52] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113044852.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:48:53] Exit code: 1
+[2025-11-13 04:48:53] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 04:48:53] Archivo temporal eliminado
+[2025-11-13 04:50:49] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:50:49] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045049.xlsx
+[2025-11-13 04:50:49] Python detectado: /usr/bin/python3
+[2025-11-13 04:50:49] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045049.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:50:50] Exit code: 1
+[2025-11-13 04:50:50] Output: Advertencia: usando hoja 'categorias_platos' como coincidencia para 'categorias'
+Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 04:50:50] Archivo temporal eliminado
+[2025-11-13 04:51:08] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:51:08] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045108.xlsx
+[2025-11-13 04:51:08] Python detectado: /usr/bin/python3
+[2025-11-13 04:51:08] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045108.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:51:09] Exit code: 1
+[2025-11-13 04:51:09] Output: Advertencia: usando hoja 'categorias_platos' como coincidencia para 'categorias'
+Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 04:51:09] Archivo temporal eliminado
+[2025-11-13 04:52:38] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:52:38] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045238.xlsx
+[2025-11-13 04:52:38] Python detectado: /usr/bin/python3
+[2025-11-13 04:52:38] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045238.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:52:39] Exit code: 1
+[2025-11-13 04:52:39] Output: Advertencia: usando hoja 'categorias_platos' como coincidencia para 'categorias'
+Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 04:52:39] Archivo temporal eliminado
+[2025-11-13 04:52:42] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:52:42] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045242.xlsx
+[2025-11-13 04:52:42] Python detectado: /usr/bin/python3
+[2025-11-13 04:52:42] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045242.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:52:42] Exit code: 1
+[2025-11-13 04:52:42] Output: Advertencia: usando hoja 'categorias_platos' como coincidencia para 'categorias'
+Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 04:52:42] Archivo temporal eliminado
+[2025-11-13 04:52:59] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:52:59] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045259.xlsx
+[2025-11-13 04:52:59] Python detectado: /usr/bin/python3
+[2025-11-13 04:52:59] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045259.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:53:00] Exit code: 1
+[2025-11-13 04:53:00] Output: Advertencia: usando hoja 'categorias_platos' como coincidencia para 'categorias'
+Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 04:53:00] Archivo temporal eliminado
+[2025-11-13 04:56:27] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 04:56:27] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045627.xlsx
+[2025-11-13 04:56:27] Python detectado: /usr/bin/python3
+[2025-11-13 04:56:27] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113045627.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 04:56:28] Exit code: 0
+[2025-11-13 04:56:28] Output: Advertencia: usando hoja 'categorias_platos' como coincidencia para 'categorias'
+Actualización exitosa ✅
+[2025-11-13 04:56:28] Archivo temporal eliminado
+[2025-11-13 05:07:09] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:07:09] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113050709.xlsx
+[2025-11-13 05:07:09] Python detectado: /usr/bin/python3
+[2025-11-13 05:07:09] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113050709.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:07:09] Exit code: 1
+[2025-11-13 05:07:09] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:07:09] Archivo temporal eliminado
+[2025-11-13 05:10:11] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:10:11] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051011.xlsx
+[2025-11-13 05:10:11] Python detectado: /usr/bin/python3
+[2025-11-13 05:10:11] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051011.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:10:13] Exit code: 1
+[2025-11-13 05:10:13] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:10:13] Archivo temporal eliminado
+[2025-11-13 05:11:49] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:11:49] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051149.xlsx
+[2025-11-13 05:11:49] Python detectado: /usr/bin/python3
+[2025-11-13 05:11:49] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051149.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:11:50] Exit code: 1
+[2025-11-13 05:11:50] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:11:50] Archivo temporal eliminado
+[2025-11-13 05:13:56] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:13:56] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051356.xlsx
+[2025-11-13 05:13:56] Python detectado: /usr/bin/python3
+[2025-11-13 05:13:56] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051356.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:13:58] Exit code: 1
+[2025-11-13 05:13:58] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:13:58] Archivo temporal eliminado
+[2025-11-13 05:15:33] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:15:33] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051533.xlsx
+[2025-11-13 05:15:33] Python detectado: /usr/bin/python3
+[2025-11-13 05:15:33] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051533.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:15:34] Exit code: 1
+[2025-11-13 05:15:34] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:15:34] Archivo temporal eliminado
+[2025-11-13 05:16:10] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:16:10] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051610.xlsx
+[2025-11-13 05:16:10] Python detectado: /usr/bin/python3
+[2025-11-13 05:16:10] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113051610.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:16:10] Exit code: 1
+[2025-11-13 05:16:10] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 170, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 131, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:16:10] Archivo temporal eliminado
+[2025-11-13 05:20:54] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:20:54] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052054.xlsx
+[2025-11-13 05:20:54] Python detectado: /usr/bin/python3
+[2025-11-13 05:20:54] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052054.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:20:56] Exit code: 1
+[2025-11-13 05:20:56] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 197, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 158, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 130, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:20:56] Archivo temporal eliminado
+[2025-11-13 05:21:21] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:21:21] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052121.xlsx
+[2025-11-13 05:21:21] Python detectado: /usr/bin/python3
+[2025-11-13 05:21:21] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052121.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:21:22] Exit code: 1
+[2025-11-13 05:21:22] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 203, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 158, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 130, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:21:22] Archivo temporal eliminado
+[2025-11-13 05:23:29] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:23:29] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052329.xlsx
+[2025-11-13 05:23:29] Python detectado: /usr/bin/python3
+[2025-11-13 05:23:29] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052329.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:23:30] Exit code: 1
+[2025-11-13 05:23:30] Output:   File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 163
+    categorias_table = 'categorias_platos' if table_exists(conn, 'categorias_platos') else ('categorias' if table_exists(conn, 'categorias') else 'categorias')
+    ^
+IndentationError: expected an indented block after 'try' statement on line 160
+[2025-11-13 05:23:30] Archivo temporal eliminado
+[2025-11-13 05:25:49] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:25:49] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052549.xlsx
+[2025-11-13 05:25:49] Python detectado: /usr/bin/python3
+[2025-11-13 05:25:49] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052549.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:25:51] Exit code: 1
+[2025-11-13 05:25:51] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 204, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 158, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 130, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:25:51] Archivo temporal eliminado
+[2025-11-13 05:27:49] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:27:49] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052749.xlsx
+[2025-11-13 05:27:49] Python detectado: /usr/bin/python3
+[2025-11-13 05:27:49] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052749.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:27:51] Exit code: 1
+[2025-11-13 05:27:51] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 204, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 158, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 130, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:27:51] Archivo temporal eliminado
+[2025-11-13 05:29:00] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:29:00] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052900.xlsx
+[2025-11-13 05:29:00] Python detectado: /usr/bin/python3
+[2025-11-13 05:29:00] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113052900.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:29:01] Exit code: 1
+[2025-11-13 05:29:01] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 204, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 158, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 130, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 517, in read_excel
+    data = io.parse(
+           ^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 1629, in parse
+    return self._reader.parse(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 788, in parse
+    sheet = self.get_sheet_by_name(asheetname)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_openpyxl.py", line 583, in get_sheet_by_name
+    self.raise_if_bad_sheet_by_name(name)
+  File "/usr/lib/python3/dist-packages/pandas/io/excel/_base.py", line 639, in raise_if_bad_sheet_by_name
+    raise ValueError(f"Worksheet named '{name}' not found")
+ValueError: Worksheet named 'categorias' not found
+[2025-11-13 05:29:01] Archivo temporal eliminado
+[2025-11-13 05:34:01] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:34:01] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113053401.xlsx
+[2025-11-13 05:34:01] Python detectado: /usr/bin/python3
+[2025-11-13 05:34:01] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113053401.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:34:02] Exit code: 0
+[2025-11-13 05:34:02] Output: Actualización exitosa ✅
+[2025-11-13 05:34:02] Archivo temporal eliminado
+[2025-11-13 05:34:24] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 05:34:24] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113053424.xlsx
+[2025-11-13 05:34:24] Python detectado: /usr/bin/python3
+[2025-11-13 05:34:24] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113053424.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:34:25] Exit code: 0
+[2025-11-13 05:34:25] Output: Actualización exitosa ✅
+[2025-11-13 05:34:25] Archivo temporal eliminado
+[2025-11-13 05:34:38] Archivo recibido: menu_template2.xlsx (10746 bytes)
+[2025-11-13 05:34:38] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113053438.xlsx
+[2025-11-13 05:34:38] Python detectado: /usr/bin/python3
+[2025-11-13 05:34:38] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113053438.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 05:34:38] Exit code: 0
+[2025-11-13 05:34:38] Output: Actualización exitosa ✅
+[2025-11-13 05:34:38] Archivo temporal eliminado
