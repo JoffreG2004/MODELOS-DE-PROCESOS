@@ -1,0 +1,161 @@
+[2025-11-13 02:53:39] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 02:53:39] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025339.xlsx
+[2025-11-13 02:53:39] Ejecutando comando: '/mnt/c/Users/Joffre/venv/bin/python' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025339.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 02:53:39] Exit code: 1
+[2025-11-13 02:53:39] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 17, in <module>
+    import pymysql
+ModuleNotFoundError: No module named 'pymysql'
+[2025-11-13 02:53:39] Archivo temporal eliminado
+[2025-11-13 02:54:44] Archivo recibido: Atributos_Sistema_Restaurante.xlsx (6416 bytes)
+[2025-11-13 02:54:44] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025444.xlsx
+[2025-11-13 02:54:44] Ejecutando comando: '/mnt/c/Users/Joffre/venv/bin/python' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025444.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 02:54:44] Exit code: 1
+[2025-11-13 02:54:44] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 17, in <module>
+    import pymysql
+ModuleNotFoundError: No module named 'pymysql'
+[2025-11-13 02:54:44] Archivo temporal eliminado
+[2025-11-13 02:55:54] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 02:55:54] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025554.xlsx
+[2025-11-13 02:55:54] Ejecutando comando: '/mnt/c/Users/Joffre/venv/bin/python' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025554.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 02:55:54] Exit code: 1
+[2025-11-13 02:55:54] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 17, in <module>
+    import pymysql
+ModuleNotFoundError: No module named 'pymysql'
+[2025-11-13 02:55:54] Archivo temporal eliminado
+[2025-11-13 02:56:03] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 02:56:03] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025603.xlsx
+[2025-11-13 02:56:03] Ejecutando comando: '/mnt/c/Users/Joffre/venv/bin/python' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025603.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 02:56:03] Exit code: 1
+[2025-11-13 02:56:03] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 17, in <module>
+    import pymysql
+ModuleNotFoundError: No module named 'pymysql'
+[2025-11-13 02:56:03] Archivo temporal eliminado
+[2025-11-13 02:59:07] Archivo recibido: Atributos_Sistema_Restaurante.xlsx (6416 bytes)
+[2025-11-13 02:59:07] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025907.xlsx
+[2025-11-13 02:59:07] Python detectado: /usr/bin/python3
+[2025-11-13 02:59:07] Ejecutando comando: '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025907.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 02:59:07] Exit code: 1
+[2025-11-13 02:59:07] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 18, in <module>
+    import pandas as pd
+  File "/usr/lib/python3/dist-packages/pandas/__init__.py", line 46, in <module>
+    from pandas.core.api import (
+  File "/usr/lib/python3/dist-packages/pandas/core/api.py", line 47, in <module>
+    from pandas.core.groupby import (
+  File "/usr/lib/python3/dist-packages/pandas/core/groupby/__init__.py", line 1, in <module>
+    from pandas.core.groupby.generic import (
+  File "/usr/lib/python3/dist-packages/pandas/core/groupby/generic.py", line 67, in <module>
+    from pandas.core.frame import DataFrame
+  File "/usr/lib/python3/dist-packages/pandas/core/frame.py", line 142, in <module>
+    from pandas.core.generic import (
+  File "/usr/lib/python3/dist-packages/pandas/core/generic.py", line 187, in <module>
+    from pandas.core.window import (
+  File "/usr/lib/python3/dist-packages/pandas/core/window/__init__.py", line 1, in <module>
+    from pandas.core.window.ewm import (
+  File "/usr/lib/python3/dist-packages/pandas/core/window/ewm.py", line 11, in <module>
+    import pandas._libs.window.aggregations as window_aggregations
+ImportError: /opt/lampp/lib/libstdc++.so.6: version `CXXABI_1.3.9' not found (required by /usr/lib/python3/dist-packages/pandas/_libs/window/aggregations.cpython-312-x86_64-linux-gnu.so)
+[2025-11-13 02:59:07] Archivo temporal eliminado
+[2025-11-13 02:59:34] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 02:59:34] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025934.xlsx
+[2025-11-13 02:59:34] Python detectado: /usr/bin/python3
+[2025-11-13 02:59:34] Ejecutando comando: '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113025934.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 02:59:34] Exit code: 1
+[2025-11-13 02:59:34] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 18, in <module>
+    import pandas as pd
+  File "/usr/lib/python3/dist-packages/pandas/__init__.py", line 46, in <module>
+    from pandas.core.api import (
+  File "/usr/lib/python3/dist-packages/pandas/core/api.py", line 47, in <module>
+    from pandas.core.groupby import (
+  File "/usr/lib/python3/dist-packages/pandas/core/groupby/__init__.py", line 1, in <module>
+    from pandas.core.groupby.generic import (
+  File "/usr/lib/python3/dist-packages/pandas/core/groupby/generic.py", line 67, in <module>
+    from pandas.core.frame import DataFrame
+  File "/usr/lib/python3/dist-packages/pandas/core/frame.py", line 142, in <module>
+    from pandas.core.generic import (
+  File "/usr/lib/python3/dist-packages/pandas/core/generic.py", line 187, in <module>
+    from pandas.core.window import (
+  File "/usr/lib/python3/dist-packages/pandas/core/window/__init__.py", line 1, in <module>
+    from pandas.core.window.ewm import (
+  File "/usr/lib/python3/dist-packages/pandas/core/window/ewm.py", line 11, in <module>
+    import pandas._libs.window.aggregations as window_aggregations
+ImportError: /opt/lampp/lib/libstdc++.so.6: version `CXXABI_1.3.9' not found (required by /usr/lib/python3/dist-packages/pandas/_libs/window/aggregations.cpython-312-x86_64-linux-gnu.so)
+[2025-11-13 02:59:34] Archivo temporal eliminado
+[2025-11-13 03:01:29] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:01:29] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030129.xlsx
+[2025-11-13 03:01:29] Python detectado: /usr/bin/python3
+[2025-11-13 03:01:29] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030129.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:01:30] Exit code: 1
+[2025-11-13 03:01:30] Output: Traceback (most recent call last):
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 162, in <module>
+    main()
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 123, in main
+    cats_df, platos_df = load_frames(args.input)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py", line 103, in load_frames
+    cats = pd.read_excel(xls, CAT_SHEET).fillna({"descripcion":"", "orden_menu":None, "activo":1})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/core/generic.py", line 7247, in fillna
+    res_k = result[k].fillna(v, limit=limit, downcast=downcast_k)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/core/generic.py", line 7156, in fillna
+    value, method = validate_fillna_kwargs(value, method)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/pandas/util/_validators.py", line 293, in validate_fillna_kwargs
+    raise ValueError("Must specify a fill 'value' or 'method'.")
+ValueError: Must specify a fill 'value' or 'method'.
+[2025-11-13 03:01:30] Archivo temporal eliminado
+[2025-11-13 03:03:57] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:03:57] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030357.xlsx
+[2025-11-13 03:03:57] Python detectado: /usr/bin/python3
+[2025-11-13 03:03:57] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030357.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:03:58] Exit code: 1
+[2025-11-13 03:03:58] Output: Error ❌: (1146, "Table 'crud_proyecto.categorias' doesn't exist")
+[2025-11-13 03:03:58] Archivo temporal eliminado
+[2025-11-13 03:09:29] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:09:29] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030929.xlsx
+[2025-11-13 03:09:29] Python detectado: /usr/bin/python3
+[2025-11-13 03:09:29] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030929.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:09:30] Exit code: 1
+[2025-11-13 03:09:30] Output: Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 03:09:30] Archivo temporal eliminado
+[2025-11-13 03:09:39] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:09:39] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030939.xlsx
+[2025-11-13 03:09:39] Python detectado: /usr/bin/python3
+[2025-11-13 03:09:39] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113030939.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:09:39] Exit code: 1
+[2025-11-13 03:09:39] Output: Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 03:09:39] Archivo temporal eliminado
+[2025-11-13 03:12:11] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:12:11] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113031211.xlsx
+[2025-11-13 03:12:11] Python detectado: /usr/bin/python3
+[2025-11-13 03:12:11] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113031211.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:12:12] Exit code: 1
+[2025-11-13 03:12:12] Output: Error ❌: (1054, "Unknown column 'tiempo_preparacion' in 'field list'")
+[2025-11-13 03:12:12] Archivo temporal eliminado
+[2025-11-13 03:26:04] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:26:04] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113032604.xlsx
+[2025-11-13 03:26:04] Python detectado: /usr/bin/python3
+[2025-11-13 03:26:04] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113032604.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:26:05] Exit code: 0
+[2025-11-13 03:26:05] Output: Actualización exitosa ✅
+[2025-11-13 03:26:05] Archivo temporal eliminado
+[2025-11-13 03:28:05] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:28:05] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113032805.xlsx
+[2025-11-13 03:28:05] Python detectado: /usr/bin/python3
+[2025-11-13 03:28:05] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113032805.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:28:05] Exit code: 0
+[2025-11-13 03:28:05] Output: Actualización exitosa ✅
+[2025-11-13 03:28:05] Archivo temporal eliminado
+[2025-11-13 03:31:53] Archivo recibido: menu_template.xlsx (6158 bytes)
+[2025-11-13 03:31:53] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113033153.xlsx
+[2025-11-13 03:31:53] Python detectado: /usr/bin/python3
+[2025-11-13 03:31:53] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251113033153.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' 2>&1
+[2025-11-13 03:31:54] Exit code: 0
+[2025-11-13 03:31:54] Output: Actualizacion exitosa
+[2025-11-13 03:31:54] Archivo temporal eliminado
