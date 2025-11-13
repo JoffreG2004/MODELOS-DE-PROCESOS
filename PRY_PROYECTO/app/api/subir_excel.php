@@ -1,4 +1,4 @@
-haha e<?php
+<?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
@@ -57,13 +57,12 @@ try {
     writeLog("Archivo guardado en: $absolutePath");
     
     // Configuración de Python - Detectar automáticamente
-    // Buscar python3 en el PATH del sistema
     $pythonBin = trim(shell_exec('which python3 2>/dev/null')) ?: '/usr/bin/python3';
     writeLog("Python detectado: $pythonBin");
     
     $pythonScript = realpath(__DIR__ . '/update_from_excel.py');
     
-    // Obtener credenciales de db.php
+    // Obtener credenciales de db.php (se espera que db.php exponga $host, $dbname, $username, $password)
     global $host, $dbname, $username, $password;
     
     // Comando Python con credenciales
@@ -89,7 +88,7 @@ try {
     writeLog("Output: $stdout");
     
     // Limpiar archivo temporal
-    unlink($filePath);
+    @unlink($filePath);
     writeLog("Archivo temporal eliminado");
     
     if ($returnCode === 0) {
@@ -120,4 +119,5 @@ try {
         'stderr' => $e->getMessage()
     ]);
 }
+
 ?>
