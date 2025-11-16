@@ -680,6 +680,20 @@ try {
                                             <small class="text-muted">Formatos permitidos: .xlsx, .xls (máx. 10MB)</small>
                                         </div>
                                         
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="clearBeforeLoad" checked>
+                                                <label class="form-check-label" for="clearBeforeLoad">
+                                                    <strong>Reemplazar menú completo</strong>
+                                                    <br>
+                                                    <small class="text-muted">
+                                                        ✅ Recomendado: Elimina todos los platos y categorías actuales antes de cargar el nuevo Excel.
+                                                        Si desmarcas esta opción, solo actualizará los platos existentes y agregará nuevos.
+                                                    </small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
                                         <div id="progresoSubida" class="d-none">
                                             <div class="progress mb-2">
                                                 <div class="progress-bar progress-bar-striped progress-bar-animated" 
@@ -1082,6 +1096,10 @@ try {
             try {
                 const formData = new FormData();
                 formData.append('excel_file', file);
+                
+                // Agregar parámetro clear_before
+                const clearBefore = document.getElementById('clearBeforeLoad').checked;
+                formData.append('clear_before', clearBefore ? 'true' : 'false');
                 
                 const response = await fetch('app/api/subir_excel.php', {
                     method: 'POST',

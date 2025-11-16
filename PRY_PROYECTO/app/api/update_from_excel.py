@@ -177,6 +177,7 @@ def main():
     ap.add_argument("--mysql-db", required=True)
     ap.add_argument("--mysql-user", required=True)
     ap.add_argument("--mysql-pass", required=True)
+    ap.add_argument("--clear-before", action="store_true", help="Eliminar todos los platos y categorías antes de cargar")
     args = ap.parse_args()
 
     cats_df, platos_df = load_frames(args.input)
@@ -188,6 +189,14 @@ def main():
         platos_table = 'platos' if table_exists(conn, 'platos') else 'platos'
 
         platos_columns = get_columns(conn, platos_table)
+
+        # NUEVO: Limpiar tablas si se solicitó
+        if args.clear_before:
+            with conn.cursor() as c:
+                print("🗑️  Limpiando tablas existentes...")
+                c.execute(f"DELETE FROM {platos_table}")
+                c.execute(f"DELETE FROM {categorias_table}")
+                print(f"✅ Tablas limpiadas: {platos_table}, {categorias_table}")
 
         ensure_unique_indexes(conn, categorias_table=categorias_table, platos_table=platos_table)
 
