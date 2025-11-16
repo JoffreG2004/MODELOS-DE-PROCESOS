@@ -142,25 +142,6 @@
         .dark-mode .espacio-image img {
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2) !important;
         }
-
-        /* Dark Mode para Galería de Mesas */
-        .dark-mode .mesa-card {
-            background: rgba(20, 20, 20, 0.98) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
-        }
-
-        .dark-mode .mesa-card:hover {
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3) !important;
-        }
-
-        .dark-mode .mesas-leyenda {
-            background: rgba(20, 20, 20, 0.9) !important;
-            border-color: rgba(212, 175, 55, 0.3) !important;
-        }
-
-        .dark-mode .leyenda-text {
-            color: rgba(255, 255, 255, 0.85) !important;
-        }
     </style>
 </head>
 
@@ -275,45 +256,21 @@
 
     <!-- Sección de Visualización de Mesas -->
     <section class="mesas-section py-5" id="mesas"
-        style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
+        style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); transition: background 0.3s ease;">
         <div class="container">
             <div class="text-center mb-5 fade-in-up">
                 <h2 class="section-title mesas-title"
                     style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
                     <i class="bi bi-diagram-3-fill me-2" style="color: var(--gold-color);"></i>
-                    Nuestras Mesas Disponibles
+                    Distribución del Restaurante
                 </h2>
                 <p class="text-muted mesas-subtitle" style="font-size: 1.1rem;">
-                    Selecciona la mesa perfecta para tu experiencia gastronómica
+                    Conoce nuestra elegante distribución de espacios y encuentra el lugar perfecto para tu experiencia
                 </p>
             </div>
 
-            <!-- Leyenda Minimalista -->
-            <div class="text-center mb-5">
-                <div class="mesas-leyenda d-inline-flex gap-4 flex-wrap justify-content-center"
-                    style="background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 15px 30px; border-radius: 50px; border: 1px solid rgba(212, 175, 55, 0.2);">
-                    <div class="d-flex align-items-center">
-                        <span
-                            style="width: 12px; height: 12px; background: var(--gold-color); border-radius: 50%; display: inline-block; margin-right: 8px;"></span>
-                        <span class="leyenda-text"
-                            style="font-weight: 500; color: #666; font-size: 0.9rem;">Disponible</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <span
-                            style="width: 12px; height: 12px; background: #999; border-radius: 50%; display: inline-block; margin-right: 8px;"></span>
-                        <span class="leyenda-text" style="font-weight: 500; color: #666; font-size: 0.9rem;">No
-                            Disponible</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Grid de Mesas con Imágenes Elegantes -->
-            <div class="row g-4" id="mesasGallery">
-                <!-- Las mesas se cargarán dinámicamente aquí -->
-            </div>
-
-            <!-- Botón para actualizar (moved here temporarily) -->
-            <div class="text-center mt-5" style="display:none;">
+            <!-- Estadísticas Principales -->
+            <div class="row g-4 mb-5">
                 <div class="col-md-3 col-6 fade-in-up delay-1">
                     <div class="stat-card stat-card-disponible"
                         style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 15px; padding: 25px; color: white; text-align: center; box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3); transition: all 0.3s ease;"
@@ -364,133 +321,150 @@
                 </div>
             </div>
 
+            <!-- Leyenda de Estados -->
+            <div class="text-center mb-4">
+                <div class="mesas-leyenda d-inline-flex gap-4 flex-wrap justify-content-center"
+                    style="background: white; padding: 20px 30px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+                    <div class="d-flex align-items-center">
+                        <span
+                            style="width: 20px; height: 20px; background: #28a745; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);"></span>
+                        <span class="leyenda-text" style="font-weight: 600; color: #333;">Disponible</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span
+                            style="width: 20px; height: 20px; background: #dc3545; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 2px 8px rgba(220, 53, 69, 0.4);"></span>
+                        <span class="leyenda-text" style="font-weight: 600; color: #333;">Ocupada</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span
+                            style="width: 20px; height: 20px; background: #ffc107; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 2px 8px rgba(255, 193, 7, 0.4);"></span>
+                        <span class="leyenda-text" style="font-weight: 600; color: #333;">Reservada</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span
+                            style="width: 20px; height: 20px; background: #6c757d; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 2px 8px rgba(108, 117, 125, 0.4);"></span>
+                        <span class="leyenda-text" style="font-weight: 600; color: #333;">Mantenimiento</span>
+                    </div>
+                </div>
+            </div>
 
-
-            <!-- Las mesas se cargarán dinámicamente aquí (hidden old stats section) -->
-            <div style="display:none;">
-
-                <!-- Layout de Zonas del Restaurante -->
-                <div class="row g-4" id="zonasRestaurante">
-                    <!-- Zona Interior/Salón Principal -->
-                    <div class="col-lg-6 fade-in-up delay-5">
-                        <div class="zona-card mesas-zona-card"
-                            style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
-                            <div
-                                style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%); border-radius: 50%;">
-                            </div>
-                            <div class="zona-header mb-4" style="position: relative; z-index: 1;">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h3
-                                            style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
-                                            <span style="font-size: 2rem; margin-right: 10px;">🏛️</span>
-                                            Salón Principal
-                                        </h3>
-                                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Ambiente elegante y
-                                            acogedor
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mesas-grid" data-zona="interior"
-                                style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
-                                <div class="col-12 text-center py-4">
-                                    <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
+            <!-- Layout de Zonas del Restaurante -->
+            <div class="row g-4" id="zonasRestaurante">
+                <!-- Zona Interior/Salón Principal -->
+                <div class="col-lg-6 fade-in-up delay-5">
+                    <div class="zona-card mesas-zona-card"
+                        style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
+                        <div
+                            style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%); border-radius: 50%;">
+                        </div>
+                        <div class="zona-header mb-4" style="position: relative; z-index: 1;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3
+                                        style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
+                                        <span style="font-size: 2rem; margin-right: 10px;">🏛️</span>
+                                        Salón Principal
+                                    </h3>
+                                    <p class="text-muted mb-0" style="font-size: 0.9rem;">Ambiente elegante y acogedor
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Zona Terraza -->
-                    <div class="col-lg-6 fade-in-up delay-6">
-                        <div class="zona-card mesas-zona-card"
-                            style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
-                            <div
-                                style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%); border-radius: 50%;">
-                            </div>
-                            <div class="zona-header mb-4" style="position: relative; z-index: 1;">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h3
-                                            style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
-                                            <span style="font-size: 2rem; margin-right: 10px;">🌿</span>
-                                            Terraza
-                                        </h3>
-                                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Vista panorámica al aire
-                                            libre
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mesas-grid" data-zona="terraza"
-                                style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
-                                <div class="col-12 text-center py-4">
-                                    <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
-                                </div>
+                        <div class="mesas-grid" data-zona="interior"
+                            style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
+                            <div class="col-12 text-center py-4">
+                                <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Zona VIP -->
-                    <div class="col-lg-6 fade-in-up delay-7">
-                        <div class="zona-card mesas-zona-card"
-                            style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
-                            <div
-                                style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%); border-radius: 50%;">
-                            </div>
-                            <div class="zona-header mb-4" style="position: relative; z-index: 1;">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h3
-                                            style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
-                                            <span style="font-size: 2rem; margin-right: 10px;">👑</span>
-                                            Área VIP
-                                        </h3>
-                                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Exclusividad y privacidad
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mesas-grid" data-zona="vip"
-                                style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
-                                <div class="col-12 text-center py-4">
-                                    <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
+                <!-- Zona Terraza -->
+                <div class="col-lg-6 fade-in-up delay-6">
+                    <div class="zona-card mesas-zona-card"
+                        style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
+                        <div
+                            style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(40, 167, 69, 0.05) 100%); border-radius: 50%;">
+                        </div>
+                        <div class="zona-header mb-4" style="position: relative; z-index: 1;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3
+                                        style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
+                                        <span style="font-size: 2rem; margin-right: 10px;">🌿</span>
+                                        Terraza
+                                    </h3>
+                                    <p class="text-muted mb-0" style="font-size: 0.9rem;">Vista panorámica al aire libre
+                                    </p>
                                 </div>
                             </div>
                         </div>
+                        <div class="mesas-grid" data-zona="terraza"
+                            style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
+                            <div class="col-12 text-center py-4">
+                                <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Zona Bar -->
-                    <div class="col-lg-6 fade-in-up delay-8">
-                        <div class="zona-card mesas-zona-card"
-                            style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
-                            <div
-                                style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(111, 66, 193, 0.1) 0%, rgba(111, 66, 193, 0.05) 100%); border-radius: 50%;">
-                            </div>
-                            <div class="zona-header mb-4" style="position: relative; z-index: 1;">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <h3
-                                            style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
-                                            <span style="font-size: 2rem; margin-right: 10px;">🍸</span>
-                                            Bar & Lounge
-                                        </h3>
-                                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Ambiente relajado y
-                                            sofisticado</p>
-                                    </div>
+                <!-- Zona VIP -->
+                <div class="col-lg-6 fade-in-up delay-7">
+                    <div class="zona-card mesas-zona-card"
+                        style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
+                        <div
+                            style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%); border-radius: 50%;">
+                        </div>
+                        <div class="zona-header mb-4" style="position: relative; z-index: 1;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3
+                                        style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
+                                        <span style="font-size: 2rem; margin-right: 10px;">👑</span>
+                                        Área VIP
+                                    </h3>
+                                    <p class="text-muted mb-0" style="font-size: 0.9rem;">Exclusividad y privacidad</p>
                                 </div>
                             </div>
-                            <div class="mesas-grid" data-zona="bar"
-                                style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
-                                <div class="col-12 text-center py-4">
-                                    <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
+                        </div>
+                        <div class="mesas-grid" data-zona="vip"
+                            style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
+                            <div class="col-12 text-center py-4">
+                                <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zona Bar -->
+                <div class="col-lg-6 fade-in-up delay-8">
+                    <div class="zona-card mesas-zona-card"
+                        style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; overflow: hidden; transition: all 0.3s ease;">
+                        <div
+                            style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(111, 66, 193, 0.1) 0%, rgba(111, 66, 193, 0.05) 100%); border-radius: 50%;">
+                        </div>
+                        <div class="zona-header mb-4" style="position: relative; z-index: 1;">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3
+                                        style="color: var(--primary-color); font-weight: 700; margin: 0; font-size: 1.5rem;">
+                                        <span style="font-size: 2rem; margin-right: 10px;">🍸</span>
+                                        Bar & Lounge
+                                    </h3>
+                                    <p class="text-muted mb-0" style="font-size: 0.9rem;">Ambiente relajado y
+                                        sofisticado</p>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="mesas-grid" data-zona="bar"
+                            style="display: flex; flex-wrap: wrap; gap: 15px; min-height: 150px; justify-content: center;">
+                            <div class="col-12 text-center py-4">
+                                <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End hidden section -->
 
             <!-- Botón para actualizar -->
             <div class="text-center mt-5">
@@ -505,12 +479,10 @@
     </section>
 
     <!-- Sección de Espacios del Restaurante -->
-    <section class="espacios-section py-5"
-        style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
+    <section class="espacios-section py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
         <div class="container">
             <div class="text-center mb-5 fade-in-up">
-                <h2 class="section-title espacios-title"
-                    style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
+                <h2 class="section-title espacios-title" style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
                     <i class="bi bi-building me-2" style="color: var(--gold-color);"></i>
                     Nuestros Espacios
                 </h2>
@@ -522,31 +494,27 @@
             <!-- Terraza -->
             <div class="row mb-5 align-items-center fade-in-up">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Terraza"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
+                    <div class="espacio-image" style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" 
+                             alt="Terraza" 
+                             style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.05)'"
+                             onmouseout="this.style.transform='scale(1)'">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
+                        <h3 class="espacio-title" style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
                             Terraza
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
+                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;"></div>
                         </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            La terraza panorámica del tercer piso ofrece románticas vistas del histórico paisaje urbano,
-                            el escenario perfecto para disfrutar de un té, café, cócteles o un vino añejo. Al ser uno de
-                            los restaurantes más singulares, permite admirar iglesias emblemáticas y la ciudad.
+                        <p class="espacio-description" style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                            La terraza panorámica del tercer piso ofrece románticas vistas del histórico paisaje urbano, 
+                            el escenario perfecto para disfrutar de un té, café, cócteles o un vino añejo. Al ser uno de 
+                            los restaurantes más singulares, permite admirar iglesias emblemáticas y la ciudad. 
                             Y si la suerte te acompaña, ¡incluso podrías vislumbrar el lejano volcán nevado al noreste!
                         </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
+                        <div class="espacio-info" style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
                             <small style="color: var(--primary-color); font-weight: 600;">
                                 <i class="bi bi-geo-alt-fill text-warning"></i> Vista panorámica al aire libre
                             </small>
@@ -558,32 +526,28 @@
             <!-- El Jardín -->
             <div class="row mb-5 align-items-center fade-in-up flex-lg-row-reverse">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80" alt="El Jardín"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
+                    <div class="espacio-image" style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80" 
+                             alt="El Jardín" 
+                             style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.05)'"
+                             onmouseout="this.style.transform='scale(1)'">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
+                        <h3 class="espacio-title" style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
                             El Jardín
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
+                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;"></div>
                         </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            Escápate del bullicio de la ciudad y encuentra paz y confort en nuestro jardín amurallado,
-                            un santuario de tranquilidad que nos distingue de otros restaurantes. Aquí podrás relajarte,
-                            saborear una taza de café o una cerveza bien fría y contemplar la vida. Sumérgete en la
-                            serenidad del ambiente entre árboles, plantas y flores nativas mientras el suave sonido
+                        <p class="espacio-description" style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                            Escápate del bullicio de la ciudad y encuentra paz y confort en nuestro jardín amurallado, 
+                            un santuario de tranquilidad que nos distingue de otros restaurantes. Aquí podrás relajarte, 
+                            saborear una taza de café o una cerveza bien fría y contemplar la vida. Sumérgete en la 
+                            serenidad del ambiente entre árboles, plantas y flores nativas mientras el suave sonido 
                             de la fuente de piedra te reconforta.
                         </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
+                        <div class="espacio-info" style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
                             <small style="color: var(--primary-color); font-weight: 600;">
                                 <i class="bi bi-tree-fill text-success"></i> Santuario de tranquilidad
                             </small>
@@ -595,35 +559,30 @@
             <!-- Salón VIP -->
             <div class="row mb-5 align-items-center fade-in-up">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800&q=80" alt="Salón VIP"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
+                    <div class="espacio-image" style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800&q=80" 
+                             alt="Salón VIP" 
+                             style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.05)'"
+                             onmouseout="this.style.transform='scale(1)'">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
+                        <h3 class="espacio-title" style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
                             Salón VIP
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
+                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;"></div>
                         </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            El Salón VIP, que antiguamente servía como salón de baile para la familia, ha sido renovado
-                            para convertirse en el espacio perfecto para cenas íntimas o pequeñas celebraciones,
-                            convirtiéndose en un elemento destacado de uno de los mejores restaurantes. Ya sea una
-                            recepción de boda memorable, una conferencia educativa o una reunión productiva, este
+                        <p class="espacio-description" style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                            El Salón VIP, que antiguamente servía como salón de baile para la familia, ha sido renovado 
+                            para convertirse en el espacio perfecto para cenas íntimas o pequeñas celebraciones, 
+                            convirtiéndose en un elemento destacado de uno de los mejores restaurantes. Ya sea una 
+                            recepción de boda memorable, una conferencia educativa o una reunión productiva, este 
                             exquisito espacio tiene capacidad para hasta 25 personas.
                         </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
+                        <div class="espacio-info" style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
                             <small style="color: var(--primary-color); font-weight: 600;">
-                                <i class="bi bi-star-fill text-warning"></i> Exclusividad y privacidad - Capacidad: 25
-                                personas
+                                <i class="bi bi-star-fill text-warning"></i> Exclusividad y privacidad - Capacidad: 25 personas
                             </small>
                         </div>
                     </div>
@@ -633,45 +592,39 @@
             <!-- El Bar -->
             <div class="row mb-5 align-items-center fade-in-up flex-lg-row-reverse">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80" alt="El Bar"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
+                    <div class="espacio-image" style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80" 
+                             alt="El Bar" 
+                             style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
+                             onmouseover="this.style.transform='scale(1.05)'"
+                             onmouseout="this.style.transform='scale(1)'">
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
+                        <h3 class="espacio-title" style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
                             El Bar
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
+                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;"></div>
                         </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            Un refugio para viajeros sofisticados, que ofrece relajación entre sillas de cuero,
-                            cómodas banquetas, paneles de madera y cautivadoras pinturas al óleo. Como parte de uno
-                            de los mejores restaurantes, podrás descubrir rincones apartados y luminosos asientos
-                            junto a las ventanas o relajarte en la noble barra de madera saboreando un Old Fashioned
+                        <p class="espacio-description" style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                            Un refugio para viajeros sofisticados, que ofrece relajación entre sillas de cuero, 
+                            cómodas banquetas, paneles de madera y cautivadoras pinturas al óleo. Como parte de uno 
+                            de los mejores restaurantes, podrás descubrir rincones apartados y luminosos asientos 
+                            junto a las ventanas o relajarte en la noble barra de madera saboreando un Old Fashioned 
                             o nuestros cócteles especiales, elaborados con maestría por nuestro personal.
                         </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
+                        <div class="espacio-info" style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
                             <small style="color: var(--primary-color); font-weight: 600;">
                                 <i class="bi bi-cup-straw text-info"></i> Ambiente sofisticado y relajado
                             </small>
                         </div>
                         <div class="mt-3">
-                            <button class="btn me-2 mb-2"
-                                style="background: white; color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 25px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;"
+                            <button class="btn me-2 mb-2" style="background: white; color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 25px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;"
                                 onmouseover="this.style.background='var(--gold-color)'; this.style.color='white'"
                                 onmouseout="this.style.background='white'; this.style.color='var(--primary-color)'">
                                 <i class="bi bi-cup-hot"></i> Menú de Cócteles
                             </button>
-                            <button class="btn mb-2"
-                                style="background: white; color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 25px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;"
+                            <button class="btn mb-2" style="background: white; color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 25px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;"
                                 onmouseover="this.style.background='var(--gold-color)'; this.style.color='white'"
                                 onmouseout="this.style.background='white'; this.style.color='var(--primary-color)'">
                                 <i class="bi bi-file-earmark-text"></i> Carta de Vinos
@@ -1748,15 +1701,20 @@
             }
 
             renderizarMesas() {
-                // Renderizar todas las mesas en un solo grid de galería
-                const gallery = document.getElementById('mesasGallery');
-                if (gallery) {
-                    gallery.innerHTML = '';
-                    this.mesas.forEach(mesa => {
-                        const mesaElement = this.crearElementoMesa(mesa);
-                        gallery.appendChild(mesaElement);
-                    });
-                }
+                // Agrupar mesas por zona
+                const mesasPorZona = this.agruparPorZona(this.mesas);
+
+                // Renderizar cada zona
+                Object.entries(mesasPorZona).forEach(([zona, mesas]) => {
+                    const container = document.querySelector(`[data-zona="${zona}"]`);
+                    if (container) {
+                        container.innerHTML = '';
+                        mesas.forEach(mesa => {
+                            const mesaElement = this.crearElementoMesa(mesa);
+                            container.appendChild(mesaElement);
+                        });
+                    }
+                });
             }
 
             agruparPorZona(mesas) {
@@ -1772,90 +1730,91 @@
 
             crearElementoMesa(mesa) {
                 const mesaDiv = document.createElement('div');
-                mesaDiv.className = 'col-md-4 col-lg-3 fade-in-up';
-
-                const disponible = mesa.estado === 'disponible';
-                const zona = mesa.ubicacion || 'interior';
+                const estadoColor = this.obtenerColorEstado(mesa.estado);
+                const icono = this.obtenerIconoMesa(mesa);
                 const capacidad = mesa.capacidad_minima && mesa.capacidad_maxima
                     ? (mesa.capacidad_minima === mesa.capacidad_maxima
                         ? mesa.capacidad_maxima
                         : `${mesa.capacidad_minima}-${mesa.capacidad_maxima}`)
                     : mesa.capacidad;
 
-                // Imágenes elegantes según la zona
-                const imagenes = {
-                    'interior': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
-                    'terraza': 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80',
-                    'vip': 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&q=80',
-                    'bar': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&q=80'
-                };
+                // Determinar tamaño según capacidad
+                const capacidadMax = mesa.capacidad_maxima || mesa.capacidad;
+                let width, height, fontSize, iconSize;
 
-                const zonaTexto = {
-                    'interior': 'Salón Principal',
-                    'terraza': 'Terraza',
-                    'vip': 'Área VIP',
-                    'bar': 'Bar & Lounge'
-                };
+                if (capacidadMax <= 2) {
+                    // Mesa pequeña (1-2 personas)
+                    width = '90px';
+                    height = '90px';
+                    fontSize = '1rem';
+                    iconSize = '1.8rem';
+                } else if (capacidadMax <= 4) {
+                    // Mesa mediana (3-4 personas)
+                    width = '110px';
+                    height = '110px';
+                    fontSize = '1.1rem';
+                    iconSize = '2.2rem';
+                } else if (capacidadMax <= 6) {
+                    // Mesa grande (5-6 personas)
+                    width = '130px';
+                    height = '130px';
+                    fontSize = '1.2rem';
+                    iconSize = '2.5rem';
+                } else {
+                    // Mesa extra grande (7+ personas)
+                    width = '150px';
+                    height = '150px';
+                    fontSize = '1.3rem';
+                    iconSize = '3rem';
+                }
+
+                mesaDiv.className = 'mesa-item';
+                mesaDiv.style.cssText = `
+                            background: ${estadoColor};
+                            border-radius: 15px;
+                            padding: 15px;
+                            text-align: center;
+                            color: white;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 4px 15px ${estadoColor}40;
+                            position: relative;
+                            overflow: hidden;
+                            width: ${width};
+                            height: ${height};
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                        `;
 
                 mesaDiv.innerHTML = `
-                    <div class="mesa-card" style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.3s ease; cursor: pointer; background: white; ${!disponible ? 'opacity: 0.6;' : ''}"
-                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.3)'"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.15)'">
-                        
-                        <!-- Imagen de fondo -->
-                        <div style="position: relative; height: 220px; overflow: hidden;">
-                            <img src="${imagenes[zona]}" alt="${zonaTexto[zona]}" 
-                                style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
-                                onmouseover="this.style.transform='scale(1.05)'"
-                                onmouseout="this.style.transform='scale(1)'">
-                            
-                            <!-- Overlay gradient -->
-                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);"></div>
-                            
-                            <!-- Badge de disponibilidad -->
-                            <div style="position: absolute; top: 15px; right: 15px; background: ${disponible ? 'var(--gold-color)' : '#999'}; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
-                                ${disponible ? '✓ Disponible' : '✗ No Disponible'}
+                            <div style="position: absolute; top: 5px; right: 5px; background: rgba(255,255,255,0.3); border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 10px;">
+                                ${this.obtenerBadgeEstado(mesa.estado)}
                             </div>
-                            
-                            <!-- Información sobre la imagen -->
-                            <div style="position: absolute; bottom: 15px; left: 15px; color: white;">
-                                <div style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px;">${zonaTexto[zona]}</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                                    Mesa ${mesa.numero}
-                                </div>
+                            <div style="font-size: ${iconSize}; margin-bottom: 3px;">${icono}</div>
+                            <div style="font-size: ${fontSize}; font-weight: 700; margin-bottom: 3px;">Mesa ${mesa.numero}</div>
+                            <div style="font-size: 0.75rem; opacity: 0.95;">
+                                <i class="bi bi-people-fill"></i> ${capacidad}
                             </div>
-                        </div>
-                        
-                        <!-- Información de la mesa -->
-                        <div style="padding: 20px;">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div style="color: #666; font-size: 0.9rem;">
-                                    <i class="bi bi-people-fill" style="color: var(--gold-color);"></i>
-                                    <strong style="color: var(--primary-color);">${capacidad} personas</strong>
-                                </div>
-                                <div style="color: #999; font-size: 0.85rem;">
-                                    <i class="bi bi-geo-alt-fill" style="color: var(--gold-color);"></i> ${zonaTexto[zona]}
-                                </div>
+                            <div style="font-size: 0.7rem; margin-top: 5px; padding: 3px 8px; background: rgba(255,255,255,0.2); border-radius: 15px; font-weight: 600;">
+                                ${this.obtenerTextoEstado(mesa.estado)}
                             </div>
-                            
-                            ${disponible ? `
-                            <button class="btn w-100 mt-2" style="background: var(--gradient-gold); color: var(--primary-color); border: none; border-radius: 25px; padding: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease;"
-                                onmouseover="this.style.transform='scale(1.02)'"
-                                onmouseout="this.style.transform='scale(1)'">
-                                <i class="bi bi-calendar-check"></i> Reservar Ahora
-                            </button>
-                            ` : `
-                            <button class="btn w-100 mt-2" style="background: #e9ecef; color: #999; border: none; border-radius: 25px; padding: 10px; font-weight: 600; font-size: 0.9rem;" disabled>
-                                <i class="bi bi-x-circle"></i> ${this.obtenerTextoEstado(mesa.estado)}
-                            </button>
-                            `}
-                        </div>
-                    </div>
-                `;
+                        `;
 
-                // Click para reservar o ver detalles
-                const card = mesaDiv.querySelector('.mesa-card');
-                card.addEventListener('click', () => this.mostrarDetallesMesa(mesa));
+                // Hover effects
+                mesaDiv.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-5px) scale(1.05)';
+                    this.style.boxShadow = `0 8px 25px ${estadoColor}60`;
+                });
+
+                mesaDiv.addEventListener('mouseleave', function () {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = `0 4px 15px ${estadoColor}40`;
+                });
+
+                // Click para más detalles
+                mesaDiv.addEventListener('click', () => this.mostrarDetallesMesa(mesa));
 
                 return mesaDiv;
             }
@@ -1902,9 +1861,15 @@
             }
 
             actualizarEstadisticas(resumen) {
-                // Estadísticas simplificadas - solo para consola
                 if (resumen) {
-                    console.log('Estadísticas de mesas:', resumen);
+                    document.getElementById('statDisponibles').textContent = resumen.disponibles || 0;
+                    document.getElementById('statOcupadas').textContent = resumen.ocupadas || 0;
+                    document.getElementById('statReservadas').textContent = resumen.reservadas || 0;
+
+                    const ocupacion = resumen.total > 0
+                        ? Math.round(((resumen.ocupadas + resumen.reservadas) / resumen.total) * 100)
+                        : 0;
+                    document.getElementById('statOcupacion').textContent = ocupacion + '%';
                 }
             }
 
