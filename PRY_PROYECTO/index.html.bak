@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurante Elegante - Sistema de Reservas y Gestión</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="public/css/style.css">
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <script src="public/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <!-- Elementos flotantes de fondo -->
+    <div class="floating-elements">
+        <div class="floating-element" style="left: 10%; animation-delay: 0s;">🍽️</div>
+        <div class="floating-element" style="left: 20%; animation-delay: 2s;">🥂</div>
+        <div class="floating-element" style="left: 30%; animation-delay: 4s;">🍷</div>
+        <div class="floating-element" style="left: 40%; animation-delay: 6s;">🍴</div>
+        <div class="floating-element" style="left: 50%; animation-delay: 8s;">👨‍�</div>
+        <div class="floating-element" style="left: 60%; animation-delay: 1s;">🥘</div>
+        <div class="floating-element" style="left: 70%; animation-delay: 3s;">🌟</div>
+        <div class="floating-element" style="left: 80%; animation-delay: 5s;">�</div>
+        <div class="floating-element" style="left: 90%; animation-delay: 7s;">🎂</div>
+        <div class="floating-element" style="left: 15%; animation-delay: 9s;">🥖</div>
+        <div class="floating-element" style="left: 45%; animation-delay: 11s;">☕</div>
+        <div class="floating-element" style="left: 75%; animation-delay: 13s;">🧀</div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-cup-hot-fill me-2"></i>
+                Elegante
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#inicio">
+                            <i class="bi bi-house"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#reservas">
+                            <i class="bi bi-calendar-check"></i> Reservas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#menu">
+                            <i class="bi bi-book"></i> Menú
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">
+                            <i class="bi bi-telephone"></i> Contacto
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Botones de la derecha -->
+                <div class="d-flex align-items-center">
+                    <!-- Botón Modo Oscuro -->
+                    <button id="darkModeBtn" class="btn btn-outline-light btn-sm me-3" title="Cambiar modo">
+                        <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                        <span id="darkModeText" class="d-none d-md-inline ms-1">Modo Oscuro</span>
+                    </button>
+
+                    <!-- Botón de Login Administrador -->
+                    <button class="btn btn-sm border-0 shadow-sm" id="btn-actualizar-admin"
+                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #2d1b12; font-weight: 600; transition: all 0.3s ease; text-shadow: 0 1px 2px rgba(0,0,0,0.1);"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(212, 175, 55, 0.5)'; this.style.background='linear-gradient(135deg, #ffd700 0%, #d4af37 100%)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(212, 175, 55, 0.3)'; this.style.background='linear-gradient(135deg, #d4af37 0%, #b8941f 100%)'">
+                        <i class="bi bi-shield-lock-fill me-1"></i>
+                        <span class="d-none d-md-inline">ADMINISTRADOR</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+
+    <!-- Header Principal -->
+    <header class="main-header" id="inicio">
+        <div class="container">
+            <div class="logo-container fade-in-up">
+                <div class="logo-icon">�️</div>
+                <h1 class="restaurant-name">Restaurante Elegante</h1>
+                <p class="restaurant-subtitle">
+                    <i class="bi bi-gem"></i>
+                    Sistema de Reservas de Mesas Digital
+                </p>
+                <div class="mt-4">
+                    <span class="badge bg-light text-dark me-2 glass-effect">
+                        <i class="bi bi-shield-check"></i> Seguro
+                    </span>
+                    <span class="badge bg-light text-dark me-2 glass-effect">
+                        <i class="bi bi-clock"></i> 24/7
+                    </span>
+                    <span class="badge bg-light text-dark me-2 glass-effect">
+                        <i class="bi bi-award"></i> Confiable
+                    </span>
+                    <span class="badge bg-light text-dark glass-effect">
+                        <i class="bi bi-star-fill"></i> Premium
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección de Selección de Usuario -->
+    <section class="selection-container" id="reservas">
+        <div class="container">
+            <h2 class="section-title fade-in-up">
+                <i class="bi bi-calendar-heart"></i>
+                ¿Cómo deseas acceder?
+            </h2>
+
+            <div class="user-cards">
+                <!-- Tarjeta Cliente/Usuario -->
+                <div class="user-card fade-in-up delay-1">
+                    <div class="user-icon">
+                        <i class="bi bi-person-heart"></i>
+                    </div>
+                    <h3 class="user-title">
+                        <i class="bi bi-calendar-check"></i>
+                        Soy Cliente
+                    </h3>
+                    <p class="user-description">
+                        Reserva tu mesa, consulta nuestro menú exclusivo,
+                        realiza pre-pedidos y disfruta de una experiencia gastronómica única.
+                    </p>
+                    <div class="mb-3">
+                        <small class="text-muted">
+                            <i class="bi bi-check-circle-fill text-success"></i> Reservar mesas disponibles<br>
+                            <i class="bi bi-check-circle-fill text-success"></i> Ver menú y precios<br>
+                            <i class="bi bi-check-circle-fill text-success"></i> Realizar pre-pedidos<br>
+                            <i class="bi bi-check-circle-fill text-success"></i> Historial de reservas
+                        </small>
+                    </div>
+                    <button id="btn-cliente-login" class="btn-custom" type="button">
+                        <i class="bi bi-calendar-plus"></i>
+                        Hacer Reserva
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Modal Login Administrador -->
+            <div class="modal fade" id="ModalProfesor" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header text-white" style="background: var(--gradient-gold) !important;">
+                            <h5 class="modal-title">
+                                <i class="bi bi-shield-lock-fill me-2"></i>
+                                Acceso de Administrador
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="AdminForm">
+                                <div class="mb-3">
+                                    <label for="adminUsuarioModal" class="form-label">
+                                        <i class="bi bi-person"></i> Usuario
+                                    </label>
+                                    <input type="text" class="form-control" id="adminUsuarioModal" required
+                                        placeholder="Ingresa tu usuario">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="adminPasswordModal" class="form-label">
+                                        <i class="bi bi-lock"></i> Contraseña
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="adminPasswordModal" required
+                                            placeholder="Ingresa tu contraseña">
+                                        <button class="btn btn-outline-secondary" type="button"
+                                            onclick="togglePasswordAdmin()">
+                                            <i class="bi bi-eye" id="toggleIconAdmin"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="loginError" class="alert alert-danger d-none" role="alert"></div>
+
+                                <div class="d-grid gap-2">
+                                    <button id="btn-admin-modal" class="btn btn-warning" type="button"
+                                        style="background: var(--gradient-gold) !important; border: none; color: var(--primary-color); font-weight: 600;">
+                                        <i class="bi bi-box-arrow-in-right"></i>
+                                        Acceder al Panel de Control
+                                    </button>
+                                </div>
+                            </form>
+
+                            <hr>
+                            <div class="text-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-shield-check"></i>
+                                    Panel de Control del Restaurante Elegante
+                                </small>
+                            </div>
+
+                            <!-- Credenciales de prueba (solo para desarrollo) -->
+                            <div class="mt-3 p-2 rounded-3"
+                                style="background: rgba(13, 202, 240, 0.1); border: 1px solid rgba(13, 202, 240, 0.2);">
+                                <small class="text-info">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    <strong>Credenciales de prueba:</strong> admin / password
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Login Cliente -->
+            <div class="modal fade" id="ModalCliente" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header text-white" style="background: var(--gradient-secondary) !important;">
+                            <h5 class="modal-title">
+                                <i class="bi bi-person-circle me-2"></i>
+                                Acceso de Cliente
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Tabs para Login/Registro -->
+                            <ul class="nav nav-tabs mb-3" id="clienteTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab"
+                                        data-bs-target="#login-panel" type="button" role="tab">
+                                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="registro-tab" data-bs-toggle="tab"
+                                        data-bs-target="#registro-panel" type="button" role="tab">
+                                        <i class="bi bi-person-plus"></i> Crear Cuenta
+                                    </button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" id="clienteTabContent">
+                                <!-- Panel de Login -->
+                                <div class="tab-pane fade show active" id="login-panel" role="tabpanel">
+                                    <form id="LoginClienteForm">
+                                        <div class="mb-3">
+                                            <label for="loginUsuario" class="form-label">
+                                                <i class="bi bi-person"></i> Usuario
+                                            </label>
+                                            <input type="text" class="form-control" id="loginUsuario" required
+                                                placeholder="Ingresa tu usuario">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="loginPassword" class="form-label">
+                                                <i class="bi bi-lock"></i> Contraseña
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="loginPassword" required
+                                                    placeholder="Ingresa tu contraseña">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    onclick="togglePasswordCliente('login')">
+                                                    <i class="bi bi-eye" id="toggleIconLogin"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div id="loginErrorCliente" class="alert alert-danger d-none" role="alert">
+                                        </div>
+
+                                        <div class="d-grid gap-2">
+                                            <button id="btn-login-cliente" class="btn btn-primary" type="button">
+                                                <i class="bi bi-box-arrow-in-right"></i>
+                                                Iniciar Sesión
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Panel de Registro -->
+                                <div class="tab-pane fade" id="registro-panel" role="tabpanel">
+                                    <form id="RegistroClienteForm">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regNombre" class="form-label">
+                                                    <i class="bi bi-person"></i> Nombre
+                                                </label>
+                                                <input type="text" class="form-control" id="regNombre" required
+                                                    placeholder="Tu nombre">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regApellido" class="form-label">
+                                                    <i class="bi bi-person"></i> Apellido
+                                                </label>
+                                                <input type="text" class="form-control" id="regApellido" required
+                                                    placeholder="Tu apellido">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="regCedula" class="form-label">
+                                                <i class="bi bi-card-text"></i> Cédula
+                                            </label>
+                                            <input type="text" class="form-control" id="regCedula" required
+                                                placeholder="Tu número de cédula">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regTelefono" class="form-label">
+                                                    <i class="bi bi-telephone"></i> Teléfono
+                                                </label>
+                                                <input type="tel" class="form-control" id="regTelefono" required
+                                                    placeholder="Tu teléfono">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="regCiudad" class="form-label">
+                                                    <i class="bi bi-geo-alt"></i> Ciudad
+                                                </label>
+                                                <input type="text" class="form-control" id="regCiudad" required
+                                                    placeholder="Tu ciudad">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="regUsuario" class="form-label">
+                                                <i class="bi bi-person-badge"></i> Usuario
+                                            </label>
+                                            <input type="text" class="form-control" id="regUsuario" required
+                                                placeholder="Elige un nombre de usuario">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="regEmail" class="form-label">
+                                                <i class="bi bi-envelope"></i> Correo Electrónico
+                                            </label>
+                                            <input type="email" class="form-control" id="regEmail" required
+                                                placeholder="Tu correo electrónico">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="regPassword" class="form-label">
+                                                <i class="bi bi-lock"></i> Contraseña
+                                            </label>
+                                            <div class="input-group">
+                                                <input type="password" class="form-control" id="regPassword" required
+                                                    placeholder="Elige una contraseña">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    onclick="togglePasswordCliente('registro')">
+                                                    <i class="bi bi-eye" id="toggleIconRegistro"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div id="registroErrorCliente" class="alert alert-danger d-none" role="alert">
+                                        </div>
+
+                                        <div class="d-grid gap-2">
+                                            <button id="btn-registro-cliente" class="btn btn-success" type="button">
+                                                <i class="bi bi-person-plus"></i>
+                                                Crear Cuenta
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="text-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-shield-check"></i>
+                                    Sistema de Reservas del Restaurante Elegante
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Viejo de Reserva (se eliminará) -->
+            <div class="modal fade" id="ModalEstudiante" tabindex="-1" style="display:none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header text-white" style="background: var(--gradient-secondary) !important;">
+                            <h5 class="modal-title">
+                                <i class="bi bi-calendar-heart me-2"></i>
+                                Realizar Reserva
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="EstudianteForm">
+                                <div class="mb-3">
+                                    <label for="loginEstudiante" class="form-label">
+                                        <i class="bi bi-person"></i> Nombre Completo
+                                    </label>
+                                    <input type="text" class="form-control" id="loginEstudiante" required
+                                        placeholder="Ingresa tu nombre completo">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="EstudianteContraseña" class="form-label">
+                                        <i class="bi bi-telephone"></i> Teléfono de Contacto
+                                    </label>
+                                    <input type="tel" class="form-control" id="EstudianteContraseña" required
+                                        placeholder="Ingresa tu número de teléfono">
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-calendar-date"></i> Fecha
+                                        </label>
+                                        <input type="date" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">
+                                            <i class="bi bi-clock"></i> Hora
+                                        </label>
+                                        <input type="time" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-people"></i> Número de Personas
+                                    </label>
+                                    <select class="form-select" required>
+                                        <option value="">Selecciona...</option>
+                                        <option value="1">1 persona</option>
+                                        <option value="2">2 personas</option>
+                                        <option value="3">3 personas</option>
+                                        <option value="4">4 personas</option>
+                                        <option value="5">5 personas</option>
+                                        <option value="6">6 personas</option>
+                                        <option value="7">7 personas</option>
+                                        <option value="8">8 personas</option>
+                                        <option value="mas">Más de 8 personas</option>
+                                    </select>
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button id="btn-estudiante-login" class="btn btn-warning" type="button"
+                                        style="background: var(--gradient-gold) !important; border: none; color: var(--primary-color); font-weight: 600;">
+                                        <i class="bi bi-calendar-check"></i>
+                                        Confirmar Reserva
+                                    </button>
+                                </div>
+                            </form>
+
+                            <hr>
+                            <div class="text-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-info-circle"></i>
+                                    Reserva tu mesa y vive una experiencia gastronómica única.
+                                </small>
+                            </div>
+
+                            <!-- Información de reservas -->
+                            <div class="mt-3 p-3 bg-light rounded">
+                                <small class="text-muted">
+                                    <i class="bi bi-shield-check"></i>
+                                    <strong>Reserva Segura:</strong> Tu información está protegida y encriptada.<br>
+                                    <i class="bi bi-telephone-check"></i>
+                                    <strong>Confirmación Inmediata:</strong> Recibirás confirmación por SMS y email.<br>
+                                    <i class="bi bi-star"></i>
+                                    <strong>Experiencia Premium:</strong> Disfruta de nuestro servicio de primera
+                                    clase.<br>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Modal de Administrador - Sistema de Restaurante Elegante
+                const ModalProfesor = new bootstrap.Modal(
+                    document.getElementById('ModalProfesor'), {
+                    keyboard: false
+                });
+
+                // Conectar los botones con el modal de administrador
+                document.getElementById('btn-actualizar-admin').addEventListener('click', function () {
+                    // Mostrar el modal directamente
+                    ModalProfesor.show();
+
+                    // Limpiar campos al mostrar el modal
+                    document.getElementById('adminUsuarioModal').value = '';
+                    document.getElementById('adminPasswordModal').value = '';
+                    document.getElementById('loginError').classList.add('d-none');
+                });
+
+                // Conectar el botón de la tarjeta de administrador
+                document.getElementById('btn-login').addEventListener('click', function () {
+                    // Mostrar el modal directamente
+                    ModalProfesor.show();
+
+                    // Limpiar campos al mostrar el modal
+                    document.getElementById('adminUsuarioModal').value = '';
+                    document.getElementById('adminPasswordModal').value = '';
+                    document.getElementById('loginError').classList.add('d-none');
+                });
+
+                // Función para alternar visibilidad de contraseña del admin
+                function togglePasswordAdmin() {
+                    const passwordInput = document.getElementById('adminPasswordModal');
+                    const toggleIcon = document.getElementById('toggleIconAdmin');
+
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        toggleIcon.classList.remove('bi-eye');
+                        toggleIcon.classList.add('bi-eye-slash');
+                    } else {
+                        passwordInput.type = 'password';
+                        toggleIcon.classList.remove('bi-eye-slash');
+                        toggleIcon.classList.add('bi-eye');
+                    }
+                }
+
+                // Login de administrador con sistema de autenticación real
+                document.getElementById('btn-admin-modal').addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const usuario = document.getElementById('adminUsuarioModal').value.trim();
+                    const password = document.getElementById('adminPasswordModal').value.trim();
+                    const errorDiv = document.getElementById('loginError');
+
+                    // Validación de campos
+                    if (!usuario || !password) {
+                        errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Por favor complete todos los campos';
+                        errorDiv.classList.remove('d-none');
+                        return;
+                    } else {
+                        errorDiv.classList.add('d-none');
+                    }
+
+                    // Preparar datos para enviar
+                    const formData = new FormData();
+                    formData.append('usuario', usuario);
+                    formData.append('password', password);
+
+                    // Mostrar loading con tema elegante
+                    Swal.fire({
+                        title: 'Verificando Credenciales',
+                        html: `
+                            <div class="d-flex justify-content-center align-items-center" style="height: 80px;">
+                                <div class="spinner-border" style="color: var(--gold-color);" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <div class="ms-3" style="color: var(--primary-color);">
+                                    <strong>Autenticando...</strong><br>
+                                    <small>Sistema de seguridad del restaurante</small>
+                                </div>
+                            </div>
+                        `,
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        customClass: {
+                            popup: 'border-0 shadow-lg',
+                            title: 'fw-bold'
+                        },
+                        background: 'rgba(255, 255, 255, 0.95)',
+                        backdrop: 'rgba(45, 27, 18, 0.4)'
+                    });
+
+                    // Enviar credenciales al sistema de autenticación
+                    fetch('app/validar_admin.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => {
+                            // If server returned non-2xx, capture text for debugging
+                            if (!response.ok) {
+                                return response.text().then(text => {
+                                    throw new Error('Server error ' + response.status + ': ' + text);
+                                });
+                            }
+                            const ct = response.headers.get('content-type') || '';
+                            if (ct.indexOf('application/json') === -1) {
+                                return response.text().then(text => {
+                                    throw new Error('Respuesta no JSON: ' + text);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                // Login exitoso
+                                setTimeout(() => {
+                                    ModalProfesor.hide();
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Acceso Autorizado!',
+                                        html: `
+                                        <div style="color: var(--primary-color);">
+                                            <strong>Bienvenido al Panel de Control</strong><br>
+                                            <small>Restaurante Elegante - Sistema Administrativo</small>
+                                        </div>
+                                    `,
+                                        timer: 2000,
+                                        showConfirmButton: false,
+                                        timerProgressBar: true,
+                                        customClass: {
+                                            popup: 'border-0 shadow-lg'
+                                        },
+                                        background: 'rgba(255, 255, 255, 0.95)'
+                                    });
+
+                                    // Redirigir al panel de administración
+                                    setTimeout(() => {
+                                        window.location.href = 'admin.php';
+                                    }, 1800);
+                                }, 1000);
+
+                            } else {
+                                // Login fallido
+                                setTimeout(() => {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Acceso Denegado',
+                                        html: `
+                                        <div style="color: var(--primary-color);">
+                                            <strong>${data.message || 'Credenciales incorrectas'}</strong><br>
+                                            <small>Verifique su usuario y contraseña</small>
+                                        </div>
+                                    `,
+                                        timer: 3000,
+                                        showConfirmButton: false,
+                                        timerProgressBar: true,
+                                        customClass: {
+                                            popup: 'border-0 shadow-lg'
+                                        },
+                                        background: 'rgba(255, 255, 255, 0.95)'
+                                    });
+                                }, 1000);
+                            }
+                        })
+                        .catch(error => {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error de Conexión',
+                                    html: `
+                                    <div style="color: var(--primary-color);">
+                                        <strong>No se pudo conectar al servidor</strong><br>
+                                        <small>Verifique la conexión a la base de datos</small>
+                                    </div>
+                                `,
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                    timerProgressBar: true,
+                                    customClass: {
+                                        popup: 'border-0 shadow-lg'
+                                    },
+                                    background: 'rgba(255, 255, 255, 0.95)'
+                                });
+                            }, 1000);
+                        });
+                });
+
+                // ========== MODAL Y FUNCIONALIDAD PARA CLIENTES ==========
+                const ModalCliente = new bootstrap.Modal(
+                    document.getElementById('ModalCliente'), {
+                    keyboard: false
+                });
+
+                // Conectar el botón del cliente con verificación de sesión
+                document.getElementById('btn-cliente-login').addEventListener('click', async function () {
+                    try {
+                        // Verificar si ya tiene sesión activa
+                        const response = await fetch('app/verificar_sesion_cliente.php', {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        const data = await response.json();
+
+                        if (data.authenticated) {
+                            // Si ya tiene sesión, mostrar mensaje y redirigir directamente
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Sesión Activa!',
+                                text: `Bienvenido de nuevo ${data.cliente.nombre}`,
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+
+                            setTimeout(() => {
+                                window.location.href = 'mesas.php';
+                            }, 1500);
+                        } else {
+                            // Si no tiene sesión, mostrar modal de login
+                            ModalCliente.show();
+                            // Limpiar campos
+                            document.getElementById('loginUsuario').value = '';
+                            document.getElementById('loginPassword').value = '';
+                            document.getElementById('loginErrorCliente').classList.add('d-none');
+                        }
+                    } catch (error) {
+                        console.error('Error al verificar sesión:', error);
+                        // En caso de error, mostrar modal de login
+                        ModalCliente.show();
+                        document.getElementById('loginUsuario').value = '';
+                        document.getElementById('loginPassword').value = '';
+                        document.getElementById('loginErrorCliente').classList.add('d-none');
+                    }
+                });
+
+                // Función para alternar visibilidad de contraseña del cliente
+                function togglePasswordCliente(tipo) {
+                    if (tipo === 'login') {
+                        const passwordInput = document.getElementById('loginPassword');
+                        const toggleIcon = document.getElementById('toggleIconLogin');
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            toggleIcon.classList.remove('bi-eye');
+                            toggleIcon.classList.add('bi-eye-slash');
+                        } else {
+                            passwordInput.type = 'password';
+                            toggleIcon.classList.remove('bi-eye-slash');
+                            toggleIcon.classList.add('bi-eye');
+                        }
+                    } else if (tipo === 'registro') {
+                        const passwordInput = document.getElementById('regPassword');
+                        const toggleIcon = document.getElementById('toggleIconRegistro');
+                        if (passwordInput.type === 'password') {
+                            passwordInput.type = 'text';
+                            toggleIcon.classList.remove('bi-eye');
+                            toggleIcon.classList.add('bi-eye-slash');
+                        } else {
+                            passwordInput.type = 'password';
+                            toggleIcon.classList.remove('bi-eye-slash');
+                            toggleIcon.classList.add('bi-eye');
+                        }
+                    }
+                }
+
+                // Login de cliente
+                document.getElementById('btn-login-cliente').addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const usuario = document.getElementById('loginUsuario').value.trim();
+                    const password = document.getElementById('loginPassword').value.trim();
+                    const errorDiv = document.getElementById('loginErrorCliente');
+
+                    // Validación
+                    if (!usuario || !password) {
+                        errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Por favor complete todos los campos';
+                        errorDiv.classList.remove('d-none');
+                        return;
+                    } else {
+                        errorDiv.classList.add('d-none');
+                    }
+
+                    const formData = new FormData();
+                    formData.append('usuario', usuario);
+                    formData.append('password', password);
+
+                    // Mostrar loading
+                    Swal.fire({
+                        title: 'Verificando Credenciales',
+                        html: '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>',
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false
+                    });
+
+                    fetch('app/validar_cliente_simple.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(text => {
+                                    throw new Error('Server error ' + response.status);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                // Login exitoso
+                                setTimeout(() => {
+                                    ModalCliente.hide();
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Bienvenido!',
+                                        html: `<strong>${data.cliente.nombre} ${data.cliente.apellido}</strong><br><small>Ahora puedes hacer tu reserva</small>`,
+                                        timer: 2000,
+                                        showConfirmButton: false,
+                                        timerProgressBar: true
+                                    });
+
+                                    // Redirigir a mesas.php
+                                    setTimeout(() => {
+                                        window.location.href = 'mesas.php';
+                                    }, 1800);
+                                }, 1000);
+                            } else {
+                                // Login fallido
+                                setTimeout(() => {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Acceso Denegado',
+                                        text: data.message || 'Credenciales incorrectas',
+                                        timer: 3000,
+                                        showConfirmButton: false,
+                                        timerProgressBar: true
+                                    });
+                                }, 1000);
+                            }
+                        })
+                        .catch(error => {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error de Conexión',
+                                    text: 'No se pudo conectar al servidor',
+                                    timer: 3000,
+                                    showConfirmButton: false,
+                                    timerProgressBar: true
+                                });
+                            }, 1000);
+                        });
+                });
+
+            </script>
+
+
+
+
+            <!-- Enlace de prueba de conexión -->
+            <div class="text-center mt-5 fade-in-up delay-3">
+                <div class="card mx-auto" style="max-width: 400px;">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-database-check"></i>
+                            Estado del Sistema
+                        </h5>
+                        <p class="card-text">Verificar conexión con la base de datos</p>
+                        <a href="conexion/db.php" class="btn btn-outline-primary">
+                            <i class="bi bi-database-gear"></i>
+                            Probar Conexión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Footer -->
+    <footer class="main-footer" id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-icon">
+                    <i class="bi bi-cup-hot-fill"></i>
+                </div>
+                <div>
+                    <p class="mb-0">
+                        © 2025 Restaurante Elegante -
+                        <i class="bi bi-heart-fill text-warning"></i>
+                        Experiencia Gastronómica Premium
+                    </p>
+                    <small class="text-muted">
+                        <i class="bi bi-shield-lock"></i>
+                        Sistema Seguro de Reservas |
+                        <i class="bi bi-telephone"></i>
+                        Reservas: 0998521340
+                        <br>
+                        <i class="bi bi-copyright"></i>
+                        <span class="text-muted">
+                            Copyright ©Ing. Joffre Gómez 2025
+                        </span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="public/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
+    <!-- Animaciones personalizadas -->
+    <script>
+        // Agregar clase de animación cuando el elemento entra en vista
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos con animación
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // Funcionalidad Modo Oscuro
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const darkModeText = document.getElementById('darkModeText');
+        const body = document.body;
+
+        // Verificar si hay preferencia guardada
+        const currentMode = localStorage.getItem('darkMode');
+        if (currentMode === 'enabled') {
+            enableDarkMode();
+        }
+
+        darkModeBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        });
+
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            darkModeIcon.classList.remove('bi-moon-fill');
+            darkModeIcon.classList.add('bi-sun-fill');
+            darkModeText.textContent = 'Modo Claro';
+            localStorage.setItem('darkMode', 'enabled');
+
+            // Aplicar estilos a modales si están abiertos
+            applyDarkModeToModals();
+        }
+
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            darkModeIcon.classList.remove('bi-sun-fill');
+            darkModeIcon.classList.add('bi-moon-fill');
+            darkModeText.textContent = 'Modo Oscuro';
+            localStorage.setItem('darkMode', 'disabled');
+        }
+
+        // Función para aplicar estilos de modo oscuro a modales
+        function applyDarkModeToModals() {
+            if (body.classList.contains('dark-mode')) {
+                document.querySelectorAll('.modal-body').forEach(modalBody => {
+                    modalBody.style.backgroundColor = '#ffffff';
+                    modalBody.style.color = '#000000';
+                });
+
+                document.querySelectorAll('.modal-content').forEach(modalContent => {
+                    modalContent.style.backgroundColor = '#ffffff';
+                    modalContent.style.color = '#000000';
+                });
+
+                document.querySelectorAll('.form-label').forEach(label => {
+                    label.style.color = '#000000';
+                });
+
+                document.querySelectorAll('.form-control').forEach(input => {
+                    input.style.backgroundColor = '#ffffff';
+                    input.style.color = '#000000';
+                    input.style.borderColor = '#cccccc';
+                });
+            }
+        }
+
+        // Observar cuando se abren los modales
+        document.addEventListener('shown.bs.modal', applyDarkModeToModals);
+
+        // Aplicar cuando el DOM cambia
+        const modalObserver = new MutationObserver(() => {
+            if (body.classList.contains('dark-mode')) {
+                applyDarkModeToModals();
+            }
+        });
+
+        modalObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        // Navegación suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80; // Espacio para el navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Cambiar navbar al hacer scroll
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Función para mostrar/ocultar contraseña en el modal
+        function togglePasswordModal() {
+            const passwordField = document.getElementById('adminPassword');
+            const passwordProfesor = document.getElementById('ProfesorContraseña');
+            const toggleIcon = document.getElementById('toggleIconModal');
+
+            if (passwordField.type === 'password' && passwordProfesor.type === 'password') {
+                passwordField.type = 'text';
+                passwordProfesor.type = 'text';
+                toggleIcon.classList.remove('bi-eye');
+                toggleIcon.classList.add('bi-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                passwordProfesor.type = 'password';
+                toggleIcon.classList.remove('bi-eye-slash');
+                toggleIcon.classList.add('bi-eye');
+            }
+        }
+
+        // Prevenir caché de la página después de logout
+        // Si el usuario cerró sesión y presiona atrás, limpiar cualquier dato
+        window.addEventListener('pageshow', function (event) {
+            // Si la página se carga desde caché del navegador
+            if (event.persisted) {
+                // Limpiar storage por seguridad
+                sessionStorage.clear();
+            }
+        });
+    </script>
+</body>
+
+</html>
