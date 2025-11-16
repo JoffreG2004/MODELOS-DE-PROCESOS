@@ -65,17 +65,21 @@ try {
     // Obtener credenciales de db.php (se espera que db.php exponga $host, $dbname, $username, $password)
     global $host, $dbname, $username, $password;
     
+    // Verificar si se debe limpiar las tablas antes de cargar
+    $clearBefore = isset($_POST['clear_before']) && $_POST['clear_before'] === 'true' ? '--clear-before' : '';
+    
     // Comando Python con credenciales
     // IMPORTANTE: Limpiar LD_LIBRARY_PATH para evitar conflictos con librerías de LAMPP
     $command = sprintf(
-        'unset LD_LIBRARY_PATH && %s %s --input %s --mysql-host %s --mysql-db %s --mysql-user %s --mysql-pass %s 2>&1',
+        'unset LD_LIBRARY_PATH && %s %s --input %s --mysql-host %s --mysql-db %s --mysql-user %s --mysql-pass %s %s 2>&1',
         escapeshellarg($pythonBin),
         escapeshellarg($pythonScript),
         escapeshellarg($absolutePath),
         escapeshellarg($host),
         escapeshellarg($dbname),
         escapeshellarg($username),
-        escapeshellarg($password)
+        escapeshellarg($password),
+        $clearBefore
     );
     
     writeLog("Ejecutando comando: $command");
