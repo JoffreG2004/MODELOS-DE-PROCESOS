@@ -716,10 +716,12 @@
     </section>
 
     <!-- Sección de Menú -->
-    <section class="menu-section py-5" id="menu" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
+    <section class="menu-section py-5" id="menu"
+        style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
         <div class="container">
             <div class="text-center mb-5 fade-in-up">
-                <h2 class="section-title menu-title" style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
+                <h2 class="section-title menu-title"
+                    style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
                     <i class="bi bi-book me-2" style="color: var(--gold-color);"></i>
                     Nuestro Menú
                 </h2>
@@ -731,7 +733,8 @@
             <!-- Categorías en círculos -->
             <div class="row g-4 justify-content-center" id="menuCategorias">
                 <div class="col-12 text-center py-5">
-                    <div class="spinner-border" style="color: var(--gold-color); width: 3rem; height: 3rem;" role="status">
+                    <div class="spinner-border" style="color: var(--gold-color); width: 3rem; height: 3rem;"
+                        role="status">
                         <span class="visually-hidden">Cargando menú...</span>
                     </div>
                     <p class="text-muted mt-3">Cargando categorías del menú...</p>
@@ -1885,7 +1888,7 @@
                         
                         <!-- Información de la mesa -->
                         <div style="padding: 20px;">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div style="color: #666; font-size: 0.9rem;">
                                     <i class="bi bi-people-fill" style="color: var(--gold-color);"></i>
                                     <strong style="color: var(--primary-color);">${capacidad} personas</strong>
@@ -1893,6 +1896,15 @@
                                 <div style="color: #999; font-size: 0.85rem;">
                                     <i class="bi bi-geo-alt-fill" style="color: var(--gold-color);"></i> ${zonaTexto[zona]}
                                 </div>
+                            </div>
+                            
+                            <!-- Precio de reserva -->
+                            <div class="text-center mb-3" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%); padding: 12px; border-radius: 15px; border: 2px dashed var(--gold-color);">
+                                <div style="font-size: 0.75rem; color: #999; margin-bottom: 3px;">Precio de Reserva</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--gold-color);">
+                                    $${parseFloat(mesa.precio_reserva || 5).toFixed(2)}
+                                </div>
+                                <div style="font-size: 0.7rem; color: #999; margin-top: 3px;">+ Consumo de platos</div>
                             </div>
                             
                             ${disponible ? `
@@ -1971,6 +1983,8 @@
                     mesa.estado === 'ocupada' ? 'danger' :
                         mesa.estado === 'reservada' ? 'warning' : 'secondary';
 
+                const precioReserva = parseFloat(mesa.precio_reserva || 5).toFixed(2);
+
                 Swal.fire({
                     title: `Mesa ${mesa.numero}`,
                     html: `
@@ -1981,6 +1995,10 @@
                                 ? mesa.capacidad_maxima
                                 : `${mesa.capacidad_minima} - ${mesa.capacidad_maxima}`)
                             : mesa.capacidad} personas</p>
+                                    <p><strong><i class="bi bi-cash-coin"></i> Precio de Reserva:</strong> 
+                                        <span style="color: var(--gold-color); font-weight: 700; font-size: 1.2rem;">$${precioReserva}</span>
+                                        <small class="text-muted"> + consumo</small>
+                                    </p>
                                     <p><strong><i class="bi bi-info-circle-fill"></i> Estado:</strong> 
                                         <span class="badge bg-${estadoColor}">${estadoTexto}</span>
                                     </p>
@@ -1997,10 +2015,34 @@
                     cancelButtonColor: '#6c757d'
                 }).then((result) => {
                     if (result.isConfirmed && mesa.estado === 'disponible') {
-                        // Abrir modal de cliente para reservar
-                        document.getElementById('btn-cliente-login').click();
+                        // Guardar mesa seleccionada automáticamente
+                        this.seleccionarMesa(mesa.id);
                     }
                 });
+            }
+
+            async seleccionarMesa(mesaId) {
+                try {
+                    const response = await fetch('app/api/seleccionar_mesa.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ mesa_id: mesaId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Mesa guardada exitosamente, redirigir a mesas.php
+                        window.location.href = 'mesas.php';
+                    } else {
+                        // Si no está autenticado, mostrar modal de login
+                        document.getElementById('btn-cliente-login').click();
+                    }
+                } catch (error) {
+                    console.error('Error al seleccionar mesa:', error);
+                    // En caso de error, mostrar modal de login
+                    document.getElementById('btn-cliente-login').click();
+                }
             }
 
             capitalizarPrimeraLetra(texto) {
@@ -2166,7 +2208,7 @@
                 const icono = iconos[categoria.nombre] || '🍴';
 
                 let platosHTML = '';
-                
+
                 if (categoria.platos.length === 0) {
                     platosHTML = '<p class="text-center text-muted py-4">No hay platos disponibles en esta categoría</p>';
                 } else {
@@ -2174,7 +2216,7 @@
                     categoria.platos.forEach(plato => {
                         const precio = parseFloat(plato.precio).toFixed(2);
                         const disponible = parseInt(plato.stock_disponible) > 0;
-                        
+
                         // Imágenes por defecto para categorías si no tiene imagen_url
                         const imagenesPorCategoria = {
                             'Entradas': 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&q=80',
@@ -2186,7 +2228,7 @@
                             'Bebidas': 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&q=80'
                         };
                         const imagenPlato = plato.imagen_url || imagenesPorCategoria[categoria.nombre] || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80';
-                        
+
                         platosHTML += `
                             <div class="col-md-6">
                                 <div class="plato-item" style="background: ${disponible ? 'white' : '#f8f9fa'}; border-radius: 15px; overflow: hidden; border: 2px solid ${disponible ? 'rgba(212, 175, 55, 0.2)' : '#e9ecef'}; transition: all 0.3s ease; ${disponible ? 'cursor: pointer;' : 'opacity: 0.7;'}"

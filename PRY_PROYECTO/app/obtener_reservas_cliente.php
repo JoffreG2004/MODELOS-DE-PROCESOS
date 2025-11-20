@@ -44,10 +44,8 @@ try {
             'mesa_numero' => $row['numero_mesa'] ?? 'Sin asignar',
             'fecha_reserva' => date('d/m/Y', strtotime($row['fecha_reserva'])),
             'hora_reserva' => date('H:i', strtotime($row['hora_reserva'])),
-            'num_personas' => $row['num_personas'],
-            'estado' => $row['estado'],
-            'observaciones' => $row['observaciones'],
-            'fecha_creacion' => date('d/m/Y H:i', strtotime($row['fecha_creacion']))
+            'numero_personas' => $row['numero_personas'],
+            'estado' => $row['estado']
         ];
     }
     

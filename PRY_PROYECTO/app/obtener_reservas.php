@@ -17,8 +17,6 @@ try {
             r.hora_reserva,
             r.numero_personas,
             r.estado,
-            r.observaciones,
-            r.fecha_creacion,
             CONCAT(c.nombre, ' ', c.apellido) as cliente_nombre,
             c.telefono as cliente_telefono,
             c.email as cliente_email,

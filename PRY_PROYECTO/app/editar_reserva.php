@@ -53,16 +53,9 @@ try {
         $valores[] = $data['estado'];
     }
     
-    if (isset($data['observaciones'])) {
-        $campos[] = "observaciones = ?";
-        $valores[] = $data['observaciones'];
-    }
-    
     if (empty($campos)) {
         throw new Exception('No hay campos para actualizar');
     }
-    
-    $campos[] = "fecha_actualizacion = CURRENT_TIMESTAMP";
     
     $valores[] = $id;
     

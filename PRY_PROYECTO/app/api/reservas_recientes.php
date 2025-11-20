@@ -13,7 +13,6 @@ try {
             r.hora_reserva,
             r.numero_personas,
             r.estado,
-            r.observaciones,
             CONCAT(c.nombre, ' ', c.apellido) as cliente_nombre,
             c.telefono,
             c.email,
@@ -22,9 +21,9 @@ try {
             TIME_FORMAT(r.hora_reserva, '%H:%i') as hora_formateada,
             DATE_FORMAT(r.fecha_reserva, '%d/%m/%Y') as fecha_formateada
         FROM reservas r
-        JOIN clientes c ON r.cliente_id = c.id
-        JOIN mesas m ON r.mesa_id = m.id
-        ORDER BY r.fecha_creacion DESC
+        LEFT JOIN mesas m ON r.mesa_id = m.id
+        LEFT JOIN clientes c ON r.cliente_id = c.id
+        ORDER BY r.id DESC
         LIMIT 10
     ";
     
