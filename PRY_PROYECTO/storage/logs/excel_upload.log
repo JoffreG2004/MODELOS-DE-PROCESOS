@@ -820,3 +820,21 @@ Actualización exitosa ✅
 ✅ Tablas limpiadas: platos, categorias_platos
 Actualización exitosa ✅
 [2025-11-16 06:44:11] Archivo temporal eliminado
+[2025-11-20 03:03:52] Archivo recibido: menu_template3.xlsx (10107 bytes)
+[2025-11-20 03:03:52] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251120030352.xlsx
+[2025-11-20 03:03:52] Python detectado: /usr/bin/python3
+[2025-11-20 03:03:52] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251120030352.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' --clear-before 2>&1
+[2025-11-20 03:03:54] Exit code: 0
+[2025-11-20 03:03:54] Output: 🗑️  Limpiando tablas existentes...
+✅ Tablas limpiadas: platos, categorias_platos
+Actualización exitosa ✅
+[2025-11-20 03:03:54] Archivo temporal eliminado
+[2025-11-20 03:04:46] Archivo recibido: menu_template2.xlsx (11578 bytes)
+[2025-11-20 03:04:46] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251120030446.xlsx
+[2025-11-20 03:04:46] Python detectado: /usr/bin/python3
+[2025-11-20 03:04:46] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '/opt/lampp/htdocs/PRY_PROYECTO/app/api/update_from_excel.py' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251120030446.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'crud_proyecto' --mysql-pass '12345' --clear-before 2>&1
+[2025-11-20 03:04:46] Exit code: 0
+[2025-11-20 03:04:46] Output: 🗑️  Limpiando tablas existentes...
+✅ Tablas limpiadas: platos, categorias_platos
+Actualización exitosa ✅
+[2025-11-20 03:04:46] Archivo temporal eliminado

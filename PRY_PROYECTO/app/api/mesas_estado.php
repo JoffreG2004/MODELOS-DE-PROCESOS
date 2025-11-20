@@ -21,8 +21,7 @@ try {
             r.fecha_reserva,
             r.hora_reserva,
             r.numero_personas,
-            r.estado as reserva_estado,
-            r.observaciones
+            r.estado as reserva_estado
         FROM mesas m
         LEFT JOIN reservas r ON m.id = r.mesa_id 
             AND DATE(r.fecha_reserva) = CURDATE()
@@ -53,8 +52,7 @@ try {
                 'fecha' => $mesa['fecha_reserva'],
                 'hora' => date('H:i', strtotime($mesa['hora_reserva'])),
                 'personas' => (int)$mesa['numero_personas'],
-                'estado' => $mesa['reserva_estado'],
-                'notas' => $mesa['observaciones']
+                'estado' => $mesa['reserva_estado']
             ] : null,
             'disponible_desde' => $mesa['estado'] === 'disponible' ? date('H:i') : null,
             'color_estado' => $mesa['estado'] === 'ocupada' ? '#dc3545' : '#28a745'

@@ -19,7 +19,6 @@ try {
     $hora_reserva = $data['hora_reserva'] ?? null;
     $numero_personas = $data['numero_personas'] ?? null;
     $estado = $data['estado'] ?? 'pendiente';
-    $observaciones = $data['observaciones'] ?? null;
     
     if (empty($cliente_id) || empty($mesa_id) || empty($fecha_reserva) || empty($hora_reserva) || empty($numero_personas)) {
         throw new Exception('Todos los campos obligatorios son requeridos');
@@ -52,10 +51,10 @@ try {
         throw new Exception('Ya existe una reserva para esta mesa en el mismo horario');
     }
     
-    $query = "INSERT INTO reservas (cliente_id, mesa_id, fecha_reserva, hora_reserva, numero_personas, estado, observaciones) 
-              VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO reservas (cliente_id, mesa_id, fecha_reserva, hora_reserva, numero_personas, estado) 
+              VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$cliente_id, $mesa_id, $fecha_reserva, $hora_reserva, $numero_personas, $estado, $observaciones]);
+    $stmt->execute([$cliente_id, $mesa_id, $fecha_reserva, $hora_reserva, $numero_personas, $estado]);
     
     echo json_encode([
         'success' => true,
