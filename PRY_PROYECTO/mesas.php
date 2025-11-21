@@ -186,6 +186,189 @@ if ($mesa_seleccionada_id) {
             font-size: 1.2rem;
             font-weight: 700;
         }
+
+        /* ===== ESTILOS DEL MENÚ DE PLATOS ===== */
+        .plato-card {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(13, 13, 13, 0.95) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plato-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-color);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .plato-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .plato-card h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .plato-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .plato-precio {
+            color: var(--gold-color);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .plato-stock {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .plato-stock.bajo {
+            background: rgba(220, 53, 69, 0.8);
+        }
+
+        .categoria-header {
+            background: var(--gradient-gold);
+            color: var(--primary-color);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 30px 0 20px 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* ===== CARRITO LATERAL ===== */
+        .carrito-sidebar {
+            position: sticky;
+            top: 20px;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.98) 0%, rgba(13, 13, 13, 0.98) 100%);
+            border: 2px solid var(--gold-color);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .carrito-header {
+            background: var(--gradient-gold);
+            color: var(--primary-color);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .carrito-header h4 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .carrito-body {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .carrito-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .carrito-item-nombre {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .carrito-item-precio {
+            color: var(--gold-color);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .carrito-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .carrito-item-controls button {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--gold-color);
+            color: var(--gold-color);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carrito-item-controls button:hover {
+            background: var(--gold-color);
+            color: var(--primary-color);
+        }
+
+        .carrito-item-controls input {
+            width: 50px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .carrito-footer {
+            padding: 20px;
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* Scrollbar personalizado */
+        .carrito-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .carrito-body::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .carrito-body::-webkit-scrollbar-thumb {
+            background: var(--gold-color);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -318,6 +501,96 @@ if ($mesa_seleccionada_id) {
                                 <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
                                 <p class="mt-3" style="color: rgba(255,255,255,0.7);">Cargando mesas disponibles...</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN DE MENÚ DE PLATOS (Estilo KFC) -->
+        <!-- ========================================== -->
+        <?php if ($mesa_seleccionada): ?>
+        <div class="menu-section mt-5" id="menuSection">
+            <div class="text-center mb-5">
+                <h2 style="color: var(--gold-color); font-family: 'Playfair Display', serif; font-size: 2.5rem;">
+                    <i class="bi bi-book-fill me-3"></i>
+                    Nuestro Menú Gourmet
+                </h2>
+                <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem;">
+                    Selecciona tus platos favoritos y personaliza tu experiencia
+                </p>
+            </div>
+
+            <div class="row">
+                <!-- PANEL IZQUIERDO: Categorías y Platos -->
+                <div class="col-lg-8 mb-4">
+                    <!-- Filtro de Categorías -->
+                    <div class="mb-4">
+                        <div class="d-flex flex-wrap gap-2 justify-content-center" id="categoriasFilter">
+                            <button class="btn btn-gold active" onclick="filtrarPorCategoria(null)">
+                                <i class="bi bi-grid-fill"></i> Todos
+                            </button>
+                            <!-- Se llenarán dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Contenedor de Platos -->
+                    <div id="platosContainer">
+                        <div class="text-center py-5">
+                            <div class="spinner-border" style="color: var(--gold-color);" role="status"></div>
+                            <p class="mt-3" style="color: rgba(255,255,255,0.7);">Cargando menú...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL DERECHO: Carrito de Compras -->
+                <div class="col-lg-4">
+                    <div class="carrito-sidebar" id="carritoSidebar">
+                        <div class="carrito-header">
+                            <h4>
+                                <i class="bi bi-cart-fill me-2"></i>
+                                Tu Pedido
+                            </h4>
+                            <span class="badge bg-danger" id="carritoCount">0</span>
+                        </div>
+
+                        <div class="carrito-body" id="carritoItems">
+                            <div class="text-center py-5">
+                                <i class="bi bi-cart-x" style="font-size: 3rem; color: rgba(255,255,255,0.3);"></i>
+                                <p style="color: rgba(255,255,255,0.5); margin-top: 15px;">
+                                    Tu carrito está vacío
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="carrito-footer">
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span style="color: rgba(255,255,255,0.7);">Subtotal:</span>
+                                    <strong style="color: white;" id="carritoSubtotal">$0.00</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span style="color: rgba(255,255,255,0.7);">IVA (12%):</span>
+                                    <strong style="color: white;" id="carritoIVA">$0.00</strong>
+                                </div>
+                                <hr style="border-color: rgba(255,255,255,0.2);">
+                                <div class="d-flex justify-content-between">
+                                    <strong style="color: var(--gold-color); font-size: 1.2rem;">TOTAL:</strong>
+                                    <strong style="color: var(--gold-color); font-size: 1.2rem;" id="carritoTotal">$0.00</strong>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-gold w-100" id="btnConfirmarPedido" onclick="confirmarPedidoCompleto()" disabled>
+                                <i class="bi bi-check-circle-fill me-2"></i>
+                                Confirmar Pedido
+                            </button>
+                            
+                            <button class="btn w-100 mt-2" onclick="vaciarCarrito()" style="background: rgba(220, 53, 69, 0.2); color: #dc3545; border: 1px solid #dc3545;">
+                                <i class="bi bi-trash-fill me-2"></i>
+                                Vaciar Carrito
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -653,16 +926,9 @@ if ($mesa_seleccionada_id) {
         }
 
         function reservarPlatos() {
-            // Redirigir a página de menú/platos (pendiente de crear)
-            Swal.fire({
-                icon: 'info',
-                title: 'Menú de Platos',
-                text: 'Próximamente podrás reservar tus platos favoritos',
-                background: '#1a1a1a',
-                color: '#ffffff',
-                confirmButtonColor: '#d4af37'
-            });
-            // TODO: window.location.href = 'menu.php';
+            // Scroll suave al menú de platos
+            Swal.close();
+            document.getElementById('menuSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function cerrarSesion() {
@@ -672,6 +938,435 @@ if ($mesa_seleccionada_id) {
         // Cargar mesas al iniciar
         <?php if (!$mesa_seleccionada): ?>
         document.addEventListener('DOMContentLoaded', cargarMesas);
+        <?php endif; ?>
+
+        // ========================================
+        // SISTEMA DE MENÚ Y CARRITO DE PLATOS
+        // ========================================
+        <?php if ($mesa_seleccionada): ?>
+        let platosData = [];
+        let categoriasData = [];
+        let carrito = [];
+        let categoriaActiva = null;
+
+        // Cargar menú al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarMenu();
+            cargarCarrito();
+        });
+
+        // Cargar menú desde API
+        async function cargarMenu() {
+            try {
+                const response = await fetch('app/api/obtener_platos_por_categoria.php');
+                const data = await response.json();
+
+                if (data.success) {
+                    categoriasData = data.categorias;
+                    platosData = data.categorias.flatMap(c => c.platos.map(p => ({ ...p, categoria_id: c.categoria_id, categoria_nombre: c.categoria_nombre })));
+                    
+                    renderizarCategorias();
+                    renderizarPlatos();
+                }
+            } catch (error) {
+                console.error('Error al cargar menú:', error);
+                document.getElementById('platosContainer').innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Error al cargar el menú
+                    </div>
+                `;
+            }
+        }
+
+        // Renderizar botones de categorías
+        function renderizarCategorias() {
+            const container = document.getElementById('categoriasFilter');
+            const botonTodos = container.querySelector('button');
+            
+            categoriasData.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-gold';
+                btn.style.background = 'rgba(212, 175, 55, 0.2)';
+                btn.style.border = '1px solid var(--gold-color)';
+                btn.style.color = 'var(--gold-color)';
+                btn.innerHTML = `<i class="bi bi-circle-fill" style="font-size: 0.5rem;"></i> ${cat.categoria_nombre}`;
+                btn.onclick = () => filtrarPorCategoria(cat.categoria_id);
+                container.appendChild(btn);
+            });
+        }
+
+        // Filtrar platos por categoría
+        function filtrarPorCategoria(catId) {
+            categoriaActiva = catId;
+            
+            // Actualizar botones activos
+            const botones = document.querySelectorAll('#categoriasFilter button');
+            botones.forEach((btn, index) => {
+                if ((catId === null && index === 0) || (catId !== null && index > 0 && btn.textContent.includes(categoriasData.find(c => c.categoria_id === catId)?.categoria_nombre))) {
+                    btn.classList.add('active');
+                    btn.style.background = 'var(--gradient-gold)';
+                    btn.style.color = 'var(--primary-color)';
+                } else {
+                    btn.classList.remove('active');
+                    btn.style.background = 'rgba(212, 175, 55, 0.2)';
+                    btn.style.color = 'var(--gold-color)';
+                }
+            });
+
+            renderizarPlatos();
+        }
+
+        // Renderizar platos
+        function renderizarPlatos() {
+            const container = document.getElementById('platosContainer');
+            container.innerHTML = '';
+
+            const categoriasFiltradas = categoriaActiva === null 
+                ? categoriasData 
+                : categoriasData.filter(c => c.categoria_id === categoriaActiva);
+
+            categoriasFiltradas.forEach(categoria => {
+                // Header de categoría
+                const header = document.createElement('div');
+                header.className = 'categoria-header';
+                header.innerHTML = `
+                    <i class="bi bi-bookmark-fill me-2"></i>
+                    ${categoria.categoria_nombre}
+                `;
+                container.appendChild(header);
+
+                // Grid de platos
+                const grid = document.createElement('div');
+                grid.className = 'row g-3';
+
+                categoria.platos.forEach(plato => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-6 col-xl-4';
+                    
+                    const stockBajo = plato.stock_disponible < 5;
+                    const sinStock = plato.stock_disponible === 0;
+
+                    col.innerHTML = `
+                        <div class="plato-card ${sinStock ? 'opacity-50' : ''}" onclick="${!sinStock ? `agregarAlCarrito(${plato.id})` : ''}">
+                            <span class="plato-stock ${stockBajo ? 'bajo' : ''}">
+                                ${sinStock ? 'Sin stock' : `Stock: ${plato.stock_disponible}`}
+                            </span>
+                            <img src="${plato.imagen_url}" alt="${plato.nombre}" onerror="this.src='https://via.placeholder.com/300x180?text=Sin+Imagen'">
+                            <h5>${plato.nombre}</h5>
+                            <p>${plato.descripcion || 'Delicioso plato preparado con ingredientes frescos'}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="plato-precio">$${parseFloat(plato.precio).toFixed(2)}</span>
+                                <small style="color: rgba(255,255,255,0.5);">
+                                    <i class="bi bi-clock"></i> ${plato.tiempo_preparacion} min
+                                </small>
+                            </div>
+                            ${!sinStock ? `
+                                <button class="btn btn-gold w-100 mt-3" onclick="event.stopPropagation(); agregarAlCarrito(${plato.id})">
+                                    <i class="bi bi-plus-circle"></i> Agregar
+                                </button>
+                            ` : `
+                                <button class="btn w-100 mt-3" disabled style="background: rgba(220, 53, 69, 0.3); color: #dc3545; border: 1px solid #dc3545;">
+                                    <i class="bi bi-x-circle"></i> No disponible
+                                </button>
+                            `}
+                        </div>
+                    `;
+
+                    grid.appendChild(col);
+                });
+
+                container.appendChild(grid);
+            });
+        }
+
+        // Agregar plato al carrito
+        async function agregarAlCarrito(platoId) {
+            try {
+                const response = await fetch('app/api/gestionar_carrito.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'add',
+                        plato_id: platoId,
+                        cantidad: 1
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    carrito = data.carrito;
+                    actualizarCarritoUI(data.totales);
+                    
+                    // Feedback visual
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Agregado!',
+                        text: data.message,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        background: '#1a1a1a',
+                        color: '#ffffff'
+                    });
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'No se pudo agregar el plato',
+                    background: '#1a1a1a',
+                    color: '#ffffff',
+                    confirmButtonColor: '#d4af37'
+                });
+            }
+        }
+
+        // Actualizar UI del carrito
+        function actualizarCarritoUI(totales) {
+            const itemsContainer = document.getElementById('carritoItems');
+            const countBadge = document.getElementById('carritoCount');
+            const subtotalEl = document.getElementById('carritoSubtotal');
+            const ivaEl = document.getElementById('carritoIVA');
+            const totalEl = document.getElementById('carritoTotal');
+            const btnConfirmar = document.getElementById('btnConfirmarPedido');
+
+            // Actualizar contador
+            countBadge.textContent = totales.items;
+
+            // Actualizar totales
+            subtotalEl.textContent = `$${totales.subtotal.toFixed(2)}`;
+            ivaEl.textContent = `$${totales.impuesto.toFixed(2)}`;
+            totalEl.textContent = `$${totales.total.toFixed(2)}`;
+
+            // Habilitar/deshabilitar botón
+            btnConfirmar.disabled = carrito.length === 0;
+
+            // Renderizar items
+            if (carrito.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="bi bi-cart-x" style="font-size: 3rem; color: rgba(255,255,255,0.3);"></i>
+                        <p style="color: rgba(255,255,255,0.5); margin-top: 15px;">
+                            Tu carrito está vacío
+                        </p>
+                    </div>
+                `;
+            } else {
+                itemsContainer.innerHTML = carrito.map(item => `
+                    <div class="carrito-item">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="carrito-item-nombre">${item.nombre}</span>
+                            <button class="btn-close btn-close-white" onclick="eliminarDelCarrito(${item.id})" style="font-size: 0.7rem;"></button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="carrito-item-precio">$${item.subtotal.toFixed(2)}</span>
+                            <div class="carrito-item-controls">
+                                <button onclick="actualizarCantidad(${item.id}, ${item.cantidad - 1})">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number" value="${item.cantidad}" readonly>
+                                <button onclick="actualizarCantidad(${item.id}, ${item.cantidad + 1})">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <small style="color: rgba(255,255,255,0.5);">
+                            $${item.precio.toFixed(2)} c/u
+                        </small>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Cargar carrito actual
+        async function cargarCarrito() {
+            try {
+                const response = await fetch('app/api/gestionar_carrito.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'get' })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    carrito = data.carrito;
+                    actualizarCarritoUI(data.totales);
+                }
+            } catch (error) {
+                console.error('Error al cargar carrito:', error);
+            }
+        }
+
+        // Actualizar cantidad
+        async function actualizarCantidad(platoId, nuevaCantidad) {
+            try {
+                const response = await fetch('app/api/gestionar_carrito.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'update',
+                        plato_id: platoId,
+                        cantidad: nuevaCantidad
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    carrito = data.carrito;
+                    actualizarCarritoUI(data.totales);
+                }
+            } catch (error) {
+                console.error('Error al actualizar cantidad:', error);
+            }
+        }
+
+        // Eliminar del carrito
+        async function eliminarDelCarrito(platoId) {
+            try {
+                const response = await fetch('app/api/gestionar_carrito.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'remove',
+                        plato_id: platoId
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    carrito = data.carrito;
+                    actualizarCarritoUI(data.totales);
+                }
+            } catch (error) {
+                console.error('Error al eliminar:', error);
+            }
+        }
+
+        // Vaciar carrito
+        async function vaciarCarrito() {
+            const result = await Swal.fire({
+                title: '¿Vaciar carrito?',
+                text: 'Se eliminarán todos los platos seleccionados',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d4af37',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Sí, vaciar',
+                cancelButtonText: 'Cancelar',
+                background: '#1a1a1a',
+                color: '#ffffff'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch('app/api/gestionar_carrito.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'clear' })
+                    });
+
+                    const data = await response.json();
+                    if (data.success) {
+                        carrito = [];
+                        actualizarCarritoUI({ items: 0, subtotal: 0, impuesto: 0, total: 0 });
+                    }
+                } catch (error) {
+                    console.error('Error al vaciar carrito:', error);
+                }
+            }
+        }
+
+        // Confirmar pedido completo
+        async function confirmarPedidoCompleto() {
+            const { value: formValues } = await Swal.fire({
+                title: 'Confirmar Pedido Completo',
+                background: '#1a1a1a',
+                color: '#ffffff',
+                html: `
+                    <div style="text-align: left;">
+                        <label class="reserva-form-label">Fecha de Reserva:</label>
+                        <input type="date" id="fecha" class="swal2-input" min="${new Date().toISOString().split('T')[0]}" value="${new Date().toISOString().split('T')[0]}">
+                        
+                        <label class="reserva-form-label">Hora de Reserva:</label>
+                        <input type="time" id="hora" class="swal2-input" value="${new Date().toTimeString().slice(0,5)}">
+                        
+                        <label class="reserva-form-label">Número de Personas:</label>
+                        <input type="number" id="personas" class="swal2-input" min="1" max="<?php echo $mesa_seleccionada['capacidad_maxima']; ?>" value="1">
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar Pedido',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#d4af37',
+                cancelButtonColor: '#666',
+                preConfirm: () => {
+                    return {
+                        fecha: document.getElementById('fecha').value,
+                        hora: document.getElementById('hora').value,
+                        personas: document.getElementById('personas').value
+                    };
+                }
+            });
+
+            if (formValues) {
+                try {
+                    const response = await fetch('app/api/confirmar_reserva_con_platos.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            fecha_reserva: formValues.fecha,
+                            hora_reserva: formValues.hora,
+                            numero_personas: parseInt(formValues.personas)
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            icon: 'success',
+                            title: '¡Reserva Confirmada!',
+                            html: `
+                                <div style="text-align: left; color: white;">
+                                    <p><strong>Nota:</strong> ${data.reserva.numero_nota}</p>
+                                    <p><strong>Mesa:</strong> ${data.reserva.mesa}</p>
+                                    <p><strong>Fecha:</strong> ${data.reserva.fecha}</p>
+                                    <p><strong>Hora:</strong> ${data.reserva.hora}</p>
+                                    <hr style="border-color: rgba(212, 175, 55, 0.3);">
+                                    <p><strong style="color: var(--gold-color);">Total: $${data.reserva.total.toFixed(2)}</strong></p>
+                                    <small style="color: rgba(255,255,255,0.6);">
+                                        (Incluye ${data.reserva.platos.length} plato(s) + IVA)
+                                    </small>
+                                </div>
+                            `,
+                            background: '#1a1a1a',
+                            color: '#ffffff',
+                            confirmButtonColor: '#d4af37',
+                            confirmButtonText: 'Ver Mis Reservas'
+                        });
+
+                        // Redirigir o recargar
+                        window.location.href = 'index.html';
+                    } else {
+                        throw new Error(data.message);
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'No se pudo confirmar el pedido',
+                        background: '#1a1a1a',
+                        color: '#ffffff',
+                        confirmButtonColor: '#d4af37'
+                    });
+                }
+            }
+        }
         <?php endif; ?>
     </script>
 </body>

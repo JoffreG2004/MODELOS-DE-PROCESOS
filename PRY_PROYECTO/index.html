@@ -1425,10 +1425,35 @@
                                 timerProgressBar: true
                             });
 
-                            // Redirigir a mesas.php
-                            setTimeout(() => {
-                                window.location.href = 'mesas.php';
-                            }, 1800);
+                            // Verificar si hay mesa pendiente y seleccionarla
+                            const mesaPendiente = localStorage.getItem('mesa_pendiente');
+                            if (mesaPendiente) {
+                                localStorage.removeItem('mesa_pendiente');
+                                // Seleccionar la mesa después del login
+                                setTimeout(async () => {
+                                    try {
+                                        const response = await fetch('app/api/seleccionar_mesa.php', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ mesa_id: mesaPendiente })
+                                        });
+                                        const mesaData = await response.json();
+                                        if (mesaData.success) {
+                                            window.location.href = 'mesas.php';
+                                        } else {
+                                            window.location.href = 'mesas.php';
+                                        }
+                                    } catch (error) {
+                                        console.error('Error al seleccionar mesa:', error);
+                                        window.location.href = 'mesas.php';
+                                    }
+                                }, 1800);
+                            } else {
+                                // Redirigir a mesas.php sin mesa seleccionada
+                                setTimeout(() => {
+                                    window.location.href = 'mesas.php';
+                                }, 1800);
+                            }
                         }, 1000);
                     } else {
                         // Login fallido
@@ -1527,10 +1552,35 @@
                                 timerProgressBar: true
                             });
 
-                            // Redirigir a mesas.php (ya tiene sesión activa)
-                            setTimeout(() => {
-                                window.location.href = 'mesas.php';
-                            }, 1800);
+                            // Verificar si hay mesa pendiente y seleccionarla
+                            const mesaPendiente = localStorage.getItem('mesa_pendiente');
+                            if (mesaPendiente) {
+                                localStorage.removeItem('mesa_pendiente');
+                                // Seleccionar la mesa después del registro
+                                setTimeout(async () => {
+                                    try {
+                                        const response = await fetch('app/api/seleccionar_mesa.php', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({ mesa_id: mesaPendiente })
+                                        });
+                                        const mesaData = await response.json();
+                                        if (mesaData.success) {
+                                            window.location.href = 'mesas.php';
+                                        } else {
+                                            window.location.href = 'mesas.php';
+                                        }
+                                    } catch (error) {
+                                        console.error('Error al seleccionar mesa:', error);
+                                        window.location.href = 'mesas.php';
+                                    }
+                                }, 1800);
+                            } else {
+                                // Redirigir a mesas.php sin mesa seleccionada (ya tiene sesión activa)
+                                setTimeout(() => {
+                                    window.location.href = 'mesas.php';
+                                }, 1800);
+                            }
                         }, 1000);
                     } else {
                         // Registro fallido
@@ -2023,6 +2073,19 @@
 
             async seleccionarMesa(mesaId) {
                 try {
+                    // Primero verificar si está autenticado
+                    const sesionResponse = await fetch('app/verificar_sesion_cliente.php');
+                    const sesionData = await sesionResponse.json();
+                    
+                    if (!sesionData.authenticated) {
+                        // Guardar mesa_id en localStorage para seleccionarla después del login
+                        localStorage.setItem('mesa_pendiente', mesaId);
+                        // Mostrar modal de login
+                        document.getElementById('btn-cliente-login').click();
+                        return;
+                    }
+                    
+                    // Si está autenticado, seleccionar la mesa
                     const response = await fetch('app/api/seleccionar_mesa.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -2035,12 +2098,17 @@
                         // Mesa guardada exitosamente, redirigir a mesas.php
                         window.location.href = 'mesas.php';
                     } else {
-                        // Si no está autenticado, mostrar modal de login
-                        document.getElementById('btn-cliente-login').click();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'No se pudo seleccionar la mesa',
+                            confirmButtonColor: '#d4af37'
+                        });
                     }
                 } catch (error) {
                     console.error('Error al seleccionar mesa:', error);
-                    // En caso de error, mostrar modal de login
+                    // Guardar mesa en localStorage y abrir modal
+                    localStorage.setItem('mesa_pendiente', mesaId);
                     document.getElementById('btn-cliente-login').click();
                 }
             }
