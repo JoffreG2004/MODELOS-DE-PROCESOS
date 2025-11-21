@@ -336,7 +336,8 @@ CREATE TABLE notas_consumo (
 
 -- =============================================
 -- FIN DEL SCRIPT
+
 -- =============================================
 -- Base de datos creada exitosamente
--- Usuario para conectar: root (sin contraseña en XAMPP)
+-- Usuario para conectar: root (sin contraseña en XAMPP).
 -- =============================================
