@@ -497,7 +497,7 @@ try {
                     </div>
                     
                     <!-- ACCIONES RÁPIDAS -->
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-12">
                             <div class="card border-0 shadow-sm">
                                 <div class="card-header bg-light">
@@ -508,28 +508,40 @@ try {
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-4 col-lg-2 mb-3">
                                             <button class="btn btn-outline-primary w-100 py-3" onclick="mostrarGestionReservas()">
                                                 <i class="bi bi-calendar-check fs-2 d-block mb-2"></i>
                                                 Gestionar Reservas
                                             </button>
                                         </div>
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-4 col-lg-2 mb-3">
                                             <button class="btn btn-outline-success w-100 py-3" onclick="mostrarGestionMesas()">
                                                 <i class="bi bi-table fs-2 d-block mb-2"></i>
                                                 Gestionar Mesas
                                             </button>
                                         </div>
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-4 col-lg-2 mb-3">
                                             <button class="btn btn-outline-warning w-100 py-3" onclick="mostrarSubidaExcel()">
                                                 <i class="bi bi-file-earmark-excel fs-2 d-block mb-2"></i>
                                                 Cargar Menú Excel
                                             </button>
                                         </div>
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-4 col-lg-2 mb-3">
                                             <button class="btn btn-outline-info w-100 py-3">
                                                 <i class="bi bi-graph-up fs-2 d-block mb-2"></i>
                                                 Ver Reportes
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4 col-lg-2 mb-3">
+                                            <button class="btn btn-outline-danger w-100 py-3" onclick="mostrarLiberarMesas()">
+                                                <i class="bi bi-unlock fs-2 d-block mb-2"></i>
+                                                Liberar Mesas
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4 col-lg-2 mb-3">
+                                            <button class="btn btn-outline-secondary w-100 py-3" onclick="mostrarGestionHorarios()">
+                                                <i class="bi bi-clock-history fs-2 d-block mb-2"></i>
+                                                Horarios
                                             </button>
                                         </div>
                                     </div>
@@ -645,6 +657,116 @@ try {
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MODAL: LIBERAR MESAS -->
+                    <div class="modal fade" id="modalLiberarMesas" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background: var(--gradient-primary);">
+                                    <h5 class="modal-title text-white">
+                                        <i class="bi bi-unlock me-2"></i>
+                                        Liberar Mesas Ocupadas
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Aquí puedes liberar mesas que están ocupadas o reservadas para que vuelvan a estar disponibles.
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <button class="btn btn-info" onclick="cargarMesasOcupadas()">
+                                            <i class="bi bi-arrow-clockwise me-2"></i>
+                                            Actualizar Lista
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Número</th>
+                                                    <th>Ubicación</th>
+                                                    <th>Capacidad</th>
+                                                    <th>Estado</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablaMesasOcupadas">
+                                                <tr>
+                                                    <td colspan="5" class="text-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="visually-hidden">Cargando...</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MODAL: GESTIÓN DE HORARIOS -->
+                    <div class="modal fade" id="modalGestionHorarios" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background: var(--gradient-primary);">
+                                    <h5 class="modal-title text-white">
+                                        <i class="bi bi-clock-history me-2"></i>
+                                        Horarios del Restaurante
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Configura los horarios de apertura y cierre del restaurante para las reservas.
+                                    </div>
+                                    
+                                    <form id="formHorarios">
+                                        <div class="mb-3">
+                                            <label class="form-label">Hora de Apertura</label>
+                                            <input type="time" class="form-control" id="horaApertura" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Hora de Cierre</label>
+                                            <input type="time" class="form-control" id="horaCierre" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Duración de Reserva (minutos)</label>
+                                            <input type="number" class="form-control" id="duracionReserva" min="30" max="240" step="15" required>
+                                            <small class="text-muted">Tiempo promedio que dura una reserva</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Intervalo entre Reservas (minutos)</label>
+                                            <input type="number" class="form-control" id="intervaloReservas" min="15" max="60" step="15" required>
+                                            <small class="text-muted">Tiempo de preparación entre reservas</small>
+                                        </div>
+                                    </form>
+                                    
+                                    <div id="estadoActualHorarios" class="mt-3">
+                                        <h6>Configuración Actual:</h6>
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Cargando...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary" onclick="guardarHorarios()">
+                                        <i class="bi bi-save me-2"></i>
+                                        Guardar Cambios
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -1058,6 +1180,240 @@ try {
             modal.show();
         };
         
+        // Función para mostrar modal de liberar mesas
+        window.mostrarLiberarMesas = function() {
+            const modal = new bootstrap.Modal(document.getElementById('modalLiberarMesas'));
+            modal.show();
+            window.cargarMesasOcupadas();
+        };
+        
+        // Función para mostrar modal de gestión de horarios
+        window.mostrarGestionHorarios = function() {
+            const modal = new bootstrap.Modal(document.getElementById('modalGestionHorarios'));
+            modal.show();
+            window.cargarHorariosActuales();
+        };
+        
+        // Función para cargar mesas ocupadas
+        window.cargarMesasOcupadas = async function() {
+            const tbody = document.getElementById('tablaMesasOcupadas');
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Cargando...</span></div></td></tr>';
+            
+            try {
+                const response = await fetch('../app/obtener_mesas.php');
+                const data = await response.json();
+                
+                if (data.ok && Array.isArray(data.mesas)) {
+                    const mesasOcupadas = data.mesas.filter(m => m.estado === 'ocupada' || m.estado === 'reservada');
+                    
+                    if (mesasOcupadas.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No hay mesas ocupadas o reservadas</td></tr>';
+                        return;
+                    }
+                    
+                    tbody.innerHTML = mesasOcupadas.map(mesa => `
+                        <tr>
+                            <td><strong>Mesa ${mesa.numero_mesa}</strong></td>
+                            <td>${mesa.ubicacion || 'N/A'}</td>
+                            <td>${mesa.capacidad} personas</td>
+                            <td>
+                                <span class="badge bg-${mesa.estado === 'ocupada' ? 'danger' : 'warning'}">
+                                    ${mesa.estado.charAt(0).toUpperCase() + mesa.estado.slice(1)}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-success" onclick="liberarMesa(${mesa.id}, '${mesa.numero_mesa}')">
+                                    <i class="bi bi-unlock me-1"></i> Liberar
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error al cargar mesas</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error cargando mesas:', error);
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error de conexión</td></tr>';
+            }
+        };
+        
+        // Función para liberar una mesa
+        window.liberarMesa = async function(mesaId, numeroMesa) {
+            const result = await Swal.fire({
+                title: '¿Liberar mesa?',
+                text: `¿Deseas liberar la Mesa ${numeroMesa}?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, liberar',
+                cancelButtonText: 'Cancelar'
+            });
+            
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch('../app/api/liberar_mesa.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ mesa_id: mesaId })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Mesa liberada!',
+                            text: data.message,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        cargarMesasOcupadas();
+                        // Actualizar el layout si existe
+                        if (typeof restaurantLayout !== 'undefined') {
+                            restaurantLayout.refresh();
+                        }
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'No se pudo liberar la mesa'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error liberando mesa:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error de conexión al liberar la mesa'
+                    });
+                }
+            }
+        };
+        
+        // Función para cargar horarios actuales
+        window.cargarHorariosActuales = async function() {
+            const estadoDiv = document.getElementById('estadoActualHorarios');
+            estadoDiv.innerHTML = '<h6>Configuración Actual:</h6><div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Cargando...</span></div>';
+            
+            try {
+                const response = await fetch('../app/api/gestionar_horarios.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ action: 'obtener' })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.configuracion) {
+                    const config = data.configuracion;
+                    
+                    // Llenar el formulario
+                    if (config.hora_apertura) {
+                        document.getElementById('horaApertura').value = config.hora_apertura.valor || '11:00';
+                    }
+                    if (config.hora_cierre) {
+                        document.getElementById('horaCierre').value = config.hora_cierre.valor || '23:00';
+                    }
+                    if (config.duracion_reserva) {
+                        document.getElementById('duracionReserva').value = config.duracion_reserva.valor || '90';
+                    }
+                    if (config.intervalo_reservas) {
+                        document.getElementById('intervaloReservas').value = config.intervalo_reservas.valor || '15';
+                    }
+                    
+                    // Mostrar configuración actual
+                    estadoDiv.innerHTML = `
+                        <h6>Configuración Actual:</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Apertura:</strong> ${config.hora_apertura?.valor || 'No configurado'}</li>
+                            <li><strong>Cierre:</strong> ${config.hora_cierre?.valor || 'No configurado'}</li>
+                            <li><strong>Duración reserva:</strong> ${config.duracion_reserva?.valor || 'No configurado'} minutos</li>
+                            <li><strong>Intervalo:</strong> ${config.intervalo_reservas?.valor || 'No configurado'} minutos</li>
+                        </ul>
+                    `;
+                } else {
+                    estadoDiv.innerHTML = '<div class="alert alert-warning">No se pudo cargar la configuración actual</div>';
+                }
+            } catch (error) {
+                console.error('Error cargando horarios:', error);
+                estadoDiv.innerHTML = '<div class="alert alert-danger">Error de conexión</div>';
+            }
+        };
+        
+        // Función para guardar horarios
+        window.guardarHorarios = async function() {
+            const form = document.getElementById('formHorarios');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const horaApertura = document.getElementById('horaApertura').value;
+            const horaCierre = document.getElementById('horaCierre').value;
+            const duracionReserva = document.getElementById('duracionReserva').value;
+            const intervaloReservas = document.getElementById('intervaloReservas').value;
+            
+            // Validar que hora de cierre sea después de apertura
+            if (horaCierre <= horaApertura) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La hora de cierre debe ser posterior a la hora de apertura'
+                });
+                return;
+            }
+            
+            try {
+                const response = await fetch('../app/api/gestionar_horarios.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'actualizar',
+                        configuraciones: {
+                            hora_apertura: horaApertura,
+                            hora_cierre: horaCierre,
+                            duracion_reserva: duracionReserva,
+                            intervalo_reservas: intervaloReservas
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Guardado!',
+                        text: data.message || 'Horarios actualizados correctamente',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    cargarHorariosActuales();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'No se pudieron guardar los horarios'
+                    });
+                }
+            } catch (error) {
+                console.error('Error guardando horarios:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error de conexión al guardar los horarios'
+                });
+            }
+        };
+
         // Función para subir y procesar Excel
         window.subirExcelMenu = async function() {
             const fileInput = document.getElementById('archivoExcel');

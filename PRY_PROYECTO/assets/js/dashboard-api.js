@@ -18,36 +18,36 @@ class RestauranteDashboardAPI {
             notificaciones: true,
             debug: false
         };
-        
+
         this.init();
     }
-    
+
     /**
      * Inicializar el dashboard dinámico
      */
     async init() {
         console.log('🚀 Inicializando Dashboard Dinámico...');
-        
+
         try {
             // Cargar datos iniciales
             await this.cargarDatosIniciales();
-            
+
             // Configurar actualizaciones automáticas
             this.configurarActualizacionesAutomaticas();
-            
+
             // Configurar eventos de interfaz
             this.configurarEventosUI();
-            
+
             // Mostrar indicador de estado
             this.mostrarEstadoConexion('conectado');
-            
+
             console.log('✅ Dashboard inicializado correctamente');
         } catch (error) {
             console.error('❌ Error inicializando dashboard:', error);
             this.mostrarEstadoConexion('error');
         }
     }
-    
+
     /**
      * Cargar todos los datos iniciales
      */
@@ -57,10 +57,10 @@ class RestauranteDashboardAPI {
             this.actualizarMesas(),
             this.actualizarReservas()
         ];
-        
+
         await Promise.all(promises);
     }
-    
+
     /**
      * Configurar las actualizaciones automáticas
      */
@@ -68,35 +68,37 @@ class RestauranteDashboardAPI {
         // Limpiar intervalos existentes
         this.intervalos.forEach(intervalo => clearInterval(intervalo));
         this.intervalos = [];
-        
+
         // Estadísticas cada 15 segundos
         this.intervalos.push(
             setInterval(() => this.actualizarEstadisticas(), this.configuracion.intervalos.estadisticas)
         );
-        
+
         // Estado de mesas cada 10 segundos
         this.intervalos.push(
             setInterval(() => this.actualizarMesas(), this.configuracion.intervalos.mesas)
         );
-        
+
         // Reservas cada 20 segundos
         this.intervalos.push(
             setInterval(() => this.actualizarReservas(), this.configuracion.intervalos.reservas)
         );
-        
+
         console.log('⏰ Actualizaciones automáticas configuradas');
     }
-    
+
     /**
      * Actualizar estadísticas del dashboard
      */
     async actualizarEstadisticas() {
         try {
-            const response = await fetch('app/api/dashboard_stats.php');
+            const response = await fetch('app/api/dashboard_stats.php', {
+                credentials: 'same-origin'
+            });
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            
+
             const data = await response.json();
-            
+
             if (data.success) {
                 this.renderizarEstadisticas(data.data);
                 this.log('📊 Estadísticas actualizadas');
@@ -108,17 +110,19 @@ class RestauranteDashboardAPI {
             this.mostrarEstadoConexion('error');
         }
     }
-    
+
     /**
      * Actualizar estado de mesas
      */
     async actualizarMesas() {
         try {
-            const response = await fetch('app/api/mesas_estado.php');
+            const response = await fetch('app/api/mesas_estado.php', {
+                credentials: 'same-origin'
+            });
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            
+
             const data = await response.json();
-            
+
             if (data.success) {
                 this.renderizarMesas(data.mesas, data.resumen);
                 this.log('🪑 Estado de mesas actualizado');
@@ -129,18 +133,20 @@ class RestauranteDashboardAPI {
             console.error('Error actualizando mesas:', error);
         }
     }
-    
+
     /**
      * Actualizar reservas recientes
      */
     async actualizarReservas() {
         try {
             // Obtener reservas próximas
-            const response = await fetch('app/api/reservas_recientes.php?tipo=proximas&limit=5');
+            const response = await fetch('app/api/reservas_recientes.php?tipo=proximas&limit=5', {
+                credentials: 'same-origin'
+            });
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            
+
             const data = await response.json();
-            
+
             if (data.success) {
                 this.renderizarReservas(data.reservas, data.estadisticas);
                 this.log('📅 Reservas actualizadas');
@@ -151,7 +157,7 @@ class RestauranteDashboardAPI {
             console.error('Error actualizando reservas:', error);
         }
     }
-    
+
     /**
      * Renderizar estadísticas en el dashboard
      */
@@ -161,29 +167,29 @@ class RestauranteDashboardAPI {
         this.animarContador('mesas-disponibles', stats.mesas_disponibles);
         this.animarContador('reservas-hoy', stats.reservas_hoy);
         this.animarContador('clientes-registrados', stats.clientes_registrados);
-        
+
         // Actualizar porcentaje de ocupación
         this.actualizarPorcentajeOcupacion(stats.porcentaje_ocupacion);
-        
+
         // Actualizar timestamp
         const timestampEl = document.getElementById('ultima-actualizacion');
         if (timestampEl) {
             timestampEl.textContent = `Última actualización: ${new Date().toLocaleTimeString()}`;
         }
     }
-    
+
     /**
      * Renderizar estado de mesas
      */
     renderizarMesas(mesas, resumen) {
         const containerMesas = document.getElementById('mesas-grid');
         if (!containerMesas) return;
-        
+
         // Generar HTML para cada mesa
         const mesasHTML = mesas.map(mesa => {
             const estadoClass = mesa.estado === 'ocupada' ? 'mesa-ocupada' : 'mesa-disponible';
             const estadoIcon = mesa.estado === 'ocupada' ? '🔴' : '🟢';
-            
+
             return `
                 <div class="mesa-card ${estadoClass}" data-mesa-id="${mesa.id}">
                     <div class="mesa-header">
@@ -208,9 +214,9 @@ class RestauranteDashboardAPI {
                 </div>
             `;
         }).join('');
-        
+
         containerMesas.innerHTML = mesasHTML;
-        
+
         // Actualizar contador de disponibilidad
         const disponibilidadEl = document.getElementById('mesas-disponibilidad');
         if (disponibilidadEl) {
@@ -220,17 +226,17 @@ class RestauranteDashboardAPI {
             `;
         }
     }
-    
+
     /**
      * Renderizar reservas recientes
      */
     renderizarReservas(reservas, stats) {
         const containerReservas = document.getElementById('reservas-recientes');
         if (!containerReservas) return;
-        
+
         const reservasHTML = reservas.map(reserva => {
             const urgenciaClass = reserva.urgencia || '';
-            
+
             return `
                 <div class="reserva-item ${urgenciaClass}" data-reserva-id="${reserva.id}">
                     <div class="reserva-header">
@@ -249,35 +255,35 @@ class RestauranteDashboardAPI {
                 </div>
             `;
         }).join('');
-        
+
         containerReservas.innerHTML = reservasHTML;
     }
-    
+
     /**
      * Animar contador numérico
      */
     animarContador(elementId, valorNuevo) {
         const elemento = document.getElementById(elementId);
         if (!elemento) return;
-        
+
         const valorActual = parseInt(elemento.textContent) || 0;
         const diferencia = valorNuevo - valorActual;
-        
+
         if (diferencia === 0) return;
-        
+
         const pasos = 20;
         const incremento = diferencia / pasos;
         let contador = valorActual;
         let paso = 0;
-        
+
         const intervalo = setInterval(() => {
             paso++;
             contador += incremento;
-            
+
             if (paso >= pasos) {
                 elemento.textContent = valorNuevo;
                 clearInterval(intervalo);
-                
+
                 // Efecto visual de actualización
                 if (this.configuracion.animaciones) {
                     elemento.classList.add('actualizado');
@@ -288,24 +294,24 @@ class RestauranteDashboardAPI {
             }
         }, 50);
     }
-    
+
     /**
      * Actualizar porcentaje de ocupación con barra animada
      */
     actualizarPorcentajeOcupacion(porcentaje) {
         const barraEl = document.getElementById('barra-ocupacion');
         const textoEl = document.getElementById('porcentaje-ocupacion');
-        
+
         if (barraEl) {
             barraEl.style.width = `${porcentaje}%`;
             barraEl.style.transition = 'width 0.8s ease-in-out';
         }
-        
+
         if (textoEl) {
             textoEl.textContent = `${porcentaje}%`;
         }
     }
-    
+
     /**
      * Liberar mesa (acción manual)
      */
@@ -319,14 +325,14 @@ class RestauranteDashboardAPI {
                     accion: 'liberar'
                 })
             });
-            
+
             const data = await response.json();
-            
+
             if (data.success) {
                 // Actualizar inmediatamente
                 this.actualizarMesas();
                 this.actualizarEstadisticas();
-                
+
                 // Notificación
                 if (this.configuracion.notificaciones) {
                     this.mostrarNotificacion('Mesa liberada correctamente', 'success');
@@ -339,7 +345,7 @@ class RestauranteDashboardAPI {
             this.mostrarNotificacion('Error liberando mesa', 'error');
         }
     }
-    
+
     /**
      * Configurar eventos de interfaz
      */
@@ -352,7 +358,7 @@ class RestauranteDashboardAPI {
                 this.mostrarNotificacion('Dashboard actualizado manualmente', 'info');
             });
         }
-        
+
         // Toggle de actualizaciones automáticas
         const toggleAuto = document.getElementById('toggle-auto-update');
         if (toggleAuto) {
@@ -366,40 +372,40 @@ class RestauranteDashboardAPI {
             });
         }
     }
-    
+
     /**
      * Mostrar estado de conexión
      */
     mostrarEstadoConexion(estado) {
         const indicador = document.getElementById('indicador-conexion');
         if (!indicador) return;
-        
+
         const estados = {
             conectado: { color: '#28a745', texto: 'Conectado', icon: '🟢' },
             error: { color: '#dc3545', texto: 'Error de conexión', icon: '🔴' },
             cargando: { color: '#ffc107', texto: 'Actualizando...', icon: '🟡' }
         };
-        
+
         const config = estados[estado] || estados.error;
         indicador.innerHTML = `${config.icon} ${config.texto}`;
         indicador.style.color = config.color;
     }
-    
+
     /**
      * Mostrar notificación temporal
      */
     mostrarNotificacion(mensaje, tipo = 'info') {
         const contenedor = document.getElementById('notificaciones') || document.body;
-        
+
         const notificacion = document.createElement('div');
         notificacion.className = `notificacion notificacion-${tipo}`;
         notificacion.innerHTML = `
             <span>${mensaje}</span>
             <button onclick="this.parentElement.remove()">✕</button>
         `;
-        
+
         contenedor.appendChild(notificacion);
-        
+
         // Auto-eliminar después de 5 segundos
         setTimeout(() => {
             if (notificacion.parentElement) {
@@ -407,7 +413,7 @@ class RestauranteDashboardAPI {
             }
         }, 5000);
     }
-    
+
     /**
      * Log para debug
      */
@@ -416,7 +422,7 @@ class RestauranteDashboardAPI {
             console.log(`[Dashboard] ${mensaje} - ${new Date().toLocaleTimeString()}`);
         }
     }
-    
+
     /**
      * Destruir dashboard (limpiar intervalos)
      */
@@ -572,15 +578,15 @@ document.head.insertAdjacentHTML('beforeend', estilosDashboard);
 let dashboard;
 
 // Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     dashboard = new RestauranteDashboardAPI();
-    
+
     // Exponer globalmente para debugging
     window.dashboard = dashboard;
 });
 
 // Limpiar al cerrar la página
-window.addEventListener('beforeunload', function() {
+window.addEventListener('beforeunload', function () {
     if (dashboard) {
         dashboard.destruir();
     }

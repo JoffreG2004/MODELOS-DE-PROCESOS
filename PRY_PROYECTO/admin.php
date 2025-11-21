@@ -92,112 +92,308 @@ try {
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
     <!-- Restaurant Layout CSS -->
     <link rel="stylesheet" href="public/css/restaurant-layout-new.css?v=<?php echo time(); ?>">
 
     <style>
+        :root {
+            --dark-bg: #0a0e27;
+            --dark-card: #151932;
+            --dark-hover: #1e2341;
+            --accent-gold: #ffd700;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --success-glow: #10b981;
+            --danger-glow: #ef4444;
+            --warning-glow: #f59e0b;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--gradient-warm);
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
             min-height: 100vh;
-        }
-
-        .login-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            overflow: hidden;
-            max-width: 400px;
-            width: 90%;
-        }
-
-        .login-header {
-            background: var(--gradient-primary);
-            color: var(--text-light);
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .login-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
         .dashboard-sidebar {
-            background: var(--gradient-primary);
+            background: linear-gradient(180deg, #0f1629 0%, #1a1f3a 100%);
             min-height: 100vh;
-            color: var(--text-light);
+            color: var(--text-primary);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar-header {
             padding: 2rem;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .sidebar-header i {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
         }
 
         .sidebar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             padding: 1rem 2rem;
             border-radius: 0;
             transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            margin: 0.2rem 0;
         }
 
-        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link:hover {
+            color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.1);
+            border-left-color: var(--accent-gold);
+            transform: translateX(5px);
+        }
+
         .sidebar-nav .nav-link.active {
-            color: var(--accent-light);
-            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.15);
+            border-left-color: var(--accent-gold);
         }
 
         .dashboard-content {
-            background: var(--light-bg);
+            background: var(--dark-bg);
             min-height: 100vh;
+            padding: 2rem !important;
+        }
+
+        .dashboard-header {
+            background: var(--dark-card);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            margin-bottom: 2rem;
         }
 
         .stats-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            border-left: 4px solid;
-            transition: transform 0.3s ease;
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan));
         }
 
         .stats-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 12px 48px rgba(255, 215, 0, 0.3);
+            border-color: var(--accent-gold);
         }
 
-        .stats-card.primary { border-left-color: var(--primary-color); }
-        .stats-card.success { border-left-color: var(--success-color); }
-        .stats-card.warning { border-left-color: var(--warning-color); }
-        .stats-card.info { border-left-color: var(--info-color); }
+        .stats-card.primary::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .stats-card.success::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .stats-card.warning::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .stats-card.info::before { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+        .stats-card.gold::before { background: linear-gradient(90deg, #ffd700, #ffed4e); }
+        .stats-card.purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+        .stats-icon {
+            font-size: 3rem;
+            opacity: 0.2;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
         .stats-number {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .stats-label {
             color: var(--text-secondary);
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            font-weight: 500;
         }
 
-        .dashboard-header {
-            background: white;
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow-sm);
+        .card {
+            background: var(--dark-card) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .card-header {
+            background: rgba(255, 215, 0, 0.05) !important;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2) !important;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 1.5rem !important;
+        }
+
+        .card-header h5 {
+            color: var(--text-primary) !important;
+            font-weight: 600;
+        }
+
+        .btn-outline-primary,
+        .btn-outline-success,
+        .btn-outline-warning,
+        .btn-outline-secondary {
+            border: 2px solid !important;
+            transition: all 0.3s ease !important;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+        }
+
+        .btn-outline-primary {
+            border-color: #3b82f6 !important;
+            color: #60a5fa !important;
+        }
+
+        .btn-outline-primary:hover {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4) !important;
+        }
+
+        .btn-outline-success {
+            border-color: #10b981 !important;
+            color: #34d399 !important;
+        }
+
+        .btn-outline-success:hover {
+            background: linear-gradient(135deg, #10b981, #34d399) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .btn-outline-warning {
+            border-color: #f59e0b !important;
+            color: #fbbf24 !important;
+        }
+
+        .btn-outline-warning:hover {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4) !important;
+        }
+
+        .btn-outline-secondary {
+            border-color: #8b5cf6 !important;
+            color: #a78bfa !important;
+        }
+
+        .btn-outline-secondary:hover {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4) !important;
+        }
+
+        .badge {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+
+        .badge.bg-success {
+            background: linear-gradient(135deg, #10b981, #34d399) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        #indicador-conexion {
+            background: var(--dark-card);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--success-glow);
+            color: var(--success-glow);
+            font-weight: 600;
+        }
+
+        .modal-content {
+            background: var(--dark-card) !important;
+            border: 1px solid rgba(255, 215, 0, 0.2) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2) !important;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(255, 215, 0, 0.2) !important;
+        }
+
+        .form-control,
+        .form-select {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: var(--accent-gold) !important;
+            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .table {
+            color: var(--text-primary) !important;
+        }
+
+        .table-dark {
+            background: rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .table-hover tbody tr:hover {
+            background: rgba(255, 215, 0, 0.1) !important;
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1) !important;
+            border-color: rgba(6, 182, 212, 0.3) !important;
+            color: #22d3ee !important;
+        }
+
+        /* Animaciones */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); }
+        }
+
+        .stats-card:hover {
+            animation: pulse-glow 2s infinite;
+        }
+    </style>
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
     </style>
@@ -313,63 +509,111 @@ try {
                     </div>
 
                     <!-- ESTADÍSTICAS PRINCIPALES CON APIS DINÁMICAS -->
-                    <div class="row mb-4">
-                        <div class="col-md-3 mb-3">
+                    <div class="row mb-4 g-4">
+                        <div class="col-md-6 col-lg-3">
                             <div class="stats-card primary">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <div id="total-mesas" class="stats-number text-primary">--</div>
-                                        <div class="stats-label">Total Mesas</div>
-                                        <div class="stats-trend">
-                                            <small class="text-muted">Sistema de reservas</small>
-                                        </div>
+                                <i class="bi bi-grid-3x3-gap stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="total-mesas" class="stats-number">--</div>
+                                    <div class="stats-label">Total Mesas</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-info-circle me-1"></i>Sistema de reservas
+                                        </small>
                                     </div>
-                                    <i class="bi bi-table fs-2 text-primary opacity-75"></i>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 col-lg-3">
                             <div class="stats-card success">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <div id="mesas-disponibles" class="stats-number text-success">--</div>
-                                        <div class="stats-label">Mesas Disponibles</div>
-                                        <div class="stats-trend">
-                                            <small id="mesas-disponibilidad" class="text-muted">Cargando...</small>
-                                        </div>
+                                <i class="bi bi-check-circle-fill stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="mesas-disponibles" class="stats-number">--</div>
+                                    <div class="stats-label">Disponibles</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock me-1"></i><span id="info-disponibles">-- disponibles / -- ocupadas</span>
+                                        </small>
                                     </div>
-                                    <i class="bi bi-check-circle fs-2 text-success opacity-75"></i>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 col-lg-3">
                             <div class="stats-card warning">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <div id="reservas-hoy" class="stats-number text-warning">--</div>
-                                        <div class="stats-label">Reservas Hoy</div>
-                                        <div class="stats-trend">
-                                            <small class="text-muted">Actualizándose automáticamente</small>
-                                        </div>
+                                <i class="bi bi-calendar-event stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="reservas-hoy" class="stats-number">--</div>
+                                    <div class="stats-label">Reservas Hoy</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar-check me-1"></i>Actualizándose automáticamente
+                                        </small>
                                     </div>
-                                    <i class="bi bi-calendar-event fs-2 text-warning opacity-75"></i>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-6 col-lg-3">
                             <div class="stats-card info">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <div id="clientes-registrados" class="stats-number text-info">--</div>
-                                        <div class="stats-label">Clientes Registrados</div>
-                                        <div class="stats-trend">
-                                            <small class="text-muted">Base de datos completa</small>
-                                        </div>
+                                <i class="bi bi-hourglass-split stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="reservas-pendientes" class="stats-number">--</div>
+                                    <div class="stats-label">Pendientes</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-exclamation-circle me-1"></i>Requieren atención
+                                        </small>
                                     </div>
-                                    <i class="bi bi-people fs-2 text-info opacity-75"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTADÍSTICAS SECUNDARIAS -->
+                    <div class="row mb-4 g-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="stats-card gold">
+                                <i class="bi bi-people-fill stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="clientes-total" class="stats-number">--</div>
+                                    <div class="stats-label">Clientes Registrados</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-person-check me-1"></i>Base de datos completa
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="stats-card purple">
+                                <i class="bi bi-egg-fried stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="platos-total" class="stats-number">--</div>
+                                    <div class="stats-label">Platos Activos</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-book me-1"></i>Menú disponible
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="stats-card" style="--accent-color: #ec4899;">
+                                <i class="bi bi-graph-up-arrow stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="ocupacion-hoy" class="stats-number">10%</div>
+                                    <div class="stats-label">Ocupación Hoy</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-bar-chart me-1"></i>Rendimiento actual
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -379,21 +623,91 @@ try {
                     <div class="row mb-4">
                         <div class="col-12">
                             <div class="card border-0 shadow-sm">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h6 class="mb-0">
-                                            <i class="bi bi-speedometer2 me-2"></i>
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="mb-0">
+                                            <i class="bi bi-speedometer2 me-2" style="color: var(--accent-gold);"></i>
                                             Ocupación del Restaurante
-                                        </h6>
-                                        <span id="porcentaje-ocupacion" class="badge bg-gradient text-dark" style="background: var(--gradient-gold) !important;">--%</span>
+                                        </h5>
+                                        <span id="porcentaje-ocupacion" class="badge" style="background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan)); font-size: 1.2rem; padding: 0.5rem 1rem;">--%</span>
                                     </div>
-                                    <div class="progress" style="height: 20px; background: rgba(212, 175, 55, 0.1);">
-                                        <div id="barra-ocupacion" class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress" style="height: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 15px; overflow: hidden;">
+                                        <div id="barra-ocupacion" class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #f59e0b 75%, #ef4444 100%); transition: width 0.5s ease;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <div class="d-flex justify-content-between mt-2">
-                                        <small class="text-muted">Disponibles</small>
-                                        <small class="text-muted">Ocupadas</small>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-check-circle-fill" style="color: var(--success-glow);"></i> Disponibles
+                                        </small>
+                                        <small class="text-muted">
+                                            <i class="bi bi-x-circle-fill" style="color: var(--danger-glow);"></i> Ocupadas
+                                        </small>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- GRÁFICOS ESTADÍSTICOS -->
+                    <div class="row mb-4 g-4">
+                        <!-- GRÁFICO DE RESERVAS DEL MES -->
+                        <div class="col-lg-8">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-bar-chart-fill me-2" style="color: var(--accent-gold);"></i>
+                                        Reservas del Mes
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartReservasMes" style="max-height: 350px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GRÁFICO DE HORARIOS POPULARES -->
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-clock-fill me-2" style="color: var(--accent-cyan);"></i>
+                                        Horarios Más Populares
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartHorariosPopulares" style="max-height: 350px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTADÍSTICAS ADICIONALES -->
+                    <div class="row mb-4 g-4">
+                        <!-- TOP MESAS MÁS RESERVADAS -->
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-trophy-fill me-2" style="color: var(--accent-gold);"></i>
+                                        Mesas Más Reservadas
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartMesasPopulares" style="max-height: 300px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ESTADOS DE RESERVAS -->
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-pie-chart-fill me-2" style="color: var(--accent-purple);"></i>
+                                        Estado de Reservas
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartEstadoReservas" style="max-height: 300px;"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -403,101 +717,24 @@ try {
                     <div class="row mb-4">
                         <div class="col-12">
                             <div class="card border-0 shadow-sm">
-                                <div class="card-header d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, rgba(45, 27, 18, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%); border-bottom: 2px solid rgba(212, 175, 55, 0.2);">
-                                    <h5 class="mb-0" style="color: var(--primary-color);">
-                                        <i class="bi bi-diagram-3 me-2" style="color: var(--gold-color);"></i>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-diagram-3-fill me-2" style="color: var(--accent-gold);"></i>
                                         Distribución Visual del Restaurante
                                     </h5>
-                                    <button class="btn btn-sm" style="background: var(--gradient-gold); color: var(--primary-color); border: none;" onclick="restaurantLayout.refresh()">
-                                        <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
+                                    <button class="btn btn-sm btn-outline-warning" onclick="restaurantLayout.refresh()">
+                                        <i class="bi bi-arrow-clockwise me-1"></i> Actualizar Vista
                                     </button>
                                 </div>
-                                <div class="card-body p-2">
+                                <div class="card-body p-3" style="background: rgba(0, 0, 0, 0.2);">
                                     <div id="restaurant-layout-container"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- SECCIONES DINÁMICAS CON APIs -->
-                    <div class="row">
-                        <!-- ESTADO DE MESAS EN TIEMPO REAL -->
-                        <div class="col-md-8 mb-4">
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-header" style="background: linear-gradient(135deg, rgba(45, 27, 18, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%); border-bottom: 2px solid rgba(212, 175, 55, 0.2);">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="mb-0" style="color: var(--primary-color);">
-                                            <i class="bi bi-grid-3x3-gap me-2" style="color: var(--gold-color);"></i>
-                                            Estado de Mesas en Tiempo Real
-                                        </h5>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-3">
-                                                <span class="badge" style="background: #28a745; color: white;">●</span>
-                                                <small>Disponible</small>
-                                            </div>
-                                            <div>
-                                                <span class="badge" style="background: #dc3545; color: white;">●</span>
-                                                <small>Ocupada</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div id="mesas-grid" class="row">
-                                        <!-- Las mesas se cargan dinámicamente aquí -->
-                                        <div class="col-12 text-center py-4">
-                                            <div class="spinner-border" style="color: var(--gold-color);" role="status">
-                                                <span class="visually-hidden">Cargando mesas...</span>
-                                            </div>
-                                            <div class="mt-2">
-                                                <small class="text-muted">Cargando estado de mesas...</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- RESERVAS PRÓXIMAS EN TIEMPO REAL -->
-                        <div class="col-md-4 mb-4">
-                            <div class="card border-0 shadow-sm">
-                                <div class="card-header" style="background: linear-gradient(135deg, rgba(45, 27, 18, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%); border-bottom: 2px solid rgba(212, 175, 55, 0.2);">
-                                    <h5 class="mb-0" style="color: var(--primary-color);">
-                                        <i class="bi bi-clock-history me-2" style="color: var(--gold-color);"></i>
-                                        Reservas Próximas
-                                    </h5>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div id="reservas-recientes">
-                                        <!-- Las reservas se cargan dinámicamente aquí -->
-                                        <div class="text-center py-4">
-                                            <div class="spinner-border" style="color: var(--gold-color);" role="status">
-                                                <span class="visually-hidden">Cargando reservas...</span>
-                                            </div>
-                                            <div class="mt-2">
-                                                <small class="text-muted">Cargando reservas próximas...</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- NOTIFICACIONES DINÁMICAS -->
-                    <div id="notificaciones" class="position-fixed" style="top: 20px; right: 20px; z-index: 1050;">
-                        <!-- Las notificaciones aparecen aquí -->
-                                                                                            <div class="text-center py-2">
-                                                <small class="text-muted">Reservas cargadas via API</small>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
                     <!-- ACCIONES RÁPIDAS -->
-                    <div class="row">
+                    <div class="row mb-4">
                         <div class="col-12">
                             <div class="card border-0 shadow-sm">
                                 <div class="card-header bg-light">
@@ -527,9 +764,9 @@ try {
                                             </button>
                                         </div>
                                         <div class="col-md-3 mb-3">
-                                            <button class="btn btn-outline-info w-100 py-3">
-                                                <i class="bi bi-graph-up fs-2 d-block mb-2"></i>
-                                                Ver Reportes
+                                            <button class="btn btn-outline-secondary w-100 py-3" onclick="mostrarGestionHorarios()">
+                                                <i class="bi bi-clock-history fs-2 d-block mb-2"></i>
+                                                Configurar Horarios
                                             </button>
                                         </div>
                                     </div>
@@ -650,6 +887,65 @@ try {
                         </div>
                     </div>
                     
+                    <!-- MODAL: GESTIÓN DE HORARIOS -->
+                    <div class="modal fade" id="modalGestionHorarios" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background: var(--gradient-primary);">
+                                    <h5 class="modal-title text-white">
+                                        <i class="bi bi-clock-history me-2"></i>
+                                        Horarios del Restaurante
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Configura los horarios de apertura y cierre del restaurante para las reservas.
+                                    </div>
+                                    
+                                    <form id="formHorarios">
+                                        <div class="mb-3">
+                                            <label class="form-label">Hora de Apertura</label>
+                                            <input type="time" class="form-control" id="horaApertura" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Hora de Cierre</label>
+                                            <input type="time" class="form-control" id="horaCierre" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Duración de Reserva (minutos)</label>
+                                            <input type="number" class="form-control" id="duracionReserva" min="30" max="240" step="15" required>
+                                            <small class="text-muted">Tiempo promedio que dura una reserva</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label class="form-label">Intervalo entre Reservas (minutos)</label>
+                                            <input type="number" class="form-control" id="intervaloReservas" min="15" max="60" step="15" required>
+                                            <small class="text-muted">Tiempo de preparación entre reservas</small>
+                                        </div>
+                                    </form>
+                                    
+                                    <div id="estadoActualHorarios" class="mt-3">
+                                        <h6>Configuración Actual:</h6>
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Cargando...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary" onclick="window.guardarHorarios()">
+                                        <i class="bi bi-save me-2"></i>
+                                        Guardar Cambios
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- MODAL: SUBIR EXCEL MENÚ -->
                     <div class="modal fade" id="modalSubirExcel" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
@@ -725,6 +1021,353 @@ try {
     
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Configuración global de Chart.js para tema oscuro
+        Chart.defaults.color = '#a0aec0';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+        Chart.defaults.plugins.legend.labels.color = '#ffffff';
+        Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(21, 25, 50, 0.95)';
+        Chart.defaults.plugins.tooltip.titleColor = '#ffd700';
+        Chart.defaults.plugins.tooltip.bodyColor = '#ffffff';
+        Chart.defaults.plugins.tooltip.borderColor = '#ffd700';
+        Chart.defaults.plugins.tooltip.borderWidth = 1;
+
+        // Inicializar gráficos al cargar el DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarDatosYGraficos();
+        });
+
+        // Variables globales para los gráficos
+        let chartReservasMes, chartHorarios, chartMesas, chartEstado;
+
+        function cargarDatosYGraficos() {
+            const indicador = document.getElementById('indicador-conexion');
+            
+            fetch('app/api/dashboard_stats.php', {
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.data) {
+                        indicador.innerHTML = '🟢 Conectado';
+                        indicador.className = 'me-3';
+                        
+                        // Actualizar estadísticas de las cards
+                        actualizarEstadisticas(result.data);
+                        
+                        // Inicializar gráficos
+                        inicializarGraficos(result.data);
+                    } else {
+                        indicador.innerHTML = '🔴 Error de conexión';
+                        indicador.className = 'me-3 text-danger';
+                        console.error('Error al obtener datos:', result.error);
+                        // Mostrar gráficos con datos de ejemplo si hay error
+                        inicializarGraficos(null);
+                    }
+                })
+                .catch(error => {
+                    indicador.innerHTML = '🔴 Error de conexión';
+                    indicador.className = 'me-3 text-danger';
+                    console.error('Error de conexión:', error);
+                    // Mostrar gráficos con datos de ejemplo si hay error
+                    inicializarGraficos(null);
+                });
+        }
+
+        function actualizarEstadisticas(datos) {
+            // Actualizar cards principales
+            document.getElementById('total-mesas').textContent = datos.totalMesas || '--';
+            document.getElementById('mesas-disponibles').textContent = datos.mesasDisponibles || '--';
+            document.getElementById('reservas-hoy').textContent = datos.reservasHoy || '--';
+            document.getElementById('reservas-pendientes').textContent = datos.reservasPendientes || '--';
+            
+            // Actualizar cards secundarias
+            document.getElementById('clientes-total').textContent = datos.clientesTotal || '--';
+            
+            const platosTotal = document.getElementById('platos-total');
+            if (platosTotal) {
+                platosTotal.textContent = datos.platosActivos || '--';
+            }
+            
+            const ocupacionHoy = document.getElementById('ocupacion-hoy');
+            if (ocupacionHoy) {
+                ocupacionHoy.textContent = datos.porcentajeOcupacion ? datos.porcentajeOcupacion + '%' : '--';
+            }
+            
+            // Actualizar info adicional
+            const infoDisponibles = document.getElementById('info-disponibles');
+            if (infoDisponibles) {
+                infoDisponibles.textContent = `${datos.mesasDisponibles || 0} disponibles / ${datos.mesasOcupadas || 0} ocupadas`;
+            }
+            
+            // Actualizar última actualización
+            const ahora = new Date();
+            const horaActual = ahora.toLocaleTimeString('es-ES');
+            const ultimaActualizacion = document.getElementById('ultima-actualizacion');
+            if (ultimaActualizacion) {
+                ultimaActualizacion.textContent = `Última actualización: ${horaActual}`;
+            }
+        }
+
+        function inicializarGraficos(datos) {
+            // GRÁFICO 1: Reservas del Mes (Barras)
+            const ctxReservasMes = document.getElementById('chartReservasMes');
+            if (ctxReservasMes) {
+                let labels, values;
+                
+                if (datos && datos.reservasMes && datos.reservasMes.length > 0) {
+                    labels = datos.reservasMes.map(item => item.semana);
+                    values = datos.reservasMes.map(item => item.total);
+                } else {
+                    labels = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'];
+                    values = [0, 0, 0, 0];
+                }
+
+                chartReservasMes = new Chart(ctxReservasMes, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Reservas',
+                            data: values,
+                            backgroundColor: [
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(139, 92, 246, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(59, 130, 246, 1)',
+                                'rgba(16, 185, 129, 1)',
+                                'rgba(245, 158, 11, 1)',
+                                'rgba(139, 92, 246, 1)'
+                            ],
+                            borderWidth: 2,
+                            borderRadius: 10,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ' Reservas: ' + context.parsed.y;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // GRÁFICO 2: Horarios Populares (Dona)
+            const ctxHorarios = document.getElementById('chartHorariosPopulares');
+            if (ctxHorarios) {
+                let labelsHorarios, valuesHorarios, colores;
+                
+                if (datos && datos.horariosPopulares && datos.horariosPopulares.length > 0) {
+                    labelsHorarios = datos.horariosPopulares.map(item => item.horario);
+                    valuesHorarios = datos.horariosPopulares.map(item => item.total);
+                    colores = [
+                        'rgba(255, 215, 0, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)'
+                    ];
+                } else {
+                    labelsHorarios = ['Sin datos'];
+                    valuesHorarios = [1];
+                    colores = ['rgba(107, 114, 128, 0.5)'];
+                }
+
+                chartHorarios = new Chart(ctxHorarios, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labelsHorarios,
+                        datasets: [{
+                            data: valuesHorarios,
+                            backgroundColor: colores,
+                            borderColor: colores.map(c => c.replace('0.8', '1')),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                        return ' ' + context.label + ': ' + percentage + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // GRÁFICO 3: Mesas Más Reservadas (Barras horizontales)
+            const ctxMesas = document.getElementById('chartMesasPopulares');
+            if (ctxMesas) {
+                let labelsMesas, valuesMesas;
+                
+                if (datos && datos.mesasPopulares && datos.mesasPopulares.length > 0) {
+                    labelsMesas = datos.mesasPopulares.map(item => item.mesa);
+                    valuesMesas = datos.mesasPopulares.map(item => item.total);
+                } else {
+                    labelsMesas = ['Sin datos'];
+                    valuesMesas = [0];
+                }
+
+                chartMesas = new Chart(ctxMesas, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsMesas,
+                        datasets: [{
+                            label: 'Reservas',
+                            data: valuesMesas,
+                            backgroundColor: 'rgba(255, 215, 0, 0.8)',
+                            borderColor: 'rgba(255, 215, 0, 1)',
+                            borderWidth: 2,
+                            borderRadius: 10
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // GRÁFICO 4: Estado de Reservas (Pie)
+            const ctxEstado = document.getElementById('chartEstadoReservas');
+            if (ctxEstado) {
+                let labelsEstado, valuesEstado, coloresEstado;
+                
+                if (datos && datos.estadosReservas && datos.estadosReservas.length > 0) {
+                    labelsEstado = datos.estadosReservas.map(item => item.estado);
+                    valuesEstado = datos.estadosReservas.map(item => item.total);
+                    coloresEstado = [
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ];
+                } else {
+                    labelsEstado = ['Sin datos'];
+                    valuesEstado = [1];
+                    coloresEstado = ['rgba(107, 114, 128, 0.5)'];
+                }
+
+                chartEstado = new Chart(ctxEstado, {
+                    type: 'pie',
+                    data: {
+                        labels: labelsEstado,
+                        datasets: [{
+                            data: valuesEstado,
+                            backgroundColor: coloresEstado,
+                            borderColor: coloresEstado.map(c => c.replace('0.8', '1')),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                        return ' ' + context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    </script>
 
     <script>
         // Función para alternar visibilidad de contraseña
@@ -1053,6 +1696,134 @@ try {
         window.mostrarSubidaExcel = function() {
             const modal = new bootstrap.Modal(document.getElementById('modalSubirExcel'));
             modal.show();
+        };
+        
+        // Función para mostrar modal de gestión de horarios
+        window.mostrarGestionHorarios = function() {
+            const modal = new bootstrap.Modal(document.getElementById('modalGestionHorarios'));
+            modal.show();
+            window.cargarHorariosActuales();
+        };
+        
+        // Función para cargar horarios actuales
+        window.cargarHorariosActuales = async function() {
+            const estadoDiv = document.getElementById('estadoActualHorarios');
+            estadoDiv.innerHTML = '<h6>Configuración Actual:</h6><div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Cargando...</span></div>';
+            
+            try {
+                const response = await fetch('app/api/gestionar_horarios.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ action: 'obtener' })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.configuracion) {
+                    const config = data.configuracion;
+                    
+                    // Llenar el formulario
+                    if (config.hora_apertura) {
+                        document.getElementById('horaApertura').value = config.hora_apertura.valor || '11:00';
+                    }
+                    if (config.hora_cierre) {
+                        document.getElementById('horaCierre').value = config.hora_cierre.valor || '23:00';
+                    }
+                    if (config.duracion_reserva) {
+                        document.getElementById('duracionReserva').value = config.duracion_reserva.valor || '90';
+                    }
+                    if (config.intervalo_reservas) {
+                        document.getElementById('intervaloReservas').value = config.intervalo_reservas.valor || '15';
+                    }
+                    
+                    // Mostrar configuración actual
+                    estadoDiv.innerHTML = `
+                        <h6>Configuración Actual:</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Apertura:</strong> ${config.hora_apertura?.valor || 'No configurado'}</li>
+                            <li><strong>Cierre:</strong> ${config.hora_cierre?.valor || 'No configurado'}</li>
+                            <li><strong>Duración reserva:</strong> ${config.duracion_reserva?.valor || 'No configurado'} minutos</li>
+                            <li><strong>Intervalo:</strong> ${config.intervalo_reservas?.valor || 'No configurado'} minutos</li>
+                        </ul>
+                    `;
+                } else {
+                    estadoDiv.innerHTML = '<div class="alert alert-warning">No se pudo cargar la configuración actual</div>';
+                }
+            } catch (error) {
+                console.error('Error cargando horarios:', error);
+                estadoDiv.innerHTML = '<div class="alert alert-danger">Error de conexión</div>';
+            }
+        };
+        
+        // Función para guardar horarios
+        window.guardarHorarios = async function() {
+            const form = document.getElementById('formHorarios');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const horaApertura = document.getElementById('horaApertura').value;
+            const horaCierre = document.getElementById('horaCierre').value;
+            const duracionReserva = document.getElementById('duracionReserva').value;
+            const intervaloReservas = document.getElementById('intervaloReservas').value;
+            
+            // Validar que hora de cierre sea después de apertura
+            if (horaCierre <= horaApertura) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La hora de cierre debe ser posterior a la hora de apertura'
+                });
+                return;
+            }
+            
+            try {
+                const response = await fetch('app/api/gestionar_horarios.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'actualizar',
+                        configuraciones: {
+                            hora_apertura: horaApertura,
+                            hora_cierre: horaCierre,
+                            duracion_reserva: duracionReserva,
+                            intervalo_reservas: intervaloReservas
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Guardado!',
+                        text: data.message || 'Horarios actualizados correctamente',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.cargarHorariosActuales();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'No se pudieron guardar los horarios'
+                    });
+                }
+            } catch (error) {
+                console.error('Error guardando horarios:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error de conexión al guardar los horarios'
+                });
+            }
         };
         
         // Función para subir y procesar Excel
