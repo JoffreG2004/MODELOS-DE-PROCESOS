@@ -750,7 +750,35 @@ if ($mesa_seleccionada_id) {
             });
         }
 
-        function confirmarReserva() {
+        async function confirmarReserva() {
+            // Primero obtener el horario disponible
+            let horarioDisponible = null;
+            
+            try {
+                const fechaHoy = new Date().toISOString().split('T')[0];
+                const horaActual = new Date().toTimeString().slice(0,5);
+                
+                const validacionResponse = await fetch('app/api/validar_horario_reserva.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fecha: fechaHoy,
+                        hora: horaActual
+                    })
+                });
+                
+                const validacionData = await validacionResponse.json();
+                if (validacionData.success && validacionData.horario_disponible) {
+                    horarioDisponible = validacionData.horario_disponible;
+                }
+            } catch (error) {
+                console.error('Error al obtener horarios:', error);
+            }
+            
+            const minHora = horarioDisponible ? horarioDisponible.inicio : '10:00';
+            const maxHora = horarioDisponible ? horarioDisponible.fin : '22:00';
+            const tipoDia = horarioDisponible ? horarioDisponible.tipo_dia : '';
+            
             Swal.fire({
                 title: 'Confirmar Reserva',
                 background: '#1a1a1a',
@@ -785,6 +813,7 @@ if ($mesa_seleccionada_id) {
                             outline: none;
                         }
                     </style>
+                    ${tipoDia ? `<p style="color: var(--gold-color); margin-bottom: 15px;">📅 <strong>${tipoDia}</strong>: Horario de ${minHora} a ${maxHora}</p>` : ''}
                     <div style="margin-top: 20px;">
                         <label class="reserva-form-label">Fecha de Reserva</label>
                         <input type="date" id="fecha_reserva" class="reserva-form-control" 
@@ -793,15 +822,19 @@ if ($mesa_seleccionada_id) {
                     <div style="margin-top: 20px;">
                         <label class="reserva-form-label">Hora de Reserva</label>
                         <input type="time" id="hora_reserva" class="reserva-form-control" 
-                            min="10:00" max="22:00" required>
+                            min="${minHora}" max="${maxHora}" required>
                     </div>
                     <div style="margin-top: 20px;">
                         <label class="reserva-form-label">Número de Personas</label>
                         <input type="number" id="num_personas" class="reserva-form-control" 
                             min="<?php echo $mesa_seleccionada['capacidad_minima'] ?? 1; ?>" 
                             max="<?php echo $mesa_seleccionada['capacidad_maxima'] ?? 10; ?>" 
+                            value="<?php echo $mesa_seleccionada['capacidad_minima'] ?? 1; ?>"
                             placeholder="Ingrese cantidad de personas" required>
                     </div>
+                    <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 10px;">
+                        ⓘ Mesa <?php echo $mesa_seleccionada['numero_mesa']; ?>: de <?php echo $mesa_seleccionada['capacidad_minima']; ?> a <?php echo $mesa_seleccionada['capacidad_maxima']; ?> personas
+                    </small>
                 `,
                 showCancelButton: true,
                 confirmButtonText: 'Reservar',
@@ -1283,20 +1316,54 @@ if ($mesa_seleccionada_id) {
 
         // Confirmar pedido completo
         async function confirmarPedidoCompleto() {
+            // Primero obtener el horario disponible para validación
+            let horarioDisponible = null;
+            
+            try {
+                const fechaHoy = new Date().toISOString().split('T')[0];
+                const horaActual = new Date().toTimeString().slice(0,5);
+                
+                const validacionResponse = await fetch('app/api/validar_horario_reserva.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fecha: fechaHoy,
+                        hora: horaActual
+                    })
+                });
+                
+                const validacionData = await validacionResponse.json();
+                if (validacionData.success && validacionData.horario_disponible) {
+                    horarioDisponible = validacionData.horario_disponible;
+                }
+            } catch (error) {
+                console.error('Error al obtener horarios:', error);
+            }
+            
+            const minHora = horarioDisponible ? horarioDisponible.inicio : '10:00';
+            const maxHora = horarioDisponible ? horarioDisponible.fin : '22:00';
+            const tipoDia = horarioDisponible ? horarioDisponible.tipo_dia : '';
+            
             const { value: formValues } = await Swal.fire({
                 title: 'Confirmar Pedido Completo',
                 background: '#1a1a1a',
                 color: '#ffffff',
                 html: `
                     <div style="text-align: left;">
+                        ${tipoDia ? `<p style="color: var(--gold-color); margin-bottom: 15px;">📅 <strong>${tipoDia}</strong>: Horario de ${minHora} a ${maxHora}</p>` : ''}
+                        
                         <label class="reserva-form-label">Fecha de Reserva:</label>
                         <input type="date" id="fecha" class="swal2-input" min="${new Date().toISOString().split('T')[0]}" value="${new Date().toISOString().split('T')[0]}">
                         
                         <label class="reserva-form-label">Hora de Reserva:</label>
-                        <input type="time" id="hora" class="swal2-input" value="${new Date().toTimeString().slice(0,5)}">
+                        <input type="time" id="hora" class="swal2-input" min="${minHora}" max="${maxHora}" value="${new Date().toTimeString().slice(0,5)}">
                         
                         <label class="reserva-form-label">Número de Personas:</label>
-                        <input type="number" id="personas" class="swal2-input" min="1" max="<?php echo $mesa_seleccionada['capacidad_maxima']; ?>" value="1">
+                        <input type="number" id="personas" class="swal2-input" min="<?php echo $mesa_seleccionada['capacidad_minima']; ?>" max="<?php echo $mesa_seleccionada['capacidad_maxima']; ?>" value="<?php echo $mesa_seleccionada['capacidad_minima']; ?>">
+                        
+                        <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 10px;">
+                            ⓘ Mesa <?php echo $mesa_seleccionada['numero_mesa']; ?>: de <?php echo $mesa_seleccionada['capacidad_minima']; ?> a <?php echo $mesa_seleccionada['capacidad_maxima']; ?> personas
+                        </small>
                     </div>
                 `,
                 showCancelButton: true,
@@ -1305,11 +1372,27 @@ if ($mesa_seleccionada_id) {
                 confirmButtonColor: '#d4af37',
                 cancelButtonColor: '#666',
                 preConfirm: () => {
-                    return {
-                        fecha: document.getElementById('fecha').value,
-                        hora: document.getElementById('hora').value,
-                        personas: document.getElementById('personas').value
-                    };
+                    const fecha = document.getElementById('fecha').value;
+                    const hora = document.getElementById('hora').value;
+                    const personas = parseInt(document.getElementById('personas').value);
+                    
+                    // Validaciones en el cliente
+                    if (!fecha || !hora || !personas) {
+                        Swal.showValidationMessage('Por favor complete todos los campos');
+                        return false;
+                    }
+                    
+                    if (personas < <?php echo $mesa_seleccionada['capacidad_minima']; ?>) {
+                        Swal.showValidationMessage('Mínimo <?php echo $mesa_seleccionada['capacidad_minima']; ?> personas para esta mesa');
+                        return false;
+                    }
+                    
+                    if (personas > <?php echo $mesa_seleccionada['capacidad_maxima']; ?>) {
+                        Swal.showValidationMessage('Máximo <?php echo $mesa_seleccionada['capacidad_maxima']; ?> personas para esta mesa');
+                        return false;
+                    }
+                    
+                    return { fecha, hora, personas };
                 }
             });
 
@@ -1338,7 +1421,7 @@ if ($mesa_seleccionada_id) {
                                     <p><strong>Fecha:</strong> ${data.reserva.fecha}</p>
                                     <p><strong>Hora:</strong> ${data.reserva.hora}</p>
                                     <hr style="border-color: rgba(212, 175, 55, 0.3);">
-                                    <p><strong style="color: var(--gold-color);">Total: $${data.reserva.total.toFixed(2)}</strong></p>
+                                    <p><strong style="color: var(--gold-color);">Total: $${parseFloat(data.reserva.total).toFixed(2)}</strong></p>
                                     <small style="color: rgba(255,255,255,0.6);">
                                         (Incluye ${data.reserva.platos.length} plato(s) + IVA)
                                     </small>

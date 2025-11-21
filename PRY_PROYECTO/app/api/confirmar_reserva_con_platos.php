@@ -43,10 +43,54 @@ try {
     $hora_reserva = $input['hora_reserva'] ?? date('H:i:s');
     $numero_personas = intval($input['numero_personas'] ?? 1);
     
+    // 1. Validar horario de atención
+    $dia_semana = date('N', strtotime($fecha_reserva));
+    
+    // Obtener configuraciones de horarios
+    $stmt = $pdo->query("SELECT clave, valor FROM configuracion_restaurante");
+    $configs = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $configs[$row['clave']] = $row['valor'];
+    }
+    
+    // Verificar si las reservas están activas
+    if (isset($configs['reservas_activas']) && $configs['reservas_activas'] !== '1') {
+        throw new Exception('Las reservas están temporalmente deshabilitadas');
+    }
+    
+    // Verificar días cerrados
+    if (isset($configs['dias_cerrado'])) {
+        $dias_cerrados = explode(',', $configs['dias_cerrado']);
+        $fecha_formato = date('d-m', strtotime($fecha_reserva));
+        if (in_array($fecha_formato, $dias_cerrados)) {
+            throw new Exception('El restaurante está cerrado en esta fecha');
+        }
+    }
+    
+    // Determinar horario según día de la semana
+    if ($dia_semana >= 1 && $dia_semana <= 5) {
+        $hora_inicio = $configs['horario_lunes_viernes_inicio'] ?? '10:00';
+        $hora_fin = $configs['horario_lunes_viernes_fin'] ?? '22:00';
+        $tipo_dia = 'Lunes a Viernes';
+    } elseif ($dia_semana == 6) {
+        $hora_inicio = $configs['horario_sabado_inicio'] ?? '11:00';
+        $hora_fin = $configs['horario_sabado_fin'] ?? '23:00';
+        $tipo_dia = 'Sábado';
+    } else {
+        $hora_inicio = $configs['horario_domingo_inicio'] ?? '12:00';
+        $hora_fin = $configs['horario_domingo_fin'] ?? '21:00';
+        $tipo_dia = 'Domingo';
+    }
+    
+    // Validar hora
+    if ($hora_reserva < $hora_inicio || $hora_reserva > $hora_fin) {
+        throw new Exception("Hora no válida. $tipo_dia el restaurante atiende de $hora_inicio a $hora_fin");
+    }
+    
     $pdo->beginTransaction();
     
-    // 1. Verificar que la mesa está disponible
-    $stmt = $pdo->prepare("SELECT estado, numero_mesa FROM mesas WHERE id = :id FOR UPDATE");
+    // 2. Verificar que la mesa está disponible y validar capacidad
+    $stmt = $pdo->prepare("SELECT estado, numero_mesa, capacidad_minima, capacidad_maxima FROM mesas WHERE id = :id FOR UPDATE");
     $stmt->bindParam(':id', $mesa_id, PDO::PARAM_INT);
     $stmt->execute();
     $mesa = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,6 +101,15 @@ try {
     
     if ($mesa['estado'] !== 'disponible') {
         throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' no está disponible');
+    }
+    
+    // Validar capacidad
+    if ($numero_personas < $mesa['capacidad_minima']) {
+        throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' requiere mínimo ' . $mesa['capacidad_minima'] . ' personas');
+    }
+    
+    if ($numero_personas > $mesa['capacidad_maxima']) {
+        throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' permite máximo ' . $mesa['capacidad_maxima'] . ' personas. Seleccionaste ' . $numero_personas);
     }
     
     // 2. Crear la reserva

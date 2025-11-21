@@ -2076,7 +2076,7 @@
                     // Primero verificar si está autenticado
                     const sesionResponse = await fetch('app/verificar_sesion_cliente.php');
                     const sesionData = await sesionResponse.json();
-                    
+
                     if (!sesionData.authenticated) {
                         // Guardar mesa_id en localStorage para seleccionarla después del login
                         localStorage.setItem('mesa_pendiente', mesaId);
@@ -2084,7 +2084,7 @@
                         document.getElementById('btn-cliente-login').click();
                         return;
                     }
-                    
+
                     // Si está autenticado, seleccionar la mesa
                     const response = await fetch('app/api/seleccionar_mesa.php', {
                         method: 'POST',
