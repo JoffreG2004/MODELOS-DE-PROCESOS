@@ -17,7 +17,7 @@ try {
     }
     
     // Verificar si las reservas están activas
-    if ($configs['reservas_activas'] !== '1') {
+    if (isset($configs['reservas_activas']) && $configs['reservas_activas'] !== '1') {
         echo json_encode([
             'success' => false,
             'valido' => false,
@@ -26,52 +26,42 @@ try {
         exit;
     }
     
-    // Verificar días cerrados (formato: DD-MM,DD-MM)
-    $dias_cerrados = explode(',', $configs['dias_cerrado'] ?? '');
-    $fecha_formato = date('d-m', strtotime($fecha));
+    // Obtener hora de apertura y cierre
+    $hora_apertura = $configs['hora_apertura'] ?? '11:00';
+    $hora_cierre = $configs['hora_cierre'] ?? '23:00';
+    $dias_cerrados = $configs['dias_cerrados'] ?? '';
     
-    if (in_array($fecha_formato, $dias_cerrados)) {
-        echo json_encode([
-            'success' => false,
-            'valido' => false,
-            'message' => 'El restaurante está cerrado en esta fecha'
-        ]);
-        exit;
+    // Validar día de la semana no esté cerrado
+    if (!empty($dias_cerrados)) {
+        $fechaObj = new DateTime($fecha);
+        $diaSemana = $fechaObj->format('w'); // 0=Domingo, 1=Lunes, ..., 6=Sábado
+        $diasCerradosArray = array_map('trim', explode(',', $dias_cerrados));
+        
+        if (in_array($diaSemana, $diasCerradosArray)) {
+            $nombresEspañol = [
+                0 => 'Domingo', 1 => 'Lunes', 2 => 'Martes', 3 => 'Miércoles',
+                4 => 'Jueves', 5 => 'Viernes', 6 => 'Sábado'
+            ];
+            echo json_encode([
+                'success' => false,
+                'valido' => false,
+                'message' => "No se pueden hacer reservas los días {$nombresEspañol[$diaSemana]}. El restaurante está cerrado."
+            ]);
+            exit;
+        }
     }
     
-    // Determinar día de la semana (1=Lunes, 7=Domingo)
-    $dia_semana = date('N', strtotime($fecha));
-    
-    // Obtener horarios según el día
-    if ($dia_semana >= 1 && $dia_semana <= 5) {
-        // Lunes a viernes
-        $hora_inicio = $configs['horario_lunes_viernes_inicio'];
-        $hora_fin = $configs['horario_lunes_viernes_fin'];
-        $tipo_dia = 'Lunes a Viernes';
-    } elseif ($dia_semana == 6) {
-        // Sábado
-        $hora_inicio = $configs['horario_sabado_inicio'];
-        $hora_fin = $configs['horario_sabado_fin'];
-        $tipo_dia = 'Sábado';
-    } else {
-        // Domingo
-        $hora_inicio = $configs['horario_domingo_inicio'];
-        $hora_fin = $configs['horario_domingo_fin'];
-        $tipo_dia = 'Domingo';
-    }
-    
-    // Validar que la hora esté dentro del rango
-    $hora_valida = ($hora >= $hora_inicio && $hora <= $hora_fin);
+    // Validar que la hora esté dentro del rango de apertura-cierre
+    $hora_valida = ($hora >= $hora_apertura && $hora <= $hora_cierre);
     
     if (!$hora_valida) {
         echo json_encode([
             'success' => false,
             'valido' => false,
-            'message' => "Hora no válida. $tipo_dia el restaurante atiende de $hora_inicio a $hora_fin",
+            'message' => "El horario de reserva debe estar entre $hora_apertura y $hora_cierre",
             'horario_disponible' => [
-                'inicio' => $hora_inicio,
-                'fin' => $hora_fin,
-                'tipo_dia' => $tipo_dia
+                'inicio' => $hora_apertura,
+                'fin' => $hora_cierre
             ]
         ]);
     } else {
@@ -80,9 +70,8 @@ try {
             'valido' => true,
             'message' => 'Horario válido',
             'horario_disponible' => [
-                'inicio' => $hora_inicio,
-                'fin' => $hora_fin,
-                'tipo_dia' => $tipo_dia
+                'inicio' => $hora_apertura,
+                'fin' => $hora_cierre
             ]
         ]);
     }

@@ -5,11 +5,73 @@ class GestionReservas {
         this.reservas = [];
         this.mesas = [];
         this.clientes = [];
+        this.configuracionHorarios = null;
         this.init();
     }
 
     init() {
         console.log('Inicializando Gestión de Reservas...');
+        this.cargarConfiguracionHorarios();
+    }
+
+    async cargarConfiguracionHorarios() {
+        try {
+            const response = await fetch('app/api/gestionar_horarios.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ action: 'obtener' })
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.configuracion) {
+                this.configuracionHorarios = {
+                    hora_apertura: data.configuracion.hora_apertura?.valor || '11:00',
+                    hora_cierre: data.configuracion.hora_cierre?.valor || '23:00',
+                    dias_cerrados: data.configuracion.dias_cerrados?.valor || ''
+                };
+                console.log('Configuración de horarios cargada:', this.configuracionHorarios);
+            }
+        } catch (error) {
+            console.error('Error cargando configuración de horarios:', error);
+        }
+    }
+
+    validarHorarioReserva(fecha, hora) {
+        if (!this.configuracionHorarios) {
+            return { valido: true }; // Si no hay configuración, permitir
+        }
+
+        const { hora_apertura, hora_cierre, dias_cerrados } = this.configuracionHorarios;
+
+        // Validar hora dentro del rango de apertura-cierre
+        if (hora < hora_apertura || hora > hora_cierre) {
+            return {
+                valido: false,
+                mensaje: `El horario de reserva debe estar entre ${hora_apertura} y ${hora_cierre}`
+            };
+        }
+
+        // Validar día de la semana no esté cerrado
+        if (dias_cerrados) {
+            const fechaObj = new Date(fecha + 'T00:00:00');
+            const diaSemana = fechaObj.getDay(); // 0=Domingo, 1=Lunes, ..., 6=Sábado
+            const diasCerradosArray = dias_cerrados.split(',').map(d => parseInt(d.trim()));
+
+            if (diasCerradosArray.includes(diaSemana)) {
+                const nombresEspañol = {
+                    0: 'Domingo', 1: 'Lunes', 2: 'Martes', 3: 'Miércoles',
+                    4: 'Jueves', 5: 'Viernes', 6: 'Sábado'
+                };
+                return {
+                    valido: false,
+                    mensaje: `No se pueden hacer reservas los días ${nombresEspañol[diaSemana]}. El restaurante está cerrado.`
+                };
+            }
+        }
+
+        return { valido: true };
     }
 
     async cargarReservas() {
@@ -100,17 +162,14 @@ class GestionReservas {
                         <button class="btn btn-primary" onclick="gestionReservas.editarReserva(${reserva.id})" title="Editar">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn btn-danger" onclick="gestionReservas.confirmarEliminar(${reserva.id}, '${reserva.cliente_nombre}')" title="Eliminar">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        ${reserva.estado !== 'cancelada' && reserva.estado !== 'finalizada' ? `
+                            <button class="btn btn-danger" onclick="gestionReservas.confirmarEliminar(${reserva.id}, '${reserva.cliente_nombre}')" title="Cancelar reserva">
+                                <i class="fas fa-ban"></i>
+                            </button>
+                        ` : ''}
                         ${reserva.estado === 'pendiente' ? `
                             <button class="btn btn-success" onclick="gestionReservas.cambiarEstado(${reserva.id}, 'confirmada')" title="Confirmar">
                                 <i class="fas fa-check"></i>
-                            </button>
-                        ` : ''}
-                        ${reserva.estado === 'confirmada' ? `
-                            <button class="btn btn-warning" onclick="gestionReservas.cambiarEstado(${reserva.id}, 'cancelada')" title="Cancelar">
-                                <i class="fas fa-ban"></i>
                             </button>
                         ` : ''}
                     </div>
@@ -267,6 +326,17 @@ class GestionReservas {
             return;
         }
 
+        // VALIDAR HORARIO DE RESERVA
+        const validacion = this.validarHorarioReserva(fecha_reserva, hora_reserva);
+        if (!validacion.valido) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Horario no permitido',
+                text: validacion.mensaje
+            });
+            return;
+        }
+
         try {
             const endpoint = modo === 'crear' ? 'app/crear_reserva_admin.php' : 'app/editar_reserva.php';
             const data = {
@@ -338,6 +408,19 @@ class GestionReservas {
     }
 
     async eliminarReserva(id) {
+        const confirmacion = await Swal.fire({
+            title: '¿Cancelar reserva?',
+            text: 'La reserva se marcará como cancelada',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No'
+        });
+
+        if (!confirmacion.isConfirmed) return;
+
         try {
             const response = await fetch('app/eliminar_reserva.php', {
                 method: 'POST',
@@ -348,14 +431,20 @@ class GestionReservas {
             const result = await response.json();
 
             if (result.success) {
+                // Actualizar el estado local inmediatamente
+                const reserva = this.reservas.find(r => r.id === id);
+                if (reserva) {
+                    reserva.estado = 'cancelada';
+                }
+                this.renderTabla();
+
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Eliminada!',
+                    title: '¡Cancelada!',
                     text: result.message,
-                    timer: 2000
+                    timer: 1500,
+                    showConfirmButton: false
                 });
-
-                await this.cargarReservas();
 
                 if (window.restaurantLayout) {
                     window.restaurantLayout.refresh();
@@ -364,11 +453,11 @@ class GestionReservas {
                 throw new Error(result.message);
             }
         } catch (error) {
-            console.error('Error eliminando reserva:', error);
+            console.error('Error cancelando reserva:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: error.message || 'No se pudo eliminar la reserva'
+                text: error.message || 'No se pudo cancelar la reserva'
             });
         }
     }
@@ -409,7 +498,16 @@ class GestionReservas {
         }
     }
 
-    abrir() {
+    async abrir() {
+        // Actualizar estados antes de cargar reservas
+        try {
+            await fetch('app/api/actualizar_estados_reservas.php', {
+                credentials: 'same-origin'
+            });
+        } catch (error) {
+            console.error('Error actualizando estados:', error);
+        }
+
         this.cargarReservas();
     }
 }

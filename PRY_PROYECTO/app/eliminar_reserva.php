@@ -18,14 +18,19 @@ try {
         throw new Exception('ID de reserva requerido');
     }
     
-    $query = "DELETE FROM reservas WHERE id = ?";
+    // Cambiar estado a cancelada en lugar de eliminar físicamente
+    $query = "UPDATE reservas SET estado = 'cancelada' WHERE id = ?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$id]);
     
-    echo json_encode([
-        'success' => true,
-        'message' => 'Reserva eliminada exitosamente'
-    ]);
+    if ($stmt->rowCount() > 0) {
+        echo json_encode([
+            'success' => true,
+            'message' => 'Reserva cancelada exitosamente'
+        ]);
+    } else {
+        throw new Exception('No se encontró la reserva');
+    }
     
 } catch (Exception $e) {
     http_response_code(500);

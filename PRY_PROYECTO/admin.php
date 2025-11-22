@@ -345,17 +345,123 @@ try {
 
         .modal-header {
             border-bottom: 1px solid rgba(255, 215, 0, 0.2) !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .modal-header .modal-title {
+            color: var(--accent-gold) !important;
+        }
+        
+        .modal-header .btn-close {
+            filter: invert(1) !important;
+        }
+
+        .modal-body {
+            color: var(--text-primary) !important;
+            background: var(--dark-card) !important;
+        }
+        
+        .modal-body * {
+            color: #ffffff !important;
+        }
+        
+        .modal-body label {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        
+        .modal-body p,
+        .modal-body span,
+        .modal-body div,
+        .modal-body small {
+            color: #ffffff !important;
+        }
+        
+        .modal-body .text-muted {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        
+        .modal-body .alert {
+            background: rgba(255, 215, 0, 0.1) !important;
+            border-color: rgba(255, 215, 0, 0.3) !important;
+            color: #ffffff !important;
+        }
+        
+        .modal-body .alert-info {
+            background: rgba(0, 212, 255, 0.1) !important;
+            border-color: rgba(0, 212, 255, 0.3) !important;
         }
 
         .modal-footer {
             border-top: 1px solid rgba(255, 215, 0, 0.2) !important;
+            background: rgba(0, 0, 0, 0.2) !important;
         }
 
         .form-control,
-        .form-select {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        .form-select,
+        input.form-control,
+        select.form-select,
+        textarea.form-control,
+        .modal input[type="text"],
+        .modal input[type="number"],
+        .modal input[type="time"],
+        .modal input[type="date"],
+        .modal input[type="email"],
+        .modal select,
+        .modal textarea {
+            background: #1a1d35 !important;
+            border: 1px solid rgba(255, 215, 0, 0.3) !important;
+            color: #00d4ff !important;
+            font-weight: 500 !important;
+            -webkit-text-fill-color: #00d4ff !important;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        .form-control:focus,
+        .form-select:focus,
+        input.form-control:focus,
+        select.form-select:focus,
+        textarea.form-control:focus {
+            background: #1a1d35 !important;
+            border-color: var(--accent-gold) !important;
+            color: #00d4ff !important;
+            -webkit-text-fill-color: #00d4ff !important;
+            box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.2) !important;
+        }
+        
+        .form-control option {
+            background: #1a1d35 !important;
+            color: #ffffff !important;
+        }
+        
+        /* Estilos para tablas dentro de modales */
+        .modal-body table {
             color: var(--text-primary) !important;
+        }
+        
+        .modal-body table thead th {
+            background: rgba(0, 0, 0, 0.5) !important;
+            color: var(--accent-gold) !important;
+            border-color: rgba(255, 215, 0, 0.2) !important;
+        }
+        
+        .modal-body table tbody td {
+            background: rgba(0, 0, 0, 0.2) !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .modal-body table tbody tr:hover td {
+            background: rgba(255, 215, 0, 0.1) !important;
+        }
+        
+        /* Asegurar que los badges se vean bien */
+        .modal-body .badge {
+            color: #ffffff !important;
         }
 
         .form-control:focus,
@@ -889,57 +995,112 @@ try {
                     
                     <!-- MODAL: GESTIÓN DE HORARIOS -->
                     <div class="modal fade" id="modalGestionHorarios" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header" style="background: var(--gradient-primary);">
                                     <h5 class="modal-title text-white">
                                         <i class="bi bi-clock-history me-2"></i>
-                                        Horarios del Restaurante
+                                        Configuración de Horarios de Reserva
                                     </h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="alert alert-info">
                                         <i class="bi bi-info-circle me-2"></i>
-                                        Configura los horarios de apertura y cierre del restaurante para las reservas.
+                                        Configura el horario en que los clientes pueden hacer reservas y los días que el restaurante está cerrado.
                                     </div>
                                     
                                     <form id="formHorarios">
-                                        <div class="mb-3">
-                                            <label class="form-label">Hora de Apertura</label>
-                                            <input type="time" class="form-control" id="horaApertura" required>
+                                        <div class="row mb-4">
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">
+                                                    <i class="bi bi-clock me-1"></i>
+                                                    Hora de Inicio de Reservas
+                                                </label>
+                                                <input type="time" class="form-control" id="horaApertura" required>
+                                                <small class="text-muted">Primera hora disponible para reservar</small>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">
+                                                    <i class="bi bi-clock-fill me-1"></i>
+                                                    Hora Final de Reservas
+                                                </label>
+                                                <input type="time" class="form-control" id="horaCierre" required>
+                                                <small class="text-muted">Última hora disponible para reservar</small>
+                                            </div>
                                         </div>
                                         
-                                        <div class="mb-3">
-                                            <label class="form-label">Hora de Cierre</label>
-                                            <input type="time" class="form-control" id="horaCierre" required>
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <label class="form-label">Duración de Reserva (minutos)</label>
-                                            <input type="number" class="form-control" id="duracionReserva" min="30" max="240" step="15" required>
-                                            <small class="text-muted">Tiempo promedio que dura una reserva</small>
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <label class="form-label">Intervalo entre Reservas (minutos)</label>
-                                            <input type="number" class="form-control" id="intervaloReservas" min="15" max="60" step="15" required>
-                                            <small class="text-muted">Tiempo de preparación entre reservas</small>
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                <i class="bi bi-calendar-x me-1"></i>
+                                                Días Cerrados
+                                            </label>
+                                            <div class="row g-2">
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoLunes" value="1">
+                                                        <label class="form-check-label" for="cerradoLunes">Lunes</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoMartes" value="2">
+                                                        <label class="form-check-label" for="cerradoMartes">Martes</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoMiercoles" value="3">
+                                                        <label class="form-check-label" for="cerradoMiercoles">Miércoles</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoJueves" value="4">
+                                                        <label class="form-check-label" for="cerradoJueves">Jueves</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoViernes" value="5">
+                                                        <label class="form-check-label" for="cerradoViernes">Viernes</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoSabado" value="6">
+                                                        <label class="form-check-label" for="cerradoSabado">Sábado</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoDomingo" value="0">
+                                                        <label class="form-check-label" for="cerradoDomingo">Domingo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">Marca los días que el restaurante NO acepta reservas</small>
                                         </div>
                                     </form>
                                     
-                                    <div id="estadoActualHorarios" class="mt-3">
-                                        <h6>Configuración Actual:</h6>
+                                    <div id="estadoActualHorarios" class="mt-4 p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                                        <h6 class="mb-3"><i class="bi bi-info-circle me-2"></i>Configuración Actual:</h6>
                                         <div class="spinner-border spinner-border-sm" role="status">
                                             <span class="visually-hidden">Cargando...</span>
                                         </div>
                                     </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                        <strong>Nota:</strong> Los cambios se aplicarán inmediatamente y el sistema validará automáticamente que las nuevas reservas cumplan con estos horarios.
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                     <button type="button" class="btn btn-primary" onclick="window.guardarHorarios()">
                                         <i class="bi bi-save me-2"></i>
-                                        Guardar Cambios
+                                        Guardar Configuración
                                     </button>
                                 </div>
                             </div>
@@ -1035,8 +1196,57 @@ try {
 
         // Inicializar gráficos al cargar el DOM
         document.addEventListener('DOMContentLoaded', function() {
+            actualizarEstadosAutomaticamente();
             cargarDatosYGraficos();
+            
+            // Actualizar estados cada 2 minutos si está habilitado
+            let intervaloActualizacion = setInterval(actualizarEstadosAutomaticamente, 120000);
+            
+            // Control del toggle auto-actualización
+            document.getElementById('toggle-auto-update').addEventListener('change', function(e) {
+                if (e.target.checked) {
+                    intervaloActualizacion = setInterval(actualizarEstadosAutomaticamente, 120000);
+                    console.log('Auto-actualización activada');
+                } else {
+                    clearInterval(intervaloActualizacion);
+                    console.log('Auto-actualización desactivada');
+                }
+            });
+            
+            // Botón actualizar manual
+            document.getElementById('btn-actualizar-manual').addEventListener('click', async function() {
+                const btn = this;
+                btn.disabled = true;
+                btn.innerHTML = '<i class="bi bi-arrow-clockwise spinner-border spinner-border-sm"></i> Actualizando...';
+                
+                await actualizarEstadosAutomaticamente();
+                await cargarDatosYGraficos();
+                
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Actualizar';
+            });
         });
+
+        // Función para actualizar estados de reservas automáticamente
+        async function actualizarEstadosAutomaticamente() {
+            try {
+                const response = await fetch('app/api/actualizar_estados_reservas.php', {
+                    credentials: 'same-origin'
+                });
+                const data = await response.json();
+                console.log('Estados actualizados:', data);
+                
+                // Actualizar indicador de última actualización
+                const ahora = new Date();
+                const horaFormato = ahora.toLocaleTimeString('es-ES');
+                document.getElementById('ultima-actualizacion').textContent = `Última actualización: ${horaFormato}`;
+                
+                return data;
+            } catch (error) {
+                console.error('Error actualizando estados:', error);
+                return null;
+            }
+        }
 
         // Variables globales para los gráficos
         let chartReservasMes, chartHorarios, chartMesas, chartEstado;
@@ -1716,6 +1926,7 @@ try {
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'same-origin',
                     body: JSON.stringify({ action: 'obtener' })
                 });
                 
@@ -1731,11 +1942,35 @@ try {
                     if (config.hora_cierre) {
                         document.getElementById('horaCierre').value = config.hora_cierre.valor || '23:00';
                     }
-                    if (config.duracion_reserva) {
-                        document.getElementById('duracionReserva').value = config.duracion_reserva.valor || '90';
-                    }
-                    if (config.intervalo_reservas) {
-                        document.getElementById('intervaloReservas').value = config.intervalo_reservas.valor || '15';
+                    
+                    // Cargar días cerrados y marcar checkboxes
+                    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+                    const diasCerrados = config.dias_cerrados?.valor || '';
+                    const diasArray = diasCerrados ? diasCerrados.split(',').map(d => d.trim()) : [];
+                    
+                    // Desmarcar todos primero
+                    dayNames.forEach((day, index) => {
+                        const checkbox = document.getElementById(`cerrado${day}`);
+                        if (checkbox) checkbox.checked = false;
+                    });
+                    
+                    // Marcar los días cerrados
+                    diasArray.forEach(dia => {
+                        const dayIndex = parseInt(dia);
+                        if (!isNaN(dayIndex) && dayIndex >= 0 && dayIndex <= 6) {
+                            const checkbox = document.getElementById(`cerrado${dayNames[dayIndex]}`);
+                            if (checkbox) checkbox.checked = true;
+                        }
+                    });
+                    
+                    // Crear texto legible de días cerrados
+                    let diasCerradosTexto = 'Ninguno';
+                    if (diasArray.length > 0) {
+                        const nombresEspañol = {
+                            0: 'Domingo', 1: 'Lunes', 2: 'Martes', 3: 'Miércoles',
+                            4: 'Jueves', 5: 'Viernes', 6: 'Sábado'
+                        };
+                        diasCerradosTexto = diasArray.map(d => nombresEspañol[parseInt(d)]).filter(Boolean).join(', ');
                     }
                     
                     // Mostrar configuración actual
@@ -1744,8 +1979,7 @@ try {
                         <ul class="list-unstyled mb-0">
                             <li><strong>Apertura:</strong> ${config.hora_apertura?.valor || 'No configurado'}</li>
                             <li><strong>Cierre:</strong> ${config.hora_cierre?.valor || 'No configurado'}</li>
-                            <li><strong>Duración reserva:</strong> ${config.duracion_reserva?.valor || 'No configurado'} minutos</li>
-                            <li><strong>Intervalo:</strong> ${config.intervalo_reservas?.valor || 'No configurado'} minutos</li>
+                            <li><strong>Días cerrados:</strong> ${diasCerradosTexto}</li>
                         </ul>
                     `;
                 } else {
@@ -1768,15 +2002,22 @@ try {
             
             const horaApertura = document.getElementById('horaApertura').value;
             const horaCierre = document.getElementById('horaCierre').value;
-            const duracionReserva = document.getElementById('duracionReserva').value;
-            const intervaloReservas = document.getElementById('intervaloReservas').value;
+            
+            // Obtener días cerrados
+            const diasCerrados = [];
+            ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'].forEach(dia => {
+                const checkbox = document.getElementById('cerrado' + dia);
+                if (checkbox && checkbox.checked) {
+                    diasCerrados.push(checkbox.value);
+                }
+            });
             
             // Validar que hora de cierre sea después de apertura
             if (horaCierre <= horaApertura) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'La hora de cierre debe ser posterior a la hora de apertura'
+                    text: 'La hora final debe ser posterior a la hora de inicio'
                 });
                 return;
             }
@@ -1787,13 +2028,13 @@ try {
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'same-origin',
                     body: JSON.stringify({
                         action: 'actualizar',
                         configuraciones: {
                             hora_apertura: horaApertura,
                             hora_cierre: horaCierre,
-                            duracion_reserva: duracionReserva,
-                            intervalo_reservas: intervaloReservas
+                            dias_cerrados: diasCerrados.join(',')
                         }
                     })
                 });
@@ -1804,7 +2045,7 @@ try {
                     Swal.fire({
                         icon: 'success',
                         title: '¡Guardado!',
-                        text: data.message || 'Horarios actualizados correctamente',
+                        text: 'Configuración de horarios actualizada correctamente',
                         timer: 2000,
                         showConfirmButton: false
                     });
@@ -1813,7 +2054,7 @@ try {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: data.message || 'No se pudieron guardar los horarios'
+                        text: data.message || 'No se pudo guardar la configuración'
                     });
                 }
             } catch (error) {
