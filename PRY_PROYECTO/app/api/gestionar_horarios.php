@@ -50,10 +50,23 @@ try {
             $pdo->beginTransaction();
             
             foreach ($configuraciones as $clave => $valor) {
-                $stmt = $pdo->prepare("UPDATE configuracion_restaurante SET valor = :valor WHERE clave = :clave");
+                // Usar INSERT ... ON DUPLICATE KEY UPDATE para crear o actualizar
+                $stmt = $pdo->prepare("
+                    INSERT INTO configuracion_restaurante (clave, valor, descripcion) 
+                    VALUES (:clave, :valor, :descripcion)
+                    ON DUPLICATE KEY UPDATE valor = VALUES(valor)
+                ");
+                
+                $descripciones = [
+                    'hora_apertura' => 'Hora de apertura del restaurante',
+                    'hora_cierre' => 'Hora de cierre del restaurante',
+                    'dias_cerrados' => 'Días de la semana cerrados (0=Domingo,1=Lunes,...,6=Sábado)'
+                ];
+                
                 $stmt->execute([
+                    'clave' => $clave,
                     'valor' => $valor,
-                    'clave' => $clave
+                    'descripcion' => $descripciones[$clave] ?? 'Configuración del restaurante'
                 ]);
             }
             

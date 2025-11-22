@@ -387,6 +387,10 @@ if ($mesa_seleccionada_id) {
                         <?php echo htmlspecialchars($cliente_nombre . ' ' . $cliente_apellido); ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="perfil_cliente.php">
+                            <i class="bi bi-person-circle"></i> Mi Perfil
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">
                             <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
                         </a></li>
@@ -779,6 +783,17 @@ if ($mesa_seleccionada_id) {
             const maxHora = horarioDisponible ? horarioDisponible.fin : '22:00';
             const tipoDia = horarioDisponible ? horarioDisponible.tipo_dia : '';
             
+            // Recuperar datos guardados si existen
+            let datosGuardados = null;
+            const datosTemp = sessionStorage.getItem('reserva_temporal');
+            if (datosTemp) {
+                try {
+                    datosGuardados = JSON.parse(datosTemp);
+                } catch (e) {
+                    console.error('Error al recuperar datos:', e);
+                }
+            }
+            
             Swal.fire({
                 title: 'Confirmar Reserva',
                 background: '#1a1a1a',
@@ -884,51 +899,54 @@ if ($mesa_seleccionada_id) {
                     const { fecha, hora, personas } = result.value;
                     
                     try {
-                        const response = await fetch('app/crear_reserva_admin.php', {
+                        // VALIDAR HORARIO PRIMERO
+                        const validacionResponse = await fetch('app/api/validar_horario_reserva.php', {
                             method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({
-                                cliente_id: <?php echo $cliente_id; ?>,
-                                mesa_id: <?php echo $mesa_seleccionada['id'] ?? 0; ?>,
-                                fecha_reserva: fecha,
-                                hora_reserva: hora,
-                                numero_personas: personas
-                            })
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ fecha: fecha, hora: hora })
                         });
                         
-                        const data = await response.json();
+                        const validacionData = await validacionResponse.json();
                         
-                        if (data.success) {
-                            // Mostrar confirmación con opciones post-reserva
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Reserva Confirmada!',
-                                html: `
-                                    <p style="color: #ffffff; margin-bottom: 30px;">Tu reserva ha sido creada exitosamente</p>
-                                    <div style="display: flex; gap: 15px; justify-content: center;">
-                                        <button onclick="terminarReserva()" class="btn btn-gold" style="flex: 1;">
-                                            <i class="bi bi-check-circle-fill me-2"></i>Terminar Reserva
-                                        </button>
-                                        <button onclick="reservarPlatos()" class="btn btn-gold" style="flex: 1;">
-                                            <i class="bi bi-basket-fill me-2"></i>Reservar Platos
-                                        </button>
-                                    </div>
-                                `,
-                                background: '#1a1a1a',
-                                color: '#ffffff',
-                                showConfirmButton: false,
-                                showCloseButton: true
-                            });
-                        } else {
+                        if (!validacionData.valido) {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Error',
-                                text: data.message || 'No se pudo crear la reserva',
+                                title: 'Horario no permitido',
+                                text: validacionData.message,
                                 background: '#1a1a1a',
                                 color: '#ffffff',
                                 confirmButtonColor: '#d4af37'
                             });
+                            return;
                         }
+                        
+                        // Si la validación pasa, GUARDAR datos y mostrar opciones (NO crear reserva aún)
+                        sessionStorage.setItem('reserva_temporal', JSON.stringify({
+                            fecha: fecha,
+                            hora: hora,
+                            personas: personas
+                        }));
+                        
+                        // Mostrar opciones: terminar o agregar platos
+                        Swal.fire({
+                            icon: 'question',
+                            title: '¿Deseas agregar platos a tu reserva?',
+                            html: `
+                                <p style="color: #ffffff; margin-bottom: 30px;">Puedes terminar tu reserva ahora o agregar platos del menú</p>
+                                <div style="display: flex; gap: 15px; justify-content: center;">
+                                    <button onclick="terminarReservaSinPlatos()" class="btn btn-gold" style="flex: 1;">
+                                        <i class="bi bi-check-circle-fill me-2"></i>Terminar Reserva
+                                    </button>
+                                    <button onclick="reservarPlatos()" class="btn btn-gold" style="flex: 1;">
+                                        <i class="bi bi-basket-fill me-2"></i>Agregar Platos
+                                    </button>
+                                </div>
+                            `,
+                            background: '#1a1a1a',
+                            color: '#ffffff',
+                            showConfirmButton: false,
+                            showCloseButton: true
+                        });
                     } catch (error) {
                         console.error('Error:', error);
                         Swal.fire({
@@ -944,24 +962,97 @@ if ($mesa_seleccionada_id) {
             });
         }
 
-        function terminarReserva() {
-            Swal.fire({
-                icon: 'success',
-                title: '¡Gracias por tu reserva!',
-                text: 'Te esperamos en Le Salon de Lumière',
-                background: '#1a1a1a',
-                color: '#ffffff',
-                confirmButtonColor: '#d4af37',
-                confirmButtonText: 'Volver al inicio'
-            }).then(() => {
-                window.location.href = 'index.html';
-            });
+        // Terminar reserva SIN platos (crear reserva básica)
+        async function terminarReservaSinPlatos() {
+            const datosTemp = sessionStorage.getItem('reserva_temporal');
+            if (!datosTemp) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se encontraron los datos de la reserva',
+                    background: '#1a1a1a',
+                    color: '#ffffff',
+                    confirmButtonColor: '#d4af37'
+                });
+                return;
+            }
+            
+            const datos = JSON.parse(datosTemp);
+            
+            try {
+                const response = await fetch('app/crear_reserva_admin.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        cliente_id: <?php echo $cliente_id; ?>,
+                        mesa_id: <?php echo $mesa_seleccionada['id'] ?? 0; ?>,
+                        fecha_reserva: datos.fecha,
+                        hora_reserva: datos.hora,
+                        numero_personas: datos.personas
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Limpiar datos temporales
+                    sessionStorage.removeItem('reserva_temporal');
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Reserva Confirmada!',
+                        text: 'Tu reserva ha sido creada exitosamente',
+                        background: '#1a1a1a',
+                        color: '#ffffff',
+                        confirmButtonColor: '#d4af37',
+                        confirmButtonText: 'Ver Mi Perfil'
+                    }).then(() => {
+                        window.location.href = 'perfil_cliente.php';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'No se pudo crear la reserva',
+                        background: '#1a1a1a',
+                        color: '#ffffff',
+                        confirmButtonColor: '#d4af37'
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo procesar la reserva',
+                    background: '#1a1a1a',
+                    color: '#ffffff',
+                    confirmButtonColor: '#d4af37'
+                });
+            }
         }
 
         function reservarPlatos() {
-            // Scroll suave al menú de platos
+            // Cerrar el modal y mostrar el menú de platos
             Swal.close();
+            
+            // Scroll suave al menú de platos
             document.getElementById('menuSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Mostrar mensaje informativo
+            Swal.fire({
+                icon: 'info',
+                title: 'Selecciona tus platos',
+                text: 'Agrega los platos que desees al carrito y confirma tu pedido',
+                background: '#1a1a1a',
+                color: '#ffffff',
+                confirmButtonColor: '#d4af37',
+                timer: 3000,
+                timerProgressBar: true,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false
+            });
         }
 
         function cerrarSesion() {
@@ -1344,6 +1435,17 @@ if ($mesa_seleccionada_id) {
             const maxHora = horarioDisponible ? horarioDisponible.fin : '22:00';
             const tipoDia = horarioDisponible ? horarioDisponible.tipo_dia : '';
             
+            // Recuperar datos guardados si existen
+            let datosGuardados = null;
+            const datosTemp = sessionStorage.getItem('reserva_temporal');
+            if (datosTemp) {
+                try {
+                    datosGuardados = JSON.parse(datosTemp);
+                } catch (e) {
+                    console.error('Error al recuperar datos:', e);
+                }
+            }
+            
             const { value: formValues } = await Swal.fire({
                 title: 'Confirmar Pedido Completo',
                 background: '#1a1a1a',
@@ -1353,13 +1455,13 @@ if ($mesa_seleccionada_id) {
                         ${tipoDia ? `<p style="color: var(--gold-color); margin-bottom: 15px;">📅 <strong>${tipoDia}</strong>: Horario de ${minHora} a ${maxHora}</p>` : ''}
                         
                         <label class="reserva-form-label">Fecha de Reserva:</label>
-                        <input type="date" id="fecha" class="swal2-input" min="${new Date().toISOString().split('T')[0]}" value="${new Date().toISOString().split('T')[0]}">
+                        <input type="date" id="fecha" class="swal2-input" min="${new Date().toISOString().split('T')[0]}" value="${datosGuardados?.fecha || new Date().toISOString().split('T')[0]}">
                         
                         <label class="reserva-form-label">Hora de Reserva:</label>
-                        <input type="time" id="hora" class="swal2-input" min="${minHora}" max="${maxHora}" value="${new Date().toTimeString().slice(0,5)}">
+                        <input type="time" id="hora" class="swal2-input" min="${minHora}" max="${maxHora}" value="${datosGuardados?.hora || new Date().toTimeString().slice(0,5)}">
                         
                         <label class="reserva-form-label">Número de Personas:</label>
-                        <input type="number" id="personas" class="swal2-input" min="<?php echo $mesa_seleccionada['capacidad_minima']; ?>" max="<?php echo $mesa_seleccionada['capacidad_maxima']; ?>" value="<?php echo $mesa_seleccionada['capacidad_minima']; ?>">
+                        <input type="number" id="personas" class="swal2-input" min="<?php echo $mesa_seleccionada['capacidad_minima']; ?>" max="<?php echo $mesa_seleccionada['capacidad_maxima']; ?>" value="${datosGuardados?.personas || '<?php echo $mesa_seleccionada['capacidad_minima']; ?>'}">
                         
                         <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 10px;">
                             ⓘ Mesa <?php echo $mesa_seleccionada['numero_mesa']; ?>: de <?php echo $mesa_seleccionada['capacidad_minima']; ?> a <?php echo $mesa_seleccionada['capacidad_maxima']; ?> personas
@@ -1398,6 +1500,31 @@ if ($mesa_seleccionada_id) {
 
             if (formValues) {
                 try {
+                    // VALIDAR HORARIO PRIMERO
+                    const validacionResponse = await fetch('app/api/validar_horario_reserva.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            fecha: formValues.fecha, 
+                            hora: formValues.hora 
+                        })
+                    });
+                    
+                    const validacionData = await validacionResponse.json();
+                    
+                    if (!validacionData.valido) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Horario no permitido',
+                            text: validacionData.message,
+                            background: '#1a1a1a',
+                            color: '#ffffff',
+                            confirmButtonColor: '#d4af37'
+                        });
+                        return;
+                    }
+                    
+                    // Si la validación pasa, confirmar la reserva con platos
                     const response = await fetch('app/api/confirmar_reserva_con_platos.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -1411,6 +1538,9 @@ if ($mesa_seleccionada_id) {
                     const data = await response.json();
 
                     if (data.success) {
+                        // Limpiar datos temporales
+                        sessionStorage.removeItem('reserva_temporal');
+                        
                         await Swal.fire({
                             icon: 'success',
                             title: '¡Reserva Confirmada!',
@@ -1433,8 +1563,8 @@ if ($mesa_seleccionada_id) {
                             confirmButtonText: 'Ver Mis Reservas'
                         });
 
-                        // Redirigir o recargar
-                        window.location.href = 'index.html';
+                        // Redirigir al perfil
+                        window.location.href = 'perfil_cliente.php';
                     } else {
                         throw new Error(data.message);
                     }

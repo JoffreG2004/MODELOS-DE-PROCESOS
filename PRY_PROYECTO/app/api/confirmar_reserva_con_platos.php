@@ -58,32 +58,38 @@ try {
         throw new Exception('Las reservas están temporalmente deshabilitadas');
     }
     
-    // Verificar días cerrados
-    if (isset($configs['dias_cerrado'])) {
-        $dias_cerrados = explode(',', $configs['dias_cerrado']);
+    // Verificar días cerrados (formato: dd-mm,dd-mm o números de día de semana 0-6)
+    if (isset($configs['dias_cerrados']) && !empty($configs['dias_cerrados'])) {
+        $dias_cerrados = array_map('trim', explode(',', $configs['dias_cerrados']));
         $fecha_formato = date('d-m', strtotime($fecha_reserva));
-        if (in_array($fecha_formato, $dias_cerrados)) {
+        $num_dia_semana = date('w', strtotime($fecha_reserva)); // 0=Domingo
+        
+        // Verificar si la fecha específica está cerrada o el día de la semana
+        if (in_array($fecha_formato, $dias_cerrados) || in_array($num_dia_semana, $dias_cerrados)) {
             throw new Exception('El restaurante está cerrado en esta fecha');
         }
     }
     
     // Determinar horario según día de la semana
+    // Priorizar horarios específicos, si no existen usar horarios generales
     if ($dia_semana >= 1 && $dia_semana <= 5) {
-        $hora_inicio = $configs['horario_lunes_viernes_inicio'] ?? '10:00';
-        $hora_fin = $configs['horario_lunes_viernes_fin'] ?? '22:00';
+        $hora_inicio = $configs['horario_lunes_viernes_inicio'] ?? $configs['hora_apertura'] ?? '10:00';
+        $hora_fin = $configs['horario_lunes_viernes_fin'] ?? $configs['hora_cierre'] ?? '22:00';
         $tipo_dia = 'Lunes a Viernes';
     } elseif ($dia_semana == 6) {
-        $hora_inicio = $configs['horario_sabado_inicio'] ?? '11:00';
-        $hora_fin = $configs['horario_sabado_fin'] ?? '23:00';
+        $hora_inicio = $configs['horario_sabado_inicio'] ?? $configs['hora_apertura'] ?? '11:00';
+        $hora_fin = $configs['horario_sabado_fin'] ?? $configs['hora_cierre'] ?? '23:00';
         $tipo_dia = 'Sábado';
     } else {
-        $hora_inicio = $configs['horario_domingo_inicio'] ?? '12:00';
-        $hora_fin = $configs['horario_domingo_fin'] ?? '21:00';
+        $hora_inicio = $configs['horario_domingo_inicio'] ?? $configs['hora_apertura'] ?? '12:00';
+        $hora_fin = $configs['horario_domingo_fin'] ?? $configs['hora_cierre'] ?? '21:00';
         $tipo_dia = 'Domingo';
     }
     
-    // Validar hora
-    if ($hora_reserva < $hora_inicio || $hora_reserva > $hora_fin) {
+    // Validar hora (solo si no está vacío el valor)
+    $hora_reserva_sin_segundos = substr($hora_reserva, 0, 5); // Normalizar a HH:MM
+    if (!empty($hora_inicio) && !empty($hora_fin) && 
+        ($hora_reserva_sin_segundos < $hora_inicio || $hora_reserva_sin_segundos > $hora_fin)) {
         throw new Exception("Hora no válida. $tipo_dia el restaurante atiende de $hora_inicio a $hora_fin");
     }
     

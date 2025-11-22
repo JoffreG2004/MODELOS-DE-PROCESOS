@@ -15,6 +15,7 @@ try {
             m.ubicacion,
             m.estado,
             m.descripcion,
+            m.precio_reserva,
             r.id as reserva_id,
             CONCAT(c.nombre, ' ', c.apellido) as cliente_nombre,
             c.telefono,
@@ -45,6 +46,7 @@ try {
             'ubicacion' => $mesa['ubicacion'],
             'estado' => $mesa['estado'],
             'descripcion' => $mesa['descripcion'],
+            'precio_reserva' => (float)$mesa['precio_reserva'],
             'reserva' => $mesa['reserva_id'] ? [
                 'id' => $mesa['reserva_id'],
                 'cliente' => $mesa['cliente_nombre'],
