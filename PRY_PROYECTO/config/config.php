@@ -4,16 +4,19 @@
  * Le Salon de Lumière - Restaurant Management System
  */
 
+// Cargar variables de entorno
+require_once __DIR__ . '/env_loader.php';
+
 // Configuración de Base de Datos
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'crud_proyecto');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_CHARSET', 'utf8mb4');
+define('DB_HOST', env('DB_HOST', 'localhost'));
+define('DB_NAME', env('DB_NAME', 'crud_proyecto'));
+define('DB_USER', env('DB_USER', 'root'));
+define('DB_PASS', env('DB_PASS', ''));
+define('DB_CHARSET', env('DB_CHARSET', 'utf8mb4'));
 
 // Configuración de la Aplicación
-define('APP_NAME', 'Le Salon de Lumière');
-define('APP_URL', 'http://localhost/PRY_PROYECTO');
+define('APP_NAME', env('APP_NAME', 'Le Salon de Lumière'));
+define('APP_URL', env('APP_URL', 'http://localhost/PRY_PROYECTO'));
 define('BASE_PATH', __DIR__ . '/..');
 
 // Rutas
@@ -30,7 +33,7 @@ define('SESSION_LIFETIME', 3600); // 1 hora
 date_default_timezone_set('America/Guayaquil');
 
 // Modo Debug
-define('DEBUG_MODE', true);
+define('DEBUG_MODE', env('DEBUG_MODE', true));
 
 // Configuración de Errores
 if (DEBUG_MODE) {

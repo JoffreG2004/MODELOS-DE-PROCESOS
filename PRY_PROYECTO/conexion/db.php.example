@@ -1,6 +1,13 @@
 <?php
 
 // conexion/db.php - SISTEMA DE GESTIÓN ACADÉMICA
+// PLANTILLA DE EJEMPLO
+// 
+// INSTRUCCIONES:
+// 1. NO modifiques este archivo
+// 2. Las credenciales reales están en el archivo .env
+// 3. Este archivo carga las credenciales desde variables de entorno
+
 // Cargar variables de entorno
 require_once __DIR__ . '/../config/env_loader.php';
 
