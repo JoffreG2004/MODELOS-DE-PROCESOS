@@ -1,0 +1,2450 @@
+<?php
+session_start();
+require_once 'conexion/db.php';
+
+// Verificar que el administrador esté autenticado
+if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
+    // Si no está autenticado, redirigir al index
+    header('Location: index.html');
+    exit;
+}
+
+// Prevenir caché del navegador para evitar acceso con botón atrás
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
+// Obtener datos del administrador desde la sesión
+$admin_nombre = $_SESSION['admin_nombre'] ?? 'Administrador';
+$admin_apellido = $_SESSION['admin_apellido'] ?? '';
+$admin_usuario = $_SESSION['admin_usuario'] ?? '';
+$admin_email = $_SESSION['admin_email'] ?? '';
+
+try {
+        // Estadísticas generales
+        $stats = [];
+        
+        // Total de mesas
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM mesas");
+        $stats['mesas_total'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        
+        // Mesas disponibles
+        $stmt = $pdo->query("SELECT COUNT(*) as disponibles FROM mesas WHERE estado = 'disponible'");
+        $stats['mesas_disponibles'] = $stmt->fetch(PDO::FETCH_ASSOC)['disponibles'];
+        
+        // Reservas de hoy
+        $stmt = $pdo->query("SELECT COUNT(*) as hoy FROM reservas WHERE DATE(fecha_reserva) = CURDATE()");
+        $stats['reservas_hoy'] = $stmt->fetch(PDO::FETCH_ASSOC)['hoy'];
+        
+        // Reservas pendientes
+        $stmt = $pdo->query("SELECT COUNT(*) as pendientes FROM reservas WHERE estado = 'pendiente'");
+        $stats['reservas_pendientes'] = $stmt->fetch(PDO::FETCH_ASSOC)['pendientes'];
+        
+        // Total de clientes
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM clientes");
+        $stats['clientes_total'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        
+        // Total de platos
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM platos WHERE activo = 1");
+        $stats['platos_total'] = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        
+        // Reservas recientes (últimas 5)
+        $stmt = $pdo->query("
+            SELECT r.*, c.nombre, c.apellido, c.telefono, m.numero_mesa, m.ubicacion
+            FROM reservas r
+            JOIN clientes c ON r.cliente_id = c.id
+            JOIN mesas m ON r.mesa_id = m.id
+            ORDER BY r.fecha_creacion DESC
+            LIMIT 5
+        ");
+        $reservas_recientes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Estado de mesas
+        $stmt = $pdo->query("
+            SELECT estado, COUNT(*) as cantidad
+            FROM mesas
+            GROUP BY estado
+        ");
+        $mesas_por_estado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+    } catch (PDOException $e) {
+        $error = "Error al obtener estadísticas: " . $e->getMessage();
+    }
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Restaurante Elegante</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="public/css/style.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- Restaurant Layout CSS -->
+    <link rel="stylesheet" href="public/css/restaurant-layout-new.css?v=<?php echo time(); ?>">
+
+    <style>
+        :root {
+            --dark-bg: #0a0e27;
+            --dark-card: #151932;
+            --dark-hover: #1e2341;
+            --accent-gold: #ffd700;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --success-glow: #10b981;
+            --danger-glow: #ef4444;
+            --warning-glow: #f59e0b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .dashboard-sidebar {
+            background: linear-gradient(180deg, #0f1629 0%, #1a1f3a 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .sidebar-header i {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .sidebar-nav .nav-link {
+            color: var(--text-secondary);
+            padding: 1rem 2rem;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            margin: 0.2rem 0;
+        }
+
+        .sidebar-nav .nav-link:hover {
+            color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.1);
+            border-left-color: var(--accent-gold);
+            transform: translateX(5px);
+        }
+
+        .sidebar-nav .nav-link.active {
+            color: var(--accent-gold);
+            background: rgba(255, 215, 0, 0.15);
+            border-left-color: var(--accent-gold);
+        }
+
+        .dashboard-content {
+            background: var(--dark-bg);
+            min-height: 100vh;
+            padding: 2rem !important;
+        }
+
+        .dashboard-header {
+            background: var(--dark-card);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-cyan));
+        }
+
+        .stats-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 48px rgba(255, 215, 0, 0.3);
+            border-color: var(--accent-gold);
+        }
+
+        .stats-card.primary::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .stats-card.success::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .stats-card.warning::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .stats-card.info::before { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+        .stats-card.gold::before { background: linear-gradient(90deg, #ffd700, #ffed4e); }
+        .stats-card.purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+        .stats-icon {
+            font-size: 3rem;
+            opacity: 0.2;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .stats-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--dark-card) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 20px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* Animación para el ícono de campana */
+        @keyframes swing {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30%, 50%, 70%, 90% { transform: rotate(15deg); }
+            20%, 40%, 60%, 80% { transform: rotate(-15deg); }
+        }
+
+        .animate__animated {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+
+        .animate__swing {
+            animation-name: swing;
+            transform-origin: top center;
+        }
+
+        .animate__infinite {
+            animation-iteration-count: infinite;
+            animation-duration: 2s;
+        }
+
+        .card-header {
+            background: rgba(255, 215, 0, 0.05) !important;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2) !important;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 1.5rem !important;
+        }
+
+        .card-header h5 {
+            color: var(--text-primary) !important;
+            font-weight: 600;
+        }
+
+        .btn-outline-primary,
+        .btn-outline-success,
+        .btn-outline-warning,
+        .btn-outline-secondary {
+            border: 2px solid !important;
+            transition: all 0.3s ease !important;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+        }
+
+        .btn-outline-primary {
+            border-color: #3b82f6 !important;
+            color: #60a5fa !important;
+        }
+
+        .btn-outline-primary:hover {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4) !important;
+        }
+
+        .btn-outline-success {
+            border-color: #10b981 !important;
+            color: #34d399 !important;
+        }
+
+        .btn-outline-success:hover {
+            background: linear-gradient(135deg, #10b981, #34d399) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .btn-outline-warning {
+            border-color: #f59e0b !important;
+            color: #fbbf24 !important;
+        }
+
+        .btn-outline-warning:hover {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4) !important;
+        }
+
+        .btn-outline-secondary {
+            border-color: #8b5cf6 !important;
+            color: #a78bfa !important;
+        }
+
+        .btn-outline-secondary:hover {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa) !important;
+            color: white !important;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4) !important;
+        }
+
+        .badge {
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+
+        .badge.bg-success {
+            background: linear-gradient(135deg, #10b981, #34d399) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        #indicador-conexion {
+            background: var(--dark-card);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--success-glow);
+            color: var(--success-glow);
+            font-weight: 600;
+        }
+
+        .modal-content {
+            background: var(--dark-card) !important;
+            border: 1px solid rgba(255, 215, 0, 0.2) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2) !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .modal-header .modal-title {
+            color: var(--accent-gold) !important;
+        }
+        
+        .modal-header .btn-close {
+            filter: invert(1) !important;
+        }
+
+        .modal-body {
+            color: var(--text-primary) !important;
+            background: var(--dark-card) !important;
+        }
+        
+        .modal-body * {
+            color: #ffffff !important;
+        }
+        
+        .modal-body label {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        
+        .modal-body p,
+        .modal-body span,
+        .modal-body div,
+        .modal-body small {
+            color: #ffffff !important;
+        }
+        
+        .modal-body .text-muted {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        
+        .modal-body .alert {
+            background: rgba(255, 215, 0, 0.1) !important;
+            border-color: rgba(255, 215, 0, 0.3) !important;
+            color: #ffffff !important;
+        }
+        
+        .modal-body .alert-info {
+            background: rgba(0, 212, 255, 0.1) !important;
+            border-color: rgba(0, 212, 255, 0.3) !important;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(255, 215, 0, 0.2) !important;
+            background: rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .form-control,
+        .form-select,
+        input.form-control,
+        select.form-select,
+        textarea.form-control,
+        .modal input[type="text"],
+        .modal input[type="number"],
+        .modal input[type="time"],
+        .modal input[type="date"],
+        .modal input[type="email"],
+        .modal select,
+        .modal textarea {
+            background: #1a1d35 !important;
+            border: 1px solid rgba(255, 215, 0, 0.3) !important;
+            color: #00d4ff !important;
+            font-weight: 500 !important;
+            -webkit-text-fill-color: #00d4ff !important;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.5) !important;
+        }
+        
+        .form-control:focus,
+        .form-select:focus,
+        input.form-control:focus,
+        select.form-select:focus,
+        textarea.form-control:focus {
+            background: #1a1d35 !important;
+            border-color: var(--accent-gold) !important;
+            color: #00d4ff !important;
+            -webkit-text-fill-color: #00d4ff !important;
+            box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.2) !important;
+        }
+        
+        .form-control option {
+            background: #1a1d35 !important;
+            color: #ffffff !important;
+        }
+        
+        /* Estilos para tablas dentro de modales */
+        .modal-body table {
+            color: var(--text-primary) !important;
+        }
+        
+        .modal-body table thead th {
+            background: rgba(0, 0, 0, 0.5) !important;
+            color: var(--accent-gold) !important;
+            border-color: rgba(255, 215, 0, 0.2) !important;
+        }
+        
+        .modal-body table tbody td {
+            background: rgba(0, 0, 0, 0.2) !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        
+        .modal-body table tbody tr:hover td {
+            background: rgba(255, 215, 0, 0.1) !important;
+        }
+        
+        /* Asegurar que los badges se vean bien */
+        .modal-body .badge {
+            color: #ffffff !important;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: var(--accent-gold) !important;
+            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .table {
+            color: var(--text-primary) !important;
+        }
+
+        .table-dark {
+            background: rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .table-hover tbody tr:hover {
+            background: rgba(255, 215, 0, 0.1) !important;
+        }
+
+        .alert-info {
+            background: rgba(6, 182, 212, 0.1) !important;
+            border-color: rgba(6, 182, 212, 0.3) !important;
+            color: #22d3ee !important;
+        }
+
+        /* Animaciones */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.6); }
+        }
+
+        .stats-card:hover {
+            animation: pulse-glow 2s infinite;
+        }
+    </style>
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- DASHBOARD PRINCIPAL -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- SIDEBAR -->
+            <div class="col-md-3 col-lg-2 p-0">
+                <div class="dashboard-sidebar">
+                    <div class="sidebar-header">
+                        <i class="bi bi-cup-hot-fill fs-2 mb-2 text-warning"></i>
+                        <h4 class="mb-1" style="font-family: 'Playfair Display', serif;">Restaurante</h4>
+                        <small class="text-light opacity-75">Panel de Control</small>
+                    </div>
+                    
+                    <nav class="sidebar-nav">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#dashboard">
+                                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#reservas">
+                                    <i class="bi bi-calendar-check me-2"></i> Reservas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#mesas">
+                                    <i class="bi bi-table me-2"></i> Gestión de Mesas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#menu">
+                                    <i class="bi bi-book me-2"></i> Gestión de Menú
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#clientes">
+                                    <i class="bi bi-people me-2"></i> Clientes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#reportes">
+                                    <i class="bi bi-graph-up me-2"></i> Reportes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="views/auditoria.php" target="_blank">
+                                    <i class="bi bi-clipboard-data me-2"></i> Auditoría
+                                </a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link" href="#" onclick="logout()">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- CONTENIDO PRINCIPAL -->
+            <div class="col-md-9 col-lg-10 p-0">
+                <!-- HEADER -->
+                <div class="dashboard-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4 class="mb-1">
+                            <i class="bi bi-person-circle me-2 text-warning"></i>
+                            Bienvenido, <?php echo htmlspecialchars($admin_nombre . ' ' . $admin_apellido); ?>
+                        </h4>
+                        <small class="text-muted">
+                            <i class="bi bi-calendar me-1"></i>
+                            <?php echo date('d/m/Y H:i:s'); ?>
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-envelope me-1"></i>
+                            <?php echo htmlspecialchars($admin_email); ?>
+                        </small>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-success">
+                            <i class="bi bi-person-badge me-1"></i>
+                            Administrador
+                        </span>
+                        <button onclick="logout()" class="btn btn-sm btn-outline-danger" title="Cerrar Sesión">
+                            <i class="bi bi-box-arrow-right me-1"></i>
+                            Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- CONTENIDO DEL DASHBOARD -->
+                <div class="dashboard-content p-4">
+                    <!-- INDICADOR DE ESTADO Y CONTROLES -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div id="indicador-conexion" class="me-3">🟢 Conectado</div>
+                                <button id="btn-actualizar-manual" class="btn btn-sm btn-outline-primary me-2">
+                                    <i class="bi bi-arrow-clockwise"></i> Actualizar
+                                </button>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="toggle-auto-update" checked>
+                                    <label class="form-check-label" for="toggle-auto-update">
+                                        Auto-actualizar
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <small id="ultima-actualizacion" class="text-muted">
+                                Última actualización: --:--:--
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- ESTADÍSTICAS PRINCIPALES CON APIS DINÁMICAS -->
+                    <div class="row mb-4 g-4">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stats-card primary">
+                                <i class="bi bi-grid-3x3-gap stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="total-mesas" class="stats-number">--</div>
+                                    <div class="stats-label">Total Mesas</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-info-circle me-1"></i>Sistema de reservas
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stats-card success">
+                                <i class="bi bi-check-circle-fill stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="mesas-disponibles" class="stats-number">--</div>
+                                    <div class="stats-label">Disponibles</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-clock me-1"></i><span id="info-disponibles">-- disponibles / -- ocupadas</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stats-card warning">
+                                <i class="bi bi-calendar-event stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="reservas-hoy" class="stats-number">--</div>
+                                    <div class="stats-label">Reservas Hoy</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-calendar-check me-1"></i>Actualizándose automáticamente
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-3">
+                            <div class="stats-card info">
+                                <i class="bi bi-hourglass-split stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="reservas-pendientes" class="stats-number">--</div>
+                                    <div class="stats-label">Pendientes</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-exclamation-circle me-1"></i>Requieren atención
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ALERTA DE RESERVAS NUEVAS PENDIENTES -->
+                    <div class="row mb-4" id="alerta-reservas-nuevas" style="display: none;">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1)); border-left: 5px solid #f59e0b !important;">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 class="mb-0" style="color: #f59e0b;">
+                                            <i class="bi bi-bell-fill me-2 animate__animated animate__swing animate__infinite"></i>
+                                            <span id="titulo-reservas-nuevas">¡Tienes Reservas Nuevas Pendientes!</span>
+                                        </h4>
+                                        <span class="badge bg-warning fs-5 px-3 py-2" id="contador-reservas-nuevas">0</span>
+                                    </div>
+                                    <p class="text-muted mb-3">Las siguientes reservas requieren tu confirmación inmediata:</p>
+                                    <div id="lista-reservas-pendientes" class="row g-3">
+                                        <!-- Se llenará dinámicamente -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTADÍSTICAS SECUNDARIAS -->
+                    <div class="row mb-4 g-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="stats-card gold">
+                                <i class="bi bi-people-fill stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="clientes-total" class="stats-number">--</div>
+                                    <div class="stats-label">Clientes Registrados</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-person-check me-1"></i>Base de datos completa
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="stats-card purple">
+                                <i class="bi bi-egg-fried stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="platos-total" class="stats-number">--</div>
+                                    <div class="stats-label">Platos Activos</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-book me-1"></i>Menú disponible
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="stats-card" style="--accent-color: #ec4899;">
+                                <i class="bi bi-graph-up-arrow stats-icon"></i>
+                                <div class="stats-content">
+                                    <div id="ocupacion-hoy" class="stats-number">10%</div>
+                                    <div class="stats-label">Ocupación Hoy</div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-bar-chart me-1"></i>Rendimiento actual
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BARRA DE OCUPACIÓN EN TIEMPO REAL -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="mb-0">
+                                            <i class="bi bi-speedometer2 me-2" style="color: var(--accent-gold);"></i>
+                                            Ocupación del Restaurante
+                                        </h5>
+                                        <span id="porcentaje-ocupacion" class="badge" style="background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan)); font-size: 1.2rem; padding: 0.5rem 1rem;">--%</span>
+                                    </div>
+                                    <div class="progress" style="height: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 15px; overflow: hidden;">
+                                        <div id="barra-ocupacion" class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #f59e0b 75%, #ef4444 100%); transition: width 0.5s ease;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <small class="text-muted">
+                                            <i class="bi bi-check-circle-fill" style="color: var(--success-glow);"></i> Disponibles
+                                        </small>
+                                        <small class="text-muted">
+                                            <i class="bi bi-x-circle-fill" style="color: var(--danger-glow);"></i> Ocupadas
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- GRÁFICOS ESTADÍSTICOS -->
+                    <div class="row mb-4 g-4">
+                        <!-- GRÁFICO DE RESERVAS DEL MES -->
+                        <div class="col-lg-8">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-bar-chart-fill me-2" style="color: var(--accent-gold);"></i>
+                                        Reservas del Mes
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartReservasMes" style="max-height: 350px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- GRÁFICO DE HORARIOS POPULARES -->
+                        <div class="col-lg-4">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-clock-fill me-2" style="color: var(--accent-cyan);"></i>
+                                        Horarios Más Populares
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartHorariosPopulares" style="max-height: 350px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTADÍSTICAS ADICIONALES -->
+                    <div class="row mb-4 g-4">
+                        <!-- TOP MESAS MÁS RESERVADAS -->
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-trophy-fill me-2" style="color: var(--accent-gold);"></i>
+                                        Mesas Más Reservadas
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartMesasPopulares" style="max-height: 300px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ESTADOS DE RESERVAS -->
+                        <div class="col-lg-6">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-pie-chart-fill me-2" style="color: var(--accent-purple);"></i>
+                                        Estado de Reservas
+                                    </h5>
+                                </div>
+                                <div class="card-body p-4">
+                                    <canvas id="chartEstadoReservas" style="max-height: 300px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LAYOUT VISUAL DEL RESTAURANTE -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-diagram-3-fill me-2" style="color: var(--accent-gold);"></i>
+                                        Distribución Visual del Restaurante
+                                    </h5>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="restaurantLayout.refresh()">
+                                        <i class="bi bi-arrow-clockwise me-1"></i> Actualizar Vista
+                                    </button>
+                                </div>
+                                <div class="card-body p-3" style="background: rgba(0, 0, 0, 0.2);">
+                                    <div id="restaurant-layout-container"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ACCIONES RÁPIDAS -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-lightning me-2"></i>
+                                        Acciones Rápidas
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <button class="btn btn-outline-primary w-100 py-3" onclick="mostrarGestionReservas()">
+                                                <i class="bi bi-calendar-check fs-2 d-block mb-2"></i>
+                                                Gestionar Reservas
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <button class="btn btn-outline-success w-100 py-3" onclick="mostrarGestionMesas()">
+                                                <i class="bi bi-table fs-2 d-block mb-2"></i>
+                                                Gestionar Mesas
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <button class="btn btn-outline-warning w-100 py-3" onclick="mostrarSubidaExcel()">
+                                                <i class="bi bi-file-earmark-excel fs-2 d-block mb-2"></i>
+                                                Cargar Menú Excel
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <button class="btn btn-outline-secondary w-100 py-3" onclick="mostrarGestionHorarios()">
+                                                <i class="bi bi-clock-history fs-2 d-block mb-2"></i>
+                                                Configurar Horarios
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MODAL: GESTIÓN DE MESAS -->
+                    <div class="modal fade" id="modalGestionMesas" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background: var(--gradient-primary);">
+                                    <h5 class="modal-title text-white">
+                                        <i class="bi bi-table me-2"></i>
+                                        Gestión de Mesas
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3 d-flex gap-2">
+                                        <button class="btn btn-success" onclick="gestionMesas.mostrarModal('agregar')">
+                                            <i class="fas fa-plus me-2"></i>
+                                            Crear Nueva Mesa
+                                        </button>
+                                        <button class="btn btn-info" onclick="gestionMesas.cargarMesas()">
+                                            <i class="fas fa-sync-alt me-2"></i>
+                                            Actualizar Lista
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Número</th>
+                                                    <th>Ubicación</th>
+                                                    <th>Capacidad</th>
+                                                    <th>Estado</th>
+                                                    <th>Descripción</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablaMesas">
+                                                <tr>
+                                                    <td colspan="6" class="text-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="visually-hidden">Cargando...</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MODAL: GESTIÓN DE RESERVAS -->
+                    <div class="modal fade" id="modalGestionReservas" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background: var(--gradient-primary);">
+                                    <h5 class="modal-title text-white">
+                                        <i class="bi bi-calendar-check me-2"></i>
+                                        Gestión de Reservas
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3 d-flex gap-2">
+                                        <button class="btn btn-primary" onclick="gestionReservas.mostrarModalReserva('crear')">
+                                            <i class="fas fa-plus me-2"></i>
+                                            Crear Nueva Reserva
+                                        </button>
+                                        <button class="btn btn-info" onclick="gestionReservas.cargarReservas()">
+                                            <i class="fas fa-sync-alt me-2"></i>
+                                            Actualizar Lista
+                                        </button>
+                                        <select class="form-select w-auto" id="filtroEstadoReserva" onchange="gestionReservas.cargarReservas()">
+                                            <option value="">Todos los estados</option>
+                                            <option value="pendiente">Pendientes</option>
+                                            <option value="confirmada">Confirmadas</option>
+                                            <option value="en_curso">En Curso</option>
+                                            <option value="finalizada">Finalizadas</option>
+                                            <option value="cancelada">Canceladas</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Cliente</th>
+                                                    <th>Mesa</th>
+                                                    <th>Fecha</th>
+                                                    <th>Hora</th>
+                                                    <th>Personas</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablaReservas">
+                                                <tr>
+                                                    <td colspan="8" class="text-center">
+                                                        <div class="spinner-border" role="status">
+                                                            <span class="visually-hidden">Cargando...</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MODAL: GESTIÓN DE HORARIOS -->
+                    <div class="modal fade" id="modalGestionHorarios" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background: var(--gradient-primary);">
+                                    <h5 class="modal-title text-white">
+                                        <i class="bi bi-clock-history me-2"></i>
+                                        Configuración de Horarios de Reserva
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        Configura el horario en que los clientes pueden hacer reservas y los días que el restaurante está cerrado.
+                                    </div>
+                                    
+                                    <form id="formHorarios">
+                                        <div class="row mb-4">
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">
+                                                    <i class="bi bi-clock me-1"></i>
+                                                    Hora de Inicio de Reservas
+                                                </label>
+                                                <input type="time" class="form-control" id="horaApertura" required>
+                                                <small class="text-muted">Primera hora disponible para reservar</small>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold">
+                                                    <i class="bi bi-clock-fill me-1"></i>
+                                                    Hora Final de Reservas
+                                                </label>
+                                                <input type="time" class="form-control" id="horaCierre" required>
+                                                <small class="text-muted">Última hora disponible para reservar</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <label class="form-label fw-bold">
+                                                <i class="bi bi-calendar-x me-1"></i>
+                                                Días Cerrados
+                                            </label>
+                                            <div class="row g-2">
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoLunes" value="1">
+                                                        <label class="form-check-label" for="cerradoLunes">Lunes</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoMartes" value="2">
+                                                        <label class="form-check-label" for="cerradoMartes">Martes</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoMiercoles" value="3">
+                                                        <label class="form-check-label" for="cerradoMiercoles">Miércoles</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoJueves" value="4">
+                                                        <label class="form-check-label" for="cerradoJueves">Jueves</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoViernes" value="5">
+                                                        <label class="form-check-label" for="cerradoViernes">Viernes</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoSabado" value="6">
+                                                        <label class="form-check-label" for="cerradoSabado">Sábado</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="cerradoDomingo" value="0">
+                                                        <label class="form-check-label" for="cerradoDomingo">Domingo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">Marca los días que el restaurante NO acepta reservas</small>
+                                        </div>
+                                    </form>
+                                    
+                                    <div id="estadoActualHorarios" class="mt-4 p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                                        <h6 class="mb-3"><i class="bi bi-info-circle me-2"></i>Configuración Actual:</h6>
+                                        <div class="spinner-border spinner-border-sm" role="status">
+                                            <span class="visually-hidden">Cargando...</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                        <strong>Nota:</strong> Los cambios se aplicarán inmediatamente y el sistema validará automáticamente que las nuevas reservas cumplan con estos horarios.
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" onclick="window.guardarHorarios()">
+                                        <i class="bi bi-save me-2"></i>
+                                        Guardar Configuración
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MODAL: SUBIR EXCEL MENÚ -->
+                    <div class="modal fade" id="modalSubirExcel" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background: var(--gradient-gold);">
+                                    <h5 class="modal-title text-white">
+                                        <i class="bi bi-file-earmark-excel me-2"></i>
+                                        Cargar Menú desde Excel
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        <strong>Formato del Excel:</strong>
+                                        <ul class="mb-0 mt-2">
+                                            <li>Debe tener dos hojas: <code>categorias</code> y <code>platos</code></li>
+                                            <li><strong>Hoja categorias:</strong> nombre, descripcion, orden_menu, activo</li>
+                                            <li><strong>Hoja platos:</strong> categoria, nombre, descripcion, precio, stock_disponible, tiempo_preparacion, imagen_url, ingredientes, es_especial, activo</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <form id="formSubirExcel" enctype="multipart/form-data">
+                                        <div class="mb-3">
+                                            <label class="form-label">Seleccionar archivo Excel *</label>
+                                            <input type="file" class="form-control" id="archivoExcel" 
+                                                   accept=".xlsx,.xls" required>
+                                            <small class="text-muted">Formatos permitidos: .xlsx, .xls (máx. 10MB)</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="clearBeforeLoad" checked>
+                                                <label class="form-check-label" for="clearBeforeLoad">
+                                                    <strong>Reemplazar menú completo</strong>
+                                                    <br>
+                                                    <small class="text-muted">
+                                                        ✅ Recomendado: Elimina todos los platos y categorías actuales antes de cargar el nuevo Excel.
+                                                        Si desmarcas esta opción, solo actualizará los platos existentes y agregará nuevos.
+                                                    </small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="progresoSubida" class="d-none">
+                                            <div class="progress mb-2">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                                     role="progressbar" style="width: 100%"></div>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="bi bi-hourglass-split"></i> Procesando archivo...
+                                            </small>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-warning" onclick="subirExcelMenu()">
+                                        <i class="bi bi-upload me-2"></i>
+                                        Subir y Procesar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="public/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Configuración global de Chart.js para tema oscuro
+        Chart.defaults.color = '#a0aec0';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+        Chart.defaults.plugins.legend.labels.color = '#ffffff';
+        Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(21, 25, 50, 0.95)';
+        Chart.defaults.plugins.tooltip.titleColor = '#ffd700';
+        Chart.defaults.plugins.tooltip.bodyColor = '#ffffff';
+        Chart.defaults.plugins.tooltip.borderColor = '#ffd700';
+        Chart.defaults.plugins.tooltip.borderWidth = 1;
+
+        // Inicializar gráficos al cargar el DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            actualizarEstadosAutomaticamente();
+            cargarDatosYGraficos();
+            
+            // Actualizar estados cada 2 minutos si está habilitado
+            let intervaloActualizacion = setInterval(actualizarEstadosAutomaticamente, 120000);
+            
+            // Control del toggle auto-actualización
+            document.getElementById('toggle-auto-update').addEventListener('change', function(e) {
+                if (e.target.checked) {
+                    intervaloActualizacion = setInterval(actualizarEstadosAutomaticamente, 120000);
+                    console.log('Auto-actualización activada');
+                } else {
+                    clearInterval(intervaloActualizacion);
+                    console.log('Auto-actualización desactivada');
+                }
+            });
+            
+            // Botón actualizar manual
+            document.getElementById('btn-actualizar-manual').addEventListener('click', async function() {
+                const btn = this;
+                btn.disabled = true;
+                btn.innerHTML = '<i class="bi bi-arrow-clockwise spinner-border spinner-border-sm"></i> Actualizando...';
+                
+                await actualizarEstadosAutomaticamente();
+                await cargarDatosYGraficos();
+                
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Actualizar';
+            });
+        });
+
+        // Función para actualizar estados de reservas automáticamente
+        async function actualizarEstadosAutomaticamente() {
+            try {
+                const response = await fetch('app/api/actualizar_estados_reservas.php', {
+                    credentials: 'same-origin'
+                });
+                const data = await response.json();
+                console.log('Estados actualizados:', data);
+                
+                // Actualizar indicador de última actualización
+                const ahora = new Date();
+                const horaFormato = ahora.toLocaleTimeString('es-ES');
+                document.getElementById('ultima-actualizacion').textContent = `Última actualización: ${horaFormato}`;
+                
+                return data;
+            } catch (error) {
+                console.error('Error actualizando estados:', error);
+                return null;
+            }
+        }
+
+        // Variables globales para los gráficos
+        let chartReservasMes, chartHorarios, chartMesas, chartEstado;
+
+        function cargarDatosYGraficos() {
+            const indicador = document.getElementById('indicador-conexion');
+            
+            fetch('app/api/dashboard_stats.php', {
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.data) {
+                        indicador.innerHTML = '🟢 Conectado';
+                        indicador.className = 'me-3';
+                        
+                        // Actualizar estadísticas de las cards
+                        actualizarEstadisticas(result.data);
+                        
+                        // Inicializar gráficos
+                        inicializarGraficos(result.data);
+                    } else {
+                        indicador.innerHTML = '🔴 Error de conexión';
+                        indicador.className = 'me-3 text-danger';
+                        console.error('Error al obtener datos:', result.error);
+                        // Mostrar gráficos con datos de ejemplo si hay error
+                        inicializarGraficos(null);
+                    }
+                })
+                .catch(error => {
+                    indicador.innerHTML = '🔴 Error de conexión';
+                    indicador.className = 'me-3 text-danger';
+                    console.error('Error de conexión:', error);
+                    // Mostrar gráficos con datos de ejemplo si hay error
+                    inicializarGraficos(null);
+                });
+        }
+
+        function actualizarEstadisticas(datos) {
+            // Actualizar cards principales
+            document.getElementById('total-mesas').textContent = datos.totalMesas || '--';
+            document.getElementById('mesas-disponibles').textContent = datos.mesasDisponibles || '--';
+            document.getElementById('reservas-hoy').textContent = datos.reservasHoy || '--';
+            document.getElementById('reservas-pendientes').textContent = datos.reservasPendientes || '--';
+            
+            // Actualizar cards secundarias
+            document.getElementById('clientes-total').textContent = datos.clientesTotal || '--';
+            
+            const platosTotal = document.getElementById('platos-total');
+            if (platosTotal) {
+                platosTotal.textContent = datos.platosActivos || '--';
+            }
+            
+            const ocupacionHoy = document.getElementById('ocupacion-hoy');
+            if (ocupacionHoy) {
+                ocupacionHoy.textContent = datos.porcentajeOcupacion ? datos.porcentajeOcupacion + '%' : '--';
+            }
+            
+            // Actualizar info adicional
+            const infoDisponibles = document.getElementById('info-disponibles');
+            if (infoDisponibles) {
+                infoDisponibles.textContent = `${datos.mesasDisponibles || 0} disponibles / ${datos.mesasOcupadas || 0} ocupadas`;
+            }
+            
+            // Actualizar última actualización
+            const ahora = new Date();
+            const horaActual = ahora.toLocaleTimeString('es-ES');
+            const ultimaActualizacion = document.getElementById('ultima-actualizacion');
+            if (ultimaActualizacion) {
+                ultimaActualizacion.textContent = `Última actualización: ${horaActual}`;
+            }
+            
+            // Cargar reservas pendientes
+            cargarReservasPendientes();
+        }
+
+        // Función para cargar y mostrar reservas pendientes
+        async function cargarReservasPendientes() {
+            console.log('🔄 Cargando reservas pendientes...');
+            try {
+                const response = await fetch('app/obtener_reservas.php?estado=pendiente', {
+                    credentials: 'same-origin',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    cache: 'no-cache' // Evitar caché
+                });
+                
+                console.log('📡 Respuesta recibida:', response.status, response.statusText);
+                
+                // Verificar si la respuesta es OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Obtener el texto de la respuesta primero
+                const text = await response.text();
+                console.log('📄 Texto de respuesta (primeros 200 chars):', text.substring(0, 200));
+                
+                // Intentar parsear como JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                    console.log('✅ JSON parseado correctamente:', data);
+                } catch (e) {
+                    console.error('❌ Error parseando JSON:', e);
+                    console.error('📄 Respuesta completa:', text);
+                    throw new Error('La respuesta del servidor no es JSON válido');
+                }
+                
+                const alertaContainer = document.getElementById('alerta-reservas-nuevas');
+                const listaContainer = document.getElementById('lista-reservas-pendientes');
+                const contador = document.getElementById('contador-reservas-nuevas');
+                const titulo = document.getElementById('titulo-reservas-nuevas');
+                
+                const reservas = data.success ? data.reservas : [];
+                
+                if (reservas && reservas.length > 0) {
+                    // Mostrar alerta
+                    alertaContainer.style.display = 'block';
+                    contador.textContent = reservas.length;
+                    titulo.textContent = reservas.length === 1 
+                        ? '¡Tienes 1 Reserva Nueva Pendiente!' 
+                        : `¡Tienes ${reservas.length} Reservas Nuevas Pendientes!`;
+                    
+                    // Generar tarjetas de reservas
+                    listaContainer.innerHTML = reservas.map(reserva => `
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-warning shadow-sm h-100" style="border-width: 2px;">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title mb-0">
+                                            <i class="bi bi-person-fill text-warning"></i>
+                                            ${reserva.cliente_nombre || 'Cliente'}
+                                        </h5>
+                                        <span class="badge bg-warning">NUEVA</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-calendar3 text-muted"></i>
+                                        <strong>Fecha:</strong> ${new Date(reserva.fecha_reserva).toLocaleDateString('es-ES')}
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-clock text-muted"></i>
+                                        <strong>Hora:</strong> ${reserva.hora_reserva}
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-table text-muted"></i>
+                                        <strong>Mesa:</strong> ${reserva.mesa_numero || reserva.mesa_id}
+                                    </div>
+                                    <div class="mb-3">
+                                        <i class="bi bi-people text-muted"></i>
+                                        <strong>Personas:</strong> ${reserva.numero_personas}
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success" onclick="confirmarReservaNueva(${reserva.id})">
+                                            <i class="bi bi-check-circle me-1"></i> Confirmar
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="cancelarReservaNueva(${reserva.id})">
+                                            <i class="bi bi-x-circle me-1"></i> Rechazar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    // Ocultar alerta si no hay pendientes
+                    alertaContainer.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error cargando reservas pendientes:', error);
+                // No mostrar error al usuario si es solo que no hay conexión
+                const alertaContainer = document.getElementById('alerta-reservas-nuevas');
+                if (alertaContainer) {
+                    alertaContainer.style.display = 'none';
+                }
+            }
+        }
+
+        // Función para confirmar reserva y enviar WhatsApp
+        async function confirmarReservaNueva(reservaId) {
+            try {
+                const resultado = await Swal.fire({
+                    title: '¿Confirmar Reserva?',
+                    html: `
+                        <p>Se confirmará la reserva y se enviará una notificación por WhatsApp al cliente.</p>
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-whatsapp"></i> El cliente recibirá un mensaje de confirmación automáticamente
+                        </div>
+                    `,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#10b981',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="bi bi-check-circle"></i> Sí, Confirmar',
+                    cancelButtonText: 'Cancelar'
+                });
+
+                if (resultado.isConfirmed) {
+                    // Mostrar loading
+                    Swal.fire({
+                        title: 'Confirmando...',
+                        html: 'Enviando notificación por WhatsApp...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    const response = await fetch('app/api/confirmar_reserva_admin.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reserva_id: reservaId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            title: '¡Reserva Confirmada!',
+                            html: `
+                                <p>${data.message}</p>
+                                ${data.whatsapp && data.whatsapp.enviado 
+                                    ? '<div class="alert alert-success mt-2"><i class="bi bi-whatsapp"></i> WhatsApp enviado correctamente</div>' 
+                                    : '<div class="alert alert-warning mt-2"><i class="bi bi-exclamation-triangle"></i> No se pudo enviar WhatsApp</div>'
+                                }
+                            `,
+                            icon: 'success',
+                            confirmButtonColor: '#10b981'
+                        });
+
+                        // Recargar reservas pendientes y estadísticas
+                        await cargarReservasPendientes();
+                        await actualizarEstadosAutomaticamente();
+                        await cargarDatosYGraficos();
+                    } else {
+                        throw new Error(data.message || 'Error al confirmar reserva');
+                    }
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message || 'No se pudo confirmar la reserva',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        }
+
+        // Función para cancelar/rechazar reserva
+        async function cancelarReservaNueva(reservaId) {
+            try {
+                const resultado = await Swal.fire({
+                    title: '¿Rechazar Reserva?',
+                    text: 'Esta acción no se puede deshacer',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, Rechazar',
+                    cancelButtonText: 'Cancelar'
+                });
+
+                if (resultado.isConfirmed) {
+                    const response = await fetch('app/eliminar_reserva.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id: reservaId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            title: 'Reserva Rechazada',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#10b981'
+                        });
+
+                        // Recargar reservas pendientes y estadísticas
+                        await cargarReservasPendientes();
+                        await actualizarEstadosAutomaticamente();
+                        await cargarDatosYGraficos();
+                    } else {
+                        throw new Error(data.message || 'Error al rechazar reserva');
+                    }
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message || 'No se pudo rechazar la reserva',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        }
+
+        function inicializarGraficos(datos) {
+            // GRÁFICO 1: Reservas del Mes (Barras)
+            const ctxReservasMes = document.getElementById('chartReservasMes');
+            if (ctxReservasMes) {
+                let labels, values;
+                
+                if (datos && datos.reservasMes && datos.reservasMes.length > 0) {
+                    labels = datos.reservasMes.map(item => item.semana);
+                    values = datos.reservasMes.map(item => item.total);
+                } else {
+                    labels = ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'];
+                    values = [0, 0, 0, 0];
+                }
+
+                chartReservasMes = new Chart(ctxReservasMes, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Reservas',
+                            data: values,
+                            backgroundColor: [
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(139, 92, 246, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(59, 130, 246, 1)',
+                                'rgba(16, 185, 129, 1)',
+                                'rgba(245, 158, 11, 1)',
+                                'rgba(139, 92, 246, 1)'
+                            ],
+                            borderWidth: 2,
+                            borderRadius: 10,
+                            borderSkipped: false,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return ' Reservas: ' + context.parsed.y;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // GRÁFICO 2: Horarios Populares (Dona)
+            const ctxHorarios = document.getElementById('chartHorariosPopulares');
+            if (ctxHorarios) {
+                let labelsHorarios, valuesHorarios, colores;
+                
+                if (datos && datos.horariosPopulares && datos.horariosPopulares.length > 0) {
+                    labelsHorarios = datos.horariosPopulares.map(item => item.horario);
+                    valuesHorarios = datos.horariosPopulares.map(item => item.total);
+                    colores = [
+                        'rgba(255, 215, 0, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(239, 68, 68, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)'
+                    ];
+                } else {
+                    labelsHorarios = ['Sin datos'];
+                    valuesHorarios = [1];
+                    colores = ['rgba(107, 114, 128, 0.5)'];
+                }
+
+                chartHorarios = new Chart(ctxHorarios, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labelsHorarios,
+                        datasets: [{
+                            data: valuesHorarios,
+                            backgroundColor: colores,
+                            borderColor: colores.map(c => c.replace('0.8', '1')),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                        return ' ' + context.label + ': ' + percentage + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // GRÁFICO 3: Mesas Más Reservadas (Barras horizontales)
+            const ctxMesas = document.getElementById('chartMesasPopulares');
+            if (ctxMesas) {
+                let labelsMesas, valuesMesas;
+                
+                if (datos && datos.mesasPopulares && datos.mesasPopulares.length > 0) {
+                    labelsMesas = datos.mesasPopulares.map(item => item.mesa);
+                    valuesMesas = datos.mesasPopulares.map(item => item.total);
+                } else {
+                    labelsMesas = ['Sin datos'];
+                    valuesMesas = [0];
+                }
+
+                chartMesas = new Chart(ctxMesas, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsMesas,
+                        datasets: [{
+                            label: 'Reservas',
+                            data: valuesMesas,
+                            backgroundColor: 'rgba(255, 215, 0, 0.8)',
+                            borderColor: 'rgba(255, 215, 0, 1)',
+                            borderWidth: 2,
+                            borderRadius: 10
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: '#a0aec0'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // GRÁFICO 4: Estado de Reservas (Pie)
+            const ctxEstado = document.getElementById('chartEstadoReservas');
+            if (ctxEstado) {
+                let labelsEstado, valuesEstado, coloresEstado;
+                
+                if (datos && datos.estadosReservas && datos.estadosReservas.length > 0) {
+                    labelsEstado = datos.estadosReservas.map(item => item.estado);
+                    valuesEstado = datos.estadosReservas.map(item => item.total);
+                    coloresEstado = [
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(239, 68, 68, 0.8)'
+                    ];
+                } else {
+                    labelsEstado = ['Sin datos'];
+                    valuesEstado = [1];
+                    coloresEstado = ['rgba(107, 114, 128, 0.5)'];
+                }
+
+                chartEstado = new Chart(ctxEstado, {
+                    type: 'pie',
+                    data: {
+                        labels: labelsEstado,
+                        datasets: [{
+                            data: valuesEstado,
+                            backgroundColor: coloresEstado,
+                            borderColor: coloresEstado.map(c => c.replace('0.8', '1')),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 15,
+                                    color: '#ffffff',
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                        return ' ' + context.label + ': ' + context.parsed + ' (' + percentage + '%)';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+
+    <script>
+        // Función para alternar visibilidad de contraseña
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('bi-eye');
+                toggleIcon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('bi-eye-slash');
+                toggleIcon.classList.add('bi-eye');
+            }
+        }
+
+        // Dashboard directo
+
+        // Función de logout mejorada con prevención de caché
+        function logout() {
+            Swal.fire({
+                title: '¿Cerrar sesión?',
+                text: '¿Está seguro que desea salir del panel de administración?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Mostrar loading
+                    Swal.fire({
+                        title: 'Cerrando sesión...',
+                        html: '<div class="spinner-border text-warning" role="status"><span class="visually-hidden">Cargando...</span></div>',
+                        showConfirmButton: false,
+                        allowOutsideClick: false
+                    });
+                    
+                    // Limpiar cualquier dato local
+                    sessionStorage.clear();
+                    localStorage.removeItem('adminSession');
+                    
+                    // Redirigir al logout
+                    setTimeout(() => {
+                        window.location.replace('app/logout.php');
+                    }, 500);
+                }
+            });
+        }
+        
+        // Prevenir navegación: si el usuario presiona atrás, cerrar sesión automáticamente
+        let sessionActive = true;
+        
+        // Detectar cuando el usuario intenta salir de la página
+        window.addEventListener('beforeunload', function(e) {
+            // Marcar que está intentando salir
+            sessionActive = false;
+        });
+        
+        // Detectar navegación con botones del navegador
+        window.addEventListener('popstate', function(event) {
+            // Si el usuario presiona atrás, cerrar sesión inmediatamente
+            Swal.fire({
+                title: 'Cerrando sesión...',
+                html: '<div class="spinner-border text-warning" role="status"><span class="visually-hidden">Cargando...</span></div>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                timer: 1000
+            });
+            
+            // Cerrar sesión
+            sessionStorage.clear();
+            localStorage.clear();
+            
+            setTimeout(() => {
+                window.location.replace('app/logout.php');
+            }, 1000);
+        });
+        
+        // Prevenir navegación con botones atrás/adelante después de logout
+        window.addEventListener('pageshow', function(event) {
+            // Si la página se carga desde caché (usuario presionó atrás)
+            if (event.persisted) {
+                // Verificar si hay sesión activa
+                fetch('app/verificar_sesion_admin.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (!data.activa) {
+                            // No hay sesión activa, redirigir
+                            window.location.replace('index.html');
+                        }
+                    })
+                    .catch(() => {
+                        // En caso de error, redirigir por seguridad
+                        window.location.replace('index.html');
+                    });
+            }
+        });
+
+        // Deshabilitar botón atrás del navegador
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            // Si el usuario presiona atrás, cerrar sesión
+            Swal.fire({
+                title: 'Saliendo del panel...',
+                html: '<div class="spinner-border text-warning" role="status"><span class="visually-hidden">Cargando...</span></div>',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                timer: 800
+            });
+            
+            sessionStorage.clear();
+            localStorage.clear();
+            
+            setTimeout(() => {
+                window.location.replace('app/logout.php');
+            }, 800);
+        };
+
+
+        // Actualizar reloj en tiempo real
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleString('es-ES');
+            const clockElement = document.querySelector('.dashboard-header small');
+            if (clockElement) {
+                clockElement.innerHTML = '<i class="bi bi-calendar me-1"></i>' + timeString;
+            }
+        }
+
+        // Actualizar cada segundo si está en dashboard
+        setInterval(updateClock, 1000);
+    </script>
+
+    <!-- DASHBOARD DINÁMICO CON APIs -->
+    <script src="public/js/dashboard-api.js"></script>
+    
+    <script>
+        // Configuración adicional del dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏆 Dashboard Dinámico del Restaurante Elegante iniciado');
+            
+            // Personalizar configuración si es necesario
+            if (window.dashboard) {
+                dashboard.configuracion.debug = false; // Cambiar a true para debug
+                
+                // Configurar intervalos personalizados (opcional)
+                // dashboard.configuracion.intervalos.estadisticas = 20000; // 20 segundos
+                // dashboard.configuracion.intervalos.mesas = 15000;        // 15 segundos
+                // dashboard.configuracion.intervalos.reservas = 25000;     // 25 segundos
+                
+                console.log('⚙️ Dashboard configurado correctamente');
+            }
+        });
+        
+        // Función global para refrescar todo manualmente desde botones
+        function actualizarDashboardCompleto() {
+            if (window.dashboard) {
+                dashboard.cargarDatosIniciales();
+                dashboard.mostrarNotificacion('Dashboard actualizado manualmente', 'info');
+            }
+        }
+        
+        // Integración con SweetAlert para notificaciones importantes
+        function mostrarAlertaReservaUrgente(reserva) {
+            Swal.fire({
+                title: '⚠️ Reserva Urgente!',
+                html: `
+                    <div style="text-align: left;">
+                        <p><strong>Cliente:</strong> ${reserva.cliente}</p>
+                        <p><strong>Mesa:</strong> ${reserva.mesa}</p>
+                        <p><strong>Hora:</strong> ${reserva.hora}</p>
+                        <p><strong>Personas:</strong> ${reserva.personas}</p>
+                    </div>
+                `,
+                icon: 'warning',
+                confirmButtonText: 'Entendido',
+                confirmButtonColor: '#d4af37',
+                timer: 10000,
+                timerProgressBar: true
+            });
+        }
+        
+        // Sistema de notificaciones push (para futuras mejoras)
+        function configurarNotificacionesPush() {
+            if ('Notification' in window && 'serviceWorker' in navigator) {
+                // Pedir permisos para notificaciones del navegador
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        console.log('✅ Notificaciones push habilitadas');
+                    }
+                });
+            }
+        }
+        
+        // Configurar notificaciones push al cargar
+        configurarNotificacionesPush();
+        
+        // Manejo de errores de conexión
+        window.addEventListener('online', function() {
+            if (window.dashboard) {
+                dashboard.mostrarEstadoConexion('conectado');
+                dashboard.mostrarNotificacion('Conexión restaurada', 'success');
+                dashboard.cargarDatosIniciales();
+            }
+        });
+        
+        window.addEventListener('offline', function() {
+            if (window.dashboard) {
+                dashboard.mostrarEstadoConexion('error');
+                dashboard.mostrarNotificacion('Sin conexión a internet', 'error');
+            }
+        });
+
+        // ============================================
+        // SEGURIDAD: Prevenir navegación con botones Atrás/Adelante
+        // ============================================
+        
+        (function() {
+            // Verificar sesión periódicamente
+            function verificarSesion() {
+                fetch('app/verificar_sesion_admin.php', {
+                    method: 'GET',
+                    cache: 'no-cache'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.activa) {
+                        // Si la sesión no está activa, redirigir inmediatamente
+                        window.location.replace('index.html');
+                    }
+                })
+                .catch(() => {
+                    // Si hay error, asumir sesión inválida
+                    window.location.replace('index.html');
+                });
+            }
+
+            // Verificar sesión cada 30 segundos
+            setInterval(verificarSesion, 30000);
+
+            // Prevenir navegación con botón Atrás
+            history.pushState(null, null, location.href);
+            
+            window.addEventListener('popstate', function() {
+                // Al detectar navegación hacia atrás, cerrar sesión
+                fetch('app/logout.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                }).finally(() => {
+                    window.location.replace('index.html');
+                });
+            });
+
+            // Detectar cuando la página se carga desde caché
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) {
+                    // Página cargada desde caché, verificar sesión
+                    verificarSesion();
+                }
+            });
+
+            // Prevenir caché al salir de la página
+            window.addEventListener('beforeunload', function() {
+                // Marcar que se está saliendo
+                sessionStorage.setItem('admin_exiting', 'true');
+            });
+
+            // Al cargar, verificar si se estaba saliendo
+            if (sessionStorage.getItem('admin_exiting') === 'true') {
+                sessionStorage.removeItem('admin_exiting');
+                verificarSesion();
+            }
+        })();
+    </script>
+    
+    <!-- Restaurant Layout JavaScript -->
+    <script src="public/js/restaurant-layout-new.js?v=<?php echo time(); ?>"></script>
+    
+    <!-- Gestión de Mesas JavaScript -->
+    <script src="public/js/gestion-mesas.js?v=<?php echo time(); ?>"></script>
+    
+    <!-- Gestión de Reservas JavaScript -->
+    <script src="public/js/gestion-reservas.js?v=<?php echo time(); ?>"></script>
+    
+    <script>
+        // Esperar a que todos los scripts estén cargados
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🍽️ Archivos de restaurant layout cargados');
+        });
+        
+        // FUNCIONES GLOBALES - Definidas en window
+        window.mostrarGestionMesas = function() {
+            if (typeof gestionMesas === 'undefined') {
+                console.error('gestionMesas no está definido');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al cargar el módulo de gestión de mesas'
+                });
+                return;
+            }
+            const modal = new bootstrap.Modal(document.getElementById('modalGestionMesas'));
+            modal.show();
+            gestionMesas.abrir();
+        };
+        
+        window.mostrarGestionReservas = function() {
+            if (typeof gestionReservas === 'undefined') {
+                console.error('gestionReservas no está definido');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al cargar el módulo de gestión de reservas'
+                });
+                return;
+            }
+            const modal = new bootstrap.Modal(document.getElementById('modalGestionReservas'));
+            modal.show();
+            gestionReservas.abrir();
+        };
+        
+        window.mostrarSubidaExcel = function() {
+            const modal = new bootstrap.Modal(document.getElementById('modalSubirExcel'));
+            modal.show();
+        };
+        
+        // Función para mostrar modal de gestión de horarios
+        window.mostrarGestionHorarios = function() {
+            const modal = new bootstrap.Modal(document.getElementById('modalGestionHorarios'));
+            modal.show();
+            window.cargarHorariosActuales();
+        };
+        
+        // Función para cargar horarios actuales
+        window.cargarHorariosActuales = async function() {
+            const estadoDiv = document.getElementById('estadoActualHorarios');
+            estadoDiv.innerHTML = '<h6>Configuración Actual:</h6><div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Cargando...</span></div>';
+            
+            try {
+                const response = await fetch('app/api/gestionar_horarios.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ action: 'obtener' })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.configuracion) {
+                    const config = data.configuracion;
+                    
+                    // Llenar el formulario
+                    if (config.hora_apertura) {
+                        document.getElementById('horaApertura').value = config.hora_apertura.valor || '11:00';
+                    }
+                    if (config.hora_cierre) {
+                        document.getElementById('horaCierre').value = config.hora_cierre.valor || '23:00';
+                    }
+                    
+                    // Cargar días cerrados y marcar checkboxes
+                    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+                    const diasCerrados = config.dias_cerrados?.valor || '';
+                    const diasArray = diasCerrados ? diasCerrados.split(',').map(d => d.trim()) : [];
+                    
+                    // Desmarcar todos primero
+                    dayNames.forEach((day, index) => {
+                        const checkbox = document.getElementById(`cerrado${day}`);
+                        if (checkbox) checkbox.checked = false;
+                    });
+                    
+                    // Marcar los días cerrados
+                    diasArray.forEach(dia => {
+                        const dayIndex = parseInt(dia);
+                        if (!isNaN(dayIndex) && dayIndex >= 0 && dayIndex <= 6) {
+                            const checkbox = document.getElementById(`cerrado${dayNames[dayIndex]}`);
+                            if (checkbox) checkbox.checked = true;
+                        }
+                    });
+                    
+                    // Crear texto legible de días cerrados
+                    let diasCerradosTexto = 'Ninguno';
+                    if (diasArray.length > 0) {
+                        const nombresEspañol = {
+                            0: 'Domingo', 1: 'Lunes', 2: 'Martes', 3: 'Miércoles',
+                            4: 'Jueves', 5: 'Viernes', 6: 'Sábado'
+                        };
+                        diasCerradosTexto = diasArray.map(d => nombresEspañol[parseInt(d)]).filter(Boolean).join(', ');
+                    }
+                    
+                    // Mostrar configuración actual
+                    estadoDiv.innerHTML = `
+                        <h6>Configuración Actual:</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Apertura:</strong> ${config.hora_apertura?.valor || 'No configurado'}</li>
+                            <li><strong>Cierre:</strong> ${config.hora_cierre?.valor || 'No configurado'}</li>
+                            <li><strong>Días cerrados:</strong> ${diasCerradosTexto}</li>
+                        </ul>
+                    `;
+                } else {
+                    estadoDiv.innerHTML = '<div class="alert alert-warning">No se pudo cargar la configuración actual</div>';
+                }
+            } catch (error) {
+                console.error('Error cargando horarios:', error);
+                estadoDiv.innerHTML = '<div class="alert alert-danger">Error de conexión</div>';
+            }
+        };
+        
+        // Función para guardar horarios
+        window.guardarHorarios = async function() {
+            const form = document.getElementById('formHorarios');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const horaApertura = document.getElementById('horaApertura').value;
+            const horaCierre = document.getElementById('horaCierre').value;
+            
+            // Obtener días cerrados
+            const diasCerrados = [];
+            ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'].forEach(dia => {
+                const checkbox = document.getElementById('cerrado' + dia);
+                if (checkbox && checkbox.checked) {
+                    diasCerrados.push(checkbox.value);
+                }
+            });
+            
+            // Validar que hora de cierre sea después de apertura
+            if (horaCierre <= horaApertura) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'La hora final debe ser posterior a la hora de inicio'
+                });
+                return;
+            }
+            
+            try {
+                const response = await fetch('app/api/gestionar_horarios.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        action: 'actualizar',
+                        configuraciones: {
+                            hora_apertura: horaApertura,
+                            hora_cierre: horaCierre,
+                            dias_cerrados: diasCerrados.join(',')
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Guardado!',
+                        text: 'Configuración de horarios actualizada correctamente',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    window.cargarHorariosActuales();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'No se pudo guardar la configuración'
+                    });
+                }
+            } catch (error) {
+                console.error('Error guardando horarios:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error de conexión al guardar los horarios'
+                });
+            }
+        };
+        
+        // Función para subir y procesar Excel
+        window.subirExcelMenu = async function() {
+            const fileInput = document.getElementById('archivoExcel');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Archivo requerido',
+                    text: 'Por favor selecciona un archivo Excel'
+                });
+                return;
+            }
+            
+            // Validar extensión .xlsx
+            const fileExt = file.name.split('.').pop().toLowerCase();
+            if (fileExt !== 'xlsx' && fileExt !== 'xls') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Formato inválido',
+                    text: 'Solo se permiten archivos .xlsx o .xls'
+                });
+                return;
+            }
+            
+            // Validar tamaño (max 10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Archivo muy grande',
+                    text: 'El archivo no debe superar los 10MB'
+                });
+                return;
+            }
+            
+            // Mostrar progreso
+            document.getElementById('progresoSubida').classList.remove('d-none');
+            
+            try {
+                const formData = new FormData();
+                formData.append('excel_file', file);
+                
+                // Agregar parámetro clear_before
+                const clearBefore = document.getElementById('clearBeforeLoad').checked;
+                formData.append('clear_before', clearBefore ? 'true' : 'false');
+                
+                const response = await fetch('app/api/subir_excel.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                // Ocultar progreso
+                document.getElementById('progresoSubida').classList.add('d-none');
+                
+                if (result.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        html: `
+                            <p>${result.message}</p>
+                            ${result.stdout ? `<div class="text-start mt-3">
+                                <strong>Detalles:</strong>
+                                <pre class="bg-light p-2 rounded" style="max-height: 300px; overflow-y: auto; font-size: 11px;">${result.stdout}</pre>
+                            </div>` : ''}
+                        `,
+                        confirmButtonText: 'Entendido',
+                        width: '600px'
+                    }).then(() => {
+                        // Cerrar modal y limpiar
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('modalSubirExcel'));
+                        modal.hide();
+                        fileInput.value = '';
+                    });
+                } else {
+                    // Mostrar error con stderr
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al procesar Excel',
+                        html: `
+                            <p>${result.message}</p>
+                            ${result.stderr ? `<div class="text-start mt-3">
+                                <strong>Detalles del error:</strong>
+                                <pre class="bg-danger text-white p-2 rounded" style="max-height: 300px; overflow-y: auto; font-size: 11px;">${result.stderr}</pre>
+                            </div>` : ''}
+                        `,
+                        confirmButtonText: 'Entendido',
+                        width: '600px'
+                    });
+                }
+            } catch (error) {
+                document.getElementById('progresoSubida').classList.add('d-none');
+                console.error('Error subiendo Excel:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'No se pudo procesar el archivo Excel'
+                });
+            }
+        };
+    </script>
+</body>
+</html>
