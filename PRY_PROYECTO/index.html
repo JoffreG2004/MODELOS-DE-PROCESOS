@@ -322,9 +322,10 @@
 
             <!-- Información de Horarios -->
             <div class="text-center mb-4">
-                <div class="d-inline-block" style="background: rgba(212, 175, 55, 0.1); backdrop-filter: blur(10px); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.3);">
+                <div class="d-inline-block"
+                    style="background: rgba(212, 175, 55, 0.1); backdrop-filter: blur(10px); padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.3);">
                     <small id="infoHorarios" style="color: #666; font-weight: 500; font-size: 0.85rem;">
-                        <i class="bi bi-clock-fill" style="color: var(--gold-color);"></i> 
+                        <i class="bi bi-clock-fill" style="color: var(--gold-color);"></i>
                         <span class="leyenda-text">Cargando horarios...</span>
                     </small>
                 </div>
@@ -2394,12 +2395,12 @@
             try {
                 const response = await fetch('app/api/obtener_info_horarios.php');
                 const data = await response.json();
-                
+
                 if (data.success) {
                     const infoHorarios = document.getElementById('infoHorarios');
                     if (infoHorarios) {
                         let textoHorario = '';
-                        
+
                         if (data.horarios.usar_especificos) {
                             // Mostrar horarios específicos por día
                             textoHorario = `Horarios: Lun-Vie ${data.horarios.lunes_viernes}`;
@@ -2413,17 +2414,17 @@
                             // Mostrar horario general
                             textoHorario = `Horarios: ${data.horarios.general}`;
                         }
-                        
+
                         // Agregar días cerrados si existen
                         if (data.dias_cerrados) {
                             textoHorario += ` | ${data.dias_cerrados}`;
                         }
-                        
+
                         // Indicar si las reservas están desactivadas
                         if (!data.reservas_activas) {
                             textoHorario += ' | ⚠️ Reservas temporalmente deshabilitadas';
                         }
-                        
+
                         infoHorarios.innerHTML = `
                             <i class="bi bi-clock-fill" style="color: var(--gold-color);"></i> 
                             <span class="leyenda-text">${textoHorario}</span>
@@ -2441,7 +2442,7 @@
                 }
             }
         }
-        
+
         // Cargar horarios al iniciar la página
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', cargarInfoHorarios);

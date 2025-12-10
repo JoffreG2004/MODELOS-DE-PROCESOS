@@ -56,10 +56,28 @@ try {
     $stmt = $pdo->prepare($query);
     $stmt->execute([$cliente_id, $mesa_id, $fecha_reserva, $hora_reserva, $numero_personas, $estado]);
     
+    $reserva_id = $pdo->lastInsertId();
+    
+    // Si el admin crea con estado confirmada, enviar WhatsApp
+    if ($estado === 'confirmada') {
+        try {
+            $ch = curl_init('http://' . $_SERVER['HTTP_HOST'] . '/PRY_PROYECTO/app/api/enviar_whatsapp.php');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['reserva_id' => $reserva_id]));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_exec($ch);
+            curl_close($ch);
+        } catch (Exception $e) {
+            error_log("Error al enviar WhatsApp: " . $e->getMessage());
+        }
+    }
+    
     echo json_encode([
         'success' => true,
         'message' => 'Reserva creada exitosamente',
-        'id' => $pdo->lastInsertId()
+        'id' => $reserva_id
     ]);
     
 } catch (Exception $e) {

@@ -118,11 +118,11 @@ try {
         throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' permite máximo ' . $mesa['capacidad_maxima'] . ' personas. Seleccionaste ' . $numero_personas);
     }
     
-    // 2. Crear la reserva
+    // 2. Crear la reserva en estado PENDIENTE (el admin debe confirmarla)
     $stmt = $pdo->prepare("INSERT INTO reservas 
                            (cliente_id, mesa_id, fecha_reserva, hora_reserva, numero_personas, estado) 
                            VALUES 
-                           (:cliente_id, :mesa_id, :fecha_reserva, :hora_reserva, :numero_personas, 'confirmada')");
+                           (:cliente_id, :mesa_id, :fecha_reserva, :hora_reserva, :numero_personas, 'pendiente')");
     
     $stmt->bindParam(':cliente_id', $cliente_id, PDO::PARAM_INT);
     $stmt->bindParam(':mesa_id', $mesa_id, PDO::PARAM_INT);
@@ -211,6 +211,8 @@ try {
     
     // Confirmar transacción
     $pdo->commit();
+    
+    // NO enviar WhatsApp aquí - se enviará cuando el admin confirme la reserva
     
     // Limpiar carrito y sesión de mesa
     $_SESSION['carrito'] = [];

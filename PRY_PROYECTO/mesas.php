@@ -998,6 +998,23 @@ if ($mesa_seleccionada_id) {
                     // Limpiar datos temporales
                     sessionStorage.removeItem('reserva_temporal');
                     
+                    // Preparar datos para WhatsApp
+                    const datosWhatsApp = {
+                        clienteNombre: '<?php echo $cliente_nombre . " " . $cliente_apellido; ?>',
+                        clienteTelefono: '<?php echo $_SESSION["cliente_telefono"] ?? ""; ?>',
+                        numeroMesa: '<?php echo $mesa_seleccionada["numero_mesa"] ?? ""; ?>',
+                        fechaReserva: datos.fecha,
+                        horaReserva: datos.hora,
+                        numeroPersonas: datos.personas,
+                        numeroNota: 'NC-' + new Date().toISOString().split('T')[0].replace(/-/g, '') + '-000000',
+                        platosIncluidos: [],
+                        precioMesa: <?php echo $mesa_seleccionada['precio_reserva'] ?? 0; ?>,
+                        subtotalPlatos: 0,
+                        impuesto: 0,
+                        total: <?php echo $mesa_seleccionada['precio_reserva'] ?? 0; ?>,
+                        tienePlatos: false
+                    };
+                    
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reserva Confirmada!',
@@ -1563,8 +1580,10 @@ if ($mesa_seleccionada_id) {
                             confirmButtonText: 'Ver Mis Reservas'
                         });
 
-                        // Redirigir al perfil
-                        window.location.href = 'perfil_cliente.php';
+                        // Redirigir al perfil después de un delay
+                        setTimeout(() => {
+                            window.location.href = 'perfil_cliente.php';
+                        }, 2500);
                     } else {
                         throw new Error(data.message);
                     }
