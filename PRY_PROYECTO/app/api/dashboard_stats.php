@@ -27,41 +27,47 @@ if (!isset($_SESSION['admin_id'])) {
 try {
     $stats = [];
 
-    // 1. RESERVAS POR SEMANA DEL MES ACTUAL
+    // 1. RESERVAS DE LOS ÚLTIMOS 30 DÍAS (AGRUPADAS POR SEMANAS)
     $sqlReservasMes = "SELECT 
-        WEEK(fecha_reserva, 1) - WEEK(DATE_SUB(fecha_reserva, INTERVAL DAYOFMONTH(fecha_reserva) - 1 DAY), 1) + 1 AS semana,
+        CASE 
+            WHEN DATEDIFF(CURDATE(), fecha_reserva) BETWEEN 0 AND 7 THEN 4
+            WHEN DATEDIFF(CURDATE(), fecha_reserva) BETWEEN 8 AND 14 THEN 3
+            WHEN DATEDIFF(CURDATE(), fecha_reserva) BETWEEN 15 AND 21 THEN 2
+            WHEN DATEDIFF(CURDATE(), fecha_reserva) BETWEEN 22 AND 30 THEN 1
+        END AS semana_num,
         COUNT(*) as total
         FROM reservas 
-        WHERE YEAR(fecha_reserva) = YEAR(CURDATE()) 
-        AND MONTH(fecha_reserva) = MONTH(CURDATE())
-        GROUP BY semana
-        ORDER BY semana";
+        WHERE fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+        AND fecha_reserva <= CURDATE()
+        GROUP BY semana_num
+        ORDER BY semana_num";
     
     $stmt = $pdo->query($sqlReservasMes);
     $reservasMes = [];
+    $semanasData = [];
+    
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        if ($row['semana_num']) {
+            $semanasData[$row['semana_num']] = (int)$row['total'];
+        }
+    }
+    
+    // Crear las 4 semanas con etiquetas claras
+    for ($i = 1; $i <= 4; $i++) {
+        $label = '';
+        switch($i) {
+            case 1: $label = 'Hace 22-30 días'; break;
+            case 2: $label = 'Hace 15-21 días'; break;
+            case 3: $label = 'Hace 8-14 días'; break;
+            case 4: $label = 'Últimos 7 días'; break;
+        }
         $reservasMes[] = [
-            'semana' => 'Semana ' . $row['semana'],
-            'total' => (int)$row['total']
+            'semana' => $label,
+            'total' => isset($semanasData[$i]) ? $semanasData[$i] : 0
         ];
     }
     
-    // Rellenar semanas faltantes con 0
-    $semanasCompletas = [];
-    for ($i = 1; $i <= 4; $i++) {
-        $encontrado = false;
-        foreach ($reservasMes as $reserva) {
-            if ($reserva['semana'] == 'Semana ' . $i) {
-                $semanasCompletas[] = $reserva;
-                $encontrado = true;
-                break;
-            }
-        }
-        if (!$encontrado) {
-            $semanasCompletas[] = ['semana' => 'Semana ' . $i, 'total' => 0];
-        }
-    }
-    $stats['reservasMes'] = $semanasCompletas;
+    $stats['reservasMes'] = $reservasMes;
 
     // 2. HORARIOS MÁS POPULARES
     $sqlHorarios = "SELECT 

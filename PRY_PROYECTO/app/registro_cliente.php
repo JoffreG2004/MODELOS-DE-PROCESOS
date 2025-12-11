@@ -3,6 +3,9 @@ session_start();
 header('Content-Type: application/json');
 
 require_once '../conexion/db.php';
+require_once '../validacion/ValidadorNombres.php';
+require_once '../validacion/ValidadorCedula.php';
+require_once '../validacion/ValidadorUsuario.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
@@ -23,21 +26,55 @@ try {
         exit;
     }
 
-    // Verificar que el usuario no exista
-    $check = $mysqli->prepare("SELECT id FROM clientes_v2 WHERE usuario = ? LIMIT 1");
-    if (!$check) throw new Exception('Error en consulta: ' . $mysqli->error);
-    $check->bind_param('s', $usuario);
-    $check->execute();
-    $res = $check->get_result();
-    if ($res && $res->num_rows > 0) {
-        echo json_encode(['success' => false, 'message' => 'El nombre de usuario ya está en uso']);
+    // VALIDAR NOMBRE
+    $validacionNombre = ValidadorNombres::validar($nombre, 'nombre');
+    if (!$validacionNombre['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionNombre['mensaje']]);
         exit;
     }
-    $check->close();
+
+    // VALIDAR APELLIDO
+    $validacionApellido = ValidadorNombres::validar($apellido, 'apellido');
+    if (!$validacionApellido['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionApellido['mensaje']]);
+        exit;
+    }
+
+    // VALIDAR CÉDULA
+    $validacionCedula = ValidadorCedula::validar($cedula);
+    if (!$validacionCedula['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionCedula['mensaje']]);
+        exit;
+    }
+
+    // VERIFICAR QUE LA CÉDULA NO ESTÉ DUPLICADA
+    $verificarCedula = ValidadorCedula::verificarDuplicado($cedula, $mysqli);
+    if (!$verificarCedula['disponible']) {
+        echo json_encode(['success' => false, 'message' => $verificarCedula['mensaje']]);
+        exit;
+    }
+
+    // VALIDAR USUARIO
+    $validacionUsuario = ValidadorUsuario::validarFormato($usuario);
+    if (!$validacionUsuario['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionUsuario['mensaje']]);
+        exit;
+    }
+
+    // VERIFICAR QUE EL USUARIO NO EXISTA
+    $verificarUsuario = ValidadorUsuario::verificarDisponibilidad($usuario, $mysqli);
+    if (!$verificarUsuario['disponible']) {
+        echo json_encode(['success' => false, 'message' => $verificarUsuario['mensaje']]);
+        exit;
+    }
+
+    // Limpiar y formatear nombre y apellido
+    $nombre = ValidadorNombres::limpiar($nombre);
+    $apellido = ValidadorNombres::limpiar($apellido);
 
     // Insertar nuevo cliente
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $mysqli->prepare("INSERT INTO clientes_v2 (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+    $stmt = $mysqli->prepare("INSERT INTO clientes (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, email, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, '', NOW())");
     if (!$stmt) throw new Exception('Error en prepare: ' . $mysqli->error);
     $stmt->bind_param('sssssss', $nombre, $apellido, $cedula, $telefono, $ciudad, $usuario, $password_hash);
     $ok = $stmt->execute();

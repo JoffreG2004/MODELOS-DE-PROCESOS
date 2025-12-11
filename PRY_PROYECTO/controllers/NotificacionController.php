@@ -181,9 +181,125 @@ class NotificacionController {
     }
     
     /**
+     * Enviar notificación de cancelación de reserva
+     */
+    public function enviarNotificacionCancelacion($reserva) {
+        try {
+            // Verificar si el envío automático está habilitado
+            if (!$this->whatsappConfig['auto_send_enabled']) {
+                return ['success' => false, 'error' => 'Envío automático deshabilitado'];
+            }
+            
+            // Preparar mensaje de cancelación
+            $mensaje = $this->generarMensajeCancelacion($reserva);
+            
+            // Enviar WhatsApp
+            $resultado = $this->enviarWhatsApp($reserva['telefono'], $mensaje);
+            
+            // Registrar en log de notificaciones
+            $this->registrarNotificacion(
+                $reserva['id'],
+                $reserva['telefono'],
+                'cancelacion_cliente',
+                $mensaje,
+                $resultado['success'] ? 'enviado' : 'fallido'
+            );
+            
+            return $resultado;
+            
+        } catch (Exception $e) {
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+    
+    /**
+     * Generar mensaje de cancelación de reserva
+     */
+    private function generarMensajeCancelacion($reserva) {
+        $restaurantName = $this->whatsappConfig['restaurant_name'];
+        $restaurantPhone = $this->whatsappConfig['restaurant_phone'];
+        
+        $mensaje = "🔔 *{$restaurantName}*\n\n";
+        $mensaje .= "Estimado/a *{$reserva['nombre']} {$reserva['apellido']}*,\n\n";
+        $mensaje .= "Le confirmamos que su reserva ha sido *CANCELADA* exitosamente.\n\n";
+        $mensaje .= "📅 *Detalles de la reserva cancelada:*\n";
+        $mensaje .= "• Fecha: {$reserva['fecha_formateada']}\n";
+        $mensaje .= "• Hora: {$reserva['hora_formateada']}\n";
+        $mensaje .= "• Mesa: #{$reserva['numero_mesa']}\n";
+        $mensaje .= "• Personas: {$reserva['numero_personas']}\n\n";
+        $mensaje .= "💡 Puede realizar una nueva reserva cuando lo desee visitando nuestro sitio web.\n\n";
+        $mensaje .= "Para más información, contáctenos al {$restaurantPhone}\n\n";
+        $mensaje .= "Esperamos verle pronto.\n";
+        $mensaje .= "Equipo de {$restaurantName} 🍽️";
+        
+        return $mensaje;
+    }
+    
+    /**
+     * Enviar notificación de nueva reserva de zona
+     */
+    public function enviarNotificacionReservaZona($reserva) {
+        try {
+            // Verificar si el envío automático está habilitado
+            if (!$this->whatsappConfig['auto_send_enabled']) {
+                return ['success' => false, 'error' => 'Envío automático deshabilitado'];
+            }
+            
+            // Preparar mensaje de reserva de zona
+            $mensaje = $this->generarMensajeReservaZona($reserva);
+            
+            // Enviar WhatsApp
+            $resultado = $this->enviarWhatsApp($reserva['telefono'], $mensaje);
+            
+            // Registrar en log de notificaciones
+            $this->registrarNotificacion(
+                $reserva['id'],
+                $reserva['telefono'],
+                'reserva_zona_creada',
+                $mensaje,
+                $resultado['success'] ? 'enviado' : 'fallido'
+            );
+            
+            return $resultado;
+            
+        } catch (Exception $e) {
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+    
+    /**
+     * Generar mensaje de reserva de zona completa
+     */
+    private function generarMensajeReservaZona($reserva) {
+        $restaurantName = $this->whatsappConfig['restaurant_name'];
+        $restaurantPhone = $this->whatsappConfig['restaurant_phone'];
+        
+        $zonasTexto = is_array($reserva['zonas']) ? implode(', ', $reserva['zonas']) : $reserva['zonas'];
+        
+        $mensaje = "🎉 *{$restaurantName}*\n\n";
+        $mensaje .= "Estimado/a *{$reserva['nombre']} {$reserva['apellido']}*,\n\n";
+        $mensaje .= "¡Gracias por su solicitud de reserva de zona completa! ✨\n\n";
+        $mensaje .= "📋 *Detalles de su solicitud:*\n";
+        $mensaje .= "• Zonas: {$zonasTexto}\n";
+        $mensaje .= "• Fecha: {$reserva['fecha_formateada']}\n";
+        $mensaje .= "• Hora: {$reserva['hora_formateada']}\n";
+        $mensaje .= "• Personas: {$reserva['numero_personas']}\n";
+        $mensaje .= "• Cantidad de mesas: {$reserva['cantidad_mesas']}\n";
+        $mensaje .= "• Precio total: \${$reserva['precio_total']}\n\n";
+        $mensaje .= "⏳ *Estado:* PENDIENTE DE CONFIRMACIÓN\n\n";
+        $mensaje .= "Nuestro equipo revisará su solicitud y le confirmará la disponibilidad a la brevedad.\n\n";
+        $mensaje .= "Para cualquier consulta, contáctenos al {$restaurantPhone}\n\n";
+        $mensaje .= "¡Esperamos confirmar su reserva pronto!\n";
+        $mensaje .= "Equipo de {$restaurantName} 🍽️";
+        
+        return $mensaje;
+    }
+    
+    /**
      * Registrar notificación en la base de datos
      */
     private function registrarNotificacion($reservaId, $telefono, $tipo, $mensaje, $estado) {
+
         try {
             $stmt = $this->pdo->prepare("
                 INSERT INTO notificaciones_whatsapp 

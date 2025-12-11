@@ -62,12 +62,13 @@ try {
                     $configActual[$row['clave']] = $row['valor'];
                 }
                 
-                // Verificar cambios en horarios
+                // Verificar cambios en horarios O días cerrados
                 $camposHorario = [
                     'hora_apertura', 'hora_cierre',
                     'horario_lunes_viernes_inicio', 'horario_lunes_viernes_fin',
                     'horario_sabado_inicio', 'horario_sabado_fin',
-                    'horario_domingo_inicio', 'horario_domingo_fin'
+                    'horario_domingo_inicio', 'horario_domingo_fin',
+                    'dias_cerrados' // AÑADIDO: También verificar cambios en días cerrados
                 ];
                 
                 $huyCambioHorario = false;
@@ -78,9 +79,14 @@ try {
                         $huyCambioHorario = true;
                         break;
                     }
+                    // También detectar si se está agregando días_cerrados por primera vez
+                    if ($campo === 'dias_cerrados' && isset($configuraciones[$campo]) && !isset($configActual[$campo])) {
+                        $huyCambioHorario = true;
+                        break;
+                    }
                 }
             
-            // Si hay cambio de horario, verificar reservas futuras afectadas
+            // Si hay cambio de horario O días cerrados, verificar reservas futuras afectadas
             if ($huyCambioHorario) {
                 $fechaHoy = date('Y-m-d');
                 
@@ -98,26 +104,56 @@ try {
                 $stmt->execute(['fecha_hoy' => $fechaHoy]);
                 $reservasFuturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 
-                // Verificar cada reserva contra los nuevos horarios
+                // Obtener días cerrados nuevos
+                $diasCerradosNuevos = [];
+                if (isset($configuraciones['dias_cerrados']) && !empty($configuraciones['dias_cerrados'])) {
+                    $diasCerradosNuevos = array_map('intval', explode(',', $configuraciones['dias_cerrados']));
+                }
+                
+                // Verificar cada reserva contra los nuevos horarios Y días cerrados
                 foreach ($reservasFuturas as $reserva) {
                     $fecha = $reserva['fecha_reserva'];
                     $hora = substr($reserva['hora_reserva'], 0, 5); // HH:MM
-                    $diaSemana = date('N', strtotime($fecha));
+                    $diaSemana = date('N', strtotime($fecha)); // 1=Lunes, 7=Domingo
+                    $diaSemanaPHP = date('w', strtotime($fecha)); // 0=Domingo, 6=Sábado
                     
-                    // Determinar horario nuevo según día
-                    if ($diaSemana >= 1 && $diaSemana <= 5) {
-                        $horaInicio = $configuraciones['horario_lunes_viernes_inicio'] ?? $configuraciones['hora_apertura'] ?? $configActual['hora_apertura'] ?? '10:00';
-                        $horaFin = $configuraciones['horario_lunes_viernes_fin'] ?? $configuraciones['hora_cierre'] ?? $configActual['hora_cierre'] ?? '22:00';
-                    } elseif ($diaSemana == 6) {
-                        $horaInicio = $configuraciones['horario_sabado_inicio'] ?? $configuraciones['hora_apertura'] ?? $configActual['hora_apertura'] ?? '11:00';
-                        $horaFin = $configuraciones['horario_sabado_fin'] ?? $configuraciones['hora_cierre'] ?? $configActual['hora_cierre'] ?? '23:00';
+                    $problemaEncontrado = false;
+                    $motivoProblema = '';
+                    $nuevoHorarioInfo = '';
+                    
+                    // PRIMERO: Verificar si el día está cerrado
+                    if (in_array($diaSemanaPHP, $diasCerradosNuevos)) {
+                        $problemaEncontrado = true;
+                        $motivoProblema = 'dia_cerrado';
+                        $diasNombres = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                        $nuevoHorarioInfo = 'CERRADO (' . $diasNombres[$diaSemanaPHP] . ')';
                     } else {
-                        $horaInicio = $configuraciones['horario_domingo_inicio'] ?? $configuraciones['hora_apertura'] ?? $configActual['hora_apertura'] ?? '12:00';
-                        $horaFin = $configuraciones['horario_domingo_fin'] ?? $configuraciones['hora_cierre'] ?? $configActual['hora_cierre'] ?? '21:00';
+                        // SEGUNDO: Verificar horarios si el día está abierto
+                        // Determinar horario nuevo según día
+                        if ($diaSemana >= 1 && $diaSemana <= 5) {
+                            $horaInicio = $configuraciones['horario_lunes_viernes_inicio'] ?? $configuraciones['hora_apertura'] ?? $configActual['hora_apertura'] ?? '10:00';
+                            $horaFin = $configuraciones['horario_lunes_viernes_fin'] ?? $configuraciones['hora_cierre'] ?? $configActual['hora_cierre'] ?? '22:00';
+                        } elseif ($diaSemana == 6) {
+                            $horaInicio = $configuraciones['horario_sabado_inicio'] ?? $configuraciones['hora_apertura'] ?? $configActual['hora_apertura'] ?? '11:00';
+                            $horaFin = $configuraciones['horario_sabado_fin'] ?? $configuraciones['hora_cierre'] ?? $configActual['hora_cierre'] ?? '23:00';
+                        } else {
+                            $horaInicio = $configuraciones['horario_domingo_inicio'] ?? $configuraciones['hora_apertura'] ?? $configActual['hora_apertura'] ?? '12:00';
+                            $horaFin = $configuraciones['horario_domingo_fin'] ?? $configuraciones['hora_cierre'] ?? $configActual['hora_cierre'] ?? '21:00';
+                        }
+                        
+                        $nuevoHorarioInfo = "$horaInicio - $horaFin";
+                        
+                        // Verificar si la reserva queda fuera del nuevo horario
+                        if ($hora < $horaInicio) {
+                            $problemaEncontrado = true;
+                            $motivoProblema = 'antes_apertura';
+                        } elseif ($hora > $horaFin) {
+                            $problemaEncontrado = true;
+                            $motivoProblema = 'despues_cierre';
+                        }
                     }
                     
-                    // Verificar si la reserva queda fuera del nuevo horario
-                    if ($hora < $horaInicio || $hora > $horaFin) {
+                    if ($problemaEncontrado) {
                         $reservasAfectadas[] = [
                             'id' => $reserva['id'],
                             'cliente' => $reserva['nombre'] . ' ' . $reserva['apellido'],
@@ -127,8 +163,8 @@ try {
                             'hora' => $hora,
                             'mesa' => $reserva['numero_mesa'],
                             'personas' => $reserva['numero_personas'],
-                            'nuevo_horario' => "$horaInicio - $horaFin",
-                            'problema' => $hora < $horaInicio ? 'antes_apertura' : 'despues_cierre'
+                            'nuevo_horario' => $nuevoHorarioInfo,
+                            'problema' => $motivoProblema
                         ];
                     }
                 }

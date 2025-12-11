@@ -14,11 +14,12 @@ $cliente_nombre = $_SESSION['cliente_nombre'] ?? '';
 $cliente_apellido = $_SESSION['cliente_apellido'] ?? '';
 $cliente_email = $_SESSION['cliente_email'] ?? '';
 
-// Obtener reservas del cliente
+// Obtener reservas normales del cliente
 $stmt = $pdo->prepare("
     SELECT r.*, m.numero_mesa, m.capacidad_maxima,
            DATE_FORMAT(r.fecha_reserva, '%d/%m/%Y') as fecha_formateada,
-           TIME_FORMAT(r.hora_reserva, '%H:%i') as hora_formateada
+           TIME_FORMAT(r.hora_reserva, '%H:%i') as hora_formateada,
+           'normal' as tipo_reserva
     FROM reservas r
     INNER JOIN mesas m ON r.mesa_id = m.id
     WHERE r.cliente_id = ?
@@ -26,7 +27,56 @@ $stmt = $pdo->prepare("
     LIMIT 50
 ");
 $stmt->execute([$cliente_id]);
-$reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$reservas_normales = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener reservas de zona del cliente
+$stmt = $pdo->prepare("
+    SELECT 
+        rz.id,
+        rz.zonas,
+        rz.fecha_reserva,
+        rz.hora_reserva,
+        rz.numero_personas,
+        rz.precio_total,
+        rz.cantidad_mesas,
+        rz.estado,
+        rz.motivo_cancelacion,
+        DATE_FORMAT(rz.fecha_reserva, '%d/%m/%Y') as fecha_formateada,
+        TIME_FORMAT(rz.hora_reserva, '%H:%i') as hora_formateada,
+        'zona' as tipo_reserva
+    FROM reservas_zonas rz
+    WHERE rz.cliente_id = ?
+    ORDER BY rz.fecha_reserva DESC, rz.hora_reserva DESC
+    LIMIT 50
+");
+$stmt->execute([$cliente_id]);
+$reservas_zonas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Decodificar zonas JSON y traducir nombres
+$nombres_zonas = [
+    'interior' => 'Salón Principal',
+    'terraza' => 'Terraza',
+    'vip' => 'Área VIP',
+    'bar' => 'Bar & Lounge'
+];
+
+foreach ($reservas_zonas as &$reserva) {
+    $zonas_array = json_decode($reserva['zonas'], true);
+    $reserva['zonas_nombres'] = array_map(function($z) use ($nombres_zonas) {
+        return $nombres_zonas[$z] ?? $z;
+    }, $zonas_array);
+    $reserva['zonas_texto'] = implode(', ', $reserva['zonas_nombres']);
+}
+
+// Combinar ambas listas
+$reservas = array_merge($reservas_normales, $reservas_zonas);
+
+// Ordenar por fecha
+usort($reservas, function($a, $b) {
+    $fecha_a = strtotime($a['fecha_reserva'] . ' ' . $a['hora_reserva']);
+    $fecha_b = strtotime($b['fecha_reserva'] . ' ' . $b['hora_reserva']);
+    return $fecha_b - $fecha_a;
+});
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -100,6 +150,37 @@ $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .btn-gold:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-outline-gold {
+            background: transparent;
+            border: 2px solid var(--gold-color);
+            color: var(--gold-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .btn-outline-gold:hover {
+            background: var(--gold-color);
+            color: var(--dark-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .zona-check-item {
+            background: rgba(212, 175, 55, 0.05);
+            transition: all 0.3s;
+        }
+
+        .zona-check-item:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--gold-color) !important;
+        }
+
+        .zona-checkbox:checked + label {
+            color: var(--gold-color);
         }
 
         .hero-section {
@@ -253,6 +334,9 @@ $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <a href="mesas.php" class="btn btn-gold w-100 mb-2">
                         <i class="bi bi-plus-circle me-2"></i>Nueva Reserva
                     </a>
+                    <button onclick="mostrarReservaZona()" class="btn btn-outline-gold w-100 mb-2">
+                        <i class="bi bi-building me-2"></i>Reservar Zona Completa
+                    </button>
                     <a href="app/logout.php" class="btn btn-outline-light w-100">
                         <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
                     </a>
@@ -284,35 +368,62 @@ $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <?php echo strtoupper($reserva['estado']); ?>
                                         </span>
                                         <span style="color: rgba(255, 255, 255, 0.6); margin-left: 15px;">
-                                            Reserva #<?php echo $reserva['id']; ?>
+                                            <?php if ($reserva['tipo_reserva'] === 'zona'): ?>
+                                                <i class="bi bi-building me-1"></i>Reserva de Zona #<?php echo $reserva['id']; ?>
+                                            <?php else: ?>
+                                                Reserva #<?php echo $reserva['id']; ?>
+                                            <?php endif; ?>
                                         </span>
                                     </div>
-                                    <h5 style="color: var(--gold-color); margin-bottom: 10px;">
-                                        <i class="bi bi-table me-2"></i>Mesa <?php echo $reserva['numero_mesa']; ?>
-                                    </h5>
-                                    <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 5px;">
-                                        <i class="bi bi-calendar3 me-2"></i><?php echo $reserva['fecha_formateada']; ?>
-                                        <i class="bi bi-clock ms-3 me-2"></i><?php echo $reserva['hora_formateada']; ?>
-                                    </p>
-                                    <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 0;">
-                                        <i class="bi bi-people me-2"></i><?php echo $reserva['numero_personas']; ?> persona(s)
-                                    </p>
-                                    <?php if (!empty($reserva['observaciones'])): ?>
-                                        <p style="color: rgba(255, 255, 255, 0.6); margin-top: 10px; font-size: 0.9rem;">
-                                            <i class="bi bi-chat-dots me-2"></i><?php echo htmlspecialchars($reserva['observaciones']); ?>
+                                    
+                                    <?php if ($reserva['tipo_reserva'] === 'zona'): ?>
+                                        <!-- Reserva de Zona -->
+                                        <h5 style="color: var(--gold-color); margin-bottom: 10px;">
+                                            <i class="bi bi-building me-2"></i><?php echo $reserva['zonas_texto']; ?>
+                                        </h5>
+                                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 5px;">
+                                            <i class="bi bi-table me-2"></i><?php echo $reserva['cantidad_mesas']; ?> mesa(s) incluidas
+                                        </p>
+                                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 5px;">
+                                            <i class="bi bi-calendar3 me-2"></i><?php echo $reserva['fecha_formateada']; ?>
+                                            <i class="bi bi-clock ms-3 me-2"></i><?php echo $reserva['hora_formateada']; ?>
+                                        </p>
+                                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 5px;">
+                                            <i class="bi bi-people me-2"></i><?php echo $reserva['numero_personas']; ?> persona(s)
+                                        </p>
+                                        <p style="color: var(--gold-color); font-weight: 600; margin-bottom: 0;">
+                                            <i class="bi bi-cash me-2"></i>Total: $<?php echo number_format($reserva['precio_total'], 2); ?>
+                                        </p>
+                                    <?php else: ?>
+                                        <!-- Reserva Normal -->
+                                        <h5 style="color: var(--gold-color); margin-bottom: 10px;">
+                                            <i class="bi bi-table me-2"></i>Mesa <?php echo $reserva['numero_mesa']; ?>
+                                        </h5>
+                                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 5px;">
+                                            <i class="bi bi-calendar3 me-2"></i><?php echo $reserva['fecha_formateada']; ?>
+                                            <i class="bi bi-clock ms-3 me-2"></i><?php echo $reserva['hora_formateada']; ?>
+                                        </p>
+                                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 0;">
+                                            <i class="bi bi-people me-2"></i><?php echo $reserva['numero_personas']; ?> persona(s)
+                                        </p>
+                                    <?php endif; ?>
+                                    
+                                    <?php if (!empty($reserva['motivo_cancelacion'])): ?>
+                                        <p style="color: #ef4444; margin-top: 10px; font-size: 0.9rem;">
+                                            <i class="bi bi-exclamation-triangle me-2"></i>Motivo: <?php echo htmlspecialchars($reserva['motivo_cancelacion']); ?>
                                         </p>
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-md-4 text-end">
                                     <?php if ($reserva['estado'] === 'confirmada' || $reserva['estado'] === 'finalizada'): ?>
-                                        <button class="btn btn-gold btn-sm mb-2" onclick="imprimirNota(<?php echo $reserva['id']; ?>)">
+                                        <button class="btn btn-gold btn-sm mb-2" onclick="imprimirNota(<?php echo $reserva['id']; ?>, '<?php echo $reserva['tipo_reserva']; ?>')">
                                             <i class="bi bi-printer me-1"></i>Imprimir Nota
                                         </button>
                                     <?php endif; ?>
                                     <?php if ($reserva['estado'] === 'pendiente'): ?>
-                                        <button class="btn btn-outline-danger btn-sm" onclick="cancelarReserva(<?php echo $reserva['id']; ?>)">
-                                            <i class="bi bi-x-circle me-1"></i>Cancelar
-                                        </button>
+                                        <span class="badge bg-warning text-dark mb-2 d-block">
+                                            <i class="bi bi-hourglass-split me-1"></i>Esperando confirmación
+                                        </span>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -405,5 +516,8 @@ $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     </script>
+
+    <!-- Script de Reserva de Zonas -->
+    <script src="public/js/reserva-zonas.js"></script>
 </body>
 </html>

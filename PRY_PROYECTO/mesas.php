@@ -410,6 +410,18 @@ if ($mesa_seleccionada_id) {
             <p class="lead" style="color: rgba(255,255,255,0.8);">
                 Selecciona tu espacio perfecto en nuestro elegante restaurante
             </p>
+            <div class="mt-4">
+                <button onclick="mostrarReservaZona()" class="btn btn-lg" 
+                        style="background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); 
+                               color: #1a1a1a; font-weight: 700; padding: 15px 40px; 
+                               border-radius: 50px; border: none; box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);">
+                    <i class="bi bi-building me-2"></i>
+                    🎉 Reservar Zona Completa
+                </button>
+                <p class="mt-2" style="color: rgba(212, 175, 55, 0.9); font-size: 0.9rem;">
+                    <i class="bi bi-star-fill"></i> ¿Evento especial? Reserva salas completas desde $60
+                </p>
+            </div>
         </div>
     </section>
 
@@ -1601,5 +1613,8 @@ if ($mesa_seleccionada_id) {
         }
         <?php endif; ?>
     </script>
+    
+    <!-- Script de reserva de zonas -->
+    <script src="public/js/reserva-zonas.js"></script>
 </body>
 </html>

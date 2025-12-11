@@ -3,6 +3,9 @@ session_start();
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../conexion/db.php';
+require_once __DIR__ . '/../validacion/ValidadorNombres.php';
+require_once __DIR__ . '/../validacion/ValidadorCedula.php';
+require_once __DIR__ . '/../validacion/ValidadorUsuario.php';
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -34,24 +37,69 @@ if (!isset($mysqli) || ($mysqli instanceof mysqli && $mysqli->connect_errno)) {
 }
 
 try {
-    // Verificar si el usuario ya existe
-    $check_sql = "SELECT id FROM clientes WHERE usuario = ? OR cedula = ? OR email = ? LIMIT 1";
-    $check_stmt = $mysqli->prepare($check_sql);
+    // ============================================
+    // VALIDACIONES CON LOS NUEVOS VALIDADORES
+    // ============================================
     
-    if (!$check_stmt) {
-        throw new Exception('Error al verificar usuario existente');
-    }
-    
-    $check_stmt->bind_param('sss', $usuario, $cedula, $email);
-    $check_stmt->execute();
-    $check_stmt->store_result();
-    
-    if ($check_stmt->num_rows > 0) {
-        $check_stmt->close();
-        echo json_encode(['success' => false, 'message' => 'El usuario, cédula o email ya están registrados']);
+    // VALIDAR NOMBRE (sin números)
+    $validacionNombre = ValidadorNombres::validar($nombre, 'nombre');
+    if (!$validacionNombre['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionNombre['mensaje']]);
         exit;
     }
-    $check_stmt->close();
+
+    // VALIDAR APELLIDO (sin números)
+    $validacionApellido = ValidadorNombres::validar($apellido, 'apellido');
+    if (!$validacionApellido['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionApellido['mensaje']]);
+        exit;
+    }
+
+    // VALIDAR CÉDULA (10 dígitos + verificador)
+    $validacionCedula = ValidadorCedula::validar($cedula);
+    if (!$validacionCedula['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionCedula['mensaje']]);
+        exit;
+    }
+
+    // VERIFICAR CÉDULA NO DUPLICADA
+    $verificarCedula = ValidadorCedula::verificarDuplicado($cedula, $mysqli);
+    if (!$verificarCedula['disponible']) {
+        echo json_encode(['success' => false, 'message' => $verificarCedula['mensaje']]);
+        exit;
+    }
+
+    // VALIDAR FORMATO DE USUARIO
+    $validacionUsuario = ValidadorUsuario::validarFormato($usuario);
+    if (!$validacionUsuario['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionUsuario['mensaje']]);
+        exit;
+    }
+
+    // VERIFICAR USUARIO NO DUPLICADO
+    $verificarUsuario = ValidadorUsuario::verificarDisponibilidad($usuario, $mysqli);
+    if (!$verificarUsuario['disponible']) {
+        echo json_encode(['success' => false, 'message' => $verificarUsuario['mensaje']]);
+        exit;
+    }
+
+    // VALIDAR EMAIL
+    $validacionEmail = ValidadorUsuario::validarCorreo($email);
+    if (!$validacionEmail['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionEmail['mensaje']]);
+        exit;
+    }
+
+    // VERIFICAR EMAIL NO DUPLICADO
+    $verificarEmail = ValidadorUsuario::verificarCorreoDisponible($email, $mysqli);
+    if (!$verificarEmail['disponible']) {
+        echo json_encode(['success' => false, 'message' => $verificarEmail['mensaje']]);
+        exit;
+    }
+
+    // Limpiar y formatear nombre y apellido
+    $nombre = ValidadorNombres::limpiar($nombre);
+    $apellido = ValidadorNombres::limpiar($apellido);
     
     // Insertar nuevo cliente (password sin hash en columna password_hash)
     $insert_sql = "INSERT INTO clientes (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, email) 

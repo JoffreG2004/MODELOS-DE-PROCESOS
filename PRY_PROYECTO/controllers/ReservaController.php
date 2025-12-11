@@ -6,6 +6,7 @@
 
 require_once __DIR__ . '/../models/Reserva.php';
 require_once __DIR__ . '/../models/Mesa.php';
+require_once __DIR__ . '/../validacion/ValidadorReserva.php';
 
 class ReservaController {
     private $reservaModel;
@@ -41,7 +42,7 @@ class ReservaController {
      * Crear nueva reserva
      */
     public function create($data) {
-        // Validaciones
+        // Validaciones básicas
         if (empty($data['cliente_id'])) {
             return ['success' => false, 'message' => 'Cliente requerido'];
         }
@@ -56,6 +57,20 @@ class ReservaController {
         
         if (empty($data['num_personas']) || $data['num_personas'] < 1) {
             return ['success' => false, 'message' => 'Número de personas inválido'];
+        }
+
+        // VALIDAR FECHA Y HORA CON LOS NUEVOS VALIDADORES
+        require_once __DIR__ . '/../conexion/db.php';
+        global $mysqli;
+        
+        $validacionReserva = ValidadorReserva::validarReservaCompleta(
+            $data['fecha_reserva'], 
+            $data['hora_reserva'],
+            $mysqli
+        );
+        
+        if (!$validacionReserva['valido']) {
+            return ['success' => false, 'message' => $validacionReserva['mensaje']];
         }
         
         // Verificar que la mesa existe y está disponible
