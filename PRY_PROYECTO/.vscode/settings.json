@@ -1,0 +1,66 @@
+{
+    // Configuración de autocompletado automático
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    "editor.quickSuggestionsDelay": 10,
+    "editor.suggestOnTriggerCharacters": true,
+    "editor.acceptSuggestionOnCommitCharacter": true,
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.tabCompletion": "on",
+    "editor.wordBasedSuggestions": "matchingDocuments",
+    "editor.parameterHints.enabled": true,
+    "editor.autoClosingBrackets": "always",
+    "editor.autoClosingQuotes": "always",
+    "editor.autoSurround": "languageDefined",
+    // Configuración para mostrar errores automáticamente
+    "problems.showCurrentInStatus": true,
+    "editor.renderValidationDecorations": "on",
+    // Configuración específica para PHP
+    "php.suggest.basic": true,
+    "php.validate.enable": true,
+    "php.validate.run": "onType",
+    "intelephense.diagnostics.enable": true,
+    "intelephense.completion.triggerParameterHints": true,
+    "intelephense.completion.insertUseDeclaration": true,
+    "intelephense.completion.fullyQualifyGlobalConstantsAndFunctions": false,
+    // Configuración para SQL
+    "sqltools.useNodeRuntime": true,
+    "sqltools.autoConnectTo": [],
+    "sqltools.format": {
+        "language": "sql",
+        "indentSize": 2
+    },
+    // Configuración para HTML/CSS
+    "html.suggest.html5": true,
+    "html.validate.scripts": true,
+    "html.validate.styles": true,
+    "css.validate": true,
+    "scss.validate": true,
+    "less.validate": true,
+    // Configuración general para mejor experiencia
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    // Configuración específica para GitHub Copilot
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": true,
+        "markdown": true,
+        "scminput": true,
+        "yaml": true,
+        "html": true,
+        "css": true,
+        "javascript": true,
+        "php": true,
+        "sql": true
+    },
+    "github.copilot.inlineSuggest.enable": true,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.inlineSuggest.showToolbar": "always"
+}
