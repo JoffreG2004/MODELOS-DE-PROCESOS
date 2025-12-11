@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 require_once '../conexion/db.php';
 

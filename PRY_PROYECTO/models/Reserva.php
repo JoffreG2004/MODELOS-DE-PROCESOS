@@ -139,15 +139,27 @@ class Reserva {
     
     /**
      * Verificar disponibilidad de mesa
+     * Una reserva confirmada bloquea la mesa por 2 horas
      */
     public function verificarDisponibilidad($mesa_id, $fecha, $hora, $excluir_reserva_id = null) {
+        // Verificar si hay conflictos con reservas existentes (pendientes, confirmadas, en_curso)
+        // Una reserva bloquea la mesa por 2 horas desde su hora de inicio
         $query = "SELECT COUNT(*) FROM {$this->table} 
                   WHERE mesa_id = ? 
                   AND fecha_reserva = ? 
-                  AND hora_reserva = ?
-                  AND estado != 'cancelada'";
+                  AND estado IN ('pendiente', 'confirmada', 'en_curso')
+                  AND (
+                      -- La nueva reserva comienza durante una reserva existente
+                      (? >= hora_reserva AND ? < ADDTIME(hora_reserva, '02:00:00'))
+                      OR
+                      -- La nueva reserva termina durante una reserva existente
+                      (ADDTIME(?, '02:00:00') > hora_reserva AND ADDTIME(?, '02:00:00') <= ADDTIME(hora_reserva, '02:00:00'))
+                      OR
+                      -- La nueva reserva envuelve completamente una reserva existente
+                      (? <= hora_reserva AND ADDTIME(?, '02:00:00') >= ADDTIME(hora_reserva, '02:00:00'))
+                  )";
         
-        $params = [$mesa_id, $fecha, $hora];
+        $params = [$mesa_id, $fecha, $hora, $hora, $hora, $hora, $hora, $hora];
         
         if ($excluir_reserva_id) {
             $query .= " AND id != ?";

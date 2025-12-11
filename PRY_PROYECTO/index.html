@@ -193,6 +193,35 @@
         .dark-mode .categoria-count {
             color: rgba(255, 255, 255, 0.7) !important;
         }
+
+        /* Validación de campos en tiempo real */
+        .form-control.is-invalid {
+            border-color: #dc3545 !important;
+            animation: shake 0.3s ease-in-out;
+            background-color: rgba(220, 53, 69, 0.1) !important;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* Indicador visual para campos válidos */
+        .form-control.is-valid {
+            border-color: #28a745 !important;
+            background-color: rgba(40, 167, 69, 0.05) !important;
+        }
     </style>
 </head>
 
@@ -214,41 +243,42 @@
     </div>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top" style="background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="bi bi-cup-hot-fill me-2"></i>
+            <a class="navbar-brand" href="#" style="color: #2d1b12; font-weight: 700; font-size: 1.5rem;">
+                <i class="bi bi-cup-hot-fill me-2" style="color: #d4af37;"></i>
                 Lumiere
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                style="border-color: #2d1b12;">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#inicio">
+                        <a class="nav-link" href="#inicio" style="color: #2d1b12; font-weight: 500;">
                             <i class="bi bi-house"></i> Inicio
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#reservas">
+                        <a class="nav-link" href="#reservas" style="color: #2d1b12; font-weight: 500;">
                             <i class="bi bi-calendar-check"></i> Reservas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#mesas">
+                        <a class="nav-link" href="#mesas" style="color: #2d1b12; font-weight: 500;">
                             <i class="bi bi-diagram-3"></i> Mesas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#menu">
+                        <a class="nav-link" href="#menu" style="color: #2d1b12; font-weight: 500;">
                             <i class="bi bi-book"></i> Menú
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contacto">
+                        <a class="nav-link" href="#contacto" style="color: #2d1b12; font-weight: 500;">
                             <i class="bi bi-telephone"></i> Contacto
                         </a>
                     </li>
@@ -257,7 +287,7 @@
                 <!-- Botones de la derecha -->
                 <div class="d-flex align-items-center">
                     <!-- Botón Modo Oscuro -->
-                    <button id="darkModeBtn" class="btn btn-outline-light btn-sm me-3" title="Cambiar modo">
+                    <button id="darkModeBtn" class="btn btn-outline-dark btn-sm me-3" title="Cambiar modo">
                         <i class="bi bi-moon-fill" id="darkModeIcon"></i>
                         <span id="darkModeText" class="d-none d-md-inline ms-1">Modo Oscuro</span>
                     </button>
@@ -790,6 +820,64 @@
                     </button>
                 </div>
 
+            </div>
+
+            <!-- Sección Promocional de Reservas de Zonas -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card shadow-lg"
+                        style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border: 3px solid #d4af37; border-radius: 20px; overflow: hidden;">
+                        <div class="card-body text-center py-5">
+                            <div class="mb-3">
+                                <i class="bi bi-building" style="font-size: 4rem; color: #d4af37;"></i>
+                            </div>
+                            <h3 class="mb-3" style="color: #2d1b12; font-weight: 700; font-size: 2rem;">
+                                🎉 ¡Reserva Zonas Completas!
+                            </h3>
+                            <p class="mb-4" style="font-size: 1.1rem; color: #333;">
+                                Organiza eventos especiales, celebraciones o reuniones corporativas.<br>
+                                <strong>Reserva el salón interior, terraza VIP, zona bar o toda la locación.</strong>
+                            </p>
+                            <div class="row g-3 mb-4 justify-content-center">
+                                <div class="col-md-3 col-6">
+                                    <div class="p-3"
+                                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border-radius: 15px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);">
+                                        <h4 class="text-white fw-bold">$60</h4>
+                                        <small class="text-white">1 Zona</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="p-3"
+                                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border-radius: 15px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);">
+                                        <h4 class="text-white fw-bold">$100</h4>
+                                        <small class="text-white">2 Zonas</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="p-3"
+                                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border-radius: 15px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);">
+                                        <h4 class="text-white fw-bold">$120</h4>
+                                        <small class="text-white">3 Zonas</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <div class="p-3"
+                                        style="background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%); border-radius: 15px; border: 3px solid #2d1b12; box-shadow: 0 6px 16px rgba(212, 175, 55, 0.5);">
+                                        <h4 class="fw-bold" style="color: #2d1b12;">$140</h4>
+                                        <small style="color: #2d1b12; font-weight: 600;">Locación Completa</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="btn-reserva-zona-index" class="btn btn-lg px-5"
+                                style="background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); color: #2d1b12; font-weight: 700; border: none; border-radius: 50px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); font-size: 1.2rem;"
+                                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(212, 175, 55, 0.6)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212, 175, 55, 0.4)'">
+                                <i class="bi bi-calendar-event me-2"></i>
+                                Reservar Zona Ahora
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal Login Administrador -->
@@ -2449,6 +2537,128 @@
         } else {
             cargarInfoHorarios();
         }
+
+        // ========================================
+        // VALIDACIÓN EN TIEMPO REAL DE FORMULARIOS
+        // ========================================
+
+        // Validar que NOMBRE solo acepte letras (sin números)
+        document.getElementById('regNombre').addEventListener('input', function (e) {
+            // Remover cualquier número que se intente escribir
+            this.value = this.value.replace(/[0-9]/g, '');
+
+            // Opcional: mostrar feedback visual
+            if (/[0-9]/.test(e.data)) {
+                this.classList.add('is-invalid');
+                setTimeout(() => this.classList.remove('is-invalid'), 1000);
+            }
+        });
+
+        // Validar que APELLIDO solo acepte letras (sin números)
+        document.getElementById('regApellido').addEventListener('input', function (e) {
+            // Remover cualquier número que se intente escribir
+            this.value = this.value.replace(/[0-9]/g, '');
+
+            // Opcional: mostrar feedback visual
+            if (/[0-9]/.test(e.data)) {
+                this.classList.add('is-invalid');
+                setTimeout(() => this.classList.remove('is-invalid'), 1000);
+            }
+        });
+
+        // Validar que CÉDULA solo acepte números (máximo 10 dígitos)
+        document.getElementById('regCedula').addEventListener('input', function (e) {
+            // Remover cualquier letra y limitar a 10 dígitos
+            this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10);
+        });
+
+        // Validar que TELÉFONO solo acepte números (máximo 10 dígitos)
+        document.getElementById('regTelefono').addEventListener('input', function (e) {
+            // Remover cualquier letra y limitar a 10 dígitos
+            this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10);
+        });
+
+        // Prevenir pegado de números en nombre y apellido
+        document.getElementById('regNombre').addEventListener('paste', function (e) {
+            e.preventDefault();
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            const cleanText = pastedText.replace(/[0-9]/g, '');
+            document.execCommand('insertText', false, cleanText);
+        });
+
+        document.getElementById('regApellido').addEventListener('paste', function (e) {
+            e.preventDefault();
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            const cleanText = pastedText.replace(/[0-9]/g, '');
+            document.execCommand('insertText', false, cleanText);
+        });
+
+        // Prevenir pegado de letras en cédula
+        document.getElementById('regCedula').addEventListener('paste', function (e) {
+            e.preventDefault();
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            const cleanText = pastedText.replace(/[^0-9]/g, '').substring(0, 10);
+            document.execCommand('insertText', false, cleanText);
+        });
+    </script>
+
+    <!-- Script de reserva de zonas -->
+    <script src="public/js/reserva-zonas.js"></script>
+
+    <script>
+        // ========================================
+        // MANEJADOR DE RESERVA DE ZONAS
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnReservaZona = document.getElementById('btn-reserva-zona-index');
+            if (btnReservaZona) {
+                btnReservaZona.addEventListener('click', function () {
+                    // Verificar si el usuario está autenticado
+                    fetch('app/verificar_sesion_cliente.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.autenticado) {
+                                // Si está autenticado, mostrar modal de reserva de zona
+                                if (typeof mostrarReservaZona === 'function') {
+                                    mostrarReservaZona();
+                                } else {
+                                    console.error('Función mostrarReservaZona no disponible');
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: 'No se pudo cargar el módulo de reservas',
+                                        confirmButtonColor: '#d4af37'
+                                    });
+                                }
+                            } else {
+                                // Si no está autenticado, mostrar mensaje y abrir modal de login
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Inicia Sesión',
+                                    text: 'Debes iniciar sesión como cliente para reservar zonas',
+                                    confirmButtonColor: '#d4af37',
+                                    confirmButtonText: 'Iniciar Sesión'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        const btnLogin = document.getElementById('btn-cliente-login');
+                                        if (btnLogin) {
+                                            btnLogin.click();
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error verificando sesión:', error);
+                            // En caso de error, abrir modal de login
+                            const btnLogin = document.getElementById('btn-cliente-login');
+                            if (btnLogin) {
+                                btnLogin.click();
+                            }
+                        });
+                });
+            }
+        });
     </script>
 </body>
 

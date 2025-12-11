@@ -60,8 +60,14 @@ function env($key, $default = null) {
     return $value;
 }
 
-// Cargar el archivo .env
-$envPath = __DIR__ . '/../utils/security/.env';
+// Cargar el archivo .env desde la raíz del proyecto
+$envPath = __DIR__ . '/../.env';
 if (file_exists($envPath)) {
     loadEnv($envPath);
+}
+
+// Cargar también desde utils/security si existe
+$envPathAlt = __DIR__ . '/../utils/security/.env';
+if (file_exists($envPathAlt)) {
+    loadEnv($envPathAlt);
 }

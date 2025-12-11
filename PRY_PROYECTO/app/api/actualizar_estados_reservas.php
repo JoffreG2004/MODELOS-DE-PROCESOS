@@ -25,13 +25,10 @@ try {
         UPDATE reservas 
         SET estado = 'en_curso'
         WHERE estado = 'confirmada'
-        AND fecha_reserva = :fecha_actual
-        AND hora_reserva <= :hora_actual
+        AND TIMESTAMP(fecha_reserva, hora_reserva) <= NOW()
+        AND TIMESTAMP(fecha_reserva, ADDTIME(hora_reserva, '02:00:00')) > NOW()
     ");
-    $stmt->execute([
-        'fecha_actual' => $fechaActual,
-        'hora_actual' => $horaActual
-    ]);
+    $stmt->execute();
     $actualizados += $stmt->rowCount();
     
     // 2. Cambiar reservas "en_curso" a "finalizada" si ya pasaron 2 horas desde la hora de reserva
@@ -39,42 +36,36 @@ try {
         UPDATE reservas 
         SET estado = 'finalizada'
         WHERE estado = 'en_curso'
-        AND (
-            fecha_reserva < :fecha_actual
-            OR (
-                fecha_reserva = :fecha_actual2 
-                AND ADDTIME(hora_reserva, '02:00:00') < :hora_actual
-            )
-        )
+        AND TIMESTAMP(fecha_reserva, ADDTIME(hora_reserva, '02:00:00')) < NOW()
     ");
-    $stmt->execute([
-        'fecha_actual' => $fechaActual,
-        'fecha_actual2' => $fechaActual,
-        'hora_actual' => $horaActual
-    ]);
+    $stmt->execute();
     $actualizados += $stmt->rowCount();
     
     // 3. Actualizar estado de las mesas según las reservas activas
-    // Primero marcar todas como disponibles
-    $pdo->exec("UPDATE mesas SET estado = 'disponible'");
+    // SOLO actualizar mesas que tienen reservas activas del sistema
+    // NUNCA cambiar mesas a disponible automáticamente - solo el admin puede hacerlo
     
-    // Luego marcar como ocupadas las que tienen reservas en curso
+    // Marcar como ocupadas SOLO las mesas con reservas en curso
     $pdo->exec("
         UPDATE mesas m
         INNER JOIN reservas r ON m.id = r.mesa_id
         SET m.estado = 'ocupada'
         WHERE r.estado = 'en_curso'
+        AND m.estado != 'mantenimiento'
     ");
     
-    // Marcar como reservadas las que tienen reservas confirmadas para hoy
+    // Marcar como reservadas SOLO las mesas con reservas confirmadas para hoy
     $stmt = $pdo->prepare("
         UPDATE mesas m
         INNER JOIN reservas r ON m.id = r.mesa_id
         SET m.estado = 'reservada'
         WHERE r.estado = 'confirmada'
         AND r.fecha_reserva = :fecha_actual
+        AND m.estado NOT IN ('mantenimiento', 'ocupada')
     ");
     $stmt->execute(['fecha_actual' => $fechaActual]);
+    
+    // NO liberamos mesas automáticamente - solo el administrador puede cambiarlas a disponible
     
     echo json_encode([
         'success' => true,

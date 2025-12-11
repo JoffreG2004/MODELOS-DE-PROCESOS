@@ -392,25 +392,99 @@ class GestionReservas {
 
     confirmarEliminar(id, clienteNombre) {
         Swal.fire({
-            title: '¿Eliminar reserva?',
-            html: `¿Estás seguro de eliminar la reserva de <strong>${clienteNombre}</strong>?<br><small>Esta acción no se puede deshacer.</small>`,
+            title: '¿Cancelar reserva con notificación?',
+            html: `
+                <p>Reserva de: <strong>${clienteNombre}</strong></p>
+                <hr>
+                <div class="text-start">
+                    <label class="form-label">Motivo de cancelación:</label>
+                    <textarea id="motivoCancelacion" class="form-control" rows="3" placeholder="Ej: Problema con el horario, cambio de planes, etc."></textarea>
+                    <small class="text-muted">El cliente recibirá un WhatsApp con este motivo</small>
+                </div>
+            `,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, cancelar y notificar',
+            cancelButtonText: 'No cancelar',
+            preConfirm: () => {
+                const motivo = document.getElementById('motivoCancelacion').value.trim();
+                if (!motivo) {
+                    Swal.showValidationMessage('Debes ingresar un motivo de cancelación');
+                    return false;
+                }
+                return motivo;
+            }
         }).then((result) => {
             if (result.isConfirmed) {
-                this.eliminarReserva(id);
+                this.cancelarReservaConNotificacion(id, result.value);
             }
         });
     }
 
+    // NUEVO: Cancelar reserva con notificación de WhatsApp
+    async cancelarReservaConNotificacion(id, motivo) {
+        try {
+            const response = await fetch('app/api/cancelar_reserva_admin.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    reserva_id: id,
+                    motivo: motivo
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Actualizar el estado local
+                const reserva = this.reservas.find(r => r.id === id);
+                if (reserva) {
+                    reserva.estado = 'cancelada';
+                }
+                this.renderTabla();
+
+                // Mensaje de éxito con información de WhatsApp
+                const whatsappMsg = result.whatsapp_enviado
+                    ? '<br><small class="text-success">✅ WhatsApp enviado correctamente</small>'
+                    : '<br><small class="text-warning">⚠️ Reserva cancelada pero WhatsApp no pudo enviarse</small>';
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Reserva Cancelada!',
+                    html: result.message + whatsappMsg,
+                    timer: 3000,
+                    showConfirmButton: true
+                });
+
+                // Actualizar layout si existe
+                if (window.restaurantLayout) {
+                    window.restaurantLayout.refresh();
+                }
+
+                // Actualizar estadísticas si existe la función
+                if (typeof actualizarEstadisticas === 'function') {
+                    actualizarEstadisticas();
+                }
+            } else {
+                throw new Error(result.message);
+            }
+        } catch (error) {
+            console.error('Error cancelando reserva:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'No se pudo cancelar la reserva'
+            });
+        }
+    }
+
+    // Mantener método antiguo para compatibilidad (sin notificación)
     async eliminarReserva(id) {
         const confirmacion = await Swal.fire({
-            title: '¿Cancelar reserva?',
-            text: 'La reserva se marcará como cancelada',
+            title: '¿Cancelar reserva sin notificación?',
+            text: 'La reserva se marcará como cancelada (sin WhatsApp)',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',

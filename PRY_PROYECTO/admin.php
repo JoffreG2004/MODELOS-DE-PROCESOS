@@ -77,11 +77,14 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Dashboard - Restaurante Elegante</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="public/css/style.css?v=<?php echo time(); ?>">
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -520,8 +523,7 @@ try {
 
         .stats-card:hover {
             animation: pulse-glow 2s infinite;
-        }
-    </style>
+        
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
     </style>
@@ -705,7 +707,7 @@ try {
                     </div>
 
                     <!-- ALERTA DE RESERVAS NUEVAS PENDIENTES -->
-                    <div class="row mb-4" id="alerta-reservas-nuevas" style="display: none;">
+                    <div class="row mb-5" id="alerta-reservas-nuevas" style="display: none;">
                         <div class="col-12">
                             <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1)); border-left: 5px solid #f59e0b !important;">
                                 <div class="card-body p-4">
@@ -714,7 +716,12 @@ try {
                                             <i class="bi bi-bell-fill me-2 animate__animated animate__swing animate__infinite"></i>
                                             <span id="titulo-reservas-nuevas">¡Tienes Reservas Nuevas Pendientes!</span>
                                         </h4>
-                                        <span class="badge bg-warning fs-5 px-3 py-2" id="contador-reservas-nuevas">0</span>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge bg-warning fs-5 px-3 py-2" id="contador-reservas-nuevas">0</span>
+                                            <button class="btn btn-success btn-sm" onclick="confirmarTodasLasReservas()" id="btn-confirmar-todas">
+                                                <i class="bi bi-check-circle-fill me-1"></i> Confirmar Todas
+                                            </button>
+                                        </div>
                                     </div>
                                     <p class="text-muted mb-3">Las siguientes reservas requieren tu confirmación inmediata:</p>
                                     <div id="lista-reservas-pendientes" class="row g-3">
@@ -726,7 +733,7 @@ try {
                     </div>
 
                     <!-- ESTADÍSTICAS SECUNDARIAS -->
-                    <div class="row mb-4 g-4">
+                    <div class="row mb-5 g-4">
                         <div class="col-md-6 col-lg-4">
                             <div class="stats-card gold">
                                 <i class="bi bi-people-fill stats-icon"></i>
@@ -773,28 +780,35 @@ try {
                         </div>
                     </div>
 
-                    <!-- BARRA DE OCUPACIÓN EN TIEMPO REAL -->
-                    <div class="row mb-4">
+                    <!-- ESTADÍSTICAS DE MESAS EN TIEMPO REAL -->
+                    <div class="row mb-5">
                         <div class="col-12">
                             <div class="card border-0 shadow-sm">
                                 <div class="card-body p-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
                                         <h5 class="mb-0">
-                                            <i class="bi bi-speedometer2 me-2" style="color: var(--accent-gold);"></i>
-                                            Ocupación del Restaurante
+                                            <i class="bi bi-table me-2" style="color: var(--accent-gold);"></i>
+                                            Estado de Mesas
                                         </h5>
-                                        <span id="porcentaje-ocupacion" class="badge" style="background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan)); font-size: 1.2rem; padding: 0.5rem 1rem;">--%</span>
+                                        <div class="d-flex gap-3">
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check-circle-fill me-1"></i>
+                                                <span id="count-disponibles">0</span> Disponibles
+                                            </span>
+                                            <span class="badge bg-danger">
+                                                <i class="bi bi-x-circle-fill me-1"></i>
+                                                <span id="count-ocupadas">0</span> Ocupadas
+                                            </span>
+                                            <span class="badge bg-info">
+                                                <i class="bi bi-clock-fill me-1"></i>
+                                                <span id="count-reservadas">0</span> Reservadas
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="progress" style="height: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 15px; overflow: hidden;">
-                                        <div id="barra-ocupacion" class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #f59e0b 75%, #ef4444 100%); transition: width 0.5s ease;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <small class="text-muted">
-                                            <i class="bi bi-check-circle-fill" style="color: var(--success-glow);"></i> Disponibles
-                                        </small>
-                                        <small class="text-muted">
-                                            <i class="bi bi-x-circle-fill" style="color: var(--danger-glow);"></i> Ocupadas
-                                        </small>
+                                    <div class="progress" style="height: 40px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; overflow: hidden;">
+                                        <div id="barra-disponibles" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="barra-ocupadas" class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div id="barra-reservadas" class="progress-bar bg-info" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
@@ -802,14 +816,14 @@ try {
                     </div>
                     
                     <!-- GRÁFICOS ESTADÍSTICOS -->
-                    <div class="row mb-4 g-4">
+                    <div class="row mb-5 g-4">
                         <!-- GRÁFICO DE RESERVAS DEL MES -->
                         <div class="col-lg-8">
                             <div class="card border-0 shadow-sm">
                                 <div class="card-header">
                                     <h5 class="mb-0">
                                         <i class="bi bi-bar-chart-fill me-2" style="color: var(--accent-gold);"></i>
-                                        Reservas del Mes
+                                        Reservas (Últimos 30 Días)
                                     </h5>
                                 </div>
                                 <div class="card-body p-4">
@@ -949,6 +963,10 @@ try {
                                         <button class="btn btn-info" onclick="gestionMesas.cargarMesas()">
                                             <i class="fas fa-sync-alt me-2"></i>
                                             Actualizar Lista
+                                        </button>
+                                        <button class="btn btn-warning" onclick="gestionMesas.mostrarAccionesMasivas()">
+                                            <i class="fas fa-tasks me-2"></i>
+                                            Acciones Masivas
                                         </button>
                                     </div>
                                     
@@ -1254,10 +1272,8 @@ try {
             document.getElementById('toggle-auto-update').addEventListener('change', function(e) {
                 if (e.target.checked) {
                     intervaloActualizacion = setInterval(actualizarEstadosAutomaticamente, 120000);
-                    console.log('Auto-actualización activada');
                 } else {
                     clearInterval(intervaloActualizacion);
-                    console.log('Auto-actualización desactivada');
                 }
             });
             
@@ -1282,7 +1298,6 @@ try {
                     credentials: 'same-origin'
                 });
                 const data = await response.json();
-                console.log('Estados actualizados:', data);
                 
                 // Actualizar indicador de última actualización
                 const ahora = new Date();
@@ -1302,7 +1317,13 @@ try {
         function cargarDatosYGraficos() {
             const indicador = document.getElementById('indicador-conexion');
             
-            fetch('app/api/dashboard_stats.php', {
+            // Forzar actualización del badge de ocupación al iniciar
+            const porcentajeOcupacionInicial = document.getElementById('porcentaje-ocupacion');
+            if (porcentajeOcupacionInicial) {
+                porcentajeOcupacionInicial.textContent = 'Cargando...';
+            }
+            
+            fetch('app/api/dashboard_stats.php?v=' + Date.now(), {
                 credentials: 'same-origin',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1337,6 +1358,26 @@ try {
         }
 
         function actualizarEstadisticas(datos) {
+            // Si no se pasan datos, recargar desde el servidor
+            if (!datos) {
+                fetch('app/api/dashboard_stats.php?v=' + Date.now(), {
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.data) {
+                        actualizarEstadisticas(result.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error recargando estadísticas:', error);
+                });
+                return;
+            }
+            
             // Actualizar cards principales
             document.getElementById('total-mesas').textContent = datos.totalMesas || '--';
             document.getElementById('mesas-disponibles').textContent = datos.mesasDisponibles || '--';
@@ -1353,8 +1394,31 @@ try {
             
             const ocupacionHoy = document.getElementById('ocupacion-hoy');
             if (ocupacionHoy) {
-                ocupacionHoy.textContent = datos.porcentajeOcupacion ? datos.porcentajeOcupacion + '%' : '--';
+                const ocupacionValor = datos.porcentajeOcupacion ?? 0;
+                ocupacionHoy.textContent = ocupacionValor + '%';
             }
+            
+            // Actualizar barras de estado de mesas
+            const totalMesas = datos.totalMesas || 1;
+            const disponibles = datos.mesasDisponibles || 0;
+            const ocupadas = datos.mesasOcupadas || 0;
+            const reservadas = (totalMesas - disponibles - ocupadas) || 0;
+            
+            document.getElementById('count-disponibles').textContent = disponibles;
+            document.getElementById('count-ocupadas').textContent = ocupadas;
+            document.getElementById('count-reservadas').textContent = reservadas;
+            
+            const porcDisponibles = Math.round((disponibles / totalMesas) * 100);
+            const porcOcupadas = Math.round((ocupadas / totalMesas) * 100);
+            const porcReservadas = Math.round((reservadas / totalMesas) * 100);
+            
+            document.getElementById('barra-disponibles').style.width = porcDisponibles + '%';
+            document.getElementById('barra-ocupadas').style.width = porcOcupadas + '%';
+            document.getElementById('barra-reservadas').style.width = porcReservadas + '%';
+            
+            document.getElementById('barra-disponibles').setAttribute('aria-valuenow', porcDisponibles);
+            document.getElementById('barra-ocupadas').setAttribute('aria-valuenow', porcOcupadas);
+            document.getElementById('barra-reservadas').setAttribute('aria-valuenow', porcReservadas);
             
             // Actualizar info adicional
             const infoDisponibles = document.getElementById('info-disponibles');
@@ -1378,53 +1442,43 @@ try {
         async function cargarReservasPendientes() {
             console.log('🔄 Cargando reservas pendientes...');
             try {
-                const response = await fetch('app/obtener_reservas.php?estado=pendiente', {
-                    credentials: 'same-origin',
-                    headers: {
-                        'Accept': 'application/json'
-                    },
-                    cache: 'no-cache' // Evitar caché
-                });
+                // Cargar tanto reservas normales como de zona
+                const [responseNormales, responseZonas] = await Promise.all([
+                    fetch('app/obtener_reservas.php?estado=pendiente', {
+                        credentials: 'same-origin',
+                        headers: { 'Accept': 'application/json' },
+                        cache: 'no-cache'
+                    }),
+                    fetch('app/api/obtener_reservas_zonas.php?estado=pendiente', {
+                        credentials: 'same-origin',
+                        headers: { 'Accept': 'application/json' },
+                        cache: 'no-cache'
+                    })
+                ]);
                 
-                console.log('📡 Respuesta recibida:', response.status, response.statusText);
+                const dataNormales = await responseNormales.json();
+                const dataZonas = await responseZonas.json();
                 
-                // Verificar si la respuesta es OK
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                // Obtener el texto de la respuesta primero
-                const text = await response.text();
-                console.log('📄 Texto de respuesta (primeros 200 chars):', text.substring(0, 200));
-                
-                // Intentar parsear como JSON
-                let data;
-                try {
-                    data = JSON.parse(text);
-                    console.log('✅ JSON parseado correctamente:', data);
-                } catch (e) {
-                    console.error('❌ Error parseando JSON:', e);
-                    console.error('📄 Respuesta completa:', text);
-                    throw new Error('La respuesta del servidor no es JSON válido');
-                }
+                const reservasNormales = dataNormales.success ? dataNormales.reservas : [];
+                const reservasZonas = dataZonas.success ? dataZonas.reservas : [];
                 
                 const alertaContainer = document.getElementById('alerta-reservas-nuevas');
                 const listaContainer = document.getElementById('lista-reservas-pendientes');
                 const contador = document.getElementById('contador-reservas-nuevas');
                 const titulo = document.getElementById('titulo-reservas-nuevas');
                 
-                const reservas = data.success ? data.reservas : [];
+                const totalReservas = reservasNormales.length + reservasZonas.length;
                 
-                if (reservas && reservas.length > 0) {
+                if (totalReservas > 0) {
                     // Mostrar alerta
                     alertaContainer.style.display = 'block';
-                    contador.textContent = reservas.length;
-                    titulo.textContent = reservas.length === 1 
+                    contador.textContent = totalReservas;
+                    titulo.textContent = totalReservas === 1 
                         ? '¡Tienes 1 Reserva Nueva Pendiente!' 
-                        : `¡Tienes ${reservas.length} Reservas Nuevas Pendientes!`;
+                        : `¡Tienes ${totalReservas} Reservas Nuevas Pendientes!`;
                     
-                    // Generar tarjetas de reservas
-                    listaContainer.innerHTML = reservas.map(reserva => `
+                    // Generar tarjetas de reservas normales
+                    const cardsNormales = reservasNormales.map(reserva => `
                         <div class="col-md-6 col-lg-4">
                             <div class="card border-warning shadow-sm h-100" style="border-width: 2px;">
                                 <div class="card-body">
@@ -1433,7 +1487,7 @@ try {
                                             <i class="bi bi-person-fill text-warning"></i>
                                             ${reserva.cliente_nombre || 'Cliente'}
                                         </h5>
-                                        <span class="badge bg-warning">NUEVA</span>
+                                        <span class="badge bg-warning">MESA</span>
                                     </div>
                                     <div class="mb-2">
                                         <i class="bi bi-calendar3 text-muted"></i>
@@ -1462,14 +1516,64 @@ try {
                                 </div>
                             </div>
                         </div>
-                    `).join('');
+                    `);
+                    
+                    // Generar tarjetas de reservas de zona
+                    const cardsZonas = reservasZonas.map(reserva => `
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card border-success shadow-sm h-100" style="border-width: 3px;">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title mb-0">
+                                            <i class="bi bi-person-fill text-success"></i>
+                                            ${reserva.cliente_nombre || 'Cliente'}
+                                        </h5>
+                                        <span class="badge bg-success">ZONA COMPLETA</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-building text-muted"></i>
+                                        <strong>Zonas:</strong> ${reserva.zonas_nombres.join(', ')}
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-calendar3 text-muted"></i>
+                                        <strong>Fecha:</strong> ${new Date(reserva.fecha_reserva).toLocaleDateString('es-ES')}
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-clock text-muted"></i>
+                                        <strong>Hora:</strong> ${reserva.hora_reserva}
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-table text-muted"></i>
+                                        <strong>Mesas:</strong> ${reserva.cantidad_mesas} incluidas
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="bi bi-people text-muted"></i>
+                                        <strong>Personas:</strong> ${reserva.numero_personas}
+                                    </div>
+                                    <div class="mb-3">
+                                        <i class="bi bi-cash text-muted"></i>
+                                        <strong>Total:</strong> $${reserva.precio_total}
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success" onclick="confirmarReservaZona(${reserva.id})">
+                                            <i class="bi bi-check-circle me-1"></i> Confirmar Zona
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="rechazarReservaZona(${reserva.id})">
+                                            <i class="bi bi-x-circle me-1"></i> Rechazar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    
+                    listaContainer.innerHTML = [...cardsNormales, ...cardsZonas].join('');
                 } else {
                     // Ocultar alerta si no hay pendientes
                     alertaContainer.style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error cargando reservas pendientes:', error);
-                // No mostrar error al usuario si es solo que no hay conexión
                 const alertaContainer = document.getElementById('alerta-reservas-nuevas');
                 if (alertaContainer) {
                     alertaContainer.style.display = 'none';
@@ -1585,6 +1689,238 @@ try {
                         // Recargar reservas pendientes y estadísticas
                         await cargarReservasPendientes();
                         await actualizarEstadosAutomaticamente();
+                        await cargarDatosYGraficos();
+                    } else {
+                        throw new Error(data.message || 'Error al rechazar reserva');
+                    }
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message || 'No se pudo rechazar la reserva',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        }
+
+        // Función para confirmar TODAS las reservas pendientes de una vez
+        async function confirmarTodasLasReservas() {
+            try {
+                // Obtener todas las reservas pendientes (normales y de zona)
+                const [responseNormales, responseZonas] = await Promise.all([
+                    fetch('app/obtener_reservas.php?estado=pendiente'),
+                    fetch('app/api/obtener_reservas_zonas.php?estado=pendiente')
+                ]);
+                
+                const dataNormales = await responseNormales.json();
+                const dataZonas = await responseZonas.json();
+                
+                const reservasNormales = dataNormales.success ? dataNormales.reservas : [];
+                const reservasZonas = dataZonas.success ? dataZonas.reservas : [];
+                const totalReservas = reservasNormales.length + reservasZonas.length;
+                
+                if (totalReservas === 0) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Sin Reservas',
+                        text: 'No hay reservas pendientes para confirmar',
+                        confirmButtonColor: '#d4af37'
+                    });
+                    return;
+                }
+                
+                const resultado = await Swal.fire({
+                    title: '¿Confirmar Todas las Reservas?',
+                    html: `
+                        <p>Se confirmarán:</p>
+                        <ul class="text-start">
+                            <li><strong>${reservasNormales.length}</strong> reserva(s) de mesa</li>
+                            <li><strong>${reservasZonas.length}</strong> reserva(s) de zona completa</li>
+                        </ul>
+                        <div class="alert alert-warning mt-3">
+                            <i class="bi bi-exclamation-triangle"></i> Esta acción confirmará todas las reservas a la vez
+                        </div>
+                    `,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#10b981',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="bi bi-check-all"></i> Sí, Confirmar Todas',
+                    cancelButtonText: 'Cancelar'
+                });
+                
+                if (!resultado.isConfirmed) return;
+                
+                Swal.fire({
+                    title: 'Confirmando Reservas...',
+                    html: `<div>Procesando <span id="progreso-reservas">0</span>/${totalReservas}</div>`,
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
+                
+                let confirmadas = 0;
+                let errores = 0;
+                let progreso = 0;
+                
+                // Confirmar reservas normales
+                for (const reserva of reservasNormales) {
+                    progreso++;
+                    document.getElementById('progreso-reservas').textContent = progreso;
+                    try {
+                        const respuesta = await fetch('app/api/confirmar_reserva_admin.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ reserva_id: reserva.id })
+                        });
+                        const resultado = await respuesta.json();
+                        if (resultado.success) confirmadas++;
+                        else errores++;
+                    } catch (error) {
+                        errores++;
+                    }
+                }
+                
+                // Confirmar reservas de zona
+                for (const reserva of reservasZonas) {
+                    progreso++;
+                    document.getElementById('progreso-reservas').textContent = progreso;
+                    try {
+                        const respuesta = await fetch('app/api/gestionar_reserva_zona.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ reserva_id: reserva.id, accion: 'confirmar' })
+                        });
+                        const resultado = await respuesta.json();
+                        if (resultado.success) confirmadas++;
+                        else errores++;
+                    } catch (error) {
+                        errores++;
+                    }
+                }
+                
+                await Swal.fire({
+                    title: '¡Proceso Completado!',
+                    html: `
+                        <div class="text-start">
+                            <p><strong>✅ Confirmadas:</strong> ${confirmadas}</p>
+                            ${errores > 0 ? `<p><strong>❌ Errores:</strong> ${errores}</p>` : ''}
+                        </div>
+                    `,
+                    icon: errores > 0 ? 'warning' : 'success',
+                    confirmButtonColor: '#10b981'
+                });
+                
+                await cargarReservasPendientes();
+                await actualizarEstadosAutomaticamente();
+                await cargarDatosYGraficos();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudieron confirmar las reservas',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        }
+
+        // Funciones para gestionar reservas de zona
+        async function confirmarReservaZona(reservaId) {
+            try {
+                const resultado = await Swal.fire({
+                    title: '¿Confirmar Reserva de Zona?',
+                    html: `
+                        <p>Se confirmará la reserva de zona completa.</p>
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-building"></i> Todas las mesas de las zonas seleccionadas quedarán reservadas
+                        </div>
+                    `,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#10b981',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="bi bi-check-circle"></i> Sí, Confirmar',
+                    cancelButtonText: 'Cancelar'
+                });
+
+                if (resultado.isConfirmed) {
+                    Swal.fire({
+                        title: 'Confirmando...',
+                        allowOutsideClick: false,
+                        didOpen: () => { Swal.showLoading(); }
+                    });
+
+                    const response = await fetch('app/api/gestionar_reserva_zona.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ reserva_id: reservaId, accion: 'confirmar' })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            title: '¡Reserva de Zona Confirmada!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#10b981'
+                        });
+
+                        await cargarReservasPendientes();
+                        await actualizarEstadosAutomaticamente();
+                        await cargarDatosYGraficos();
+                    } else {
+                        throw new Error(data.message || 'Error al confirmar reserva');
+                    }
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message || 'No se pudo confirmar la reserva de zona',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        }
+
+        async function rechazarReservaZona(reservaId) {
+            try {
+                const resultado = await Swal.fire({
+                    title: '¿Rechazar Reserva de Zona?',
+                    input: 'textarea',
+                    inputLabel: 'Motivo del rechazo (opcional)',
+                    inputPlaceholder: 'Ej: No hay disponibilidad, horario no permitido, etc.',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Rechazar',
+                    cancelButtonText: 'Cancelar'
+                });
+
+                if (resultado.isConfirmed) {
+                    const response = await fetch('app/api/gestionar_reserva_zona.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            reserva_id: reservaId, 
+                            accion: 'rechazar',
+                            motivo: resultado.value || 'Sin motivo especificado'
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        await Swal.fire({
+                            title: 'Reserva Rechazada',
+                            text: data.message,
+                            icon: 'info',
+                            confirmButtonColor: '#d4af37'
+                        });
+
+                        await cargarReservasPendientes();
                         await cargarDatosYGraficos();
                     } else {
                         throw new Error(data.message || 'Error al rechazar reserva');
@@ -1998,8 +2334,6 @@ try {
     <script>
         // Configuración adicional del dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🏆 Dashboard Dinámico del Restaurante Elegante iniciado');
-            
             // Personalizar configuración si es necesario
             if (window.dashboard) {
                 dashboard.configuracion.debug = false; // Cambiar a true para debug
@@ -2046,9 +2380,7 @@ try {
             if ('Notification' in window && 'serviceWorker' in navigator) {
                 // Pedir permisos para notificaciones del navegador
                 Notification.requestPermission().then(function(permission) {
-                    if (permission === 'granted') {
-                        console.log('✅ Notificaciones push habilitadas');
-                    }
+                    // Notificaciones habilitadas silenciosamente
                 });
             }
         }
@@ -2327,6 +2659,138 @@ try {
                         showConfirmButton: false
                     });
                     window.cargarHorariosActuales();
+                } else if (data.advertencia && data.requiere_confirmacion) {
+                    // Hay reservas afectadas, mostrar advertencia y pedir confirmación
+                    const reservasHtml = data.reservas_afectadas.map(r => {
+                        let problemaBadge = '';
+                        switch(r.problema) {
+                            case 'dia_cerrado':
+                                problemaBadge = '<span class="badge bg-dark"><i class="bi bi-x-circle"></i> Día Cerrado</span>';
+                                break;
+                            case 'antes_apertura':
+                                problemaBadge = '<span class="badge bg-warning text-dark"><i class="bi bi-sunrise"></i> Antes de apertura</span>';
+                                break;
+                            case 'despues_cierre':
+                                problemaBadge = '<span class="badge bg-danger"><i class="bi bi-sunset"></i> Después de cierre</span>';
+                                break;
+                            default:
+                                problemaBadge = '<span class="badge bg-secondary">Fuera de horario</span>';
+                        }
+                        
+                        return `
+                        <tr style="background: white; color: black;">
+                            <td style="color: black;"><strong>${r.cliente}</strong></td>
+                            <td style="color: black;">${r.fecha}</td>
+                            <td style="color: black;">${r.hora}</td>
+                            <td style="color: black;">Mesa ${r.mesa}</td>
+                            <td style="color: black;">${r.nuevo_horario}</td>
+                            <td>${problemaBadge}</td>
+                        </tr>
+                        `;
+                    }).join('');
+                    
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '⚠️ Reservas Afectadas',
+                        html: `
+                            <div class="text-start">
+                                <p class="mb-3 fs-5"><strong>${data.message}</strong></p>
+                                <p class="text-danger mb-3">Las siguientes reservas serán <strong>CANCELADAS</strong> y se enviará notificación por WhatsApp:</p>
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table class="table table-bordered table-hover" style="font-size: 0.95rem;">
+                                        <thead class="table-dark" style="position: sticky; top: 0; z-index: 10;">
+                                            <tr>
+                                                <th style="min-width: 150px;">Cliente</th>
+                                                <th style="min-width: 100px;">Fecha</th>
+                                                <th style="min-width: 80px;">Hora</th>
+                                                <th style="min-width: 80px;">Mesa</th>
+                                                <th style="min-width: 150px;">Nuevo Horario</th>
+                                                <th style="min-width: 130px;">Problema</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${reservasHtml}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p class="mt-3 text-center text-muted">
+                                    <i class="bi bi-whatsapp text-success fs-5"></i> 
+                                    Se enviará mensaje WhatsApp a todos los clientes afectados.
+                                </p>
+                            </div>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: '<i class="bi bi-check-circle"></i> Confirmar y Cancelar Reservas',
+                        cancelButtonText: '<i class="bi bi-x-circle"></i> Cancelar Cambio',
+                        confirmButtonColor: '#dc3545',
+                        cancelButtonColor: '#6c757d',
+                        width: '900px',
+                        customClass: {
+                            confirmButton: 'btn btn-danger',
+                            cancelButton: 'btn btn-secondary'
+                        }
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            // Usuario confirmó, enviar de nuevo con forzar=true
+                            try {
+                                Swal.fire({
+                                    title: 'Procesando...',
+                                    html: 'Cancelando reservas y enviando notificaciones...',
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading();
+                                    }
+                                });
+                                
+                                const response2 = await fetch('app/api/gestionar_horarios.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    credentials: 'same-origin',
+                                    body: JSON.stringify({
+                                        action: 'actualizar',
+                                        forzar: true,
+                                        configuraciones: {
+                                            hora_apertura: horaApertura,
+                                            hora_cierre: horaCierre,
+                                            dias_cerrados: diasCerrados.join(',')
+                                        },
+                                        reservas_afectadas: data.reservas_afectadas
+                                    })
+                                });
+                                
+                                const data2 = await response2.json();
+                                
+                                if (data2.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '✅ Horarios Actualizados',
+                                        html: `
+                                            <p>Configuración guardada correctamente</p>
+                                            <p class="text-success"><i class="bi bi-whatsapp"></i> Mensajes enviados</p>
+                                            <p class="text-danger"><i class="bi bi-x-circle"></i> Reservas canceladas</p>
+                                        `,
+                                        confirmButtonText: 'Entendido'
+                                    });
+                                    window.cargarHorariosActuales();
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: data2.message || 'Error al actualizar horarios'
+                                    });
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al procesar la actualización'
+                                });
+                            }
+                        }
+                    });
                 } else {
                     Swal.fire({
                         icon: 'error',

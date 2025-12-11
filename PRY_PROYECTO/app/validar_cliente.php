@@ -29,9 +29,9 @@ try {
         exit;
     }
 
-    // Primero intentar en la nueva tabla clientes_v2 (usuario/password)
-    $query_v2 = "SELECT id, nombre, apellido, usuario, password_hash, telefono, ciudad FROM clientes_v2 WHERE usuario = ? LIMIT 1";
-    $stmt = $mysqli->prepare($query_v2);
+    // Primero intentar en la tabla clientes (usuario/password)
+    $query_v2 = "SELECT id, nombre, apellido, usuario, password_hash, telefono, ciudad FROM clientes WHERE usuario = ? LIMIT 1";
+    $stmt_v2 = $mysqli->prepare($query_v2);
     if ($stmt) {
         $stmt->bind_param('s', $usuario);
         $stmt->execute();
@@ -75,7 +75,7 @@ try {
         $stmt->close();
     }
 
-    // Si no se encontró en clientes_v2, intentar compatibilidad con la tabla antigua (email+telefono)
+    // Si no se encontró en clientes, intentar compatibilidad con la tabla antigua (email+telefono)
     $email = $usuario; // en algunos formularios anteriores se pasaba email en 'usuario'
     $telefono = $password; // y teléfono en 'password'
     $query_old = "SELECT id, nombre, apellido, email, telefono, fecha_registro FROM clientes WHERE email = ? AND telefono = ?";

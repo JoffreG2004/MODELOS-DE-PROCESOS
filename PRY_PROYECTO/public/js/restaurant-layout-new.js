@@ -2,7 +2,6 @@ class RestaurantLayout {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
         if (!this.container) {
-            console.error('Contenedor no encontrado:', containerId);
             return;
         }
         this.mesas = [];
@@ -11,7 +10,6 @@ class RestaurantLayout {
     }
 
     async init() {
-        console.log('Inicializando RestaurantLayout...');
         this.createLayout();
         await this.loadMesas();
         this.startAutoUpdate();
@@ -101,7 +99,16 @@ class RestaurantLayout {
         try {
             this.showLoading();
 
-            const response = await fetch('app/api/mesas_estado.php');
+            // Agregar timestamp para evitar caché del navegador
+            const timestamp = new Date().getTime();
+            const response = await fetch(`app/api/mesas_estado.php?_=${timestamp}`, {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            });
+
             if (!response.ok) {
                 throw new Error('Error en la respuesta de la API');
             }
@@ -110,7 +117,6 @@ class RestaurantLayout {
 
             if (data.success) {
                 this.mesas = data.mesas;
-                console.log('Mesas cargadas:', this.mesas.length);
                 this.renderMesas();
                 this.updateStats(data.resumen);
             } else {
@@ -134,20 +140,16 @@ class RestaurantLayout {
 
         // Agrupar mesas por zona
         const mesasPorZona = this.groupMesasByZona(this.mesas);
-        console.log('Mesas por zona:', mesasPorZona);
 
         // Renderizar mesas en cada zona
         Object.entries(mesasPorZona).forEach(([zona, mesas]) => {
             const container = document.querySelector(`[data-zona="${zona}"]`);
 
             if (container) {
-                console.log(`Renderizando ${mesas.length} mesas en zona ${zona}`);
                 mesas.forEach(mesa => {
                     const mesaElement = this.createMesaElement(mesa);
                     container.appendChild(mesaElement);
                 });
-            } else {
-                console.error(`Contenedor no encontrado para zona: ${zona}`);
             }
         });
     }
@@ -282,6 +284,41 @@ class RestaurantLayout {
     }
 
     onMesaClick(mesa) {
+        // Opciones según el estado actual
+        let opciones = {
+            'disponible': {
+                'ocupada': '🔴 Marcar como Ocupada',
+                'reservada': '🟡 Marcar como Reservada',
+                'mantenimiento': '⚫ Marcar en Mantenimiento'
+            },
+            'ocupada': {
+                'disponible': '🟢 Liberar Mesa',
+                'mantenimiento': '⚫ Marcar en Mantenimiento'
+            },
+            'reservada': {
+                'disponible': '🟢 Liberar Mesa',
+                'ocupada': '🔴 Marcar como Ocupada'
+            },
+            'mantenimiento': {
+                'disponible': '🟢 Marcar como Disponible'
+            }
+        };
+
+        // Crear HTML de opciones
+        let opcionesHTML = '';
+        const estadosDisponibles = opciones[mesa.estado] || {};
+
+        for (let [nuevoEstado, texto] of Object.entries(estadosDisponibles)) {
+            opcionesHTML += `
+                <button 
+                    class="swal2-confirm swal2-styled" 
+                    onclick="cambiarEstadoMesaIndividual(${mesa.id}, '${nuevoEstado}')"
+                    style="margin: 5px;">
+                    ${texto}
+                </button>
+            `;
+        }
+
         // Formatear capacidad
         let capacidadText;
         if (mesa.capacidad_minima && mesa.capacidad_maxima) {
@@ -294,33 +331,39 @@ class RestaurantLayout {
             capacidadText = `${mesa.capacidad} personas`;
         }
 
-        let mensaje = `Mesa ${mesa.numero}
-        
-🏷️ Zona: ${this.getZonaText(mesa.ubicacion)}
-🎯 Estado: ${this.getEstadoText(mesa.estado)}
-👥 Capacidad: ${capacidadText}`;
-
-        if (mesa.descripcion) {
-            mensaje += `\n💬 ${mesa.descripcion}`;
-        }
+        let detallesHTML = `
+            <div style="text-align: left; margin-bottom: 20px;">
+                <p><strong>🏷️ Zona:</strong> ${this.getZonaText(mesa.ubicacion)}</p>
+                <p><strong>🎯 Estado:</strong> ${this.getEstadoText(mesa.estado)}</p>
+                <p><strong>👥 Capacidad:</strong> ${capacidadText}</p>
+                ${mesa.descripcion ? `<p><strong>💬 Descripción:</strong> ${mesa.descripcion}</p>` : ''}
+            </div>
+        `;
 
         if (mesa.reserva) {
-            mensaje += `\n
-📋 Reserva:
-👤 Cliente: ${mesa.reserva.cliente}
-📞 Teléfono: ${mesa.reserva.telefono || 'No disponible'}
-📅 Fecha: ${mesa.reserva.fecha}
-🕐 Hora: ${mesa.reserva.hora}
-👥 Personas: ${mesa.reserva.personas}`;
-
-            if (mesa.reserva.notas) {
-                mensaje += `\n📝 Notas: ${mesa.reserva.notas}`;
-            }
-        } else {
-            mensaje += '\n\nSin reserva activa';
+            detallesHTML += `
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 20px;">
+                    <h4 style="margin-top: 0;">📋 Reserva Activa</h4>
+                    <p><strong>👤 Cliente:</strong> ${mesa.reserva.cliente}</p>
+                    <p><strong>📞 Teléfono:</strong> ${mesa.reserva.telefono || 'No disponible'}</p>
+                    <p><strong>📅 Fecha:</strong> ${mesa.reserva.fecha}</p>
+                    <p><strong>🕐 Hora:</strong> ${mesa.reserva.hora}</p>
+                    <p><strong>👥 Personas:</strong> ${mesa.reserva.personas}</p>
+                    ${mesa.reserva.notas ? `<p><strong>📝 Notas:</strong> ${mesa.reserva.notas}</p>` : ''}
+                </div>
+            `;
         }
 
-        alert(mensaje);
+        detallesHTML += `<div style="margin-top: 20px;"><strong>Cambiar estado de la mesa:</strong></div>`;
+
+        Swal.fire({
+            title: `Mesa ${mesa.numero}`,
+            html: detallesHTML + opcionesHTML,
+            showConfirmButton: false,
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar',
+            width: '600px'
+        });
     }
 
     updateStats(resumen) {
@@ -381,21 +424,64 @@ class RestaurantLayout {
     }
 }
 
+// Función global para cambiar estado de mesa individual
+async function cambiarEstadoMesaIndividual(mesaId, nuevoEstado) {
+    Swal.close(); // Cerrar el diálogo actual
+
+    try {
+        const response = await fetch('app/api/cambiar_estado_mesa.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                mesas: [mesaId],
+                estado: nuevoEstado
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Estado Actualizado!',
+                text: data.message,
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+            // Recargar mesas
+            if (window.restaurantLayout) {
+                window.restaurantLayout.loadMesas();
+            }
+
+            // Actualizar estadísticas globales
+            if (typeof actualizarEstadisticas === 'function') {
+                actualizarEstadisticas();
+            }
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'No se pudo cambiar el estado'
+        });
+    }
+}
+
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('DOM cargado, buscando contenedor...');
     const container = document.getElementById('restaurant-layout-container');
     if (container) {
-        console.log('Contenedor encontrado, inicializando RestaurantLayout...');
         window.restaurantLayout = new RestaurantLayout('restaurant-layout-container');
-    } else {
-        console.log('Contenedor no encontrado aún, esperando...');
     }
 });
 
 // Función global para inicializar manualmente
 window.initRestaurantLayout = function () {
-    console.log('Inicialización manual solicitada...');
     if (window.restaurantLayout) {
         window.restaurantLayout.destroy();
     }
