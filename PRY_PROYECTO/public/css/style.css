@@ -616,19 +616,19 @@ body {
    =============================== */
 .navbar {
     backdrop-filter: blur(20px) !important;
-    background: #2d1b12 !important;
-    background-color: #2d1b12 !important;
-    box-shadow: var(--shadow-lg) !important;
+    background: #000000 !important;
+    background-color: #000000 !important;
+    box-shadow: none !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     padding: 1rem 0 !important;
-    border-bottom: 2px solid rgba(212, 175, 55, 0.3) !important;
+    border-bottom: none !important;
 }
 
 .navbar-scrolled {
-    background: rgba(45, 27, 18, 0.98) !important;
+    background: rgba(0, 0, 0, 0.98) !important;
     backdrop-filter: blur(25px);
-    box-shadow: var(--shadow-warm);
-    border-bottom-color: rgba(212, 175, 55, 0.4);
+    box-shadow: none !important;
+    border-bottom: none !important;
 }
 
 .navbar-brand {
@@ -649,7 +649,7 @@ body {
 }
 
 .navbar-nav .nav-link {
-    color: #f5f2ed !important;
+    color: #c9a04c !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 0.75rem 1.25rem !important;
     border-radius: var(--border-radius);
@@ -675,8 +675,8 @@ body {
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-    color: #ffd700 !important;
-    background-color: rgba(212, 175, 55, 0.2);
+    color: #d4af37 !important;
+    background-color: rgba(212, 175, 55, 0.15);
     transform: translateY(-2px);
 }
 
@@ -721,12 +721,16 @@ body.dark-mode {
 }
 
 .dark-mode .navbar {
-    background: rgba(15, 23, 42, 0.9) !important;
-    border-bottom-color: var(--dark-border);
+    background: rgba(0, 0, 0, 0.98) !important;
+    border-bottom: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .dark-mode .navbar-scrolled {
     background: rgba(15, 23, 42, 0.98) !important;
+    border: none !important;
+    border-bottom: none !important;
 }
 
 .dark-mode .navbar-brand {

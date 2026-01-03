@@ -838,3 +838,22 @@ Actualización exitosa ✅
 ✅ Tablas limpiadas: platos, categorias_platos
 Actualización exitosa ✅
 [2025-11-20 03:04:46] Archivo temporal eliminado
+[2025-12-16 14:35:08] Archivo recibido: menu_template3.xlsx (10107 bytes)
+[2025-12-16 14:35:08] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251216143508.xlsx
+[2025-12-16 14:35:08] Python detectado: /usr/bin/python3
+[2025-12-16 14:35:08] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251216143508.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'root' --mysql-pass '' --clear-before 2>&1
+[2025-12-16 14:35:08] Exit code: 1
+[2025-12-16 14:35:08] Output: /usr/bin/python3: can't find '__main__' module in '/opt/lampp/htdocs/PRY_PROYECTO/app/api'
+[2025-12-16 14:35:08] Archivo temporal eliminado
+[2025-12-16 14:35:17] Archivo recibido: menu_template2.xlsx (11578 bytes)
+[2025-12-16 14:35:17] Archivo guardado en: /opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251216143517.xlsx
+[2025-12-16 14:35:17] Python detectado: /usr/bin/python3
+[2025-12-16 14:35:17] Ejecutando comando: unset LD_LIBRARY_PATH && '/usr/bin/python3' '' --input '/opt/lampp/htdocs/PRY_PROYECTO/uploads/menu_20251216143517.xlsx' --mysql-host 'localhost' --mysql-db 'crud_proyecto' --mysql-user 'root' --mysql-pass '' --clear-before 2>&1
+[2025-12-16 14:35:17] Exit code: 1
+[2025-12-16 14:35:17] Output: /usr/bin/python3: can't find '__main__' module in '/opt/lampp/htdocs/PRY_PROYECTO/app/api'
+[2025-12-16 14:35:17] Archivo temporal eliminado
+[2026-01-02 03:51:06] ERROR: El archivo debe ser un Excel (.xlsx o .xls)
+[2026-01-02 03:54:06] ERROR: El archivo debe ser un Excel (.xlsx o .xls)
+[2026-01-02 03:58:55] ERROR: El archivo debe ser un Excel (.xlsx o .xls)
+[2026-01-02 04:06:38] ERROR: El archivo debe ser un Excel (.xlsx o .xls)
+[2026-01-02 04:12:00] ERROR: El archivo debe ser un Excel (.xlsx o .xls)

@@ -9,6 +9,14 @@ if (!isset($_SESSION['cliente_id']) || !isset($_SESSION['cliente_authenticated']
 
 require_once 'conexion/db.php';
 
+// Actualizar automáticamente los estados de las reservas
+try {
+    $pdo->exec("CALL activar_reservas_programadas()");
+} catch (PDOException $e) {
+    // Log error silenciosamente, no interrumpir la carga de la página
+    error_log("Error actualizando estados de reservas: " . $e->getMessage());
+}
+
 $cliente_id = $_SESSION['cliente_id'];
 $cliente_nombre = $_SESSION['cliente_nombre'] ?? '';
 $cliente_apellido = $_SESSION['cliente_apellido'] ?? '';

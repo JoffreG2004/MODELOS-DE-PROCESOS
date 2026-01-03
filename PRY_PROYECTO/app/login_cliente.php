@@ -25,11 +25,10 @@ try {
                 c.apellido,
                 c.telefono,
                 c.email,
-                c.fecha_registro,
-                c.preferencias,
-                c.activo
+                c.cedula,
+                c.usuario
             FROM clientes c
-            WHERE c.email = :email AND c.telefono = :telefono AND c.activo = 1";
+            WHERE c.email = :email AND c.telefono = :telefono";
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -44,6 +43,7 @@ try {
 
     // Iniciar sesión
     session_start();
+    $_SESSION['cliente_authenticated'] = true;
     $_SESSION['cliente_id'] = $cliente['id'];
     $_SESSION['cliente_nombre'] = $cliente['nombre'] . ' ' . $cliente['apellido'];
     $_SESSION['cliente_email'] = $cliente['email'];

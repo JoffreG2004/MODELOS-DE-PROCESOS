@@ -12,11 +12,24 @@ BEGIN
     AND CONCAT(fecha_reserva, ' ', hora_reserva) <= NOW()
     AND CONCAT(fecha_reserva, ' ', hora_reserva) >= DATE_SUB(NOW(), INTERVAL 30 MINUTE);
     
-    -- Opcional: Finalizar reservas antiguas automáticamente (más de 3 horas)
+    -- Finalizar reservas en curso que ya pasaron (más de 3 horas)
     UPDATE reservas 
     SET estado = 'finalizada'
     WHERE estado = 'en_curso'
     AND CONCAT(fecha_reserva, ' ', hora_reserva) <= DATE_SUB(NOW(), INTERVAL 3 HOUR);
+    
+    -- NUEVO: Finalizar reservas confirmadas que ya pasaron hace más de 1 día
+    UPDATE reservas 
+    SET estado = 'finalizada'
+    WHERE estado = 'confirmada'
+    AND fecha_reserva < CURDATE();
+    
+    -- Liberar mesas de reservas finalizadas
+    UPDATE mesas m
+    INNER JOIN reservas r ON m.id = r.id_mesa
+    SET m.estado = 'disponible'
+    WHERE r.estado = 'finalizada'
+    AND m.estado IN ('reservada', 'ocupada');
 END$$
 
 DELIMITER ;

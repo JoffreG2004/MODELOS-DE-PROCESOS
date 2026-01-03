@@ -9,6 +9,14 @@ if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated']
     exit;
 }
 
+// Actualizar automáticamente los estados de las reservas
+try {
+    $pdo->exec("CALL activar_reservas_programadas()");
+} catch (PDOException $e) {
+    // Log error silenciosamente
+    error_log("Error actualizando estados de reservas: " . $e->getMessage());
+}
+
 // Prevenir caché del navegador para evitar acceso con botón atrás
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);

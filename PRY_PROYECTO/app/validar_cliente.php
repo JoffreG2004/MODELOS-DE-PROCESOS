@@ -32,10 +32,10 @@ try {
     // Primero intentar en la tabla clientes (usuario/password)
     $query_v2 = "SELECT id, nombre, apellido, usuario, password_hash, telefono, ciudad FROM clientes WHERE usuario = ? LIMIT 1";
     $stmt_v2 = $mysqli->prepare($query_v2);
-    if ($stmt) {
-        $stmt->bind_param('s', $usuario);
-        $stmt->execute();
-        $res = $stmt->get_result();
+    if ($stmt_v2) {
+        $stmt_v2->bind_param('s', $usuario);
+        $stmt_v2->execute();
+        $res = $stmt_v2->get_result();
         if ($res && $res->num_rows === 1) {
             $cliente = $res->fetch_assoc();
             // verificar contraseña
@@ -49,36 +49,36 @@ try {
                 $_SESSION['cliente_login_time'] = time();
                 $_SESSION['cliente_authenticated'] = true;
 
-                // Registrar acceso
-                $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-                $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-                $log_query = "INSERT INTO log_accesos (usuario_id, tipo_usuario, ip_address, user_agent, fecha_acceso, exitoso) VALUES (?, 'cliente', ?, ?, NOW(), 1)";
-                $log_stmt = $mysqli->prepare($log_query);
-                if ($log_stmt) {
-                    $log_stmt->bind_param('iss', $cliente['id'], $ip_address, $user_agent);
-                    $log_stmt->execute();
-                    $log_stmt->close();
-                }
+                // Registrar acceso - DESHABILITADO (tabla log_accesos no existe)
+                // $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+                // $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+                // $log_query = "INSERT INTO log_accesos (usuario_id, tipo_usuario, ip_address, user_agent, fecha_acceso, exitoso) VALUES (?, 'cliente', ?, ?, NOW(), 1)";
+                // $log_stmt = $mysqli->prepare($log_query);
+                // if ($log_stmt) {
+                //     $log_stmt->bind_param('iss', $cliente['id'], $ip_address, $user_agent);
+                //     $log_stmt->execute();
+                //     $log_stmt->close();
+                // }
 
                 echo json_encode(['success' => true, 'message' => 'Acceso autorizado', 'cliente' => ['id' => $cliente['id'], 'nombre' => $cliente['nombre'], 'apellido' => $cliente['apellido'] ], 'estudiante' => ['id' => $cliente['id'], 'nombre' => $cliente['nombre'], 'apellido' => $cliente['apellido'] ]]);
-                $stmt->close();
+                $stmt_v2->close();
                 $mysqli->close();
                 exit;
             } else {
                 // contraseña incorrecta
                 echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos']);
-                $stmt->close();
+                $stmt_v2->close();
                 $mysqli->close();
                 exit;
             }
         }
-        $stmt->close();
+        $stmt_v2->close();
     }
 
     // Si no se encontró en clientes, intentar compatibilidad con la tabla antigua (email+telefono)
     $email = $usuario; // en algunos formularios anteriores se pasaba email en 'usuario'
     $telefono = $password; // y teléfono en 'password'
-    $query_old = "SELECT id, nombre, apellido, email, telefono, fecha_registro FROM clientes WHERE email = ? AND telefono = ?";
+    $query_old = "SELECT id, nombre, apellido, email, telefono FROM clientes WHERE email = ? AND telefono = ?";
     $stmt2 = $mysqli->prepare($query_old);
     if ($stmt2) {
         $stmt2->bind_param('ss', $email, $telefono);
@@ -95,16 +95,16 @@ try {
             $_SESSION['cliente_login_time'] = time();
             $_SESSION['cliente_authenticated'] = true;
 
-            // registrar acceso
-            $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-            $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
-            $log_query = "INSERT INTO log_accesos (usuario_id, tipo_usuario, ip_address, user_agent, fecha_acceso, exitoso) VALUES (?, 'cliente', ?, ?, NOW(), 1)";
-            $log_stmt = $mysqli->prepare($log_query);
-            if ($log_stmt) {
-                $log_stmt->bind_param('iss', $cliente['id'], $ip_address, $user_agent);
-                $log_stmt->execute();
-                $log_stmt->close();
-            }
+            // registrar acceso - DESHABILITADO (tabla log_accesos no existe)
+            // $ip_address = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+            // $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+            // $log_query = "INSERT INTO log_accesos (usuario_id, tipo_usuario, ip_address, user_agent, fecha_acceso, exitoso) VALUES (?, 'cliente', ?, ?, NOW(), 1)";
+            // $log_stmt = $mysqli->prepare($log_query);
+            // if ($log_stmt) {
+            //     $log_stmt->bind_param('iss', $cliente['id'], $ip_address, $user_agent);
+            //     $log_stmt->execute();
+            //     $log_stmt->close();
+            // }
 
             echo json_encode(['success' => true, 'message' => 'Acceso autorizado', 'cliente' => ['id' => $cliente['id'], 'nombre' => $cliente['nombre'], 'apellido' => $cliente['apellido'] ], 'estudiante' => ['id' => $cliente['id'], 'nombre' => $cliente['nombre'], 'apellido' => $cliente['apellido'] ]]);
             $stmt2->close();

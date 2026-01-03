@@ -1,0 +1,163 @@
+[
+  {
+    "nombre": "CREAR mesa válida + verificar BD",
+    "panel": "Integration: Agregar Mesa → BD",
+    "accion": "POST agregar_mesa.php → SELECT FROM mesas WHERE numero_mesa='IT_001'",
+    "esperado": "Mesa creada en API Y existe en BD",
+    "paso": true,
+    "respuesta": {
+      "api_response": {
+        "success": true,
+        "message": "Mesa agregada exitosamente",
+        "id": "60"
+      },
+      "id_generado": "60",
+      "existe_en_bd": true
+    }
+  },
+  {
+    "nombre": "CREAR mesa duplicada debe fallar",
+    "panel": "Integration: Agregar Mesa (validación)",
+    "accion": "POST agregar_mesa.php con numero_mesa existente",
+    "esperado": "API rechaza duplicado Y no crea nueva fila en BD",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El número de mesa ya existe"
+    }
+  },
+  {
+    "nombre": "ACTUALIZAR mesa + verificar cambios en BD",
+    "panel": "Integration: Editar Mesa → BD",
+    "accion": "POST editar_mesa.php id=60 → SELECT FROM mesas WHERE id=60",
+    "esperado": "API actualiza Y cambios reflejados en BD (numero_mesa, capacidad, ubicacion)",
+    "paso": false,
+    "respuesta": {
+      "api_response": {
+        "success": false,
+        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
+      },
+      "bd_output": "numero_mesa\tcapacidad_maxima\tubicacion\nIT_001\t4\tinterior\n",
+      "cambios_verificados": false
+    }
+  },
+  {
+    "nombre": "ACTUALIZAR con número duplicado debe fallar",
+    "panel": "Integration: Editar Mesa (validación)",
+    "accion": "POST editar_mesa.php intentar cambiar a numero_mesa existente",
+    "esperado": "API rechaza Y BD no cambia numero_mesa",
+    "paso": false,
+    "respuesta": {
+      "api_response": {
+        "success": false,
+        "message": "El número de mesa ya existe en otra mesa"
+      },
+      "bd_mantiene_original": false
+    }
+  },
+  {
+    "nombre": "ACTUALIZAR mesa inexistente (id=99999)",
+    "panel": "Integration: Editar Mesa",
+    "accion": "POST editar_mesa.php con id inexistente → verificar BD",
+    "esperado": "API no crea nueva fila (UPDATE afecta 0 rows)",
+    "paso": true,
+    "respuesta": {
+      "api_response": {
+        "success": true,
+        "message": "Mesa actualizada exitosamente"
+      },
+      "bd_no_crea_mesa": true
+    }
+  },
+  {
+    "nombre": "ELIMINAR mesa con reservas activas debe fallar",
+    "panel": "Integration: Eliminar Mesa (validación)",
+    "accion": "POST eliminar_mesa.php con reserva confirmada → verificar mesa en BD",
+    "esperado": "API rechaza eliminación Y mesa permanece en BD",
+    "paso": true,
+    "respuesta": {
+      "api_response": {
+        "success": false,
+        "message": "No se puede eliminar la mesa porque tiene reservas activas"
+      },
+      "mesa_existe_en_bd": true
+    }
+  },
+  {
+    "nombre": "ELIMINAR mesa + verificar desaparición en BD",
+    "panel": "Integration: Eliminar Mesa → BD",
+    "accion": "POST eliminar_mesa.php id=60 → SELECT FROM mesas WHERE id=60",
+    "esperado": "API elimina Y mesa no existe en BD",
+    "paso": true,
+    "respuesta": {
+      "api_response": {
+        "success": true,
+        "message": "Mesa eliminada exitosamente"
+      },
+      "mesa_eliminada_de_bd": true,
+      "total_antes": "4",
+      "total_despues": "3"
+    }
+  },
+  {
+    "nombre": "ELIMINAR mesa ya eliminada (idempotencia)",
+    "panel": "Integration: Eliminar Mesa",
+    "accion": "POST eliminar_mesa.php con id ya eliminado",
+    "esperado": "Mesa sigue sin existir en BD (operación idempotente)",
+    "paso": true,
+    "respuesta": {
+      "api_response": {
+        "success": true,
+        "message": "Mesa eliminada exitosamente"
+      },
+      "no_existe_en_bd": true
+    }
+  },
+  {
+    "nombre": "CICLO COMPLETO: CREATE → READ → UPDATE → DELETE",
+    "panel": "Integration: CRUD Completo",
+    "accion": "Crear mesa → Leer BD → Actualizar → Verificar BD → Eliminar → Verificar BD",
+    "esperado": "Todo el ciclo funciona correctamente sin errores",
+    "paso": false,
+    "respuesta": {
+      "paso_1_crear": true,
+      "paso_2_leer": true,
+      "paso_3_update": false,
+      "paso_4_delete": true,
+      "ciclo_completo": false
+    }
+  },
+  {
+    "nombre": "VALIDACIÓN: Crear mesa sin numero_mesa",
+    "panel": "Integration: Validaciones",
+    "accion": "POST agregar_mesa.php con numero_mesa vacío",
+    "esperado": "API rechaza y no crea en BD",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Número de mesa y capacidad máxima son requeridos"
+    }
+  },
+  {
+    "nombre": "VALIDACIÓN: Crear mesa sin capacidad_maxima",
+    "panel": "Integration: Validaciones",
+    "accion": "POST agregar_mesa.php sin campo capacidad_maxima",
+    "esperado": "API rechaza y no crea en BD",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Número de mesa y capacidad máxima son requeridos"
+    }
+  },
+  {
+    "nombre": "VALIDACIÓN: Actualizar mesa sin ID",
+    "panel": "Integration: Validaciones",
+    "accion": "POST editar_mesa.php sin campo id",
+    "esperado": "API rechaza la actualización",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "ID, número de mesa y capacidad máxima son requeridos"
+    }
+  }
+]

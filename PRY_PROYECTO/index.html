@@ -25,6 +25,123 @@
     <script src="public/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <style>
+        /* Estilos para el navbar */
+        #mainNavbar {
+            background: #3d2e24 !important;
+            box-shadow: none !important;
+            border-bottom: none !important;
+            transition: all 0.3s ease !important;
+            padding: 0.5rem 0 !important;
+        }
+
+        #mainNavbar .nav-link {
+            color: #f5f2ed !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.75rem 1rem !important;
+        }
+
+        #mainNavbar .nav-link:hover {
+            color: #d4af37 !important;
+        }
+
+        /* Estilos responsive para móvil */
+        @media (max-width: 991px) {
+            #mainNavbar .navbar-collapse {
+                background: rgba(61, 46, 36, 0.98);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                padding: 20px;
+                border-radius: 15px;
+                margin-top: 15px;
+                border: 1px solid rgba(212, 175, 55, 0.3);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            }
+
+            #mainNavbar .nav-link {
+                padding: 10px 15px !important;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            }
+
+            #mainNavbar .nav-link:last-child {
+                border-bottom: none;
+            }
+
+            /* Ajustar tamaño de botones en móvil */
+            .navbar-buttons .btn {
+                padding: 10px 20px !important;
+                font-size: 0.9rem !important;
+                width: 100% !important;
+            }
+
+            /* Modo oscuro responsive - sin bordes amarillos */
+            .dark-mode #mainNavbar .navbar-collapse {
+                background: rgba(0, 0, 0, 0.98) !important;
+                border: none !important;
+            }
+
+            .dark-mode #mainNavbar .nav-link {
+                border-bottom: none !important;
+            }
+        }
+
+        /* Estilos para el navbar en modo oscuro */
+        .dark-mode #mainNavbar {
+            background: #000000 !important;
+            box-shadow: none !important;
+            border-bottom: none !important;
+            border: none !important;
+        }
+
+        .dark-mode #mainNavbar .nav-link {
+            color: #c9a04c !important;
+        }
+
+        .dark-mode #mainNavbar .nav-link:hover {
+            color: #d4af37 !important;
+        }
+
+        .dark-mode #mainNavbar .navbar-collapse {
+            background: rgba(0, 0, 0, 0.98) !important;
+            border: none !important;
+        }
+
+        /* Estilos para los botones en modo oscuro - tonos cafecito/marrón oscuro */
+        .dark-mode #darkModeBtn {
+            background: #4a3529 !important;
+            color: #f5f2ed !important;
+            border: none !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .dark-mode #darkModeBtn:hover {
+            background: #3d2e24 !important;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .dark-mode #btn-ingresar {
+            background: #4a3529 !important;
+            color: #f5f2ed !important;
+            border: none !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .dark-mode #btn-ingresar:hover {
+            background: #3d2e24 !important;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        /* Estilos para modo oscuro del modal de selección de perfil */
+        .dark-mode #ModalSeleccionPerfil .modal-content {
+            background: #1a1410 !important;
+        }
+
+        .dark-mode #ModalSeleccionPerfil .btn-close {
+            filter: brightness(2.5) !important;
+        }
+
         /* Estilos para modo oscuro en la sección de mesas */
         .dark-mode .mesas-section {
             background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%) !important;
@@ -115,42 +232,66 @@
         }
 
         .dark-mode .espacios-title {
-            color: var(--gold-color) !important;
+            color: #d4af37 !important;
         }
 
-        .dark-mode .espacios-subtitle {
+        .dark-mode .espacios-container {
+            background: #000000 !important;
+            border-color: #d4af37 !important;
+        }
+
+        .dark-mode .espacio-card-divider {
+            border-left-color: #d4af37 !important;
+            border-right-color: #d4af37 !important;
+        }
+
+        .dark-mode .espacio-card h4 {
+            color: #d4af37 !important;
+        }
+
+        .dark-mode .espacio-descripcion {
             color: rgba(255, 255, 255, 0.7) !important;
         }
 
-        .dark-mode .espacio-title {
-            color: var(--gold-color) !important;
+        .dark-mode .btn-espacio {
+            background: #1a1a1a !important;
+            color: #d4af37 !important;
         }
 
-        .dark-mode .espacio-description {
-            color: rgba(255, 255, 255, 0.85) !important;
-        }
-
-        .dark-mode .espacio-info {
-            background: rgba(212, 175, 55, 0.15) !important;
-            border-left-color: var(--gold-color) !important;
-        }
-
-        .dark-mode .espacio-info small {
-            color: var(--gold-color) !important;
-        }
-
-        .dark-mode .espacio-image img {
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2) !important;
+        .dark-mode .btn-espacio:hover {
+            background: #2d2d2d !important;
         }
 
         /* Dark Mode para Galería de Mesas */
         .dark-mode .mesa-card {
-            background: rgba(20, 20, 20, 0.98) !important;
+            background: #1a1a1a !important;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7) !important;
         }
 
         .dark-mode .mesa-card:hover {
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3) !important;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4) !important;
+        }
+
+        .dark-mode .mesa-card-body {
+            background: #1a1a1a !important;
+        }
+
+        .dark-mode .mesa-capacidad-label,
+        .dark-mode .mesa-ubicacion-label {
+            color: #d4af37 !important;
+        }
+
+        .dark-mode .mesa-capacidad,
+        .dark-mode .mesa-ubicacion {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .dark-mode .mesa-precio-box {
+            background: #d4af37 !important;
+        }
+
+        .dark-mode .mesa-consumo-text {
+            color: #5a4a3a !important;
         }
 
         .dark-mode .mesas-leyenda {
@@ -164,34 +305,47 @@
 
         /* Dark Mode para Sección de Menú */
         .dark-mode .menu-section {
-            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%) !important;
+            background: #1a1410 !important;
         }
 
         .dark-mode .menu-title {
-            color: var(--gold-color) !important;
+            color: #d4af37 !important;
+            font-size: 3rem !important;
         }
 
         .dark-mode .menu-subtitle {
-            color: rgba(255, 255, 255, 0.7) !important;
+            color: #a8896d !important;
+            font-size: 1.2rem !important;
         }
 
-        .dark-mode .categoria-circle {
-            background: rgba(20, 20, 20, 0.98) !important;
-            border-color: rgba(212, 175, 55, 0.3) !important;
+        .dark-mode .categoria-card {
+            background: #2d2420 !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6) !important;
         }
 
-        .dark-mode .categoria-circle:hover {
-            background: rgba(30, 30, 30, 0.98) !important;
-            border-color: var(--gold-color) !important;
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4) !important;
+        .dark-mode .categoria-card:hover {
+            transform: translateY(-12px) !important;
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4) !important;
+        }
+
+        .dark-mode .categoria-card>div:first-child {
+            background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%) !important;
+        }
+
+        .dark-mode .categoria-card>div:last-child {
+            background: #2d2420 !important;
         }
 
         .dark-mode .categoria-nombre {
-            color: var(--gold-color) !important;
+            color: #d4af37 !important;
         }
 
         .dark-mode .categoria-count {
-            color: rgba(255, 255, 255, 0.7) !important;
+            color: #c9a04c !important;
+        }
+
+        .dark-mode .spinner-border {
+            color: #d4af37 !important;
         }
 
         /* Validación de campos en tiempo real */
@@ -222,78 +376,98 @@
             border-color: #28a745 !important;
             background-color: rgba(40, 167, 69, 0.05) !important;
         }
+
+        /* Estilos para Sobre Nosotros en modo oscuro */
+        .dark-mode .sobre-nosotros-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%) !important;
+        }
+
+        .dark-mode .sobre-nosotros-section .section-title,
+        .dark-mode .sobre-nosotros-section h3 {
+            color: var(--gold-color) !important;
+        }
+
+        .dark-mode .sobre-nosotros-section .text-muted,
+        .dark-mode .sobre-nosotros-section p {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .dark-mode .sobre-nosotros-section .feature-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%) !important;
+            border-color: rgba(212, 175, 55, 0.3) !important;
+        }
+
+        .dark-mode .sobre-nosotros-section .feature-box h5 {
+            color: var(--gold-color) !important;
+        }
+
+        .dark-mode .sobre-nosotros-section .feature-box p {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        /* Modales mantienen su diseño original en modo oscuro */
     </style>
 </head>
 
 <body>
-    <!-- Elementos flotantes de fondo -->
-    <div class="floating-elements">
-        <div class="floating-element" style="left: 10%; animation-delay: 0s;">🍽️</div>
-        <div class="floating-element" style="left: 20%; animation-delay: 2s;">🥂</div>
-        <div class="floating-element" style="left: 30%; animation-delay: 4s;">🍷</div>
-        <div class="floating-element" style="left: 40%; animation-delay: 6s;">🍴</div>
-        <div class="floating-element" style="left: 50%; animation-delay: 8s;">👨‍�</div>
-        <div class="floating-element" style="left: 60%; animation-delay: 1s;">🥘</div>
-        <div class="floating-element" style="left: 70%; animation-delay: 3s;">🌟</div>
-        <div class="floating-element" style="left: 80%; animation-delay: 5s;">�</div>
-        <div class="floating-element" style="left: 90%; animation-delay: 7s;">🎂</div>
-        <div class="floating-element" style="left: 15%; animation-delay: 9s;">🥖</div>
-        <div class="floating-element" style="left: 45%; animation-delay: 11s;">☕</div>
-        <div class="floating-element" style="left: 75%; animation-delay: 13s;">🧀</div>
-    </div>
-
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top" style="background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <nav class="navbar navbar-expand-lg fixed-top border-0" id="mainNavbar"
+        style="border: none !important; border-bottom: none !important;">
         <div class="container">
-            <a class="navbar-brand" href="#" style="color: #2d1b12; font-weight: 700; font-size: 1.5rem;">
-                <i class="bi bi-cup-hot-fill me-2" style="color: #d4af37;"></i>
-                Lumiere
+            <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
+                <img src="utils/imagen/LOGO1-HEADER.png" alt="Lumière"
+                    style="height: 55px; width: auto; filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.3));">
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                style="border-color: #2d1b12;">
-                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+                style="border-color: #d4af37;">
+                <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#inicio" style="color: #2d1b12; font-weight: 500;">
+                        <a class="nav-link" href="#inicio">
                             <i class="bi bi-house"></i> Inicio
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#mesas" style="color: #2d1b12; font-weight: 500;">
-                            <i class="bi bi-building"></i> Espacios
+                        <a class="nav-link" href="#nosotros">
+                            <i class="bi bi-heart"></i> Nosotros
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#menu" style="color: #2d1b12; font-weight: 500;">
+                        <a class="nav-link" href="#menu">
                             <i class="bi bi-book"></i> Menú
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#reservas" style="color: #2d1b12; font-weight: 500;">
-                            <i class="bi bi-calendar-check"></i> Reservar
+                        <a class="nav-link" href="#espacios">
+                            <i class="bi bi-building"></i> Espacios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#mesas">
+                            <i class="bi bi-diagram-3"></i> Mesas
                         </a>
                     </li>
                 </ul>
 
                 <!-- Botones de la derecha -->
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center flex-column flex-lg-row mt-3 mt-lg-0 gap-2">
                     <!-- Botón Modo Oscuro -->
-                    <button id="darkModeBtn" class="btn btn-outline-dark btn-sm me-3" title="Cambiar modo">
+                    <button id="darkModeBtn" class="btn border-0 shadow-sm w-100 w-lg-auto"
+                        style="background: #c9a04c !important; color: #2d1b12 !important; font-weight: 600 !important; transition: all 0.3s ease !important; text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important; padding: 8px 20px !important; font-size: 0.95rem !important; border-radius: 8px !important;"
+                        title="Cambiar modo">
                         <i class="bi bi-moon-fill" id="darkModeIcon"></i>
-                        <span id="darkModeText" class="d-none d-md-inline ms-1">Modo Oscuro</span>
+                        <span id="darkModeText" class="ms-1">Modo Oscuro</span>
                     </button>
 
-                    <!-- Botón de Login Administrador -->
-                    <button class="btn btn-sm border-0 shadow-sm" id="btn-actualizar-admin"
-                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #2d1b12; font-weight: 600; transition: all 0.3s ease; text-shadow: 0 1px 2px rgba(0,0,0,0.1);"
-                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(212, 175, 55, 0.5)'; this.style.background='linear-gradient(135deg, #ffd700 0%, #d4af37 100%)'"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(212, 175, 55, 0.3)'; this.style.background='linear-gradient(135deg, #d4af37 0%, #b8941f 100%)'">
-                        <i class="bi bi-shield-lock-fill me-1"></i>
-                        <span class="d-none d-md-inline">ADMINISTRADOR</span>
+                    <!-- Botón de Ingresar -->
+                    <button class="btn border-0 shadow-sm w-100 w-lg-auto" id="btn-ingresar"
+                        style="background: #c9a04c !important; color: #2d1b12 !important; font-weight: 600 !important; transition: all 0.3s ease !important; text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important; padding: 8px 20px !important; font-size: 0.95rem !important; border-radius: 8px !important;">
+                        <i class="bi bi-box-arrow-in-right me-2" style="font-size: 1rem;"></i>
+                        <span>INGRESAR</span>
                     </button>
                 </div>
             </div>
@@ -303,32 +477,355 @@
     <br>
 
     <!-- Header Principal -->
-    <header class="main-header" id="inicio">
-        <div class="container">
-            <div class="logo-container fade-in-up">
-                <div class="logo-icon">🍽️</div>
-                <h1 class="restaurant-name">Le Salon de Lumière</h1>
-                <p class="restaurant-subtitle">
-                    <i class="bi bi-gem"></i>
-                    Sistema de Reservas de Mesas Digital
+    <header class="main-header" id="inicio"
+        style="background: linear-gradient(135deg, rgba(45, 27, 18, 0.95) 0%, rgba(61, 46, 36, 0.95) 100%), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">
+        <div
+            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);">
+        </div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="logo-container fade-in-up" style="text-align: center; padding: 80px 0 100px 0;">
+                <img src="utils/imagen/LOGO1-HEADER.png" alt="Lumière Café"
+                    style="max-width: 500px; width: 100%; height: auto; margin-bottom: 30px; filter: drop-shadow(0 15px 40px rgba(212, 175, 55, 0.5));">
+                <h1
+                    style="font-size: 2rem; font-weight: 700; color: #f5f2ed; margin-bottom: 15px; font-family: 'Playfair Display', serif; letter-spacing: 2px; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);">
+                    Café Restaurant
+                </h1>
+                <p
+                    style="font-size: 1.1rem; color: #d4af37; font-weight: 400; font-style: italic; margin-bottom: 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);">
+                    Experiencia gastronómica única
                 </p>
-                <div class="mt-4">
-                    <span class="badge bg-light text-dark me-2 glass-effect">
-                        <i class="bi bi-shield-check"></i> Seguro
-                    </span>
-                    <span class="badge bg-light text-dark me-2 glass-effect">
-                        <i class="bi bi-clock"></i> 24/7
-                    </span>
-                    <span class="badge bg-light text-dark me-2 glass-effect">
-                        <i class="bi bi-award"></i> Confiable
-                    </span>
-                    <span class="badge bg-light text-dark glass-effect">
-                        <i class="bi bi-star-fill"></i> Premium
-                    </span>
-                </div>
             </div>
         </div>
     </header>
+
+    <!-- Sección Sobre Nosotros -->
+    <section class="sobre-nosotros-section py-5" id="nosotros"
+        style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); transition: background 0.3s ease;">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <h2 class="section-title" style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
+                    <i class="bi bi-heart-fill me-2" style="color: var(--gold-color);"></i>
+                    Sobre Nosotros
+                </h2>
+                <p class="text-muted" style="font-size: 1.1rem;">
+                    15 años de pasión por la excelencia gastronómica
+                </p>
+            </div>
+
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <!-- Carrusel de Imágenes -->
+                    <div id="carouselNosotros" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="0"
+                                class="active"></button>
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="3"></button>
+                        </div>
+                        <div class="carousel-inner"
+                            style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2);">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80"
+                                    class="d-block w-100" alt="Interior del Restaurante"
+                                    style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block"
+                                    style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Ambiente Acogedor</h5>
+                                    <p>Un espacio diseñado para tu comodidad</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80"
+                                    class="d-block w-100" alt="Platos Gourmet"
+                                    style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block"
+                                    style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Gastronomía de Excelencia</h5>
+                                    <p>Cada plato es una obra de arte culinaria</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80"
+                                    class="d-block w-100" alt="Chef Preparando"
+                                    style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block"
+                                    style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Maestros de la Cocina</h5>
+                                    <p>Chefs con pasión y dedicación</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=800&q=80"
+                                    class="d-block w-100" alt="Celebraciones" style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block"
+                                    style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Momentos Especiales</h5>
+                                    <p>El escenario perfecto para tus celebraciones</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNosotros"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselNosotros"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="nosotros-content" style="padding: 20px;">
+                        <h3
+                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
+                            Nuestra Historia
+                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
+                            </div>
+                        </h3>
+                        <p
+                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; text-align: justify;">
+                            Desde hace <strong>15 años</strong>, Le Salon de Lumière se ha consolidado como un referente
+                            en la excelencia gastronómica.
+                            Nuestro compromiso inquebrantable es ofrecer una experiencia culinaria que trascienda lo
+                            ordinario, fusionando la
+                            tradición con la innovación en cada uno de nuestros platos.
+                        </p>
+                        <p
+                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; text-align: justify;">
+                            Cada receta es cuidadosamente elaborada por nuestros chefs, quienes seleccionan los
+                            ingredientes más frescos
+                            y de la más alta calidad. Nuestra pasión por la gastronomía nos impulsa a buscar
+                            constantemente la perfección
+                            en cada detalle, desde la presentación hasta el sabor.
+                        </p>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-4">
+                                <div class="feature-box text-center"
+                                    style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;"
+                                    onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(212, 175, 55, 0.3)'; this.style.borderColor='rgba(212, 175, 55, 0.5)'"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.1)'; this.style.borderColor='rgba(212, 175, 55, 0.2)'">
+                                    <div
+                                        style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                        <i class="bi bi-award-fill" style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                    </div>
+                                    <h5
+                                        style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                        15 Años de Experiencia</h5>
+                                    <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">
+                                        Trayectoria impecable en el sector</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="feature-box text-center"
+                                    style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;"
+                                    onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(212, 175, 55, 0.3)'; this.style.borderColor='rgba(212, 175, 55, 0.5)'"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.1)'; this.style.borderColor='rgba(212, 175, 55, 0.2)'">
+                                    <div
+                                        style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                        <i class="bi bi-stars" style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                    </div>
+                                    <h5
+                                        style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                        Ingredientes Premium</h5>
+                                    <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">Solo
+                                        la mejor calidad para ti</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="feature-box text-center"
+                                    style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;"
+                                    onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(212, 175, 55, 0.3)'; this.style.borderColor='rgba(212, 175, 55, 0.5)'"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.1)'; this.style.borderColor='rgba(212, 175, 55, 0.2)'">
+                                    <div
+                                        style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                        <i class="bi bi-people-fill" style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                    </div>
+                                    <h5
+                                        style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                        Equipo Profesional</h5>
+                                    <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">
+                                        Chefs y staff altamente capacitados</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="feature-box text-center"
+                                    style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;"
+                                    onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 35px rgba(212, 175, 55, 0.3)'; this.style.borderColor='rgba(212, 175, 55, 0.5)'"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.1)'; this.style.borderColor='rgba(212, 175, 55, 0.2)'">
+                                    <div
+                                        style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                        <i class="bi bi-heart-pulse-fill"
+                                            style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                    </div>
+                                    <h5
+                                        style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                        Pasión en Cada Plato</h5>
+                                    <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">Amor
+                                        por la gastronomía</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Menú -->
+    <section class="menu-section py-5" id="menu"
+        style="background: linear-gradient(135deg, rgba(61, 46, 36, 0.95) 0%, rgba(45, 27, 18, 0.95) 100%), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed; transition: background 0.3s ease; margin-top: -50px; padding-top: 80px !important;">
+        <div class="container">
+            <!-- Card contenedor del menú -->
+            <div
+                style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 30px; padding: 50px 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <div class="text-center mb-5 fade-in-up">
+                    <h2 class="section-title menu-title" style="color: #d4af37; font-size: 3rem; font-weight: 700;">
+                        <i class="bi bi-book me-2" style="color: #d4af37;"></i>
+                        Nuestro Menú
+                    </h2>
+                    <p class="text-muted menu-subtitle" style="font-size: 1.2rem; color: #f5f2ed;">
+                        Descubra nuestra exclusiva selección gastronómica
+                    </p>
+                </div>
+
+                <!-- Categorías en círculos -->
+                <div class="row g-4 justify-content-center" id="menuCategorias">
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border" style="color: var(--gold-color); width: 3rem; height: 3rem;"
+                            role="status">
+                            <span class="visually-hidden">Cargando menú...</span>
+                        </div>
+                        <p class="text-muted mt-3">Cargando categorías del menú...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Espacios del Restaurante -->
+    <section class="espacios-section py-5" id="espacios"
+        style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <h2 class="section-title espacios-title"
+                    style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
+                    Nuestros Espacios
+                </h2>
+            </div>
+
+            <!-- Contenedor de tarjetas -->
+            <div class="espacios-container"
+                style="background: white; border: 3px solid #d4af37; border-radius: 30px; padding: 50px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="row g-4">
+                    <!-- Terraza -->
+                    <div class="col-md-3">
+                        <div class="espacio-card" style="text-align: center;">
+                            <div
+                                style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80"
+                                    alt="Terraza" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">
+                                TERRAZA</h4>
+                            <p class="espacio-descripcion"
+                                style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                Ambiente al aire libre con vista panorámica. Perfecto para disfrutar del clima y la
+                                naturaleza.
+                            </p>
+                            <button class="btn-espacio"
+                                style="background: #3d2e24; color: #f5f2ed; border: none; border-radius: 25px; padding: 10px 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='#2d1b12'"
+                                onmouseout="this.style.background='#3d2e24'" onclick="mostrarInfoTerraza()">
+                                Más información
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Jardín -->
+                    <div class="col-md-3">
+                        <div class="espacio-card-divider"
+                            style="border-left: 2px solid #3d2e24; border-right: 2px solid #3d2e24; padding: 0 20px;">
+                            <div style="text-align: center;">
+                                <div
+                                    style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400&q=80"
+                                        alt="Jardín" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">
+                                    JARDÍN</h4>
+                                <p class="espacio-descripcion"
+                                    style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                    Espacio verde rodeado de naturaleza. Ideal para eventos al aire libre y
+                                    celebraciones especiales.
+                                </p>
+                                <button class="btn-espacio"
+                                    style="background: #3d2e24; color: #f5f2ed; border: none; border-radius: 25px; padding: 10px 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                                    onmouseover="this.style.background='#2d1b12'"
+                                    onmouseout="this.style.background='#3d2e24'" onclick="mostrarInfoJardin()">
+                                    Más información
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Salón VIP -->
+                    <div class="col-md-3">
+                        <div class="espacio-card-divider" style="border-right: 2px solid #3d2e24; padding: 0 20px;">
+                            <div style="text-align: center;">
+                                <div
+                                    style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=400&q=80"
+                                        alt="Salón VIP" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">
+                                    SALÓN VIP</h4>
+                                <p class="espacio-descripcion"
+                                    style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                    Exclusivo salón privado con servicio premium. Elegancia y privacidad para ocasiones
+                                    especiales.
+                                </p>
+                                <button class="btn-espacio"
+                                    style="background: #3d2e24; color: #f5f2ed; border: none; border-radius: 25px; padding: 10px 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                                    onmouseover="this.style.background='#2d1b12'"
+                                    onmouseout="this.style.background='#3d2e24'" onclick="mostrarInfoSalonVIP()">
+                                    Más información
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- El Bar -->
+                    <div class="col-md-3">
+                        <div class="espacio-card" style="text-align: center;">
+                            <div
+                                style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&q=80"
+                                    alt="El Bar" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">EL BAR
+                            </h4>
+                            <p class="espacio-descripcion"
+                                style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                Bar moderno con amplia selección de bebidas. Ambiente sofisticado para disfrutar
+                                cócteles artesanales.
+                            </p>
+                            <button class="btn-espacio"
+                                style="background: #3d2e24; color: #f5f2ed; border: none; border-radius: 25px; padding: 10px 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='#2d1b12'"
+                                onmouseout="this.style.background='#3d2e24'" onclick="mostrarInfoBar()">
+                                Más información
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Sección de Visualización de Mesas -->
     <section class="mesas-section py-5" id="mesas"
@@ -572,637 +1069,549 @@
         </div>
     </section>
 
-    <!-- Sección de Espacios del Restaurante -->
-    <section class="espacios-section py-5"
-        style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
-        <div class="container">
-            <div class="text-center mb-5 fade-in-up">
-                <h2 class="section-title espacios-title"
-                    style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
-                    <i class="bi bi-building me-2" style="color: var(--gold-color);"></i>
-                    Nuestros Espacios
-                </h2>
-                <p class="text-muted espacios-subtitle" style="font-size: 1.1rem;">
-                    Descubre los ambientes únicos que Le Salon de Lumière tiene para ti
-                </p>
-            </div>
-
-            <!-- Terraza -->
-            <div class="row mb-5 align-items-center fade-in-up">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80" alt="Terraza"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
-                            Terraza
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
-                        </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            La terraza panorámica del tercer piso ofrece románticas vistas del histórico paisaje urbano,
-                            el escenario perfecto para disfrutar de un té, café, cócteles o un vino añejo. Al ser uno de
-                            los restaurantes más singulares, permite admirar iglesias emblemáticas y la ciudad.
-                            Y si la suerte te acompaña, ¡incluso podrías vislumbrar el lejano volcán nevado al noreste!
-                        </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
-                            <small style="color: var(--primary-color); font-weight: 600;">
-                                <i class="bi bi-geo-alt-fill text-warning"></i> Vista panorámica al aire libre
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- El Jardín -->
-            <div class="row mb-5 align-items-center fade-in-up flex-lg-row-reverse">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80" alt="El Jardín"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
-                            El Jardín
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
-                        </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            Escápate del bullicio de la ciudad y encuentra paz y confort en nuestro jardín amurallado,
-                            un santuario de tranquilidad que nos distingue de otros restaurantes. Aquí podrás relajarte,
-                            saborear una taza de café o una cerveza bien fría y contemplar la vida. Sumérgete en la
-                            serenidad del ambiente entre árboles, plantas y flores nativas mientras el suave sonido
-                            de la fuente de piedra te reconforta.
-                        </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
-                            <small style="color: var(--primary-color); font-weight: 600;">
-                                <i class="bi bi-tree-fill text-success"></i> Santuario de tranquilidad
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Salón VIP -->
-            <div class="row mb-5 align-items-center fade-in-up">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=800&q=80" alt="Salón VIP"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
-                            Salón VIP
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
-                        </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            El Salón VIP, que antiguamente servía como salón de baile para la familia, ha sido renovado
-                            para convertirse en el espacio perfecto para cenas íntimas o pequeñas celebraciones,
-                            convirtiéndose en un elemento destacado de uno de los mejores restaurantes. Ya sea una
-                            recepción de boda memorable, una conferencia educativa o una reunión productiva, este
-                            exquisito espacio tiene capacidad para hasta 25 personas.
-                        </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
-                            <small style="color: var(--primary-color); font-weight: 600;">
-                                <i class="bi bi-star-fill text-warning"></i> Exclusividad y privacidad - Capacidad: 25
-                                personas
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- El Bar -->
-            <div class="row mb-5 align-items-center fade-in-up flex-lg-row-reverse">
-                <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="espacio-image"
-                        style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80" alt="El Bar"
-                            style="width: 100%; height: 400px; object-fit: cover; transition: transform 0.3s ease;"
-                            onmouseover="this.style.transform='scale(1.05)'"
-                            onmouseout="this.style.transform='scale(1)'">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="espacio-content">
-                        <h3 class="espacio-title"
-                            style="color: var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
-                            El Bar
-                            <div style="width: 80px; height: 3px; background: var(--gold-color); margin-top: 10px;">
-                            </div>
-                        </h3>
-                        <p class="espacio-description"
-                            style="color: #666; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                            Un refugio para viajeros sofisticados, que ofrece relajación entre sillas de cuero,
-                            cómodas banquetas, paneles de madera y cautivadoras pinturas al óleo. Como parte de uno
-                            de los mejores restaurantes, podrás descubrir rincones apartados y luminosos asientos
-                            junto a las ventanas o relajarte en la noble barra de madera saboreando un Old Fashioned
-                            o nuestros cócteles especiales, elaborados con maestría por nuestro personal.
-                        </p>
-                        <div class="espacio-info"
-                            style="background: rgba(212, 175, 55, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold-color);">
-                            <small style="color: var(--primary-color); font-weight: 600;">
-                                <i class="bi bi-cup-straw text-info"></i> Ambiente sofisticado y relajado
-                            </small>
-                        </div>
-                        <div class="mt-3">
-                            <button class="btn me-2 mb-2" id="btnBebidasMenu"
-                                style="background: white; color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 25px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;"
-                                onmouseover="this.style.background='var(--gold-color)'; this.style.color='white'"
-                                onmouseout="this.style.background='white'; this.style.color='var(--primary-color)'">
-                                <i class="bi bi-cup-hot"></i> Menú de Cócteles
-                            </button>
-                            <button class="btn mb-2" id="btnVinosMenu"
-                                style="background: white; color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 25px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease;"
-                                onmouseover="this.style.background='var(--gold-color)'; this.style.color='white'"
-                                onmouseout="this.style.background='white'; this.style.color='var(--primary-color)'">
-                                <i class="bi bi-file-earmark-text"></i> Carta de Vinos
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección de Menú -->
-    <section class="menu-section py-5" id="menu"
-        style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: background 0.3s ease;">
-        <div class="container">
-            <div class="text-center mb-5 fade-in-up">
-                <h2 class="section-title menu-title"
-                    style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700;">
-                    <i class="bi bi-book me-2" style="color: var(--gold-color);"></i>
-                    Nuestro Menú
-                </h2>
-                <p class="text-muted menu-subtitle" style="font-size: 1.1rem;">
-                    Descubre nuestra exquisita selección gastronómica
-                </p>
-            </div>
-
-            <!-- Categorías en círculos -->
-            <div class="row g-4 justify-content-center" id="menuCategorias">
-                <div class="col-12 text-center py-5">
-                    <div class="spinner-border" style="color: var(--gold-color); width: 3rem; height: 3rem;"
-                        role="status">
-                        <span class="visually-hidden">Cargando menú...</span>
-                    </div>
-                    <p class="text-muted mt-3">Cargando categorías del menú...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Sección de Selección de Usuario -->
-    <section class="selection-container" id="reservas">
+    <section class="selection-container" id="reservas"
+        style="padding: 80px 0; background: linear-gradient(135deg, #f8f5f0 0%, #ffffff 100%);">
         <div class="container">
-            <h2 class="section-title fade-in-up">
-                <i class="bi bi-calendar-heart"></i>
+            <!-- Título y tarjeta de acceso -->
+            <h2 class="section-title fade-in-up text-center mb-5"
+                style="color: #3d2e24; font-size: 2.5rem; font-weight: 700;">
+                <i class="bi bi-calendar-heart" style="color: #d4af37;"></i>
                 ¿Cómo deseas acceder?
             </h2>
 
-            <div class="user-cards">
-                <!-- Tarjeta Cliente/Usuario -->
-                <div class="user-card fade-in-up delay-1">
-                    <div class="user-icon">
-                        <i class="bi bi-person-heart"></i>
-                    </div>
-                    <h3 class="user-title">
-                        <i class="bi bi-calendar-check"></i>
-                        Soy Cliente
-                    </h3>
-                    <p class="user-description">
-                        Reserva tu mesa, consulta nuestro menú exclusivo,
-                        realiza pre-pedidos y disfruta de una experiencia gastronómica única.
-                    </p>
-                    <div class="mb-3">
-                        <small class="text-muted">
-                            <i class="bi bi-check-circle-fill text-success"></i> Reservar mesas disponibles<br>
-                            <i class="bi bi-check-circle-fill text-success"></i> Ver menú y precios<br>
-                            <i class="bi bi-check-circle-fill text-success"></i> Realizar pre-pedidos<br>
-                            <i class="bi bi-check-circle-fill text-success"></i> Historial de reservas
-                        </small>
-                    </div>
-                    <button id="btn-cliente-login" class="btn-custom" type="button">
-                        <i class="bi bi-calendar-plus"></i>
-                        Hacer Reserva
-                    </button>
-                </div>
-
-            </div>
-
-            <!-- Sección Promocional de Reservas de Zonas -->
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="card shadow-lg"
-                        style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border: 3px solid #d4af37; border-radius: 20px; overflow: hidden;">
-                        <div class="card-body text-center py-5">
-                            <div class="mb-3">
-                                <i class="bi bi-building" style="font-size: 4rem; color: #d4af37;"></i>
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-6 col-lg-5">
+                    <!-- Tarjeta Cliente/Usuario -->
+                    <div class="card fade-in-up"
+                        style="border: 3px solid #d4af37; border-radius: 20px; box-shadow: 0 10px 30px rgba(61, 46, 36, 0.15); overflow: hidden; transition: all 0.3s ease;"
+                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.3)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(61, 46, 36, 0.15)'">
+                        <div class="card-body text-center p-5"
+                            style="background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);">
+                            <div class="mb-4"
+                                style="background: linear-gradient(135deg, #d4af37 0%, #c9a86a 100%); width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                <i class="bi bi-person-heart" style="font-size: 3rem; color: white;"></i>
                             </div>
-                            <h3 class="mb-3" style="color: #2d1b12; font-weight: 700; font-size: 2rem;">
-                                🎉 ¡Reserva Zonas Completas!
+                            <h3 style="color: #3d2e24; font-weight: 700; font-size: 1.8rem; margin-bottom: 15px;">
+                                <i class="bi bi-calendar-check" style="color: #d4af37;"></i>
+                                Soy Cliente
                             </h3>
-                            <p class="mb-4" style="font-size: 1.1rem; color: #333;">
-                                Organiza eventos especiales, celebraciones o reuniones corporativas.<br>
-                                <strong>Reserva el salón interior, terraza VIP, zona bar o toda la locación.</strong>
+                            <p style="color: #666; font-size: 1.05rem; line-height: 1.7; margin-bottom: 25px;">
+                                Reserva tu mesa, consulta nuestro menú exclusivo, realiza pre-pedidos y disfruta de una
+                                experiencia gastronómica única.
                             </p>
-                            <div class="row g-3 mb-4 justify-content-center">
-                                <div class="col-md-3 col-6">
-                                    <div class="p-3"
-                                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border-radius: 15px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);">
-                                        <h4 class="text-white fw-bold">$60</h4>
-                                        <small class="text-white">1 Zona</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="p-3"
-                                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border-radius: 15px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);">
-                                        <h4 class="text-white fw-bold">$100</h4>
-                                        <small class="text-white">2 Zonas</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="p-3"
-                                        style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); border-radius: 15px; box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);">
-                                        <h4 class="text-white fw-bold">$120</h4>
-                                        <small class="text-white">3 Zonas</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-6">
-                                    <div class="p-3"
-                                        style="background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%); border-radius: 15px; border: 3px solid #2d1b12; box-shadow: 0 6px 16px rgba(212, 175, 55, 0.5);">
-                                        <h4 class="fw-bold" style="color: #2d1b12;">$140</h4>
-                                        <small style="color: #2d1b12; font-weight: 600;">Locación Completa</small>
-                                    </div>
-                                </div>
+                            <div class="mb-4 text-start"
+                                style="background: #f5f2ed; padding: 20px; border-radius: 15px; border-left: 4px solid #d4af37;">
+                                <p style="color: #3d2e24; margin-bottom: 10px; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Reservar mesas
+                                    disponibles
+                                </p>
+                                <p style="color: #3d2e24; margin-bottom: 10px; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Ver menú y precios
+                                </p>
+                                <p style="color: #3d2e24; margin-bottom: 10px; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Realizar pre-pedidos
+                                </p>
+                                <p style="color: #3d2e24; margin-bottom: 0; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Historial de
+                                    reservas
+                                </p>
                             </div>
-                            <button id="btn-reserva-zona-index" class="btn btn-lg px-5"
-                                style="background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); color: #2d1b12; font-weight: 700; border: none; border-radius: 50px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); font-size: 1.2rem;"
-                                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 20px rgba(212, 175, 55, 0.6)'"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212, 175, 55, 0.4)'">
-                                <i class="bi bi-calendar-event me-2"></i>
-                                Reservar Zona Ahora
+                            <button id="btn-cliente-login" class="btn btn-lg w-100"
+                                style="background: linear-gradient(135deg, #3d2e24 0%, #4a3529 100%); color: #d4af37; border: 2px solid #d4af37; border-radius: 50px; font-weight: 700; padding: 15px; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(61, 46, 36, 0.3);"
+                                onmouseover="this.style.background='linear-gradient(135deg, #d4af37 0%, #c9a04c 100%)'; this.style.color='#3d2e24'; this.style.transform='scale(1.05)'"
+                                onmouseout="this.style.background='linear-gradient(135deg, #3d2e24 0%, #4a3529 100%)'; this.style.color='#d4af37'; this.style.transform='scale(1)'">
+                                <i class="bi bi-calendar-plus"></i>
+                                Hacer Reserva
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal Login Administrador -->
-            <div class="modal fade" id="ModalProfesor" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header text-white" style="background: var(--gradient-gold) !important;">
-                            <h5 class="modal-title">
-                                <i class="bi bi-shield-lock-fill me-2"></i>
-                                Acceso de Administrador
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <!-- Sección de Reserva de Zonas Mejorada -->
+            <div class="text-center mb-5 fade-in-up">
+                <div
+                    style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #c9a86a 100%); padding: 8px 25px; border-radius: 50px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                    <span style="color: white; font-weight: 600; font-size: 0.9rem; letter-spacing: 1px;">✨ EVENTOS
+                        ESPECIALES</span>
+                </div>
+                <h2 style="color: #3d2e24; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px;">
+                    ¡Reserva Espacios Completos!
+                </h2>
+                <p style="color: #666; font-size: 1.15rem; max-width: 700px; margin: 0 auto; line-height: 1.7;">
+                    Organiza celebraciones, eventos corporativos o reuniones especiales en nuestros exclusivos espacios.
+                </p>
+            </div>
+
+            <div class="row g-4 mb-5">
+                <!-- 1 Zona -->
+                <div class="col-md-6 col-lg-3 fade-in-up">
+                    <div style="background: linear-gradient(135deg, #3d2e24 0%, #4a3529 100%); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(61, 46, 36, 0.2); transition: all 0.3s ease; border: 2px solid #d4af37;"
+                        onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.4)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(61, 46, 36, 0.2)'">
+                        <div
+                            style="background: rgba(212, 175, 55, 0.15); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px solid #d4af37;">
+                            <i class="bi bi-building" style="font-size: 2rem; color: #d4af37;"></i>
                         </div>
-                        <div class="modal-body">
-                            <form id="AdminForm">
+                        <h3 style="color: #d4af37; font-size: 2.5rem; font-weight: 700; margin-bottom: 5px;">$60</h3>
+                        <p style="color: #c9a86a; font-size: 1.1rem; font-weight: 600; margin-bottom: 15px;">1 Zona</p>
+                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; line-height: 1.5;">Ideal para
+                            reuniones íntimas y cenas privadas</p>
+                    </div>
+                </div>
+
+                <!-- 2 Zonas -->
+                <div class="col-md-6 col-lg-3 fade-in-up delay-1">
+                    <div style="background: linear-gradient(135deg, #3d2e24 0%, #4a3529 100%); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(61, 46, 36, 0.2); transition: all 0.3s ease; border: 2px solid #d4af37;"
+                        onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.4)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(61, 46, 36, 0.2)'">
+                        <div
+                            style="background: rgba(212, 175, 55, 0.15); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px solid #d4af37;">
+                            <i class="bi bi-buildings" style="font-size: 2rem; color: #d4af37;"></i>
+                        </div>
+                        <h3 style="color: #d4af37; font-size: 2.5rem; font-weight: 700; margin-bottom: 5px;">$100</h3>
+                        <p style="color: #c9a86a; font-size: 1.1rem; font-weight: 600; margin-bottom: 15px;">2 Zonas</p>
+                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; line-height: 1.5;">Perfecto para
+                            eventos medianos y celebraciones</p>
+                    </div>
+                </div>
+
+                <!-- 3 Zonas -->
+                <div class="col-md-6 col-lg-3 fade-in-up delay-2">
+                    <div style="background: linear-gradient(135deg, #3d2e24 0%, #4a3529 100%); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(61, 46, 36, 0.2); transition: all 0.3s ease; border: 2px solid #d4af37;"
+                        onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.4)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(61, 46, 36, 0.2)'">
+                        <div
+                            style="background: rgba(212, 175, 55, 0.15); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px solid #d4af37;">
+                            <i class="bi bi-shop" style="font-size: 2rem; color: #d4af37;"></i>
+                        </div>
+                        <h3 style="color: #d4af37; font-size: 2.5rem; font-weight: 700; margin-bottom: 5px;">$120</h3>
+                        <p style="color: #c9a86a; font-size: 1.1rem; font-weight: 600; margin-bottom: 15px;">3 Zonas</p>
+                        <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; line-height: 1.5;">Excelente para
+                            eventos grandes y bodas</p>
+                    </div>
+                </div>
+
+                <!-- Locación Completa -->
+                <div class="col-md-6 col-lg-3 fade-in-up delay-3">
+                    <div style="background: linear-gradient(135deg, #d4af37 0%, #c9a04c 100%); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5); transition: all 0.3s ease; border: 3px solid #3d2e24; position: relative; overflow: hidden;"
+                        onmouseover="this.style.transform='translateY(-10px) scale(1.03)'; this.style.boxShadow='0 20px 50px rgba(212, 175, 55, 0.6)'"
+                        onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.5)'">
+                        <div
+                            style="position: absolute; top: 10px; right: 10px; background: #3d2e24; color: #d4af37; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700;">
+                            ⭐ POPULAR</div>
+                        <div
+                            style="background: rgba(61, 46, 36, 0.2); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 2px solid #3d2e24;">
+                            <i class="bi bi-stars" style="font-size: 2rem; color: #3d2e24;"></i>
+                        </div>
+                        <h3 style="color: #3d2e24; font-size: 2.8rem; font-weight: 700; margin-bottom: 5px;">$140</h3>
+                        <p style="color: #5a4a3a; font-size: 1.2rem; font-weight: 700; margin-bottom: 15px;">Locación
+                            Completa</p>
+                        <p style="color: #3d2e24; font-size: 0.9rem; font-weight: 600; line-height: 1.5;">¡Todo el
+                            restaurante para tu evento exclusivo!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de Reserva -->
+            <div class="text-center">
+                <button id="btn-reserva-zona-index" class="btn btn-lg px-5"
+                    style="background: linear-gradient(135deg, #3d2e24 0%, #4a3529 100%); color: #d4af37; border: 2px solid #d4af37; border-radius: 50px; font-weight: 700; padding: 15px 50px; font-size: 1.15rem; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(61, 46, 36, 0.3);"
+                    onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 35px rgba(212, 175, 55, 0.5)'; this.style.background='linear-gradient(135deg, #d4af37 0%, #c9a04c 100%)'; this.style.color='#3d2e24'"
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(61, 46, 36, 0.3)'; this.style.background='linear-gradient(135deg, #3d2e24 0%, #4a3529 100%)'; this.style.color='#d4af37'">
+                    <i class="bi bi-calendar-event me-2"></i>
+                    Reservar Zona Ahora
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Selección de Perfil - Elegante -->
+    <div class="modal fade" id="ModalSeleccionPerfil" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="modalSeleccionContent"
+                style="background: #4a3529 !important; border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                <!-- Close Button -->
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    style="position: absolute; top: 20px; right: 20px; z-index: 10; opacity: 0.8;"
+                    onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"></button>
+
+                <div class="modal-body text-center" style="padding: 60px 40px;">
+                    <!-- Título Bienvenido -->
+                    <h2
+                        style="font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; font-size: 3rem; font-weight: 700; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);">
+                        Bienvenido
+                    </h2>
+
+                    <!-- Subtítulo -->
+                    <p id="modalSeleccionSubtitle"
+                        style="color: rgba(255, 255, 255, 0.7) !important; font-size: 1.1rem; margin-bottom: 50px; font-weight: 400;">
+                        Selecciona tu perfil para ingresar
+                    </p>
+
+                    <!-- Botones de Selección -->
+                    <div class="d-grid gap-3" style="max-width: 450px; margin: 0 auto;">
+                        <!-- Botón Cliente -->
+                        <button id="btn-open-cliente"
+                            class="btn btn-lg d-flex align-items-center justify-content-between"
+                            style="background: #f5f2ed; border: none; border-radius: 15px; padding: 20px 30px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);"
+                            onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(212, 175, 55, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.2)'">
+                            <span
+                                style="font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; font-size: 1.8rem; font-weight: 900; text-align: left;">
+                                Cliente
+                            </span>
+                            <i class="bi bi-arrow-right"
+                                style="color: #d4af37; font-size: 1.5rem; font-weight: bold;"></i>
+                        </button>
+
+                        <!-- Botón Administrador -->
+                        <button id="btn-open-admin" class="btn btn-lg d-flex align-items-center justify-content-between"
+                            style="background: #f5f2ed; border: none; border-radius: 15px; padding: 20px 30px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);"
+                            onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(212, 175, 55, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.2)'">
+                            <span
+                                style="font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; font-size: 1.8rem; font-weight: 900; text-align: left;">
+                                Administrador
+                            </span>
+                            <i class="bi bi-arrow-right"
+                                style="color: #d4af37; font-size: 1.5rem; font-weight: bold;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login Administrador -->
+    <div class="modal fade" id="ModalProfesor" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background: var(--gradient-gold) !important;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-shield-lock-fill me-2"></i>
+                        Acceso de Administrador
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AdminForm">
+                        <div class="mb-3">
+                            <label for="adminUsuarioModal" class="form-label">
+                                <i class="bi bi-person"></i> Usuario
+                            </label>
+                            <input type="text" class="form-control" id="adminUsuarioModal" required
+                                placeholder="Ingresa tu usuario">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="adminPasswordModal" class="form-label">
+                                <i class="bi bi-lock"></i> Contraseña
+                            </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="adminPasswordModal" required
+                                    placeholder="Ingresa tu contraseña">
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordAdmin()">
+                                    <i class="bi bi-eye" id="toggleIconAdmin"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="loginError" class="alert alert-danger d-none" role="alert"></div>
+
+                        <div class="d-grid gap-2">
+                            <button id="btn-admin-modal" class="btn btn-warning" type="button"
+                                style="background: var(--gradient-gold) !important; border: none; color: var(--primary-color); font-weight: 600;">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                Acceder al Panel de Control
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check"></i>
+                            Panel de Control de Le Salon de Lumière
+                        </small>
+                    </div>
+
+                    <!-- Credenciales de prueba (solo para desarrollo) -->
+                    <div class="mt-3 p-2 rounded-3"
+                        style="background: rgba(13, 202, 240, 0.1); border: 1px solid rgba(13, 202, 240, 0.2);">
+                        <small class="text-info">
+                            <i class="bi bi-info-circle me-1"></i>
+                            <strong>Credenciales de prueba:</strong> admin / password
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login Cliente -->
+    <div class="modal fade" id="ModalCliente" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background: var(--gradient-secondary) !important;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-person-circle me-2"></i>
+                        Acceso de Cliente
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tabs para Login/Registro -->
+                    <ul class="nav nav-tabs mb-3" id="clienteTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab"
+                                data-bs-target="#login-panel" type="button" role="tab">
+                                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="registro-tab" data-bs-toggle="tab"
+                                data-bs-target="#registro-panel" type="button" role="tab">
+                                <i class="bi bi-person-plus"></i> Crear Cuenta
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="clienteTabContent">
+                        <!-- Panel de Login -->
+                        <div class="tab-pane fade show active" id="login-panel" role="tabpanel">
+                            <form id="LoginClienteForm">
                                 <div class="mb-3">
-                                    <label for="adminUsuarioModal" class="form-label">
+                                    <label for="loginUsuario" class="form-label">
                                         <i class="bi bi-person"></i> Usuario
                                     </label>
-                                    <input type="text" class="form-control" id="adminUsuarioModal" required
+                                    <input type="text" class="form-control" id="loginUsuario" required
                                         placeholder="Ingresa tu usuario">
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="adminPasswordModal" class="form-label">
+                                    <label for="loginPassword" class="form-label">
                                         <i class="bi bi-lock"></i> Contraseña
                                     </label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="adminPasswordModal" required
+                                        <input type="password" class="form-control" id="loginPassword" required
                                             placeholder="Ingresa tu contraseña">
                                         <button class="btn btn-outline-secondary" type="button"
-                                            onclick="togglePasswordAdmin()">
-                                            <i class="bi bi-eye" id="toggleIconAdmin"></i>
+                                            onclick="togglePasswordCliente('login')">
+                                            <i class="bi bi-eye" id="toggleIconLogin"></i>
                                         </button>
                                     </div>
                                 </div>
 
-                                <div id="loginError" class="alert alert-danger d-none" role="alert"></div>
+                                <div id="loginErrorCliente" class="alert alert-danger d-none" role="alert">
+                                </div>
 
                                 <div class="d-grid gap-2">
-                                    <button id="btn-admin-modal" class="btn btn-warning" type="button"
-                                        style="background: var(--gradient-gold) !important; border: none; color: var(--primary-color); font-weight: 600;">
+                                    <button id="btn-login-cliente" class="btn btn-primary" type="button">
                                         <i class="bi bi-box-arrow-in-right"></i>
-                                        Acceder al Panel de Control
+                                        Iniciar Sesión
                                     </button>
                                 </div>
                             </form>
-
-                            <hr>
-                            <div class="text-center">
-                                <small class="text-muted">
-                                    <i class="bi bi-shield-check"></i>
-                                    Panel de Control de Le Salon de Lumière
-                                </small>
-                            </div>
-
-                            <!-- Credenciales de prueba (solo para desarrollo) -->
-                            <div class="mt-3 p-2 rounded-3"
-                                style="background: rgba(13, 202, 240, 0.1); border: 1px solid rgba(13, 202, 240, 0.2);">
-                                <small class="text-info">
-                                    <i class="bi bi-info-circle me-1"></i>
-                                    <strong>Credenciales de prueba:</strong> admin / password
-                                </small>
-                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Modal Login Cliente -->
-            <div class="modal fade" id="ModalCliente" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header text-white" style="background: var(--gradient-secondary) !important;">
-                            <h5 class="modal-title">
-                                <i class="bi bi-person-circle me-2"></i>
-                                Acceso de Cliente
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Tabs para Login/Registro -->
-                            <ul class="nav nav-tabs mb-3" id="clienteTabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab"
-                                        data-bs-target="#login-panel" type="button" role="tab">
-                                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
-                                    </button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="registro-tab" data-bs-toggle="tab"
-                                        data-bs-target="#registro-panel" type="button" role="tab">
-                                        <i class="bi bi-person-plus"></i> Crear Cuenta
-                                    </button>
-                                </li>
-                            </ul>
-
-                            <div class="tab-content" id="clienteTabContent">
-                                <!-- Panel de Login -->
-                                <div class="tab-pane fade show active" id="login-panel" role="tabpanel">
-                                    <form id="LoginClienteForm">
-                                        <div class="mb-3">
-                                            <label for="loginUsuario" class="form-label">
-                                                <i class="bi bi-person"></i> Usuario
-                                            </label>
-                                            <input type="text" class="form-control" id="loginUsuario" required
-                                                placeholder="Ingresa tu usuario">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="loginPassword" class="form-label">
-                                                <i class="bi bi-lock"></i> Contraseña
-                                            </label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="loginPassword" required
-                                                    placeholder="Ingresa tu contraseña">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    onclick="togglePasswordCliente('login')">
-                                                    <i class="bi bi-eye" id="toggleIconLogin"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div id="loginErrorCliente" class="alert alert-danger d-none" role="alert">
-                                        </div>
-
-                                        <div class="d-grid gap-2">
-                                            <button id="btn-login-cliente" class="btn btn-primary" type="button">
-                                                <i class="bi bi-box-arrow-in-right"></i>
-                                                Iniciar Sesión
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <!-- Panel de Registro -->
-                                <div class="tab-pane fade" id="registro-panel" role="tabpanel">
-                                    <form id="RegistroClienteForm">
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="regNombre" class="form-label">
-                                                    <i class="bi bi-person"></i> Nombre
-                                                </label>
-                                                <input type="text" class="form-control" id="regNombre" required
-                                                    placeholder="Tu nombre">
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="regApellido" class="form-label">
-                                                    <i class="bi bi-person"></i> Apellido
-                                                </label>
-                                                <input type="text" class="form-control" id="regApellido" required
-                                                    placeholder="Tu apellido">
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="regCedula" class="form-label">
-                                                <i class="bi bi-card-text"></i> Cédula
-                                            </label>
-                                            <input type="text" class="form-control" id="regCedula" required
-                                                placeholder="Tu número de cédula">
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label for="regTelefono" class="form-label">
-                                                    <i class="bi bi-telephone"></i> Teléfono
-                                                </label>
-                                                <input type="tel" class="form-control" id="regTelefono" required
-                                                    placeholder="Tu teléfono">
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label for="regCiudad" class="form-label">
-                                                    <i class="bi bi-geo-alt"></i> Ciudad
-                                                </label>
-                                                <input type="text" class="form-control" id="regCiudad" required
-                                                    placeholder="Tu ciudad">
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="regUsuario" class="form-label">
-                                                <i class="bi bi-person-badge"></i> Usuario
-                                            </label>
-                                            <input type="text" class="form-control" id="regUsuario" required
-                                                placeholder="Elige un nombre de usuario">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="regEmail" class="form-label">
-                                                <i class="bi bi-envelope"></i> Correo Electrónico
-                                            </label>
-                                            <input type="email" class="form-control" id="regEmail" required
-                                                placeholder="Tu correo electrónico">
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="regPassword" class="form-label">
-                                                <i class="bi bi-lock"></i> Contraseña
-                                            </label>
-                                            <div class="input-group">
-                                                <input type="password" class="form-control" id="regPassword" required
-                                                    placeholder="Elige una contraseña">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    onclick="togglePasswordCliente('registro')">
-                                                    <i class="bi bi-eye" id="toggleIconRegistro"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div id="registroErrorCliente" class="alert alert-danger d-none" role="alert">
-                                        </div>
-
-                                        <div class="d-grid gap-2">
-                                            <button id="btn-registro-cliente" class="btn btn-success" type="button">
-                                                <i class="bi bi-person-plus"></i>
-                                                Crear Cuenta
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <hr>
-                            <div class="text-center">
-                                <small class="text-muted">
-                                    <i class="bi bi-shield-check"></i>
-                                    Sistema de Reservas de Le Salon de Lumière
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Viejo de Reserva (se eliminará) -->
-            <div class="modal fade" id="ModalEstudiante" tabindex="-1" style="display:none;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header text-white" style="background: var(--gradient-secondary) !important;">
-                            <h5 class="modal-title">
-                                <i class="bi bi-calendar-heart me-2"></i>
-                                Realizar Reserva
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="EstudianteForm">
-                                <div class="mb-3">
-                                    <label for="loginEstudiante" class="form-label">
-                                        <i class="bi bi-person"></i> Nombre Completo
-                                    </label>
-                                    <input type="text" class="form-control" id="loginEstudiante" required
-                                        placeholder="Ingresa tu nombre completo">
+                        <!-- Panel de Registro -->
+                        <div class="tab-pane fade" id="registro-panel" role="tabpanel">
+                            <form id="RegistroClienteForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="regNombre" class="form-label">
+                                            <i class="bi bi-person"></i> Nombre
+                                        </label>
+                                        <input type="text" class="form-control" id="regNombre" required
+                                            placeholder="Tu nombre">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="regApellido" class="form-label">
+                                            <i class="bi bi-person"></i> Apellido
+                                        </label>
+                                        <input type="text" class="form-control" id="regApellido" required
+                                            placeholder="Tu apellido">
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="EstudianteContraseña" class="form-label">
-                                        <i class="bi bi-telephone"></i> Teléfono de Contacto
+                                    <label for="regCedula" class="form-label">
+                                        <i class="bi bi-card-text"></i> Cédula
                                     </label>
-                                    <input type="tel" class="form-control" id="EstudianteContraseña" required
-                                        placeholder="Ingresa tu número de teléfono">
+                                    <input type="text" class="form-control" id="regCedula" required
+                                        placeholder="Tu número de cédula">
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">
-                                            <i class="bi bi-calendar-date"></i> Fecha
+                                        <label for="regTelefono" class="form-label">
+                                            <i class="bi bi-telephone"></i> Teléfono
                                         </label>
-                                        <input type="date" class="form-control" required>
+                                        <input type="tel" class="form-control" id="regTelefono" required
+                                            placeholder="Tu teléfono">
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label">
-                                            <i class="bi bi-clock"></i> Hora
+                                        <label for="regCiudad" class="form-label">
+                                            <i class="bi bi-geo-alt"></i> Ciudad
                                         </label>
-                                        <input type="time" class="form-control" required>
+                                        <input type="text" class="form-control" id="regCiudad" required
+                                            placeholder="Tu ciudad">
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">
-                                        <i class="bi bi-people"></i> Número de Personas
+                                    <label for="regUsuario" class="form-label">
+                                        <i class="bi bi-person-badge"></i> Usuario
                                     </label>
-                                    <select class="form-select" required>
-                                        <option value="">Selecciona...</option>
-                                        <option value="1">1 persona</option>
-                                        <option value="2">2 personas</option>
-                                        <option value="3">3 personas</option>
-                                        <option value="4">4 personas</option>
-                                        <option value="5">5 personas</option>
-                                        <option value="6">6 personas</option>
-                                        <option value="7">7 personas</option>
-                                        <option value="8">8 personas</option>
-                                        <option value="mas">Más de 8 personas</option>
-                                    </select>
+                                    <input type="text" class="form-control" id="regUsuario" required
+                                        placeholder="Elige un nombre de usuario">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="regEmail" class="form-label">
+                                        <i class="bi bi-envelope"></i> Correo Electrónico
+                                    </label>
+                                    <input type="email" class="form-control" id="regEmail" required
+                                        placeholder="Tu correo electrónico">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="regPassword" class="form-label">
+                                        <i class="bi bi-lock"></i> Contraseña
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="regPassword" required
+                                            placeholder="Elige una contraseña">
+                                        <button class="btn btn-outline-secondary" type="button"
+                                            onclick="togglePasswordCliente('registro')">
+                                            <i class="bi bi-eye" id="toggleIconRegistro"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="registroErrorCliente" class="alert alert-danger d-none" role="alert">
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button id="btn-estudiante-login" class="btn btn-warning" type="button"
-                                        style="background: var(--gradient-gold) !important; border: none; color: var(--primary-color); font-weight: 600;">
-                                        <i class="bi bi-calendar-check"></i>
-                                        Confirmar Reserva
+                                    <button id="btn-registro-cliente" class="btn btn-success" type="button">
+                                        <i class="bi bi-person-plus"></i>
+                                        Crear Cuenta
                                     </button>
                                 </div>
                             </form>
-
-                            <hr>
-                            <div class="text-center">
-                                <small class="text-muted">
-                                    <i class="bi bi-info-circle"></i>
-                                    Reserva tu mesa y vive una experiencia gastronómica única.
-                                </small>
-                            </div>
-
-                            <!-- Información de reservas -->
-                            <div class="mt-3 p-3 bg-light rounded">
-                                <small class="text-muted">
-                                    <i class="bi bi-shield-check"></i>
-                                    <strong>Reserva Segura:</strong> Tu información está protegida y encriptada.<br>
-                                    <i class="bi bi-telephone-check"></i>
-                                    <strong>Confirmación Inmediata:</strong> Recibirás confirmación por SMS y email.<br>
-                                    <i class="bi bi-star"></i>
-                                    <strong>Experiencia Premium:</strong> Disfruta de nuestro servicio de primera
-                                    clase.<br>
-                                </small>
-                            </div>
                         </div>
+                    </div>
+
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check"></i>
+                            Sistema de Reservas de Le Salon de Lumière
+                        </small>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Viejo de Reserva (se eliminará) -->
+    <div class="modal fade" id="ModalEstudiante" tabindex="-1" style="display:none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background: var(--gradient-secondary) !important;">
+                    <h5 class="modal-title">
+                        <i class="bi bi-calendar-heart me-2"></i>
+                        Realizar Reserva
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="EstudianteForm">
+                        <div class="mb-3">
+                            <label for="loginEstudiante" class="form-label">
+                                <i class="bi bi-person"></i> Nombre Completo
+                            </label>
+                            <input type="text" class="form-control" id="loginEstudiante" required
+                                placeholder="Ingresa tu nombre completo">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="EstudianteContraseña" class="form-label">
+                                <i class="bi bi-telephone"></i> Teléfono de Contacto
+                            </label>
+                            <input type="tel" class="form-control" id="EstudianteContraseña" required
+                                placeholder="Ingresa tu número de teléfono">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="bi bi-calendar-date"></i> Fecha
+                                </label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    <i class="bi bi-clock"></i> Hora
+                                </label>
+                                <input type="time" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="bi bi-people"></i> Número de Personas
+                            </label>
+                            <select class="form-select" required>
+                                <option value="">Selecciona...</option>
+                                <option value="1">1 persona</option>
+                                <option value="2">2 personas</option>
+                                <option value="3">3 personas</option>
+                                <option value="4">4 personas</option>
+                                <option value="5">5 personas</option>
+                                <option value="6">6 personas</option>
+                                <option value="7">7 personas</option>
+                                <option value="8">8 personas</option>
+                                <option value="mas">Más de 8 personas</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button id="btn-estudiante-login" class="btn btn-warning" type="button"
+                                style="background: var(--gradient-gold) !important; border: none; color: var(--primary-color); font-weight: 600;">
+                                <i class="bi bi-calendar-check"></i>
+                                Confirmar Reserva
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <i class="bi bi-info-circle"></i>
+                            Reserva tu mesa y vive una experiencia gastronómica única.
+                        </small>
+                    </div>
+
+                    <!-- Información de reservas -->
+                    <div class="mt-3 p-3 bg-light rounded">
+                        <small class="text-muted">
+                            <i class="bi bi-shield-check"></i>
+                            <strong>Reserva Segura:</strong> Tu información está protegida y encriptada.<br>
+                            <i class="bi bi-telephone-check"></i>
+                            <strong>Confirmación Inmediata:</strong> Recibirás confirmación por SMS y email.<br>
+                            <i class="bi bi-star"></i>
+                            <strong>Experiencia Premium:</strong> Disfruta de nuestro servicio de primera
+                            clase.<br>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     </section>
 
@@ -1213,16 +1622,27 @@
             keyboard: false
         });
 
-        // Conectar el botón del navbar con el modal de administrador
-        document.getElementById('btn-actualizar-admin').addEventListener('click', function () {
-            // Mostrar el modal directamente
-            ModalProfesor.show();
+        // Conectar el botón del navbar con el modal de administrador (con verificación)
+        (function () {
+            const btnAdmin = document.getElementById('btn-actualizar-admin');
+            if (!btnAdmin) return;
+            btnAdmin.addEventListener('click', function () {
+                try {
+                    // Mostrar el modal directamente
+                    ModalProfesor.show();
 
-            // Limpiar campos al mostrar el modal
-            document.getElementById('adminUsuarioModal').value = '';
-            document.getElementById('adminPasswordModal').value = '';
-            document.getElementById('loginError').classList.add('d-none');
-        });
+                    // Limpiar campos al mostrar el modal
+                    const usuarioEl = document.getElementById('adminUsuarioModal');
+                    const passEl = document.getElementById('adminPasswordModal');
+                    const errEl = document.getElementById('loginError');
+                    if (usuarioEl) usuarioEl.value = '';
+                    if (passEl) passEl.value = '';
+                    if (errEl) errEl.classList.add('d-none');
+                } catch (e) {
+                    console.error('Error mostrando ModalProfesor:', e);
+                }
+            });
+        })();
 
         // Función para alternar visibilidad de contraseña del admin
         function togglePasswordAdmin() {
@@ -1383,14 +1803,74 @@
                 });
         });
 
+        // ========== MODALES: SELECCIÓN, ADMIN Y CLIENTE ==========
+        const ModalSeleccionPerfil = new bootstrap.Modal(
+            document.getElementById('ModalSeleccionPerfil'), {
+            keyboard: false
+        });
+
         // ========== MODAL Y FUNCIONALIDAD PARA CLIENTES ==========
         const ModalCliente = new bootstrap.Modal(
             document.getElementById('ModalCliente'), {
             keyboard: false
         });
 
-        // Conectar el botón del cliente con verificación de sesión
-        document.getElementById('btn-cliente-login').addEventListener('click', async function () {
+        // Conectar el botón INGRESAR del navbar con el modal de selección de perfil
+        (function () {
+            const btnIngresarEl = document.getElementById('btn-ingresar');
+            if (!btnIngresarEl) return;
+            btnIngresarEl.addEventListener('click', function () {
+                try {
+                    ModalSeleccionPerfil.show();
+                } catch (err) {
+                    console.error('Error mostrando ModalSeleccionPerfil:', err);
+                }
+            });
+        })();
+
+        // Botones dentro del modal de selección
+        (function () {
+            const btnOpenCliente = document.getElementById('btn-open-cliente');
+            const btnOpenAdmin = document.getElementById('btn-open-admin');
+            if (btnOpenCliente) {
+                btnOpenCliente.addEventListener('click', function () {
+                    try {
+                        ModalSeleccionPerfil.hide();
+                        // Limpiar campos cliente
+                        const u = document.getElementById('loginUsuario');
+                        const p = document.getElementById('loginPassword');
+                        const e = document.getElementById('loginErrorCliente');
+                        if (u) u.value = '';
+                        if (p) p.value = '';
+                        if (e) e.classList.add('d-none');
+                        ModalCliente.show();
+                    } catch (err) {
+                        console.error('Error abriendo ModalCliente:', err);
+                    }
+                });
+            }
+            if (btnOpenAdmin) {
+                btnOpenAdmin.addEventListener('click', function () {
+                    try {
+                        ModalSeleccionPerfil.hide();
+                        // Limpiar campos admin
+                        const usuarioEl = document.getElementById('adminUsuarioModal');
+                        const passEl = document.getElementById('adminPasswordModal');
+                        const errEl = document.getElementById('loginError');
+                        if (usuarioEl) usuarioEl.value = '';
+                        if (passEl) passEl.value = '';
+                        if (errEl) errEl.classList.add('d-none');
+                        ModalProfesor.show();
+                    } catch (err) {
+                        console.error('Error abriendo ModalProfesor:', err);
+                    }
+                });
+            }
+        })();
+
+        // Conectar el botón del cliente con verificación de sesión (con verificación)
+        const btnClienteLoginEl = document.getElementById('btn-cliente-login');
+        if (btnClienteLoginEl) btnClienteLoginEl.addEventListener('click', async function () {
             try {
                 // Verificar si ya tiene sesión activa
                 const response = await fetch('app/verificar_sesion_cliente.php', {
@@ -1707,7 +2187,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-icon">
-                    <i class="bi bi-cup-hot-fill"></i>
+                    <img src="utils/imagen/LOGO-FOOTER.png" alt="Lumière"
+                        style="max-width: 120px; width: 100%; height: auto;">
                 </div>
                 <div>
                     <p class="mb-0">
@@ -1792,8 +2273,18 @@
             darkModeText.textContent = 'Modo Claro';
             localStorage.setItem('darkMode', 'enabled');
 
-            // Aplicar estilos a modales si están abiertos
-            applyDarkModeToModals();
+            // Cambiar estilos de los botones a tonos cafecito/marrón oscuro
+            const btnIngresar = document.getElementById('btn-ingresar');
+            darkModeBtn.style.setProperty('background', '#4a3529', 'important');
+            darkModeBtn.style.setProperty('color', '#f5f2ed', 'important');
+            darkModeBtn.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.4)';
+
+            if (btnIngresar) {
+                btnIngresar.style.setProperty('background', '#4a3529', 'important');
+                btnIngresar.style.setProperty('color', '#f5f2ed', 'important');
+                btnIngresar.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.4)';
+            }
+
         }
 
         function disableDarkMode() {
@@ -1802,49 +2293,66 @@
             darkModeIcon.classList.add('bi-moon-fill');
             darkModeText.textContent = 'Modo Oscuro';
             localStorage.setItem('darkMode', 'disabled');
-        }
 
-        // Función para aplicar estilos de modo oscuro a modales
-        function applyDarkModeToModals() {
-            if (body.classList.contains('dark-mode')) {
-                document.querySelectorAll('.modal-body').forEach(modalBody => {
-                    modalBody.style.backgroundColor = '#ffffff';
-                    modalBody.style.color = '#000000';
-                });
+            // Restaurar estilos originales de los botones
+            const btnIngresar = document.getElementById('btn-ingresar');
+            darkModeBtn.style.setProperty('background', '#c9a04c', 'important');
+            darkModeBtn.style.setProperty('color', '#2d1b12', 'important');
+            darkModeBtn.style.boxShadow = '0 2px 8px rgba(201, 160, 76, 0.3)';
 
-                document.querySelectorAll('.modal-content').forEach(modalContent => {
-                    modalContent.style.backgroundColor = '#ffffff';
-                    modalContent.style.color = '#000000';
-                });
-
-                document.querySelectorAll('.form-label').forEach(label => {
-                    label.style.color = '#000000';
-                });
-
-                document.querySelectorAll('.form-control').forEach(input => {
-                    input.style.backgroundColor = '#ffffff';
-                    input.style.color = '#000000';
-                    input.style.borderColor = '#cccccc';
-                });
+            if (btnIngresar) {
+                btnIngresar.style.setProperty('background', '#c9a04c', 'important');
+                btnIngresar.style.setProperty('color', '#2d1b12', 'important');
+                btnIngresar.style.boxShadow = '0 2px 8px rgba(201, 160, 76, 0.3)';
             }
         }
 
-        // Observar cuando se abren los modales
-        document.addEventListener('shown.bs.modal', applyDarkModeToModals);
+        // Event listeners para hover de botones que respetan el modo activo
+        const btnIngresar = document.getElementById('btn-ingresar');
 
-        // Aplicar cuando el DOM cambia
-        const modalObserver = new MutationObserver(() => {
+        darkModeBtn.addEventListener('mouseenter', function () {
+            this.style.transform = 'translateY(-2px)';
             if (body.classList.contains('dark-mode')) {
-                applyDarkModeToModals();
+                this.style.background = '#3d2e24 !important';
+                this.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.6)';
+            } else {
+                this.style.boxShadow = '0 6px 16px rgba(201, 160, 76, 0.5)';
             }
         });
 
-        modalObserver.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['class']
+        darkModeBtn.addEventListener('mouseleave', function () {
+            this.style.transform = 'translateY(0)';
+            if (body.classList.contains('dark-mode')) {
+                this.style.background = '#4a3529 !important';
+                this.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.4)';
+            } else {
+                this.style.boxShadow = '0 2px 8px rgba(201, 160, 76, 0.3)';
+            }
         });
+
+        if (btnIngresar) {
+            btnIngresar.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-2px)';
+                if (body.classList.contains('dark-mode')) {
+                    this.style.background = '#3d2e24 !important';
+                    this.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.6)';
+                } else {
+                    this.style.boxShadow = '0 6px 16px rgba(201, 160, 76, 0.5)';
+                }
+            });
+
+            btnIngresar.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                if (body.classList.contains('dark-mode')) {
+                    this.style.background = '#4a3529 !important';
+                    this.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.4)';
+                } else {
+                    this.style.boxShadow = '0 2px 8px rgba(201, 160, 76, 0.3)';
+                }
+            });
+        }
+
+
 
         // Navegación suave
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1992,63 +2500,69 @@
                 };
 
                 mesaDiv.innerHTML = `
-                    <div class="mesa-card" style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.3s ease; cursor: pointer; background: white; ${!disponible ? 'opacity: 0.6;' : ''}"
-                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.3)'"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.15)'">
+                    <div class="mesa-card" style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: all 0.3s ease; cursor: pointer; background: #3d2e24; ${!disponible ? 'opacity: 0.6;' : ''}"
+                        onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.4)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.2)'">
                         
                         <!-- Imagen de fondo -->
-                        <div style="position: relative; height: 220px; overflow: hidden;">
+                        <div style="position: relative; height: 200px; overflow: hidden;">
                             <img src="${imagenes[zona]}" alt="${zonaTexto[zona]}" 
                                 style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;"
                                 onmouseover="this.style.transform='scale(1.05)'"
                                 onmouseout="this.style.transform='scale(1)'">
                             
                             <!-- Overlay gradient -->
-                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);"></div>
+                            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(61,46,36,0.7) 100%);"></div>
                             
                             <!-- Badge de disponibilidad -->
-                            <div style="position: absolute; top: 15px; right: 15px; background: ${disponible ? 'var(--gold-color)' : '#999'}; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                            <div style="position: absolute; top: 15px; right: 15px; background: ${disponible ? '#d4af37' : '#6c5643'}; color: ${disponible ? '#3d2e24' : '#999'}; padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
                                 ${disponible ? '✓ Disponible' : '✗ No Disponible'}
                             </div>
                             
                             <!-- Información sobre la imagen -->
-                            <div style="position: absolute; bottom: 15px; left: 15px; color: white;">
-                                <div style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 5px;">${zonaTexto[zona]}</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                            <div style="position: absolute; bottom: 15px; left: 20px; color: white;">
+                                <div style="font-size: 0.8rem; color: #d4af37; margin-bottom: 5px; font-weight: 500;">${zonaTexto[zona]}</div>
+                                <div style="font-size: 1.6rem; font-weight: 700; text-shadow: 0 2px 6px rgba(0,0,0,0.5);">
                                     Mesa ${mesa.numero}
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Información de la mesa -->
-                        <div style="padding: 20px;">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div style="color: #666; font-size: 0.9rem;">
-                                    <i class="bi bi-people-fill" style="color: var(--gold-color);"></i>
-                                    <strong style="color: var(--primary-color);">${capacidad} personas</strong>
+                        <div class="mesa-card-body" style="padding: 20px; background: #3d2e24;">
+                            <!-- Capacidad y Ubicación -->
+                            <div class="d-flex justify-content-between align-items-start mb-3" style="border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 12px;">
+                                <div>
+                                    <div class="mesa-capacidad-label" style="color: #d4af37; font-size: 0.75rem; font-weight: 600; margin-bottom: 5px; text-transform: uppercase;">Capacidad</div>
+                                    <div class="mesa-capacidad" style="color: #f5f2ed; font-size: 0.95rem; font-weight: 500;">
+                                        <i class="bi bi-people-fill" style="color: #d4af37;"></i> ${capacidad} personas
+                                    </div>
                                 </div>
-                                <div style="color: #999; font-size: 0.85rem;">
-                                    <i class="bi bi-geo-alt-fill" style="color: var(--gold-color);"></i> ${zonaTexto[zona]}
+                                <div style="text-align: right;">
+                                    <div class="mesa-ubicacion-label" style="color: #d4af37; font-size: 0.75rem; font-weight: 600; margin-bottom: 5px; text-transform: uppercase;">Ubicación</div>
+                                    <div class="mesa-ubicacion" style="color: #f5f2ed; font-size: 0.85rem; font-weight: 500;">
+                                        <i class="bi bi-geo-alt-fill" style="color: #d4af37;"></i> ${zonaTexto[zona]}
+                                    </div>
                                 </div>
                             </div>
                             
                             <!-- Precio de reserva -->
-                            <div class="text-center mb-3" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%); padding: 12px; border-radius: 15px; border: 2px dashed var(--gold-color);">
-                                <div style="font-size: 0.75rem; color: #999; margin-bottom: 3px;">Precio de Reserva</div>
-                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--gold-color);">
+                            <div class="mesa-precio-box text-center mb-3" style="background: #c9a86a; padding: 15px; border-radius: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                                <div style="font-size: 0.7rem; color: #3d2e24; font-weight: 600; margin-bottom: 5px; text-transform: uppercase;">Precio de Reserva</div>
+                                <div style="font-size: 1.8rem; font-weight: 700; color: #3d2e24;">
                                     $${parseFloat(mesa.precio_reserva || 5).toFixed(2)}
                                 </div>
-                                <div style="font-size: 0.7rem; color: #999; margin-top: 3px;">+ Consumo de platos</div>
+                                <div class="mesa-consumo-text" style="font-size: 0.7rem; color: #5a4a3a; margin-top: 3px;">+ Consumo de platos</div>
                             </div>
                             
                             ${disponible ? `
-                            <button class="btn w-100 mt-2" style="background: var(--gradient-gold); color: var(--primary-color); border: none; border-radius: 25px; padding: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease;"
-                                onmouseover="this.style.transform='scale(1.02)'"
-                                onmouseout="this.style.transform='scale(1)'">
+                            <button class="btn w-100 mt-2" style="background: #8b7355; color: #f5f2ed; border: none; border-radius: 25px; padding: 12px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='#6d5942'; this.style.transform='scale(1.02)'"
+                                onmouseout="this.style.background='#8b7355'; this.style.transform='scale(1)'">
                                 <i class="bi bi-calendar-check"></i> Reservar Ahora
                             </button>
                             ` : `
-                            <button class="btn w-100 mt-2" style="background: #e9ecef; color: #999; border: none; border-radius: 25px; padding: 10px; font-weight: 600; font-size: 0.9rem;" disabled>
+                            <button class="btn w-100 mt-2" style="background: #5a4a3a; color: #999; border: none; border-radius: 25px; padding: 12px; font-weight: 600; font-size: 0.9rem;" disabled>
                                 <i class="bi bi-x-circle"></i> ${this.obtenerTextoEstado(mesa.estado)}
                             </button>
                             `}
@@ -2164,7 +2678,7 @@
                     if (!sesionData.authenticated) {
                         // Guardar mesa_id en localStorage para seleccionarla después del login
                         localStorage.setItem('mesa_pendiente', mesaId);
-                        // Mostrar modal de login
+                        // Mostrar modal de login del cliente
                         document.getElementById('btn-cliente-login').click();
                         return;
                     }
@@ -2321,26 +2835,29 @@
                     const cantidadPlatos = categoria.platos.length;
 
                     categoriaDiv.innerHTML = `
-                        <div class="categoria-circle" 
-                            style="background: white; border: 3px solid rgba(212, 175, 55, 0.3); border-radius: 50%; width: 140px; height: 140px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 8px 25px rgba(0,0,0,0.1); position: relative; overflow: hidden;"
-                            onmouseover="this.style.transform='translateY(-10px) scale(1.05)'; this.style.borderColor='var(--gold-color)'; this.style.boxShadow='0 15px 40px rgba(212, 175, 55, 0.4)'"
-                            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(212, 175, 55, 0.3)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.1)'">
+                        <div class="categoria-card" 
+                            style="background: white; border: none; border-radius: 20px; margin: 0 auto; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 6px 20px rgba(0,0,0,0.1); overflow: hidden; max-width: 180px;"
+                            onmouseover="this.style.transform='translateY(-12px)'; this.style.boxShadow='0 12px 35px rgba(212, 175, 55, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.1)'">
                             
-                            <div style="position: absolute; top: -30px; right: -30px; width: 80px; height: 80px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%); border-radius: 50%;"></div>
-                            
-                            <div style="font-size: 3rem; margin-bottom: 8px; position: relative; z-index: 1;">${icono}</div>
-                            <div class="categoria-nombre" style="font-size: 0.85rem; font-weight: 700; color: var(--primary-color); text-align: center; position: relative; z-index: 1; line-height: 1.2;">
-                                ${categoria.nombre}
+                            <div style="background: linear-gradient(135deg, #e8e8e8 0%, #f5f5f5 100%); height: 140px; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative;">
+                                ${icono}
                             </div>
-                            <div class="categoria-count" style="font-size: 0.7rem; color: #999; margin-top: 4px; position: relative; z-index: 1;">
-                                ${cantidadPlatos} plato${cantidadPlatos !== 1 ? 's' : ''}
+                            
+                            <div style="padding: 18px 12px; text-align: center; background: white;">
+                                <div class="categoria-nombre" style="font-size: 1rem; font-weight: 700; color: var(--primary-color); line-height: 1.3; margin-bottom: 6px;">
+                                    ${categoria.nombre}
+                                </div>
+                                <div class="categoria-count" style="font-size: 0.85rem; color: #d4af37; font-weight: 500;">
+                                    ${cantidadPlatos} plato${cantidadPlatos !== 1 ? 's' : ''}
+                                </div>
                             </div>
                         </div>
                     `;
 
                     // Click para mostrar platos de la categoría
-                    const circle = categoriaDiv.querySelector('.categoria-circle');
-                    circle.addEventListener('click', () => this.mostrarPlatosCategoria(categoria));
+                    const card = categoriaDiv.querySelector('.categoria-card');
+                    card.addEventListener('click', () => this.mostrarPlatosCategoria(categoria));
 
                     container.appendChild(categoriaDiv);
                 });
@@ -2534,6 +3051,138 @@
         }
 
         // ========================================
+        // MODALES DE INFORMACIÓN DE ESPACIOS
+        // ========================================
+
+        function mostrarInfoTerraza() {
+            Swal.fire({
+                title: '<span style="color: #d4af37;">🌿 TERRAZA</span>',
+                html: `
+                    <div style="text-align: left; padding: 20px;">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80" 
+                             style="width: 100%; border-radius: 15px; margin-bottom: 20px;">
+                        
+                        <h4 style="color: #d4af37; margin-bottom: 15px;">✨ Características</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li><strong>Capacidad:</strong> Hasta 40 personas</li>
+                            <li><strong>Ambiente:</strong> Al aire libre con vista panorámica</li>
+                            <li><strong>Ideal para:</strong> Comidas familiares, eventos casuales</li>
+                            <li><strong>Extras:</strong> Sombrillas, calefactores en temporada fría</li>
+                        </ul>
+
+                        <h4 style="color: #d4af37; margin: 20px 0 15px 0;">🍽️ Servicios Incluidos</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li>Servicio de meseros dedicados</li>
+                            <li>Vista al jardín y entorno natural</li>
+                            <li>Música ambiental</li>
+                            <li>Decoración natural con plantas</li>
+                        </ul>
+                    </div>
+                `,
+                width: '600px',
+                confirmButtonText: 'Cerrar',
+                confirmButtonColor: '#3d2e24',
+                background: document.body.classList.contains('dark-mode') ? '#1a1a1a' : '#fff'
+            });
+        }
+
+        function mostrarInfoJardin() {
+            Swal.fire({
+                title: '<span style="color: #d4af37;">🌳 JARDÍN</span>',
+                html: `
+                    <div style="text-align: left; padding: 20px;">
+                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=600&q=80" 
+                             style="width: 100%; border-radius: 15px; margin-bottom: 20px;">
+                        
+                        <h4 style="color: #d4af37; margin-bottom: 15px;">✨ Características</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li><strong>Capacidad:</strong> Hasta 60 personas</li>
+                            <li><strong>Ambiente:</strong> Espacio verde rodeado de naturaleza</li>
+                            <li><strong>Ideal para:</strong> Celebraciones, eventos sociales, bodas pequeñas</li>
+                            <li><strong>Extras:</strong> Pérgola, iluminación decorativa, área de jardín</li>
+                        </ul>
+
+                        <h4 style="color: #d4af37; margin: 20px 0 15px 0;">🍽️ Servicios Incluidos</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li>Mobiliario completo para eventos</li>
+                            <li>Sistema de sonido</li>
+                            <li>Decoración con flores naturales</li>
+                            <li>Servicio personalizado de catering</li>
+                        </ul>
+                    </div>
+                `,
+                width: '600px',
+                confirmButtonText: 'Cerrar',
+                confirmButtonColor: '#3d2e24',
+                background: document.body.classList.contains('dark-mode') ? '#1a1a1a' : '#fff'
+            });
+        }
+
+        function mostrarInfoSalonVIP() {
+            Swal.fire({
+                title: '<span style="color: #d4af37;">👑 SALÓN VIP</span>',
+                html: `
+                    <div style="text-align: left; padding: 20px;">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&q=80" 
+                             style="width: 100%; border-radius: 15px; margin-bottom: 20px;">
+                        
+                        <h4 style="color: #d4af37; margin-bottom: 15px;">✨ Características</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li><strong>Capacidad:</strong> Hasta 30 personas</li>
+                            <li><strong>Ambiente:</strong> Exclusivo y privado con servicio premium</li>
+                            <li><strong>Ideal para:</strong> Eventos corporativos, cenas de gala, celebraciones VIP</li>
+                            <li><strong>Extras:</strong> Aire acondicionado, iluminación regulable, privacidad total</li>
+                        </ul>
+
+                        <h4 style="color: #d4af37; margin: 20px 0 15px 0;">🍽️ Servicios Incluidos</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li>Servicio exclusivo de sommelier</li>
+                            <li>Menú personalizado</li>
+                            <li>Vajilla y cristalería de lujo</li>
+                            <li>Sistema audiovisual profesional</li>
+                        </ul>
+                    </div>
+                `,
+                width: '600px',
+                confirmButtonText: 'Cerrar',
+                confirmButtonColor: '#3d2e24',
+                background: document.body.classList.contains('dark-mode') ? '#1a1a1a' : '#fff'
+            });
+        }
+
+        function mostrarInfoBar() {
+            Swal.fire({
+                title: '<span style="color: #d4af37;">🍸 EL BAR</span>',
+                html: `
+                    <div style="text-align: left; padding: 20px;">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&q=80" 
+                             style="width: 100%; border-radius: 15px; margin-bottom: 20px;">
+                        
+                        <h4 style="color: #d4af37; margin-bottom: 15px;">✨ Características</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li><strong>Capacidad:</strong> Hasta 25 personas</li>
+                            <li><strong>Ambiente:</strong> Sofisticado y moderno</li>
+                            <li><strong>Ideal para:</strong> After office, reuniones casuales, cócteles</li>
+                            <li><strong>Extras:</strong> Barra completa, TV screens, música en vivo ocasional</li>
+                        </ul>
+
+                        <h4 style="color: #d4af37; margin: 20px 0 15px 0;">🍽️ Servicios Incluidos</h4>
+                        <ul style="color: #666; line-height: 1.8;">
+                            <li>Amplia carta de cócteles artesanales</li>
+                            <li>Selección premium de licores</li>
+                            <li>Tapas y bocadillos gourmet</li>
+                            <li>Servicio de bartender especializado</li>
+                        </ul>
+                    </div>
+                `,
+                width: '600px',
+                confirmButtonText: 'Cerrar',
+                confirmButtonColor: '#3d2e24',
+                background: document.body.classList.contains('dark-mode') ? '#1a1a1a' : '#fff'
+            });
+        }
+
+        // ========================================
         // VALIDACIÓN EN TIEMPO REAL DE FORMULARIOS
         // ========================================
 
@@ -2626,15 +3275,38 @@
                                     });
                                 }
                             } else {
-                                // Si no está autenticado, mostrar mensaje y abrir modal de login
+                                // Si no está autenticado, mostrar mensaje elegante
                                 Swal.fire({
+                                    title: '<span style="color: #d4af37;">🔐 Acceso Requerido</span>',
+                                    html: `
+                                        <div style="text-align: center; padding: 20px;">
+                                            <p style="color: #666; font-size: 1.1rem; margin-bottom: 20px;">
+                                                Para reservar espacios completos necesitas iniciar sesión o crear una cuenta
+                                            </p>
+                                            <div style="background: #f5f2ed; padding: 20px; border-radius: 15px; margin: 20px 0;">
+                                                <p style="color: #3d2e24; font-weight: 600; margin-bottom: 10px;">
+                                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Acceso a reservas de zonas
+                                                </p>
+                                                <p style="color: #3d2e24; font-weight: 600; margin-bottom: 10px;">
+                                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Ver menú exclusivo
+                                                </p>
+                                                <p style="color: #3d2e24; font-weight: 600;">
+                                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Historial de reservas
+                                                </p>
+                                            </div>
+                                        </div>
+                                    `,
                                     icon: 'info',
-                                    title: 'Inicia Sesión',
-                                    text: 'Debes iniciar sesión como cliente para reservar zonas',
-                                    confirmButtonColor: '#d4af37',
-                                    confirmButtonText: 'Iniciar Sesión'
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3d2e24',
+                                    cancelButtonColor: '#999',
+                                    confirmButtonText: '<i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión',
+                                    cancelButtonText: 'Cancelar',
+                                    background: '#fff',
+                                    width: '600px'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
+                                        // Abrir modal del cliente
                                         const btnLogin = document.getElementById('btn-cliente-login');
                                         if (btnLogin) {
                                             btnLogin.click();
@@ -2645,11 +3317,21 @@
                         })
                         .catch(error => {
                             console.error('Error verificando sesión:', error);
-                            // En caso de error, abrir modal de login
-                            const btnLogin = document.getElementById('btn-cliente-login');
-                            if (btnLogin) {
-                                btnLogin.click();
-                            }
+                            // En caso de error, mostrar mensaje
+                            Swal.fire({
+                                title: 'Inicia Sesión',
+                                text: 'Debes iniciar sesión para reservar zonas',
+                                icon: 'info',
+                                confirmButtonColor: '#d4af37',
+                                confirmButtonText: 'Iniciar Sesión'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    const btnLogin = document.getElementById('btn-cliente-login');
+                                    if (btnLogin) {
+                                        btnLogin.click();
+                                    }
+                                }
+                            });
                         });
                 });
             }
