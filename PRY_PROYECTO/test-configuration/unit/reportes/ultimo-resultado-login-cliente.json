@@ -1,0 +1,167 @@
+[
+  {
+    "nombre": "Login sin email ni teléfono",
+    "panel": "Login Cliente",
+    "accion": "POST email=... telefono=...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Email y teléfono son requeridos"
+    }
+  },
+  {
+    "nombre": "Login solo email",
+    "panel": "Login Cliente",
+    "accion": "POST email=test@test.com... telefono=...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Email y teléfono son requeridos"
+    }
+  },
+  {
+    "nombre": "Login solo teléfono",
+    "panel": "Login Cliente",
+    "accion": "POST email=... telefono=123456789...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Email y teléfono son requeridos"
+    }
+  },
+  {
+    "nombre": "Login email sin @",
+    "panel": "Login Cliente",
+    "accion": "POST email=no-es-email... telefono=123456789...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login SQL Injection (comilla simple)",
+    "panel": "Login Cliente",
+    "accion": "POST email=' OR '1'='1... telefono=123...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login SQL Injection UNION",
+    "panel": "Login Cliente",
+    "accion": "POST email=admin' UNION SELECT NULL,NULL,... telefono=123...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login XSS en email",
+    "panel": "Login Cliente",
+    "accion": "POST email=<script>alert(1)</script>... telefono=123...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login XSS en teléfono",
+    "panel": "Login Cliente",
+    "accion": "POST email=test@test.com... telefono=<img src=x oner...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login email muy largo",
+    "panel": "Login Cliente",
+    "accion": "POST email=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... telefono=123456...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login teléfono muy largo",
+    "panel": "Login Cliente",
+    "accion": "POST email=test@test.com... telefono=999999999999999...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login email DROP TABLE",
+    "panel": "Login Cliente",
+    "accion": "POST email=test@test.com'; DROP TABLE cli... telefono=123...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login teléfono con letras",
+    "panel": "Login Cliente",
+    "accion": "POST email=test@test.com... telefono=ABC123XYZ...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login solo espacios",
+    "panel": "Login Cliente",
+    "accion": "POST email=   ... telefono=   ...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Email y teléfono son requeridos"
+    }
+  },
+  {
+    "nombre": "Login NULL bytes",
+    "panel": "Login Cliente",
+    "accion": "POST email=test\u0000@test.com... telefono=123\u0000456...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  },
+  {
+    "nombre": "Login teléfono con emojis",
+    "panel": "Login Cliente",
+    "accion": "POST email=test@test.com... telefono=📱📞☎️...",
+    "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Cliente no encontrado o credenciales incorrectas"
+    }
+  }
+]
