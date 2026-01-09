@@ -243,6 +243,71 @@ def main():
                                     "XSS en número personas"))
     
     # =============================================
+    # GRUPO 5: ESTRÉS ADICIONAL - CASOS EXTREMOS (19 tests)
+    # =============================================
+    
+    print("\n🔥 GRUPO 5: Pruebas de Estrés Adicionales")
+    
+    # 32-35 - Múltiples zonas simultáneas
+    resultados.append(reservar_zona(["interior", "terraza"], manana, "19:00", 20, 
+                                    "Múltiples zonas válidas", debe_pasar=True))
+    resultados.append(reservar_zona(["interior", "terraza", "vip", "bar"], manana, "20:00", 50, 
+                                    "Todas las zonas simultáneas", debe_pasar=True))
+    resultados.append(reservar_zona(["interior", "jardin"], manana, "19:00", 15, 
+                                    "Zona válida + zona inexistente"))
+    resultados.append(reservar_zona(["<script>", "interior"], manana, "19:00", 10, 
+                                    "XSS + zona válida en array"))
+    
+    # 36-40 - Combinaciones de fechas/horas límite
+    resultados.append(reservar_zona(["interior"], hoy, "00:00", 5, 
+                                    "Hoy medianoche (hora límite)"))
+    resultados.append(reservar_zona(["terraza"], hoy, "23:59", 8, 
+                                    "Hoy 23:59 (hora límite)"))
+    
+    # Fecha exactamente 6 meses
+    seis_meses = (datetime.now() + timedelta(days=180)).strftime('%Y-%m-%d')
+    resultados.append(reservar_zona(["vip"], seis_meses, "19:00", 10, 
+                                    f"Fecha exacta 6 meses ({seis_meses})", debe_pasar=True))
+    
+    # Fecha 6 meses + 1 día
+    seis_meses_un_dia = (datetime.now() + timedelta(days=181)).strftime('%Y-%m-%d')
+    resultados.append(reservar_zona(["bar"], seis_meses_un_dia, "19:00", 10, 
+                                    f"Fecha 6 meses + 1 día ({seis_meses_un_dia})"))
+    
+    # Fecha límite año
+    resultados.append(reservar_zona(["interior"], "2026-12-31", "23:59", 15, 
+                                    "Fin de año 2026 23:59"))
+    
+    # 41-45 - Ataques SQL injection avanzados
+    resultados.append(reservar_zona(["interior"], manana, "19:00' OR '1'='1", 10, 
+                                    "SQL injection en hora (OR)"))
+    resultados.append(reservar_zona(["interior"], manana, "19:00; DROP TABLE mesas; --", 10, 
+                                    "SQL injection DROP TABLE en hora"))
+    resultados.append(reservar_zona(["interior' UNION SELECT * FROM clientes --"], manana, "19:00", 10, 
+                                    "SQL injection UNION en zona"))
+    resultados.append(reservar_zona(["interior"], manana, "19:00", "10 OR 1=1", 
+                                    "SQL injection en personas (texto)"))
+    resultados.append(reservar_zona(["interior"], "2026-01-20' AND 1=0 UNION SELECT NULL,NULL,NULL --", 
+                                    "19:00", 10, "SQL injection UNION en fecha"))
+    
+    # 46-50 - Payloads maliciosos completos
+    resultados.append(reservar_zona(
+        ["<img src=x onerror=alert(1)>"], 
+        "<script>document.location='http://evil.com'</script>", 
+        "<iframe src='javascript:alert(1)'>", 
+        "<svg onload=alert(1)>", 
+        "XSS en todos los campos"))
+    
+    resultados.append(reservar_zona(["interior"], manana, "19:00", -999999, 
+                                    "Personas número muy negativo"))
+    resultados.append(reservar_zona(["interior"], manana, "19:00", 2147483647, 
+                                    "Personas MAX_INT (overflow)"))
+    resultados.append(reservar_zona(["interior"], manana, "19:00", 0.5, 
+                                    "Personas decimal (0.5)"))
+    resultados.append(reservar_zona([""], manana, "19:00", 10, 
+                                    "Zona string vacío en array"))
+    
+    # =============================================
     # GUARDAR RESULTADOS
     # =============================================
     
