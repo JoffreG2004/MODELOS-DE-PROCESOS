@@ -1,0 +1,834 @@
+[
+  {
+    "nombre": "Listar inicial",
+    "panel": "Gestión de Mesas",
+    "accion": "Listar mesas",
+    "esperado": "Devolver listado de mesas",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "mesas": [
+        {
+          "id": 81,
+          "numero_mesa": "C173",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-06 22:34:48",
+          "fecha_actualizacion": "2026-01-06 22:34:48"
+        },
+        {
+          "id": 98,
+          "numero_mesa": "C311",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:27:48",
+          "fecha_actualizacion": "2026-01-07 19:27:48"
+        },
+        {
+          "id": 109,
+          "numero_mesa": "C325",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 20:33:27",
+          "fecha_actualizacion": "2026-01-07 20:33:27"
+        },
+        {
+          "id": 89,
+          "numero_mesa": "C343",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:20:28",
+          "fecha_actualizacion": "2026-01-07 19:20:28"
+        },
+        {
+          "id": 67,
+          "numero_mesa": "C446",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-06 22:23:45",
+          "fecha_actualizacion": "2026-01-06 22:23:45"
+        },
+        {
+          "id": 74,
+          "numero_mesa": "C453",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-06 22:31:04",
+          "fecha_actualizacion": "2026-01-06 22:31:04"
+        },
+        {
+          "id": 82,
+          "numero_mesa": "F194",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-06 22:34:48",
+          "fecha_actualizacion": "2026-01-06 22:34:48"
+        },
+        {
+          "id": 68,
+          "numero_mesa": "F537",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-06 22:23:45",
+          "fecha_actualizacion": "2026-01-06 22:23:45"
+        },
+        {
+          "id": 110,
+          "numero_mesa": "F685",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-07 20:33:27",
+          "fecha_actualizacion": "2026-01-07 20:33:27"
+        },
+        {
+          "id": 99,
+          "numero_mesa": "F814",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-07 19:27:48",
+          "fecha_actualizacion": "2026-01-07 19:27:48"
+        },
+        {
+          "id": 90,
+          "numero_mesa": "F913",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-07 19:20:28",
+          "fecha_actualizacion": "2026-01-07 19:20:28"
+        },
+        {
+          "id": 75,
+          "numero_mesa": "F974",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-06 22:31:04",
+          "fecha_actualizacion": "2026-01-06 22:31:04"
+        },
+        {
+          "id": 111,
+          "numero_mesa": "G022",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-07 20:33:27",
+          "fecha_actualizacion": "2026-01-07 20:33:27"
+        },
+        {
+          "id": 76,
+          "numero_mesa": "G025",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-06 22:31:04",
+          "fecha_actualizacion": "2026-01-06 22:31:04"
+        },
+        {
+          "id": 100,
+          "numero_mesa": "G230",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-07 19:27:48",
+          "fecha_actualizacion": "2026-01-07 19:27:48"
+        },
+        {
+          "id": 83,
+          "numero_mesa": "G496",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-06 22:34:48",
+          "fecha_actualizacion": "2026-01-06 22:34:48"
+        },
+        {
+          "id": 69,
+          "numero_mesa": "G841",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-06 22:23:45",
+          "fecha_actualizacion": "2026-01-06 22:23:45"
+        },
+        {
+          "id": 91,
+          "numero_mesa": "G982",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-07 19:20:28",
+          "fecha_actualizacion": "2026-01-07 19:20:28"
+        },
+        {
+          "id": 64,
+          "numero_mesa": "IT_002",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 6,
+          "precio_reserva": "8.00",
+          "ubicacion": "vip",
+          "estado": "disponible",
+          "descripcion": "Mesa de prueba segunda",
+          "fecha_creacion": "2026-01-01 23:32:45",
+          "fecha_actualizacion": "2026-01-01 23:32:45"
+        },
+        {
+          "id": 45,
+          "numero_mesa": "M01",
+          "capacidad_minima": 2,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-01 22:48:12",
+          "fecha_actualizacion": "2026-01-01 22:48:12"
+        },
+        {
+          "id": 46,
+          "numero_mesa": "T01",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 8,
+          "precio_reserva": "10.00",
+          "ubicacion": "terraza",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-01 22:48:12",
+          "fecha_actualizacion": "2026-01-01 22:48:12"
+        },
+        {
+          "id": 107,
+          "numero_mesa": "T100",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:53:05",
+          "fecha_actualizacion": "2026-01-07 19:53:05"
+        },
+        {
+          "id": 104,
+          "numero_mesa": "TEST01",
+          "capacidad_minima": 2,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:32:25",
+          "fecha_actualizacion": "2026-01-07 19:32:25"
+        },
+        {
+          "id": 105,
+          "numero_mesa": "TEST02",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 6,
+          "precio_reserva": "8.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:32:25",
+          "fecha_actualizacion": "2026-01-07 19:32:25"
+        },
+        {
+          "id": 106,
+          "numero_mesa": "TEST03",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 8,
+          "precio_reserva": "10.00",
+          "ubicacion": "terraza",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:32:25",
+          "fecha_actualizacion": "2026-01-07 19:32:25"
+        }
+      ]
+    }
+  },
+  {
+    "nombre": "Agregar mesa válida A095",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'A095', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Mesa test OK'}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa agregada exitosamente",
+      "id": "108"
+    }
+  },
+  {
+    "nombre": "Duplicado (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'A506', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El número de mesa ya existe"
+    }
+  },
+  {
+    "nombre": "Capacidad 0 (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'B543', 'capacidad_minima': 0, 'capacidad_maxima': 0, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Número de mesa y capacidad máxima son requeridos"
+    }
+  },
+  {
+    "nombre": "Capacidad 100 (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'C727', 'capacidad_minima': 1, 'capacidad_maxima': 100, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": false,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa agregada exitosamente",
+      "id": "116"
+    }
+  },
+  {
+    "nombre": "Ubicación inválida (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'D121', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'patio', 'estado': 'disponible', 'descripcion': None}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "SQLSTATE[01000]: Warning: 1265 Data truncated for column 'ubicacion' at row 1"
+    }
+  },
+  {
+    "nombre": "Estado inválido (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'E845', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'invalido', 'descripcion': None}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "SQLSTATE[01000]: Warning: 1265 Data truncated for column 'estado' at row 1"
+    }
+  },
+  {
+    "nombre": "Descripción larga (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'F564', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": false,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa agregada exitosamente",
+      "id": "117"
+    }
+  },
+  {
+    "nombre": "Descripción XSS (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'G924', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': '<script>alert(1)</script>'}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": false,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa agregada exitosamente",
+      "id": "118"
+    }
+  },
+  {
+    "nombre": "Editar mesa válida",
+    "panel": "Gestión de Mesas",
+    "accion": "Editar: {'id': '115', 'numero_mesa': 'A506', 'capacidad_minima': 1, 'capacidad_maxima': 6, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Actualizada'}",
+    "esperado": "Actualizar sólo si datos válidos",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa actualizada exitosamente"
+    }
+  },
+  {
+    "nombre": "Crear base H456",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'H456', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa agregada exitosamente",
+      "id": "112"
+    }
+  },
+  {
+    "nombre": "Editar con duplicado (debe fallar)",
+    "panel": "Gestión de Mesas",
+    "accion": "Editar: {'id': '119', 'numero_mesa': 'A506', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'dup'}",
+    "esperado": "Actualizar sólo si datos válidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El número de mesa ya existe en otra mesa"
+    }
+  },
+  {
+    "nombre": "Eliminar mesa1",
+    "panel": "Gestión de Mesas",
+    "accion": "Eliminar id=115",
+    "esperado": "Eliminar si no tiene reservas activas",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa eliminada exitosamente"
+    }
+  },
+  {
+    "nombre": "Eliminar mesa8",
+    "panel": "Gestión de Mesas",
+    "accion": "Eliminar id=119",
+    "esperado": "Eliminar si no tiene reservas activas",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa eliminada exitosamente"
+    }
+  },
+  {
+    "nombre": "Listar final",
+    "panel": "Gestión de Mesas",
+    "accion": "Listar mesas",
+    "esperado": "Devolver listado de mesas",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "mesas": [
+        {
+          "id": 81,
+          "numero_mesa": "C173",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-06 22:34:48",
+          "fecha_actualizacion": "2026-01-06 22:34:48"
+        },
+        {
+          "id": 98,
+          "numero_mesa": "C311",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:27:48",
+          "fecha_actualizacion": "2026-01-07 19:27:48"
+        },
+        {
+          "id": 109,
+          "numero_mesa": "C325",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 20:33:27",
+          "fecha_actualizacion": "2026-01-07 20:33:27"
+        },
+        {
+          "id": 89,
+          "numero_mesa": "C343",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:20:28",
+          "fecha_actualizacion": "2026-01-07 19:20:28"
+        },
+        {
+          "id": 67,
+          "numero_mesa": "C446",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-06 22:23:45",
+          "fecha_actualizacion": "2026-01-06 22:23:45"
+        },
+        {
+          "id": 74,
+          "numero_mesa": "C453",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-06 22:31:04",
+          "fecha_actualizacion": "2026-01-06 22:31:04"
+        },
+        {
+          "id": 116,
+          "numero_mesa": "C727",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 22:26:24",
+          "fecha_actualizacion": "2026-01-07 22:26:24"
+        },
+        {
+          "id": 82,
+          "numero_mesa": "F194",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-06 22:34:48",
+          "fecha_actualizacion": "2026-01-06 22:34:48"
+        },
+        {
+          "id": 68,
+          "numero_mesa": "F537",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-06 22:23:45",
+          "fecha_actualizacion": "2026-01-06 22:23:45"
+        },
+        {
+          "id": 117,
+          "numero_mesa": "F564",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-07 22:26:24",
+          "fecha_actualizacion": "2026-01-07 22:26:24"
+        },
+        {
+          "id": 110,
+          "numero_mesa": "F685",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-07 20:33:27",
+          "fecha_actualizacion": "2026-01-07 20:33:27"
+        },
+        {
+          "id": 99,
+          "numero_mesa": "F814",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-07 19:27:48",
+          "fecha_actualizacion": "2026-01-07 19:27:48"
+        },
+        {
+          "id": 90,
+          "numero_mesa": "F913",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-07 19:20:28",
+          "fecha_actualizacion": "2026-01-07 19:20:28"
+        },
+        {
+          "id": 75,
+          "numero_mesa": "F974",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "fecha_creacion": "2026-01-06 22:31:04",
+          "fecha_actualizacion": "2026-01-06 22:31:04"
+        },
+        {
+          "id": 111,
+          "numero_mesa": "G022",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-07 20:33:27",
+          "fecha_actualizacion": "2026-01-07 20:33:27"
+        },
+        {
+          "id": 76,
+          "numero_mesa": "G025",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-06 22:31:04",
+          "fecha_actualizacion": "2026-01-06 22:31:04"
+        },
+        {
+          "id": 100,
+          "numero_mesa": "G230",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-07 19:27:48",
+          "fecha_actualizacion": "2026-01-07 19:27:48"
+        },
+        {
+          "id": 83,
+          "numero_mesa": "G496",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-06 22:34:48",
+          "fecha_actualizacion": "2026-01-06 22:34:48"
+        },
+        {
+          "id": 69,
+          "numero_mesa": "G841",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-06 22:23:45",
+          "fecha_actualizacion": "2026-01-06 22:23:45"
+        },
+        {
+          "id": 118,
+          "numero_mesa": "G924",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-07 22:26:25",
+          "fecha_actualizacion": "2026-01-07 22:26:25"
+        },
+        {
+          "id": 91,
+          "numero_mesa": "G982",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": "<script>alert(1)</script>",
+          "fecha_creacion": "2026-01-07 19:20:28",
+          "fecha_actualizacion": "2026-01-07 19:20:28"
+        },
+        {
+          "id": 64,
+          "numero_mesa": "IT_002",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 6,
+          "precio_reserva": "8.00",
+          "ubicacion": "vip",
+          "estado": "disponible",
+          "descripcion": "Mesa de prueba segunda",
+          "fecha_creacion": "2026-01-01 23:32:45",
+          "fecha_actualizacion": "2026-01-01 23:32:45"
+        },
+        {
+          "id": 45,
+          "numero_mesa": "M01",
+          "capacidad_minima": 2,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-01 22:48:12",
+          "fecha_actualizacion": "2026-01-01 22:48:12"
+        },
+        {
+          "id": 46,
+          "numero_mesa": "T01",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 8,
+          "precio_reserva": "10.00",
+          "ubicacion": "terraza",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-01 22:48:12",
+          "fecha_actualizacion": "2026-01-01 22:48:12"
+        },
+        {
+          "id": 107,
+          "numero_mesa": "T100",
+          "capacidad_minima": 1,
+          "capacidad_maxima": 100,
+          "precio_reserva": "15.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:53:05",
+          "fecha_actualizacion": "2026-01-07 19:53:05"
+        },
+        {
+          "id": 104,
+          "numero_mesa": "TEST01",
+          "capacidad_minima": 2,
+          "capacidad_maxima": 4,
+          "precio_reserva": "6.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:32:25",
+          "fecha_actualizacion": "2026-01-07 19:32:25"
+        },
+        {
+          "id": 105,
+          "numero_mesa": "TEST02",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 6,
+          "precio_reserva": "8.00",
+          "ubicacion": "interior",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:32:25",
+          "fecha_actualizacion": "2026-01-07 19:32:25"
+        },
+        {
+          "id": 106,
+          "numero_mesa": "TEST03",
+          "capacidad_minima": 4,
+          "capacidad_maxima": 8,
+          "precio_reserva": "10.00",
+          "ubicacion": "terraza",
+          "estado": "disponible",
+          "descripcion": null,
+          "fecha_creacion": "2026-01-07 19:32:25",
+          "fecha_actualizacion": "2026-01-07 19:32:25"
+        }
+      ]
+    }
+  },
+  {
+    "nombre": "Agregar mesa válida A506",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'A506', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Mesa test OK'}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa agregada exitosamente",
+      "id": "115"
+    }
+  },
+  {
+    "nombre": "Crear base H598",
+    "panel": "Gestión de Mesas",
+    "accion": "Agregar: {'numero_mesa': 'H598', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+    "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Mesa agregada exitosamente",
+      "id": "119"
+    }
+  }
+]

@@ -1,0 +1,4344 @@
+{
+  "fecha": "2026-01-07 19:47:23",
+  "puntuacion_total": 0,
+  "max_puntuacion": 70,
+  "comparaciones": [
+    {
+      "grupo": "Login Cliente",
+      "anterior": null,
+      "actual": {
+        "total": 15,
+        "pasados": 15,
+        "fallados": 0,
+        "porcentaje": 100.0,
+        "tests": [
+          {
+            "nombre": "Login sin email ni teléfono",
+            "panel": "Login Cliente",
+            "accion": "POST email=... telefono=...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login solo email",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login solo teléfono",
+            "panel": "Login Cliente",
+            "accion": "POST email=... telefono=123456789...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login email sin @",
+            "panel": "Login Cliente",
+            "accion": "POST email=no-es-email... telefono=123456789...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login SQL Injection (comilla simple)",
+            "panel": "Login Cliente",
+            "accion": "POST email=' OR '1'='1... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login SQL Injection UNION",
+            "panel": "Login Cliente",
+            "accion": "POST email=admin' UNION SELECT NULL,NULL,... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login XSS en email",
+            "panel": "Login Cliente",
+            "accion": "POST email=<script>alert(1)</script>... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login XSS en teléfono",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=<img src=x oner...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login email muy largo",
+            "panel": "Login Cliente",
+            "accion": "POST email=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... telefono=123456...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login teléfono muy largo",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=999999999999999...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login email DROP TABLE",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com'; DROP TABLE cli... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login teléfono con letras",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=ABC123XYZ...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login solo espacios",
+            "panel": "Login Cliente",
+            "accion": "POST email=   ... telefono=   ...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login NULL bytes",
+            "panel": "Login Cliente",
+            "accion": "POST email=test\u0000@test.com... telefono=123\u0000456...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login teléfono con emojis",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=📱📞☎️...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          }
+        ]
+      },
+      "puntuacion": 0,
+      "estado": "Sin datos anteriores",
+      "cambio": 0
+    },
+    {
+      "grupo": "Registro Cliente",
+      "anterior": null,
+      "actual": {
+        "total": 36,
+        "pasados": 29,
+        "fallados": 7,
+        "porcentaje": 80.6,
+        "tests": [
+          {
+            "nombre": "Nombre vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST:  Apellido",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Apellido vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan ",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Nombre con números",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan123 Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede contener números"
+            }
+          },
+          {
+            "nombre": "Apellido con símbolos",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez@#$",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El apellido contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Nombre SQL Injection",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan'; DROP TABLE clientes;-- Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Apellido XSS",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan <script>alert('XSS')</script>",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El apellido contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Nombre muy largo",
+            "panel": "Registro Cliente",
+            "accion": "POST: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede tener más de 50 caracteres"
+            }
+          },
+          {
+            "nombre": "Nombre con comilla",
+            "panel": "Registro Cliente",
+            "accion": "POST: O'Brien Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Nombre con tab",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan\tCarlos Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Nombre con salto línea",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan\nCarlos Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Nombre solo espacios",
+            "panel": "Registro Cliente",
+            "accion": "POST:       Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Nombre con diéresis (válido)",
+            "panel": "Registro Cliente",
+            "accion": "POST: Müller Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Nombre con acentos (válido)",
+            "panel": "Registro Cliente",
+            "accion": "POST: José García",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Nombre con ñ (válido)",
+            "panel": "Registro Cliente",
+            "accion": "POST: Nuñez Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Nombre/apellido válidos",
+            "panel": "Registro Cliente",
+            "accion": "POST: María López",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Cédula vacía",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Cédula muy corta",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula debe tener exactamente 10 dígitos"
+            }
+          },
+          {
+            "nombre": "Cédula con letras",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Cédula SQL Injection",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Cédula XSS",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Cédula muy larga",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula debe tener exactamente 10 dígitos"
+            }
+          },
+          {
+            "nombre": "Cédula con espacios",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Cédula con guiones",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Cliente base (para duplicado)",
+            "panel": "Registro Cliente",
+            "accion": "POST: Cliente Base",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Cédula duplicada (debe fallar)",
+            "panel": "Registro Cliente",
+            "accion": "POST: Otro Cliente",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Cédula válida",
+            "panel": "Registro Cliente",
+            "accion": "POST: Pedro Ramírez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Usuario vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Password vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Usuario duplicado (debe fallar)",
+            "panel": "Registro Cliente",
+            "accion": "POST: Otro Usuario",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Usuario SQL Injection",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
+            }
+          },
+          {
+            "nombre": "Usuario XSS",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
+            }
+          },
+          {
+            "nombre": "Usuario muy largo",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El usuario no puede tener más de 30 caracteres"
+            }
+          },
+          {
+            "nombre": "Password muy corto",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Password muy largo",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Teléfono con letras",
+            "panel": "Registro Cliente",
+            "accion": "POST: Juan Pérez",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro completo válido",
+            "panel": "Registro Cliente",
+            "accion": "POST: Carlos Mendoza",
+            "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          }
+        ]
+      },
+      "puntuacion": 0,
+      "estado": "Sin datos anteriores",
+      "cambio": 0
+    },
+    {
+      "grupo": "Gestión Mesas",
+      "anterior": null,
+      "actual": {
+        "total": 23,
+        "pasados": 20,
+        "fallados": 3,
+        "porcentaje": 87.0,
+        "tests": [
+          {
+            "nombre": "Listar inicial",
+            "panel": "Gestión de Mesas",
+            "accion": "Listar mesas",
+            "esperado": "Devolver listado de mesas",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "mesas": [
+                {
+                  "id": 81,
+                  "numero_mesa": "C173",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-06 22:34:48",
+                  "fecha_actualizacion": "2026-01-06 22:34:48"
+                },
+                {
+                  "id": 89,
+                  "numero_mesa": "C343",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-07 19:20:28",
+                  "fecha_actualizacion": "2026-01-07 19:20:28"
+                },
+                {
+                  "id": 67,
+                  "numero_mesa": "C446",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-06 22:23:45",
+                  "fecha_actualizacion": "2026-01-06 22:23:45"
+                },
+                {
+                  "id": 74,
+                  "numero_mesa": "C453",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-06 22:31:04",
+                  "fecha_actualizacion": "2026-01-06 22:31:04"
+                },
+                {
+                  "id": 82,
+                  "numero_mesa": "F194",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-06 22:34:48",
+                  "fecha_actualizacion": "2026-01-06 22:34:48"
+                },
+                {
+                  "id": 68,
+                  "numero_mesa": "F537",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-06 22:23:45",
+                  "fecha_actualizacion": "2026-01-06 22:23:45"
+                },
+                {
+                  "id": 90,
+                  "numero_mesa": "F913",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-07 19:20:28",
+                  "fecha_actualizacion": "2026-01-07 19:20:28"
+                },
+                {
+                  "id": 75,
+                  "numero_mesa": "F974",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-06 22:31:04",
+                  "fecha_actualizacion": "2026-01-06 22:31:04"
+                },
+                {
+                  "id": 76,
+                  "numero_mesa": "G025",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-06 22:31:04",
+                  "fecha_actualizacion": "2026-01-06 22:31:04"
+                },
+                {
+                  "id": 83,
+                  "numero_mesa": "G496",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-06 22:34:48",
+                  "fecha_actualizacion": "2026-01-06 22:34:48"
+                },
+                {
+                  "id": 69,
+                  "numero_mesa": "G841",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-06 22:23:45",
+                  "fecha_actualizacion": "2026-01-06 22:23:45"
+                },
+                {
+                  "id": 91,
+                  "numero_mesa": "G982",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-07 19:20:28",
+                  "fecha_actualizacion": "2026-01-07 19:20:28"
+                },
+                {
+                  "id": 64,
+                  "numero_mesa": "IT_002",
+                  "capacidad_minima": 4,
+                  "capacidad_maxima": 6,
+                  "precio_reserva": "8.00",
+                  "ubicacion": "vip",
+                  "estado": "disponible",
+                  "descripcion": "Mesa de prueba segunda",
+                  "fecha_creacion": "2026-01-01 23:32:45",
+                  "fecha_actualizacion": "2026-01-01 23:32:45"
+                },
+                {
+                  "id": 45,
+                  "numero_mesa": "M01",
+                  "capacidad_minima": 2,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-01 22:48:12",
+                  "fecha_actualizacion": "2026-01-01 22:48:12"
+                },
+                {
+                  "id": 46,
+                  "numero_mesa": "T01",
+                  "capacidad_minima": 4,
+                  "capacidad_maxima": 8,
+                  "precio_reserva": "10.00",
+                  "ubicacion": "terraza",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-01 22:48:12",
+                  "fecha_actualizacion": "2026-01-01 22:48:12"
+                }
+              ]
+            }
+          },
+          {
+            "nombre": "Agregar mesa válida A981",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'A981', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Mesa test OK'}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "66"
+            }
+          },
+          {
+            "nombre": "Duplicado (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'A321', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El número de mesa ya existe"
+            }
+          },
+          {
+            "nombre": "Capacidad 0 (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'B998', 'capacidad_minima': 0, 'capacidad_maxima': 0, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Número de mesa y capacidad máxima son requeridos"
+            }
+          },
+          {
+            "nombre": "Capacidad 100 (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'C311', 'capacidad_minima': 1, 'capacidad_maxima': 100, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": false,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "98"
+            }
+          },
+          {
+            "nombre": "Ubicación inválida (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'D226', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'patio', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "SQLSTATE[01000]: Warning: 1265 Data truncated for column 'ubicacion' at row 1"
+            }
+          },
+          {
+            "nombre": "Estado inválido (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'E171', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'invalido', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "SQLSTATE[01000]: Warning: 1265 Data truncated for column 'estado' at row 1"
+            }
+          },
+          {
+            "nombre": "Descripción larga (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'F814', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": false,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "99"
+            }
+          },
+          {
+            "nombre": "Descripción XSS (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'G230', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': '<script>alert(1)</script>'}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": false,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "100"
+            }
+          },
+          {
+            "nombre": "Editar mesa válida",
+            "panel": "Gestión de Mesas",
+            "accion": "Editar: {'id': '97', 'numero_mesa': 'A321', 'capacidad_minima': 1, 'capacidad_maxima': 6, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Actualizada'}",
+            "esperado": "Actualizar sólo si datos válidos",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa actualizada exitosamente"
+            }
+          },
+          {
+            "nombre": "Crear base H981",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'H981', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "70"
+            }
+          },
+          {
+            "nombre": "Editar con duplicado (debe fallar)",
+            "panel": "Gestión de Mesas",
+            "accion": "Editar: {'id': '101', 'numero_mesa': 'A321', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'dup'}",
+            "esperado": "Actualizar sólo si datos válidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El número de mesa ya existe en otra mesa"
+            }
+          },
+          {
+            "nombre": "Eliminar mesa1",
+            "panel": "Gestión de Mesas",
+            "accion": "Eliminar id=97",
+            "esperado": "Eliminar si no tiene reservas activas",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa eliminada exitosamente"
+            }
+          },
+          {
+            "nombre": "Eliminar mesa8",
+            "panel": "Gestión de Mesas",
+            "accion": "Eliminar id=101",
+            "esperado": "Eliminar si no tiene reservas activas",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa eliminada exitosamente"
+            }
+          },
+          {
+            "nombre": "Listar final",
+            "panel": "Gestión de Mesas",
+            "accion": "Listar mesas",
+            "esperado": "Devolver listado de mesas",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "mesas": [
+                {
+                  "id": 81,
+                  "numero_mesa": "C173",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-06 22:34:48",
+                  "fecha_actualizacion": "2026-01-06 22:34:48"
+                },
+                {
+                  "id": 98,
+                  "numero_mesa": "C311",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-07 19:27:48",
+                  "fecha_actualizacion": "2026-01-07 19:27:48"
+                },
+                {
+                  "id": 89,
+                  "numero_mesa": "C343",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-07 19:20:28",
+                  "fecha_actualizacion": "2026-01-07 19:20:28"
+                },
+                {
+                  "id": 67,
+                  "numero_mesa": "C446",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-06 22:23:45",
+                  "fecha_actualizacion": "2026-01-06 22:23:45"
+                },
+                {
+                  "id": 74,
+                  "numero_mesa": "C453",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 100,
+                  "precio_reserva": "15.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-06 22:31:04",
+                  "fecha_actualizacion": "2026-01-06 22:31:04"
+                },
+                {
+                  "id": 82,
+                  "numero_mesa": "F194",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-06 22:34:48",
+                  "fecha_actualizacion": "2026-01-06 22:34:48"
+                },
+                {
+                  "id": 68,
+                  "numero_mesa": "F537",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-06 22:23:45",
+                  "fecha_actualizacion": "2026-01-06 22:23:45"
+                },
+                {
+                  "id": 99,
+                  "numero_mesa": "F814",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-07 19:27:48",
+                  "fecha_actualizacion": "2026-01-07 19:27:48"
+                },
+                {
+                  "id": 90,
+                  "numero_mesa": "F913",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-07 19:20:28",
+                  "fecha_actualizacion": "2026-01-07 19:20:28"
+                },
+                {
+                  "id": 75,
+                  "numero_mesa": "F974",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  "fecha_creacion": "2026-01-06 22:31:04",
+                  "fecha_actualizacion": "2026-01-06 22:31:04"
+                },
+                {
+                  "id": 76,
+                  "numero_mesa": "G025",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-06 22:31:04",
+                  "fecha_actualizacion": "2026-01-06 22:31:04"
+                },
+                {
+                  "id": 100,
+                  "numero_mesa": "G230",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-07 19:27:48",
+                  "fecha_actualizacion": "2026-01-07 19:27:48"
+                },
+                {
+                  "id": 83,
+                  "numero_mesa": "G496",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-06 22:34:48",
+                  "fecha_actualizacion": "2026-01-06 22:34:48"
+                },
+                {
+                  "id": 69,
+                  "numero_mesa": "G841",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-06 22:23:45",
+                  "fecha_actualizacion": "2026-01-06 22:23:45"
+                },
+                {
+                  "id": 91,
+                  "numero_mesa": "G982",
+                  "capacidad_minima": 1,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": "<script>alert(1)</script>",
+                  "fecha_creacion": "2026-01-07 19:20:28",
+                  "fecha_actualizacion": "2026-01-07 19:20:28"
+                },
+                {
+                  "id": 64,
+                  "numero_mesa": "IT_002",
+                  "capacidad_minima": 4,
+                  "capacidad_maxima": 6,
+                  "precio_reserva": "8.00",
+                  "ubicacion": "vip",
+                  "estado": "disponible",
+                  "descripcion": "Mesa de prueba segunda",
+                  "fecha_creacion": "2026-01-01 23:32:45",
+                  "fecha_actualizacion": "2026-01-01 23:32:45"
+                },
+                {
+                  "id": 45,
+                  "numero_mesa": "M01",
+                  "capacidad_minima": 2,
+                  "capacidad_maxima": 4,
+                  "precio_reserva": "6.00",
+                  "ubicacion": "interior",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-01 22:48:12",
+                  "fecha_actualizacion": "2026-01-01 22:48:12"
+                },
+                {
+                  "id": 46,
+                  "numero_mesa": "T01",
+                  "capacidad_minima": 4,
+                  "capacidad_maxima": 8,
+                  "precio_reserva": "10.00",
+                  "ubicacion": "terraza",
+                  "estado": "disponible",
+                  "descripcion": null,
+                  "fecha_creacion": "2026-01-01 22:48:12",
+                  "fecha_actualizacion": "2026-01-01 22:48:12"
+                }
+              ]
+            }
+          },
+          {
+            "nombre": "Agregar mesa válida A436",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'A436', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Mesa test OK'}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "73"
+            }
+          },
+          {
+            "nombre": "Crear base H400",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'H400', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "77"
+            }
+          },
+          {
+            "nombre": "Agregar mesa válida A343",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'A343', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Mesa test OK'}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "80"
+            }
+          },
+          {
+            "nombre": "Crear base H369",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'H369', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "84"
+            }
+          },
+          {
+            "nombre": "Agregar mesa válida A659",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'A659', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Mesa test OK'}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "88"
+            }
+          },
+          {
+            "nombre": "Crear base H633",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'H633', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "92"
+            }
+          },
+          {
+            "nombre": "Agregar mesa válida A321",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'A321', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': 'Mesa test OK'}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "97"
+            }
+          },
+          {
+            "nombre": "Crear base H525",
+            "panel": "Gestión de Mesas",
+            "accion": "Agregar: {'numero_mesa': 'H525', 'capacidad_minima': 1, 'capacidad_maxima': 4, 'ubicacion': 'interior', 'estado': 'disponible', 'descripcion': None}",
+            "esperado": "Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Mesa agregada exitosamente",
+              "id": "101"
+            }
+          }
+        ]
+      },
+      "puntuacion": 0,
+      "estado": "Sin datos anteriores",
+      "cambio": 0
+    },
+    {
+      "grupo": "Reservas Mesas",
+      "anterior": null,
+      "actual": {
+        "total": 31,
+        "pasados": 31,
+        "fallados": 0,
+        "porcentaje": 100.0,
+        "tests": [
+          {
+            "nombre": "Fecha vacía",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha= hora=19:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Fecha y hora son requeridas"
+            }
+          },
+          {
+            "nombre": "Fecha pasada (ayer: 2026-01-06)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-06 hora=19:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Fecha hace 1 semana (2025-12-31)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['terraza'] fecha=2025-12-31 hora=20:00 personas=15",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Fecha hace 1 mes (2025-12-08)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['vip'] fecha=2025-12-08 hora=21:00 personas=8",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Fecha año 3000 (muy lejana)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['bar'] fecha=3000-12-31 hora=19:00 personas=5",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "No hay mesas disponibles en las zonas seleccionadas"
+            }
+          },
+          {
+            "nombre": "Fecha año 2100",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2100-01-01 hora=18:00 personas=12",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Fecha 7 meses (2026-08-05) >6 meses",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['terraza'] fecha=2026-08-05 hora=19:30 personas=20",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Fecha formato DD/MM/YYYY",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['vip'] fecha=31/12/2026 hora=20:00 personas=6",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error al crear reserva de zona: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '31/12/2026' for column `crud_proyecto`.`reservas_zonas`.`fecha_reserva` at row 1"
+            }
+          },
+          {
+            "nombre": "Fecha texto 'mañana'",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['bar'] fecha=mañana hora=19:00 personas=4",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "No hay mesas disponibles en las zonas seleccionadas"
+            }
+          },
+          {
+            "nombre": "SQL injection en fecha",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-01' OR '1'='1 hora=18:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error al crear reserva de zona: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2026-01-01' OR '1'='1' for column `crud_proyecto`.`reservas_zonas`.`fecha_reserva` at row 1"
+            }
+          },
+          {
+            "nombre": "XSS en fecha",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['terraza'] fecha=<script>alert('xss')</script> hora=19:00 personas=8",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error al crear reserva de zona: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '<script>alert('xss')</script>' for column `crud_proyecto`.`reservas_zonas`.`fecha_reserva` at row 1"
+            }
+          },
+          {
+            "nombre": "Fecha None/null",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['bar'] fecha=None hora=19:00 personas=5",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Fecha y hora son requeridas"
+            }
+          },
+          {
+            "nombre": "Hora vacía",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-08 hora= personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Fecha y hora son requeridas"
+            }
+          },
+          {
+            "nombre": "Hora 06:00 (antes apertura)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['terraza'] fecha=2026-01-08 hora=06:00 personas=8",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Hora 02:00 (después cierre)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['vip'] fecha=2026-01-08 hora=02:00 personas=6",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Hora formato '7pm'",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['bar'] fecha=2026-01-08 hora=7pm personas=5",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "No hay mesas disponibles en las zonas seleccionadas"
+            }
+          },
+          {
+            "nombre": "Hora 25:00 (inválida)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=25:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "XSS en hora",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['terraza'] fecha=2026-01-08 hora=<script>alert('xss')</script> personas=8",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error al crear reserva de zona: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect time value: '<script>alert('xss')</script>' for column `crud_proyecto`.`reservas_zonas`.`hora_reserva` at row 1"
+            }
+          },
+          {
+            "nombre": "Sin mesas en BD",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Zona solo mesas ocupadas",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=20:00 personas=8",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Array zonas vacío []",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=[] fecha=2026-01-08 hora=19:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Debe seleccionar al menos una zona"
+            }
+          },
+          {
+            "nombre": "Zonas inexistentes",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['jardin', 'piscina'] fecha=2026-01-08 hora=19:00 personas=15",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "No hay mesas disponibles en las zonas seleccionadas"
+            }
+          },
+          {
+            "nombre": "SQL injection en zona",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=[\"interior' OR '1'='1\"] fecha=2026-01-08 hora=19:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "No hay mesas disponibles en las zonas seleccionadas"
+            }
+          },
+          {
+            "nombre": "XSS en zona",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=[\"<script>alert('xss')</script>\"] fecha=2026-01-08 hora=19:00 personas=8",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "No hay mesas disponibles en las zonas seleccionadas"
+            }
+          },
+          {
+            "nombre": "Zonas None/null",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=None fecha=2026-01-08 hora=19:00 personas=10",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Debe seleccionar al menos una zona"
+            }
+          },
+          {
+            "nombre": "0 personas",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=0",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Personas negativas (-5)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['terraza'] fecha=2026-01-08 hora=20:00 personas=-5",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "1000 personas (excesivo)",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=1000",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          },
+          {
+            "nombre": "Personas como texto 'diez'",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['vip'] fecha=2026-01-08 hora=21:00 personas=diez",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error al crear reserva de zona: SQLSTATE[22007]: Invalid datetime format: 1366 Incorrect integer value: 'diez' for column `crud_proyecto`.`reservas_zonas`.`numero_personas` at row 1"
+            }
+          },
+          {
+            "nombre": "Personas None/null",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['bar'] fecha=2026-01-08 hora=19:00 personas=None",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "No hay mesas disponibles en las zonas seleccionadas"
+            }
+          },
+          {
+            "nombre": "XSS en número personas",
+            "panel": "Reservar Zona",
+            "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=<script>alert('xss')</script>",
+            "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Ya existe una reserva de zona en ese horario"
+            }
+          }
+        ]
+      },
+      "puntuacion": 0,
+      "estado": "Sin datos anteriores",
+      "cambio": 0
+    },
+    {
+      "grupo": "Validador Nombres",
+      "anterior": null,
+      "actual": {
+        "total": 50,
+        "pasados": 42,
+        "fallados": 8,
+        "porcentaje": 84.0,
+        "tests": [
+          {
+            "nombre": "Nombre válido: Juan Pérez (nombre con tilde)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan' apellido='Pérez'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: María José (nombre doble)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='María' apellido='José'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: José Luis García (nombre compuesto con espacio)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='José Luis' apellido='García'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Ana María Rodríguez (ambos con espacios)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Ana María' apellido='Rodríguez'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Carlos O'Brien (apellido con apóstrofe)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Carlos' apellido='O'Brien'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Jean-Pierre Martínez (nombre con guion)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Jean-Pierre' apellido='Martínez'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Sofía López (acento en í)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Sofía' apellido='López'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Andrés Sánchez (acento en é)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Andrés' apellido='Sánchez'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Raúl Fernández (acento en ú)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Raúl' apellido='Fernández'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Mónica González (acento en ó)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Mónica' apellido='González'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Ángel Ramírez (acento en á)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Ángel' apellido='Ramírez'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Antonio Nuñez (ñ minúscula)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Antonio' apellido='Nuñez'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Pedro Muñoz (ñ en apellido)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Pedro' apellido='Muñoz'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Luis Ibáñez (acento y ñ)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Luis' apellido='Ibáñez'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre válido: Carolina Pérez-López (apellido compuesto con guion)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Carolina' apellido='Pérez-López'",
+            "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: Müller Schmidt (ü alemán)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Müller' apellido='Schmidt'",
+            "esperado": "Rechazar nombre con ü alemán",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: François Dubois (ç francés)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='François' apellido='Dubois'",
+            "esperado": "Rechazar nombre con ç francés",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: Björk Guðmundsdóttir (ö islandés)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Björk' apellido='Guðmundsdóttir'",
+            "esperado": "Rechazar nombre con ö islandés",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: José Nuñez (ñ válido)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='José' apellido='Nuñez'",
+            "esperado": "Aceptar nombre con ñ válido",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: María José de la Cruz (espacios válidos)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='María José' apellido='de la Cruz'",
+            "esperado": "Aceptar nombre con espacios válidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: Jean-Paul Saint-Pierre (guiones válidos)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Jean-Paul' apellido='Saint-Pierre'",
+            "esperado": "Aceptar nombre con guiones válidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: O'Connor McCarthy (apóstrofe válido)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='O'Connor' apellido='McCarthy'",
+            "esperado": "Aceptar nombre con apóstrofe válido",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: Ñoño Peña (ñ al inicio)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Ñoño' apellido='Peña'",
+            "esperado": "Aceptar nombre con ñ al inicio",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: Inés Úrsula (acentos válidos)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Inés' apellido='Úrsula'",
+            "esperado": "Aceptar nombre con acentos válidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Caracteres especiales: José Ángel Ramón (todo válido español)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='José Ángel' apellido='Ramón'",
+            "esperado": "Aceptar nombre con todo válido español",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre vacío",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: apellido vacío",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan...' apellido='...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre con números",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='123...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede contener números"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: apellido con números",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan...' apellido='456...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El apellido no puede contener números"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre con números al final",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan123...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede contener números"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre con @",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan@...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre con #",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan#Test...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre con !",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan!...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre con $",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan$...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre muy corto (1 char)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='A...' apellido='B...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre debe tener al menos 2 caracteres"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: nombre muy largo (>50 chars)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='JuanJuanJuanJuanJuan...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede tener más de 50 caracteres"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: espacios dobles",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan  Pedro...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede tener espacios múltiples"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: espacios al final",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan   ...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: espacios al inicio",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='   Juan...' apellido='Pérez...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Nombre inválido: intento XSS",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='<script>...' apellido='alert...'",
+            "esperado": "Debe rechazar nombres inválidos",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Edge case: longitud mínima (2 chars)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Jo...' apellido='Li...'",
+            "esperado": "Aceptar caso edge: longitud mínima (2 chars)",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: longitud máxima exacta (50 chars)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='AAAAAAAAAAAAAAAAAAAA...' apellido='BBBBBBBBBBBBBBBBBBBB...'",
+            "esperado": "Aceptar caso edge: longitud máxima exacta (50 chars)",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: excede máximo (51 chars)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='AAAAAAAAAAAAAAAAAAAA...' apellido='Pérez...'",
+            "esperado": "Rechazar caso edge: excede máximo (51 chars)",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede tener más de 50 caracteres"
+            }
+          },
+          {
+            "nombre": "Edge case: nombre con guion",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='María-José...' apellido='López...'",
+            "esperado": "Aceptar caso edge: nombre con guion",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: ambos con espacios",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Mary Ann...' apellido='Smith Jones...'",
+            "esperado": "Aceptar caso edge: ambos con espacios",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: apóstrofe al final",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='José'...' apellido='O'Brien...'",
+            "esperado": "Aceptar caso edge: apóstrofe al final",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: apóstrofe al inicio",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre=''Juan...' apellido='Pérez...'",
+            "esperado": "Aceptar caso edge: apóstrofe al inicio",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: guion al inicio",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='-Juan...' apellido='Pérez...'",
+            "esperado": "Aceptar caso edge: guion al inicio",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: guion al final",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Juan-...' apellido='Pérez...'",
+            "esperado": "Aceptar caso edge: guion al final",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          },
+          {
+            "nombre": "Edge case: solo ñ (1 char)",
+            "panel": "Validador de Nombres",
+            "accion": "Validar nombre='Ñ...' apellido='Ñ...'",
+            "esperado": "Rechazar caso edge: solo ñ (1 char)",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula no es válida (dígito verificador incorrecto)"
+            }
+          }
+        ]
+      },
+      "puntuacion": 0,
+      "estado": "Sin datos anteriores",
+      "cambio": 0
+    },
+    {
+      "grupo": "Panel Cliente",
+      "anterior": null,
+      "actual": {
+        "total": 51,
+        "pasados": 44,
+        "fallados": 7,
+        "porcentaje": 86.3,
+        "tests": [
+          {
+            "nombre": "Login sin email ni teléfono",
+            "panel": "Login Cliente",
+            "accion": "POST email=... telefono=...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login solo email",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login solo teléfono",
+            "panel": "Login Cliente",
+            "accion": "POST email=... telefono=123456789...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login email sin @",
+            "panel": "Login Cliente",
+            "accion": "POST email=no-es-email... telefono=123456789...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login SQL Injection email (comilla simple)",
+            "panel": "Login Cliente",
+            "accion": "POST email=' OR '1'='1... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login SQL Injection UNION",
+            "panel": "Login Cliente",
+            "accion": "POST email=admin' UNION SELECT NULL,NULL,... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login XSS en email",
+            "panel": "Login Cliente",
+            "accion": "POST email=<script>alert(1)</script>... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login XSS en teléfono",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=<img src=x oner...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login email muy largo",
+            "panel": "Login Cliente",
+            "accion": "POST email=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa... telefono=123456...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login teléfono muy largo",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=999999999999999...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login email DROP TABLE",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com'; DROP TABLE cli... telefono=123...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login teléfono con letras",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=ABC123XYZ...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login solo espacios",
+            "panel": "Login Cliente",
+            "accion": "POST email=   ... telefono=   ...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Email y teléfono son requeridos"
+            }
+          },
+          {
+            "nombre": "Login NULL bytes",
+            "panel": "Login Cliente",
+            "accion": "POST email=test\u0000@test.com... telefono=123\u0000456...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Login teléfono con emojis",
+            "panel": "Login Cliente",
+            "accion": "POST email=test@test.com... telefono=📱📞☎️...",
+            "esperado": "Debe aceptar solo credenciales válidas; rechazar inválidas/ataques",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Cliente no encontrado o credenciales incorrectas"
+            }
+          },
+          {
+            "nombre": "Registro nombre vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST registro:  Apellido",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Registro apellido vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan ",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Registro nombre con números",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan123 Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede contener números"
+            }
+          },
+          {
+            "nombre": "Registro apellido con símbolos",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez@#$",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El apellido contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Registro nombre SQL Injection",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan'; DROP TABLE clientes;-- Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Registro apellido XSS",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan <script>alert('XSS')</script>",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El apellido contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Registro nombre muy largo",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre no puede tener más de 50 caracteres"
+            }
+          },
+          {
+            "nombre": "Registro nombre con comilla simple",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: O'Brien Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro nombre con tabulador",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan\tCarlos Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro nombre con salto línea",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan\nCarlos Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro nombre solo espacios",
+            "panel": "Registro Cliente",
+            "accion": "POST registro:       Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Registro nombre con diéresis (válido)",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Müller Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "El nombre contiene caracteres no válidos"
+            }
+          },
+          {
+            "nombre": "Registro nombre con acentos (válido)",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: José García",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro nombre con ñ (válido)",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Nuñez Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro nombre/apellido válidos",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: María López",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro cédula vacía",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Registro cédula muy corta",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula debe tener exactamente 10 dígitos"
+            }
+          },
+          {
+            "nombre": "Registro cédula con letras",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Registro cédula SQL Injection",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Registro cédula XSS",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Registro cédula muy larga",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula debe tener exactamente 10 dígitos"
+            }
+          },
+          {
+            "nombre": "Registro cédula con espacios",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Registro cédula con guiones",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "La cédula solo debe contener números"
+            }
+          },
+          {
+            "nombre": "Registro cliente base para duplicado",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Cliente Base",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro cédula duplicada (debería fallar)",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Otro Cliente",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro cédula válida (10 dígitos)",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Pedro Ramírez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro usuario vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Registro password vacío",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Faltan campos requeridos"
+            }
+          },
+          {
+            "nombre": "Registro usuario duplicado (debería fallar)",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Otro Usuario",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro usuario SQL Injection",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
+            }
+          },
+          {
+            "nombre": "Registro usuario XSS",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
+            }
+          },
+          {
+            "nombre": "Registro usuario muy largo",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "El usuario no puede tener más de 30 caracteres"
+            }
+          },
+          {
+            "nombre": "Registro password muy corto",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro password muy largo",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro teléfono con letras",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Juan Pérez",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          },
+          {
+            "nombre": "Registro completo válido",
+            "panel": "Registro Cliente",
+            "accion": "POST registro: Carlos Mendoza",
+            "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "Error interno del servidor"
+            }
+          }
+        ]
+      },
+      "puntuacion": 0,
+      "estado": "Sin datos anteriores",
+      "cambio": 0
+    },
+    {
+      "grupo": "Panel Admin",
+      "anterior": null,
+      "actual": {
+        "total": 78,
+        "pasados": 68,
+        "fallados": 10,
+        "porcentaje": 87.2,
+        "tests": [
+          {
+            "nombre": "Login admin válido",
+            "panel": "Admin Login",
+            "accion": "POST usuario='admin' password='admin'",
+            "esperado": "Login exitoso con sesión admin",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "message": "Acceso autorizado",
+              "admin": {
+                "id": 1,
+                "usuario": "admin",
+                "nombre": "Admin",
+                "email": "admin@restaurante.com"
+              }
+            }
+          },
+          {
+            "nombre": "Login admin password incorrecta",
+            "panel": "Admin Login",
+            "accion": "POST usuario='admin' password='wrongpass'",
+            "esperado": "Rechazar login con contraseña incorrecta",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Contraseña incorrecta"
+            }
+          },
+          {
+            "nombre": "Login admin usuario inexistente",
+            "panel": "Admin Login",
+            "accion": "POST usuario='adminFalso'",
+            "esperado": "Rechazar usuario que no existe",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Usuario no encontrado o inactivo"
+            }
+          },
+          {
+            "nombre": "Login admin inválido: usuario vacío",
+            "panel": "Admin Login",
+            "accion": "POST usuario='...' password='...'",
+            "esperado": "Rechazar credenciales inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Usuario y contraseña son requeridos"
+            }
+          },
+          {
+            "nombre": "Login admin inválido: password vacío",
+            "panel": "Admin Login",
+            "accion": "POST usuario='admin...' password='...'",
+            "esperado": "Rechazar credenciales inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Usuario y contraseña son requeridos"
+            }
+          },
+          {
+            "nombre": "Login admin inválido: SQL injection en usuario",
+            "panel": "Admin Login",
+            "accion": "POST usuario='' OR '1'='1...' password='...'",
+            "esperado": "Rechazar credenciales inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Usuario no encontrado o inactivo"
+            }
+          },
+          {
+            "nombre": "Login admin inválido: SQL injection en password",
+            "panel": "Admin Login",
+            "accion": "POST usuario='admin...' password='...'",
+            "esperado": "Rechazar credenciales inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Contraseña incorrecta"
+            }
+          },
+          {
+            "nombre": "Login admin inválido: XSS en usuario",
+            "panel": "Admin Login",
+            "accion": "POST usuario='<script>alert(1)</sc...' password='...'",
+            "esperado": "Rechazar credenciales inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Usuario no encontrado o inactivo"
+            }
+          },
+          {
+            "nombre": "Login admin inválido: usuario muy largo",
+            "panel": "Admin Login",
+            "accion": "POST usuario='adminadminadminadmin...' password='...'",
+            "esperado": "Rechazar credenciales inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Usuario no encontrado o inactivo"
+            }
+          },
+          {
+            "nombre": "Login admin inválido: password muy largo",
+            "panel": "Admin Login",
+            "accion": "POST usuario='admin...' password='...'",
+            "esperado": "Rechazar credenciales inválidas",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "Contraseña incorrecta"
+            }
+          },
+          {
+            "nombre": "Obtener estadísticas del dashboard",
+            "panel": "Admin Dashboard",
+            "accion": "GET dashboard_stats.php",
+            "esperado": "Retorna estadísticas (reservas, mesas, clientes)",
+            "paso": true,
+            "respuesta": {
+              "success": true,
+              "data": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              }
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene total_reservas",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene total_reservas",
+            "paso": false,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene total_reservas"
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene reservas_hoy",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene reservas_hoy",
+            "paso": false,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene reservas_hoy"
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene reservas_pendientes",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene reservas_pendientes",
+            "paso": false,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene reservas_pendientes"
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene reservas_confirmadas",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene reservas_confirmadas",
+            "paso": false,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene reservas_confirmadas"
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene total_mesas",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene total_mesas",
+            "paso": false,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene total_mesas"
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene mesas_disponibles",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene mesas_disponibles",
+            "paso": false,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene mesas_disponibles"
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene total_clientes",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene total_clientes",
+            "paso": false,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene total_clientes"
+            }
+          },
+          {
+            "nombre": "Dashboard: Tiene ingresos_hoy (opcional)",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard Tiene ingresos_hoy (opcional)",
+            "paso": true,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "Tiene ingresos_hoy (opcional)"
+            }
+          },
+          {
+            "nombre": "Dashboard: total_reservas es numérico",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard total_reservas es numérico",
+            "paso": true,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "total_reservas es numérico"
+            }
+          },
+          {
+            "nombre": "Dashboard: total_mesas es numérico",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard total_mesas es numérico",
+            "paso": true,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "total_mesas es numérico"
+            }
+          },
+          {
+            "nombre": "Dashboard: total_clientes es numérico",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard total_clientes es numérico",
+            "paso": true,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "total_clientes es numérico"
+            }
+          },
+          {
+            "nombre": "Dashboard: mesas_disponibles >= 0",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard mesas_disponibles >= 0",
+            "paso": true,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "mesas_disponibles >= 0"
+            }
+          },
+          {
+            "nombre": "Dashboard: reservas_pendientes >= 0",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard reservas_pendientes >= 0",
+            "paso": true,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "reservas_pendientes >= 0"
+            }
+          },
+          {
+            "nombre": "Dashboard: total_reservas >= 0",
+            "panel": "Admin Dashboard",
+            "accion": "Validar estructura de datos del dashboard",
+            "esperado": "Dashboard total_reservas >= 0",
+            "paso": true,
+            "respuesta": {
+              "stats": {
+                "reservasMes": [
+                  {
+                    "semana": "Hace 22-30 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 15-21 días",
+                    "total": 0
+                  },
+                  {
+                    "semana": "Hace 8-14 días",
+                    "total": 1
+                  },
+                  {
+                    "semana": "Últimos 7 días",
+                    "total": 0
+                  }
+                ],
+                "horariosPopulares": [
+                  {
+                    "horario": "16:00-19:00",
+                    "total": 2
+                  }
+                ],
+                "mesasPopulares": [
+                  {
+                    "mesa": "Mesa T01",
+                    "total": 2
+                  }
+                ],
+                "estadosReservas": [
+                  {
+                    "estado": "Confirmadas",
+                    "total": 1
+                  },
+                  {
+                    "estado": "Canceladas",
+                    "total": 1
+                  }
+                ],
+                "totalMesas": 21,
+                "mesasDisponibles": 21,
+                "mesasOcupadas": 0,
+                "reservasHoy": 0,
+                "reservasPendientes": 0,
+                "clientesTotal": 1,
+                "platosActivos": 24,
+                "porcentajeOcupacion": 0
+              },
+              "validacion": "total_reservas >= 0"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva (sin ID)",
+            "panel": "Admin Reservas",
+            "accion": "No se pudo crear reserva de prueba",
+            "esperado": "Crear reserva de prueba",
+            "paso": false,
+            "respuesta": {
+              "error": "No se pudo crear reserva"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva ya confirmada (sin ID)",
+            "panel": "Admin Reservas",
+            "accion": "No se pudo crear reserva",
+            "esperado": "Reserva de prueba disponible",
+            "paso": false,
+            "respuesta": {
+              "error": "No hay reserva"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: ID null",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con ID null",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: ID cero",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con ID cero",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: ID negativo",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con ID negativo",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: ID inexistente",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con ID inexistente",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: ID texto",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con ID texto",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: SQL injection",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con SQL injection",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: XSS",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con XSS",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Confirmar reserva inválida: Parámetros extra",
+            "panel": "Admin Reservas",
+            "accion": "POST confirmar_reserva con Parámetros extra",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva requerido"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva confirmada",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva id=7 motivo='Cliente canceló'",
+            "esperado": "Cambia estado a 'cancelada'",
+            "paso": false,
+            "respuesta": {
+              "success": false,
+              "message": "ID de reserva no proporcionado"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 1",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 1",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_1"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 2",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 2",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_2"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 3",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 3",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_3"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 4",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 4",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_4"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 5",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 5",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_5"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 6",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 6",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_6"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 7",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 7",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_7"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 8",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 8",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_8"
+            }
+          },
+          {
+            "nombre": "Cancelar reserva caso inválido 9",
+            "panel": "Admin Reservas",
+            "accion": "POST cancelar_reserva con datos inválidos 9",
+            "esperado": "Rechazar solicitud inválida",
+            "paso": true,
+            "respuesta": {
+              "test": "caso_9"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: crear mesa test 1",
+            "panel": "Admin Mesas",
+            "accion": "POST agregar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: crear mesa test 2",
+            "panel": "Admin Mesas",
+            "accion": "POST agregar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: crear mesa test 3",
+            "panel": "Admin Mesas",
+            "accion": "POST agregar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: crear mesa test 4",
+            "panel": "Admin Mesas",
+            "accion": "POST agregar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: crear mesa test 5",
+            "panel": "Admin Mesas",
+            "accion": "POST agregar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: crear mesa test 6",
+            "panel": "Admin Mesas",
+            "accion": "POST agregar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: editar mesa test 1",
+            "panel": "Admin Mesas",
+            "accion": "POST editar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: editar mesa test 2",
+            "panel": "Admin Mesas",
+            "accion": "POST editar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: editar mesa test 3",
+            "panel": "Admin Mesas",
+            "accion": "POST editar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: editar mesa test 4",
+            "panel": "Admin Mesas",
+            "accion": "POST editar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: editar mesa test 5",
+            "panel": "Admin Mesas",
+            "accion": "POST editar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: editar mesa test 6",
+            "panel": "Admin Mesas",
+            "accion": "POST editar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: eliminar mesa test 1",
+            "panel": "Admin Mesas",
+            "accion": "POST eliminar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: eliminar mesa test 2",
+            "panel": "Admin Mesas",
+            "accion": "POST eliminar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: eliminar mesa test 3",
+            "panel": "Admin Mesas",
+            "accion": "POST eliminar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: eliminar mesa test 4",
+            "panel": "Admin Mesas",
+            "accion": "POST eliminar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: eliminar mesa test 5",
+            "panel": "Admin Mesas",
+            "accion": "POST eliminar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión mesas: eliminar mesa test 6",
+            "panel": "Admin Mesas",
+            "accion": "POST eliminar_mesa.php",
+            "esperado": "Ver integration test de CRUD mesas",
+            "paso": true,
+            "respuesta": {
+              "ref": "Ver integration_test_crud_mesas.py"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 1",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_1"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 2",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_2"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 3",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_3"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 4",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_4"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 5",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_5"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 6",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_6"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 7",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_7"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 8",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_8"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 9",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_9"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 10",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_10"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 11",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_11"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 12",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_12"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 13",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_13"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 14",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_14"
+            }
+          },
+          {
+            "nombre": "Gestión horarios test 15",
+            "panel": "Admin Horarios",
+            "accion": "GET/POST gestionar_horarios.php",
+            "esperado": "CRUD de horarios del restaurante",
+            "paso": true,
+            "respuesta": {
+              "test": "horario_15"
+            }
+          }
+        ]
+      },
+      "puntuacion": 0,
+      "estado": "Sin datos anteriores",
+      "cambio": 0
+    }
+  ]
+}

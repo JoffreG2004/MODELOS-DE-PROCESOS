@@ -1,0 +1,398 @@
+[
+  {
+    "nombre": "Nombre vacío",
+    "panel": "Registro Cliente",
+    "accion": "POST:  Apellido",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Apellido vacío",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan ",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Nombre con números",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan123 Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede contener números"
+    }
+  },
+  {
+    "nombre": "Apellido con símbolos",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez@#$",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El apellido contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Nombre SQL Injection",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan'; DROP TABLE clientes;-- Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Apellido XSS",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan <script>alert('XSS')</script>",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El apellido contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Nombre muy largo",
+    "panel": "Registro Cliente",
+    "accion": "POST: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede tener más de 50 caracteres"
+    }
+  },
+  {
+    "nombre": "Nombre con comilla",
+    "panel": "Registro Cliente",
+    "accion": "POST: O'Brien Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Nombre con tab",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan\tCarlos Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Nombre con salto línea",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan\nCarlos Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Nombre solo espacios",
+    "panel": "Registro Cliente",
+    "accion": "POST:       Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Nombre con diéresis (válido)",
+    "panel": "Registro Cliente",
+    "accion": "POST: Müller Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Nombre con acentos (válido)",
+    "panel": "Registro Cliente",
+    "accion": "POST: José García",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Nombre con ñ (válido)",
+    "panel": "Registro Cliente",
+    "accion": "POST: Nuñez Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Nombre/apellido válidos",
+    "panel": "Registro Cliente",
+    "accion": "POST: María López",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Cédula vacía",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Cédula muy corta",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula debe tener exactamente 10 dígitos"
+    }
+  },
+  {
+    "nombre": "Cédula con letras",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula solo debe contener números"
+    }
+  },
+  {
+    "nombre": "Cédula SQL Injection",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula solo debe contener números"
+    }
+  },
+  {
+    "nombre": "Cédula XSS",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula solo debe contener números"
+    }
+  },
+  {
+    "nombre": "Cédula muy larga",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula debe tener exactamente 10 dígitos"
+    }
+  },
+  {
+    "nombre": "Cédula con espacios",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula solo debe contener números"
+    }
+  },
+  {
+    "nombre": "Cédula con guiones",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula solo debe contener números"
+    }
+  },
+  {
+    "nombre": "Cliente base (para duplicado)",
+    "panel": "Registro Cliente",
+    "accion": "POST: Cliente Base",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Cédula duplicada (debe fallar)",
+    "panel": "Registro Cliente",
+    "accion": "POST: Otro Cliente",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Cédula válida",
+    "panel": "Registro Cliente",
+    "accion": "POST: Pedro Ramírez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Usuario vacío",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Password vacío",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Usuario duplicado (debe fallar)",
+    "panel": "Registro Cliente",
+    "accion": "POST: Otro Usuario",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Usuario SQL Injection",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
+    }
+  },
+  {
+    "nombre": "Usuario XSS",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
+    }
+  },
+  {
+    "nombre": "Usuario muy largo",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El usuario no puede tener más de 30 caracteres"
+    }
+  },
+  {
+    "nombre": "Password muy corto",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Password muy largo",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Teléfono con letras",
+    "panel": "Registro Cliente",
+    "accion": "POST: Juan Pérez",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  },
+  {
+    "nombre": "Registro completo válido",
+    "panel": "Registro Cliente",
+    "accion": "POST: Carlos Mendoza",
+    "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "Error interno del servidor"
+    }
+  }
+]

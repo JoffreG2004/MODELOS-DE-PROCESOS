@@ -1,0 +1,552 @@
+[
+  {
+    "nombre": "Nombre válido: Juan Pérez (nombre con tilde)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan' apellido='Pérez'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: María José (nombre doble)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='María' apellido='José'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: José Luis García (nombre compuesto con espacio)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='José Luis' apellido='García'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Ana María Rodríguez (ambos con espacios)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Ana María' apellido='Rodríguez'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Carlos O'Brien (apellido con apóstrofe)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Carlos' apellido='O'Brien'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Jean-Pierre Martínez (nombre con guion)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Jean-Pierre' apellido='Martínez'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Sofía López (acento en í)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Sofía' apellido='López'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Andrés Sánchez (acento en é)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Andrés' apellido='Sánchez'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Raúl Fernández (acento en ú)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Raúl' apellido='Fernández'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Mónica González (acento en ó)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Mónica' apellido='González'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Ángel Ramírez (acento en á)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Ángel' apellido='Ramírez'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Antonio Nuñez (ñ minúscula)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Antonio' apellido='Nuñez'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Pedro Muñoz (ñ en apellido)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Pedro' apellido='Muñoz'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Luis Ibáñez (acento y ñ)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Luis' apellido='Ibáñez'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre válido: Carolina Pérez-López (apellido compuesto con guion)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Carolina' apellido='Pérez-López'",
+    "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Müller Schmidt (ü alemán)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Müller' apellido='Schmidt'",
+    "esperado": "Rechazar nombre con ü alemán",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: François Dubois (ç francés)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='François' apellido='Dubois'",
+    "esperado": "Rechazar nombre con ç francés",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Björk Guðmundsdóttir (ö islandés)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Björk' apellido='Guðmundsdóttir'",
+    "esperado": "Rechazar nombre con ö islandés",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: José Nuñez (ñ válido)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='José' apellido='Nuñez'",
+    "esperado": "Aceptar nombre con ñ válido",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: María José de la Cruz (espacios válidos)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='María José' apellido='de la Cruz'",
+    "esperado": "Aceptar nombre con espacios válidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Jean-Paul Saint-Pierre (guiones válidos)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Jean-Paul' apellido='Saint-Pierre'",
+    "esperado": "Aceptar nombre con guiones válidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: O'Connor McCarthy (apóstrofe válido)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='O'Connor' apellido='McCarthy'",
+    "esperado": "Aceptar nombre con apóstrofe válido",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Ñoño Peña (ñ al inicio)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Ñoño' apellido='Peña'",
+    "esperado": "Aceptar nombre con ñ al inicio",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Inés Úrsula (acentos válidos)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Inés' apellido='Úrsula'",
+    "esperado": "Aceptar nombre con acentos válidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: José Ángel Ramón (todo válido español)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='José Ángel' apellido='Ramón'",
+    "esperado": "Aceptar nombre con todo válido español",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre vacío",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: apellido vacío",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan...' apellido='...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con números",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='123...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede contener números"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: apellido con números",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan...' apellido='456...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El apellido no puede contener números"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con números al final",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan123...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede contener números"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con @",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan@...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con #",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan#Test...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con !",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan!...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con $",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan$...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre muy corto (1 char)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='A...' apellido='B...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre debe tener al menos 2 caracteres"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre muy largo (>50 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='JuanJuanJuanJuanJuan...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede tener más de 50 caracteres"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: espacios dobles",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan  Pedro...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede tener espacios múltiples"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: espacios al final",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan   ...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: espacios al inicio",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='   Juan...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: intento XSS",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='<script>...' apellido='alert...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre contiene caracteres no válidos"
+    }
+  },
+  {
+    "nombre": "Edge case: longitud mínima (2 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Jo...' apellido='Li...'",
+    "esperado": "Aceptar caso edge: longitud mínima (2 chars)",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: longitud máxima exacta (50 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='AAAAAAAAAAAAAAAAAAAA...' apellido='BBBBBBBBBBBBBBBBBBBB...'",
+    "esperado": "Aceptar caso edge: longitud máxima exacta (50 chars)",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: excede máximo (51 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='AAAAAAAAAAAAAAAAAAAA...' apellido='Pérez...'",
+    "esperado": "Rechazar caso edge: excede máximo (51 chars)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede tener más de 50 caracteres"
+    }
+  },
+  {
+    "nombre": "Edge case: nombre con guion",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='María-José...' apellido='López...'",
+    "esperado": "Aceptar caso edge: nombre con guion",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: ambos con espacios",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Mary Ann...' apellido='Smith Jones...'",
+    "esperado": "Aceptar caso edge: ambos con espacios",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: apóstrofe al final",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='José'...' apellido='O'Brien...'",
+    "esperado": "Aceptar caso edge: apóstrofe al final",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: apóstrofe al inicio",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre=''Juan...' apellido='Pérez...'",
+    "esperado": "Aceptar caso edge: apóstrofe al inicio",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: guion al inicio",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='-Juan...' apellido='Pérez...'",
+    "esperado": "Aceptar caso edge: guion al inicio",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: guion al final",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan-...' apellido='Pérez...'",
+    "esperado": "Aceptar caso edge: guion al final",
+    "paso": false,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  },
+  {
+    "nombre": "Edge case: solo ñ (1 char)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Ñ...' apellido='Ñ...'",
+    "esperado": "Rechazar caso edge: solo ñ (1 char)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "La cédula no es válida (dígito verificador incorrecto)"
+    }
+  }
+]

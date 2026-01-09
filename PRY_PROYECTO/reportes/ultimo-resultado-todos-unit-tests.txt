@@ -1,0 +1,40 @@
+=== Ejecutando test_cliente.py ===
+✅ 51 tests de cliente ejecutados
+Pasados: 44/51 (86.3%)
+
+=== Ejecutando test_login_cliente.py ===
+✅ Resultados guardados: /opt/lampp/htdocs/PRY_PROYECTO/test-configuration/unit/reportes/ultimo-resultado-login-cliente.json
+Total tests: 15
+Pasados: 15/15 (100.0%)
+
+=== Ejecutando test_mesas.py ===
+✅ Resultados guardados: /opt/lampp/htdocs/PRY_PROYECTO/test-configuration/unit/reportes/ultimo-resultado-mesas.json
+Total tests: 15
+Pasados: 12/15 (80.0%)
+
+=== Ejecutando test_registro_cliente.py ===
+✅ Resultados guardados: /opt/lampp/htdocs/PRY_PROYECTO/test-configuration/unit/reportes/ultimo-resultado-registro-cliente.json
+Total tests: 36
+Pasados: 29/36 (80.6%)
+
+=== Ejecutando test_reservas_mesas.py ===
+
+🧪 TESTS DE RESERVAS DE MESAS Y ZONAS
+============================================================
+🔐 Login joffre: True
+
+📅 GRUPO 1: Validación de Fechas
+
+🕐 GRUPO 2: Validación de Horarios
+
+🪑 GRUPO 3: Validación de Disponibilidad
+
+👥 GRUPO 4: Validación de Número de Personas
+
+============================================================
+✅ Pasados: 22/31 (71.0%)
+❌ Fallados: 9
+📄 Guardado en: /opt/lampp/htdocs/PRY_PROYECTO/test-configuration/unit/reportes/ultimo-resultado-reservas-mesas.json
+============================================================
+
+
