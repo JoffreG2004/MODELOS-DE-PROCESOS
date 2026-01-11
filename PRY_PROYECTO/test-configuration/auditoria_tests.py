@@ -338,6 +338,14 @@ En la próxima ejecución de auditoría, el sistema comparará automáticamente 
         return
     
     # CASO 2: Ya hay datos anteriores - comparar cambios
+    # Inicializar variables
+    cambio = 0
+    cambio_pct = 0
+    tests_corregidos = []
+    tests_danados = []
+    puntuacion_sugerida = 0
+    estado_auto = ""
+    
     if anterior:
         # DETECTAR SI CAMBIÓ EL NÚMERO DE TESTS (refactoring completo)
         cambio_total_tests = actual['total'] - anterior['total']
