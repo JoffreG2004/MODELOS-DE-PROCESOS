@@ -45,6 +45,12 @@ try {
     
     // 1. Validar horario de atención
     $dia_semana = date('N', strtotime($fecha_reserva));
+
+    // Validar fechas pasadas
+    $fecha_actual = date('Y-m-d');
+    if ($fecha_reserva < $fecha_actual) {
+        throw new Exception('La fecha de reserva no puede ser en el pasado');
+    }
     
     // Obtener configuraciones de horarios
     $stmt = $pdo->query("SELECT clave, valor FROM configuracion_restaurante");
