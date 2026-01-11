@@ -9411,9 +9411,9 @@
   },
   "grupo_cliente": {
     "total": 51,
-    "pasados": 44,
-    "fallados": 7,
-    "porcentaje": 86.3,
+    "pasados": 48,
+    "fallados": 3,
+    "porcentaje": 94.1,
     "tests": [
       {
         "nombre": "Login sin email ni teléfono",
@@ -9739,7 +9739,7 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: María López",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
           "success": false,
           "message": "Error interno del servidor"
@@ -9838,7 +9838,7 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Cliente Base",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
           "success": false,
           "message": "Error interno del servidor"
@@ -9860,7 +9860,7 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Pedro Ramírez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
           "success": false,
           "message": "Error interno del servidor"
@@ -9970,7 +9970,7 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Carlos Mendoza",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
           "success": false,
           "message": "Error interno del servidor"
@@ -10819,16 +10819,16 @@
     ]
   },
   "grupo_reservas": {
-    "total": 31,
-    "pasados": 31,
-    "fallados": 0,
-    "porcentaje": 100.0,
+    "total": 50,
+    "pasados": 24,
+    "fallados": 26,
+    "porcentaje": 48.0,
     "tests": [
       {
         "nombre": "Fecha vacía",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['interior'] fecha= hora=19:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "esperado": "Debe rechazar: fecha",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -10836,43 +10836,76 @@
         }
       },
       {
-        "nombre": "Fecha pasada (ayer: 2026-01-06)",
+        "nombre": "Fecha pasada (ayer: 2026-01-10)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-06 hora=19:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['interior'] fecha=2026-01-10 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: pasada",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "60",
+            "zonas": [
+              "Salón Principal"
+            ],
+            "cantidad_mesas": 27,
+            "precio_total": 60,
+            "fecha": "2026-01-10",
+            "hora": "19:00",
+            "personas": 10
+          }
         }
       },
       {
-        "nombre": "Fecha hace 1 semana (2025-12-31)",
+        "nombre": "Fecha hace 1 semana (2026-01-04)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['terraza'] fecha=2025-12-31 hora=20:00 personas=15",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['terraza'] fecha=2026-01-04 hora=20:00 personas=15",
+        "esperado": "Debe rechazar: pasada",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "61",
+            "zonas": [
+              "Terraza"
+            ],
+            "cantidad_mesas": 1,
+            "precio_total": 60,
+            "fecha": "2026-01-04",
+            "hora": "20:00",
+            "personas": 15
+          }
         }
       },
       {
-        "nombre": "Fecha hace 1 mes (2025-12-08)",
+        "nombre": "Fecha hace 1 mes (2025-12-12)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['vip'] fecha=2025-12-08 hora=21:00 personas=8",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['vip'] fecha=2025-12-12 hora=21:00 personas=8",
+        "esperado": "Debe rechazar: pasada",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "62",
+            "zonas": [
+              "Área VIP"
+            ],
+            "cantidad_mesas": 1,
+            "precio_total": 60,
+            "fecha": "2025-12-12",
+            "hora": "21:00",
+            "personas": 8
+          }
         }
       },
       {
         "nombre": "Fecha año 3000 (muy lejana)",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['bar'] fecha=3000-12-31 hora=19:00 personas=5",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "esperado": "Debe rechazar: mes",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -10883,29 +10916,40 @@
         "nombre": "Fecha año 2100",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['interior'] fecha=2100-01-01 hora=18:00 personas=12",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "esperado": "Debe rechazar con mensaje conteniendo 'mes'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "Ya existe una reserva de zona en ese horario"
         }
       },
       {
-        "nombre": "Fecha 7 meses (2026-08-05) >6 meses",
+        "nombre": "Fecha 7 meses (2026-08-09) >6 meses",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['terraza'] fecha=2026-08-05 hora=19:30 personas=20",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['terraza'] fecha=2026-08-09 hora=19:30 personas=20",
+        "esperado": "Debe rechazar: mes",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "63",
+            "zonas": [
+              "Terraza"
+            ],
+            "cantidad_mesas": 1,
+            "precio_total": 60,
+            "fecha": "2026-08-09",
+            "hora": "19:30",
+            "personas": 20
+          }
         }
       },
       {
         "nombre": "Fecha formato DD/MM/YYYY",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['vip'] fecha=31/12/2026 hora=20:00 personas=6",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "esperado": "Debe rechazar: fecha",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -10916,8 +10960,8 @@
         "nombre": "Fecha texto 'mañana'",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['bar'] fecha=mañana hora=19:00 personas=4",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "esperado": "Debe rechazar con mensaje conteniendo 'fecha'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "No hay mesas disponibles en las zonas seleccionadas"
@@ -10927,7 +10971,7 @@
         "nombre": "SQL injection en fecha",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['interior'] fecha=2026-01-01' OR '1'='1 hora=18:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "esperado": "Debe rechazar: fecha",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -10938,7 +10982,7 @@
         "nombre": "XSS en fecha",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['terraza'] fecha=<script>alert('xss')</script> hora=19:00 personas=8",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "esperado": "Debe rechazar: fecha",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -10949,7 +10993,7 @@
         "nombre": "Fecha None/null",
         "panel": "Reservar Zona",
         "accion": "POST zonas=['bar'] fecha=None hora=19:00 personas=5",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "esperado": "Debe rechazar: fecha",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -10959,8 +11003,8 @@
       {
         "nombre": "Hora vacía",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-08 hora= personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora= personas=10",
+        "esperado": "Debe rechazar: hora",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -10970,31 +11014,53 @@
       {
         "nombre": "Hora 06:00 (antes apertura)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['terraza'] fecha=2026-01-08 hora=06:00 personas=8",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['terraza'] fecha=2026-01-12 hora=06:00 personas=8",
+        "esperado": "Debe rechazar: hora",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "64",
+            "zonas": [
+              "Terraza"
+            ],
+            "cantidad_mesas": 1,
+            "precio_total": 60,
+            "fecha": "2026-01-12",
+            "hora": "06:00",
+            "personas": 8
+          }
         }
       },
       {
         "nombre": "Hora 02:00 (después cierre)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['vip'] fecha=2026-01-08 hora=02:00 personas=6",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['vip'] fecha=2026-01-12 hora=02:00 personas=6",
+        "esperado": "Debe rechazar: hora",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "65",
+            "zonas": [
+              "Área VIP"
+            ],
+            "cantidad_mesas": 1,
+            "precio_total": 60,
+            "fecha": "2026-01-12",
+            "hora": "02:00",
+            "personas": 6
+          }
         }
       },
       {
         "nombre": "Hora formato '7pm'",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['bar'] fecha=2026-01-08 hora=7pm personas=5",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['bar'] fecha=2026-01-12 hora=7pm personas=5",
+        "esperado": "Debe rechazar con mensaje conteniendo 'hora'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "No hay mesas disponibles en las zonas seleccionadas"
@@ -11003,19 +11069,30 @@
       {
         "nombre": "Hora 25:00 (inválida)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=25:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=25:00 personas=10",
+        "esperado": "Debe rechazar: hora",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "66",
+            "zonas": [
+              "Salón Principal"
+            ],
+            "cantidad_mesas": 27,
+            "precio_total": 60,
+            "fecha": "2026-01-12",
+            "hora": "25:00",
+            "personas": 10
+          }
         }
       },
       {
         "nombre": "XSS en hora",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['terraza'] fecha=2026-01-08 hora=<script>alert('xss')</script> personas=8",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=['terraza'] fecha=2026-01-12 hora=<script>alert('xss')</script> personas=8",
+        "esperado": "Debe rechazar: hora",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -11025,20 +11102,31 @@
       {
         "nombre": "Sin mesas en BD",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: mesa",
+        "paso": false,
         "respuesta": {
-          "success": false,
-          "message": "Ya existe una reserva de zona en ese horario"
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "67",
+            "zonas": [
+              "Salón Principal"
+            ],
+            "cantidad_mesas": 27,
+            "precio_total": 60,
+            "fecha": "2026-01-12",
+            "hora": "19:00",
+            "personas": 10
+          }
         }
       },
       {
         "nombre": "Zona solo mesas ocupadas",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=20:00 personas=8",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=20:00 personas=8",
+        "esperado": "Debe rechazar con mensaje conteniendo 'mesa'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "Ya existe una reserva de zona en ese horario"
@@ -11047,8 +11135,8 @@
       {
         "nombre": "Array zonas vacío []",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=[] fecha=2026-01-08 hora=19:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=[] fecha=2026-01-12 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: zona",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -11058,8 +11146,8 @@
       {
         "nombre": "Zonas inexistentes",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['jardin', 'piscina'] fecha=2026-01-08 hora=19:00 personas=15",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=['jardin', 'piscina'] fecha=2026-01-12 hora=19:00 personas=15",
+        "esperado": "Debe rechazar: mesa",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -11069,8 +11157,8 @@
       {
         "nombre": "SQL injection en zona",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=[\"interior' OR '1'='1\"] fecha=2026-01-08 hora=19:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=[\"interior' OR '1'='1\"] fecha=2026-01-12 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: mesa",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -11080,8 +11168,8 @@
       {
         "nombre": "XSS en zona",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=[\"<script>alert('xss')</script>\"] fecha=2026-01-08 hora=19:00 personas=8",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=[\"<script>alert('xss')</script>\"] fecha=2026-01-12 hora=19:00 personas=8",
+        "esperado": "Debe rechazar: mesa",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -11091,8 +11179,8 @@
       {
         "nombre": "Zonas None/null",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=None fecha=2026-01-08 hora=19:00 personas=10",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=None fecha=2026-01-12 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: zona",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -11102,9 +11190,9 @@
       {
         "nombre": "0 personas",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=0",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=0",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "Ya existe una reserva de zona en ese horario"
@@ -11113,9 +11201,9 @@
       {
         "nombre": "Personas negativas (-5)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['terraza'] fecha=2026-01-08 hora=20:00 personas=-5",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['terraza'] fecha=2026-01-12 hora=20:00 personas=-5",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "Ya existe una reserva de zona en ese horario"
@@ -11124,9 +11212,9 @@
       {
         "nombre": "1000 personas (excesivo)",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=1000",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=1000",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "Ya existe una reserva de zona en ese horario"
@@ -11135,8 +11223,8 @@
       {
         "nombre": "Personas como texto 'diez'",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['vip'] fecha=2026-01-08 hora=21:00 personas=diez",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=['vip'] fecha=2026-01-12 hora=21:00 personas=diez",
+        "esperado": "Debe rechazar: persona",
         "paso": true,
         "respuesta": {
           "success": false,
@@ -11146,9 +11234,9 @@
       {
         "nombre": "Personas None/null",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['bar'] fecha=2026-01-08 hora=19:00 personas=None",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
-        "paso": true,
+        "accion": "POST zonas=['bar'] fecha=2026-01-12 hora=19:00 personas=None",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
         "respuesta": {
           "success": false,
           "message": "No hay mesas disponibles en las zonas seleccionadas"
@@ -11157,12 +11245,243 @@
       {
         "nombre": "XSS en número personas",
         "panel": "Reservar Zona",
-        "accion": "POST zonas=['interior'] fecha=2026-01-08 hora=19:00 personas=<script>alert('xss')</script>",
-        "esperado": "Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=<script>alert('xss')</script>",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Múltiples zonas válidas",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior', 'terraza'] fecha=2026-01-12 hora=19:00 personas=20",
+        "esperado": "Debe aceptar datos válidos",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Todas las zonas simultáneas",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior', 'terraza', 'vip', 'bar'] fecha=2026-01-12 hora=20:00 personas=50",
+        "esperado": "Debe aceptar datos válidos",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Zona válida + zona inexistente",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior', 'jardin'] fecha=2026-01-12 hora=19:00 personas=15",
+        "esperado": "Debe rechazar con mensaje conteniendo 'mesa'",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "XSS + zona válida en array",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['<script>', 'interior'] fecha=2026-01-12 hora=19:00 personas=10",
+        "esperado": "Debe rechazar con mensaje conteniendo 'mesa'",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Hoy medianoche (hora límite)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-11 hora=00:00 personas=5",
+        "esperado": "Debe rechazar: hora",
+        "paso": false,
+        "respuesta": {
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "68",
+            "zonas": [
+              "Salón Principal"
+            ],
+            "cantidad_mesas": 27,
+            "precio_total": 60,
+            "fecha": "2026-01-11",
+            "hora": "00:00",
+            "personas": 5
+          }
+        }
+      },
+      {
+        "nombre": "Hoy 23:59 (hora límite)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['terraza'] fecha=2026-01-11 hora=23:59 personas=8",
+        "esperado": "Debe rechazar: hora",
         "paso": true,
         "respuesta": {
           "success": false,
           "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Fecha exacta 6 meses (2026-07-10)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['vip'] fecha=2026-07-10 hora=19:00 personas=10",
+        "esperado": "Debe aceptar datos válidos",
+        "paso": true,
+        "respuesta": {
+          "success": true,
+          "message": "Solicitud de reserva de zona enviada exitosamente",
+          "data": {
+            "reserva_id": "69",
+            "zonas": [
+              "Área VIP"
+            ],
+            "cantidad_mesas": 1,
+            "precio_total": 60,
+            "fecha": "2026-07-10",
+            "hora": "19:00",
+            "personas": 10
+          }
+        }
+      },
+      {
+        "nombre": "Fecha 6 meses + 1 día (2026-07-11)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['bar'] fecha=2026-07-11 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: mes",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "No hay mesas disponibles en las zonas seleccionadas"
+        }
+      },
+      {
+        "nombre": "Fin de año 2026 23:59",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-12-31 hora=23:59 personas=15",
+        "esperado": "Debe rechazar: hora",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "SQL injection en hora (OR)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00' OR '1'='1 personas=10",
+        "esperado": "Debe rechazar: hora",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "SQL injection DROP TABLE en hora",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00; DROP TABLE mesas; -- personas=10",
+        "esperado": "Debe rechazar: hora",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "SQL injection UNION en zona",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=[\"interior' UNION SELECT * FROM clientes --\"] fecha=2026-01-12 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: mesa",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "No hay mesas disponibles en las zonas seleccionadas"
+        }
+      },
+      {
+        "nombre": "SQL injection en personas (texto)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=10 OR 1=1",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "SQL injection UNION en fecha",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-20' AND 1=0 UNION SELECT NULL,NULL,NULL -- hora=19:00 personas=10",
+        "esperado": "Debe rechazar: fecha",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "Error al crear reserva de zona: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '2026-01-20' AND 1=0 UNION SELECT NULL,NULL,NULL --' for column `crud_proyecto`.`reservas_zonas`.`fecha_reserva` at row 1"
+        }
+      },
+      {
+        "nombre": "XSS en todos los campos",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['<img src=x onerror=alert(1)>'] fecha=<script>document.location='http://evil.com'</script> hora=<iframe src='javascript:alert(1)'> personas=<svg onload=alert(1)>",
+        "esperado": "Debe rechazar datos inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "No hay mesas disponibles en las zonas seleccionadas"
+        }
+      },
+      {
+        "nombre": "Personas número muy negativo",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=-999999",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Personas MAX_INT (overflow)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=2147483647",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Personas decimal (0.5)",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=['interior'] fecha=2026-01-12 hora=19:00 personas=0.5",
+        "esperado": "Debe rechazar con mensaje conteniendo 'persona'",
+        "paso": false,
+        "respuesta": {
+          "success": false,
+          "message": "Ya existe una reserva de zona en ese horario"
+        }
+      },
+      {
+        "nombre": "Zona string vacío en array",
+        "panel": "Reservar Zona",
+        "accion": "POST zonas=[''] fecha=2026-01-12 hora=19:00 personas=10",
+        "esperado": "Debe rechazar: mesa",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "No hay mesas disponibles en las zonas seleccionadas"
         }
       }
     ]
