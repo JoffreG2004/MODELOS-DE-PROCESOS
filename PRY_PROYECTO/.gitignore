@@ -1,0 +1,90 @@
+# ============================================
+# ARCHIVOS DE CONFIGURACIÓN SENSIBLES
+# ============================================
+# NUNCA subir estos archivos - contienen credenciales reales
+.env
+.env.local
+.env.*.local
+utils/security/.env
+
+# Archivos con credenciales reales (usar los .example en su lugar)
+config/whatsapp_config.php
+conexion/db.php
+
+# ============================================
+# ARCHIVOS DE SISTEMA
+# ============================================
+.DS_Store
+Thumbs.db
+*.Zone.Identifier
+
+# ============================================
+# LOGS Y REPORTES
+# ============================================
+storage/logs/*
+!storage/logs/.gitkeep
+public/logs/*
+!public/logs/.gitkeep
+logs/*.log
+logs/audit-trail/*.json
+logs/test-execution/*.json
+reportes/*.txt
+reportes/*.json
+# Mantener solo la estructura
+!logs/audit-trail/.gitkeep
+!logs/test-execution/.gitkeep
+!reportes/.gitkeep
+
+# ============================================
+# ARCHIVOS SUBIDOS POR USUARIOS
+# ============================================
+public/uploads/*
+!public/uploads/.gitkeep
+uploads/*
+!uploads/.gitkeep
+
+# ============================================
+# DEPENDENCIAS
+# ============================================
+vendor/
+node_modules/
+composer.phar
+composer.lock
+
+# ============================================
+# ENTORNOS VIRTUALES (Python)
+# ============================================
+venv/
+env/
+.venv/
+__pycache__/
+*.py[cod]
+
+# ============================================
+# IDEs Y EDITORES
+# ============================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# ============================================
+# ARCHIVOS TEMPORALES Y BACKUPS
+# ============================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.backup
+*.bak
+*.old
+
+# ============================================
+# ARCHIVOS DE CACHÉ
+# ============================================
+*.cache
+.phpunit.cache/
+storage/framework/cache/*
+!storage/framework/cache/.gitkeep
