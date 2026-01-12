@@ -26,15 +26,53 @@ try {
         exit;
     }
     
-    // Obtener hora de apertura y cierre
-    $hora_apertura = $configs['hora_apertura'] ?? '11:00';
-    $hora_cierre = $configs['hora_cierre'] ?? '23:00';
+    // Validación de fecha
+    $fecha_obj = DateTime::createFromFormat('Y-m-d', $fecha);
+    if (!$fecha_obj) {
+        echo json_encode(['success' => false, 'valido' => false, 'message' => 'Formato de fecha inválido']);
+        exit;
+    }
+    
+    // Validar que no sea fecha pasada
+    $hoy = new DateTime();
+    $hoy->setTime(0, 0, 0);
+    if ($fecha_obj < $hoy) {
+        echo json_encode(['success' => false, 'valido' => false, 'message' => 'No se pueden hacer reservas con fechas pasadas']);
+        exit;
+    }
+    
+    // Validar que no sea más de 6 meses adelante
+    $max_adelanto = (new DateTime())->modify('+6 months');
+    if ($fecha_obj > $max_adelanto) {
+        echo json_encode(['success' => false, 'valido' => false, 'message' => 'No se pueden hacer reservas con más de 6 meses de anticipación']);
+        exit;
+    }
+    
+    // Obtener hora de apertura y cierre según día de la semana
+    $dia_semana = (int)$fecha_obj->format('N'); // 1=Lunes, 7=Domingo
+    if ($dia_semana >= 1 && $dia_semana <= 5) { // Lunes-Viernes
+        $hora_apertura = '10:00';
+        $hora_cierre = '22:00';
+    } elseif ($dia_semana == 6) { // Sábado
+        $hora_apertura = '11:00';
+        $hora_cierre = '23:00';
+    } elseif ($dia_semana == 7) { // Domingo
+        $hora_apertura = '12:00';
+        $hora_cierre = '21:00';
+    } else {
+        echo json_encode([
+            'success' => false,
+            'valido' => false,
+            'message' => 'Día de la semana inválido'
+        ]);
+        exit;
+    }
+    
     $dias_cerrados = $configs['dias_cerrados'] ?? '';
     
     // Validar día de la semana no esté cerrado
     if (!empty($dias_cerrados)) {
-        $fechaObj = new DateTime($fecha);
-        $diaSemana = $fechaObj->format('w'); // 0=Domingo, 1=Lunes, ..., 6=Sábado
+        $diaSemana = $fecha_obj->format('w'); // 0=Domingo, 1=Lunes, ..., 6=Sábado
         $diasCerradosArray = array_map('trim', explode(',', $dias_cerrados));
         
         if (in_array($diaSemana, $diasCerradosArray)) {
@@ -54,11 +92,21 @@ try {
     // Validar que la hora esté dentro del rango de apertura-cierre
     $hora_valida = ($hora >= $hora_apertura && $hora <= $hora_cierre);
     
+    if ($hora_valida) {
+        // Validar minutos (solo en intervalos de 30)
+        $minutos = (int)substr($hora, 3, 2);
+        if ($minutos != 0 && $minutos != 30) {
+            $hora_valida = false;
+            $message_extra = 'Las reservas solo se pueden hacer en intervalos de 30 minutos';
+        }
+    }
+    
     if (!$hora_valida) {
+        $message = isset($message_extra) ? $message_extra : "El horario de reserva debe estar entre $hora_apertura y $hora_cierre";
         echo json_encode([
             'success' => false,
             'valido' => false,
-            'message' => "El horario de reserva debe estar entre $hora_apertura y $hora_cierre",
+            'message' => $message,
             'horario_disponible' => [
                 'inicio' => $hora_apertura,
                 'fin' => $hora_cierre
