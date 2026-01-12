@@ -1,15 +1,10 @@
 # ============================================
 # ARCHIVOS DE CONFIGURACIÓN SENSIBLES
 # ============================================
-# NUNCA subir estos archivos - contienen credenciales reales
-.env
-.env.local
-.env.*.local
-utils/security/.env
-
-# Archivos con credenciales reales (usar los .example en su lugar)
-config/whatsapp_config.php
-conexion/db.php
+# Solo ignorar .env para producción/servidor
+# En desarrollo/clase, pueden compartir credenciales
+.env.production
+.env.server
 
 # ============================================
 # ARCHIVOS DE SISTEMA
