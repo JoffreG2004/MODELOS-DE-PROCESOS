@@ -2,26 +2,26 @@
 
 **Archivo de test:** `test-configuration/unit/test_cliente.py`  
 **Panel evaluado:** `Panel de Cliente`  
-**Fecha:** 2026-01-08
+**Fecha:** 2026-01-12
 
 ---
 
 ## 📊 Resumen
 
 - **Total tests:** 51
-- **Pasados:** 44 ✅
-- **Fallados:** 7 ❌
-- **Porcentaje éxito:** 86.27%
+- **Pasados:** 48 ✅
+- **Fallados:** 3 ❌
+- **Porcentaje éxito:** 94.12%
 
 ---
 
 ## ⚠️ ESTADO: NECESITA CORRECCIONES
 
-**7 tests fallan** - Requiere atención
+**3 tests fallan** - Requiere atención
 
 ---
 
-## ✅ Tests que pasan (44):
+## ✅ Tests que pasan (48):
 
 ### Login Cliente (15 tests)
 - ✅ Login sin email ni teléfono
@@ -36,7 +36,7 @@
 - ✅ Login teléfono muy largo
 - ✅ ... y 5 tests más
 
-### Registro Cliente (29 tests)
+### Registro Cliente (33 tests)
 - ✅ Registro nombre vacío
 - ✅ Registro apellido vacío
 - ✅ Registro nombre con números
@@ -47,13 +47,13 @@
 - ✅ Registro nombre con comilla simple
 - ✅ Registro nombre con tabulador
 - ✅ Registro nombre con salto línea
-- ✅ ... y 19 tests más
+- ✅ ... y 23 tests más
 
 ---
 
-## ❌ Tests que fallan (7):
+## ❌ Tests que fallan (3):
 
-### Registro Cliente (7 tests fallando)
+### Registro Cliente (3 tests fallando)
 
 - ❌ **Registro nombre con diéresis (válido)**
   - Esperado: Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas
@@ -64,25 +64,13 @@
 - ❌ **Registro nombre con ñ (válido)**
   - Esperado: Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas
 
-- ❌ **Registro nombre/apellido válidos**
-  - Esperado: Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas
-
-- ❌ **Registro cliente base para duplicado**
-  - Esperado: Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas
-
-- ❌ **Registro cédula válida (10 dígitos)**
-  - Esperado: Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas
-
-- ❌ **Registro completo válido**
-  - Esperado: Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas
-
 ---
 
 ## 🎯 Conclusión
 
 **Panel de Cliente - Estado General:**
 
-⚠️ **BUENO** - 86.27% de tests pasando
+⚠️ **BUENO** - 94.12% de tests pasando
 - Funcionalidad principal operativa
 - Requiere correcciones menores
 
@@ -95,4 +83,4 @@
 ---
 
 *Generado automáticamente por: `generar_reportes.py`*  
-*Fecha: 2026-01-08 22:30:29*
+*Fecha: 2026-01-12 18:38:38*
