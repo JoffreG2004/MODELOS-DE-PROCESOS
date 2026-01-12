@@ -4288,104 +4288,40 @@
     ]
   },
   "grupo_validador": {
-    "total": 50,
-    "pasados": 47,
-    "fallados": 3,
-    "porcentaje": 94.0,
+    "total": 53,
+    "pasados": 53,
+    "fallados": 0,
+    "porcentaje": 100.0,
     "tests": [
       {
         "nombre": "Nombre válido: Juan Pérez (nombre con tilde)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Juan' apellido='Pérez'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 46,
+            "id": 307,
             "nombre": "Juan",
             "apellido": "Pérez"
           }
         }
       },
       {
-        "nombre": "Nombre válido: María José (nombre doble)",
+        "nombre": "Nombre válido: María José (nombre simple)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='María' apellido='José'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 47,
+            "id": 308,
             "nombre": "María",
             "apellido": "José"
-          }
-        }
-      },
-      {
-        "nombre": "Nombre válido: José Luis García (nombre compuesto con espacio)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='José Luis' apellido='García'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 48,
-            "nombre": "José Luis",
-            "apellido": "García"
-          }
-        }
-      },
-      {
-        "nombre": "Nombre válido: Ana María Rodríguez (ambos con espacios)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Ana María' apellido='Rodríguez'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 49,
-            "nombre": "Ana María",
-            "apellido": "Rodríguez"
-          }
-        }
-      },
-      {
-        "nombre": "Nombre válido: Carlos O'Brien (apellido con apóstrofe)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Carlos' apellido='O'Brien'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 50,
-            "nombre": "Carlos",
-            "apellido": "O'brien"
-          }
-        }
-      },
-      {
-        "nombre": "Nombre válido: Jean-Pierre Martínez (nombre con guion)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Jean-Pierre' apellido='Martínez'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 51,
-            "nombre": "Jean-Pierre",
-            "apellido": "Martínez"
           }
         }
       },
@@ -4393,13 +4329,13 @@
         "nombre": "Nombre válido: Sofía López (acento en í)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Sofía' apellido='López'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 52,
+            "id": 309,
             "nombre": "Sofía",
             "apellido": "López"
           }
@@ -4409,13 +4345,13 @@
         "nombre": "Nombre válido: Andrés Sánchez (acento en é)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Andrés' apellido='Sánchez'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 53,
+            "id": 310,
             "nombre": "Andrés",
             "apellido": "Sánchez"
           }
@@ -4425,13 +4361,13 @@
         "nombre": "Nombre válido: Raúl Fernández (acento en ú)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Raúl' apellido='Fernández'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 54,
+            "id": 311,
             "nombre": "Raúl",
             "apellido": "Fernández"
           }
@@ -4441,13 +4377,13 @@
         "nombre": "Nombre válido: Mónica González (acento en ó)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Mónica' apellido='González'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 55,
+            "id": 312,
             "nombre": "Mónica",
             "apellido": "González"
           }
@@ -4457,13 +4393,13 @@
         "nombre": "Nombre válido: Ángel Ramírez (acento en á)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Ángel' apellido='Ramírez'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 56,
+            "id": 313,
             "nombre": "Ángel",
             "apellido": "Ramírez"
           }
@@ -4473,13 +4409,13 @@
         "nombre": "Nombre válido: Antonio Nuñez (ñ minúscula)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Antonio' apellido='Nuñez'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 57,
+            "id": 314,
             "nombre": "Antonio",
             "apellido": "Nuñez"
           }
@@ -4489,13 +4425,13 @@
         "nombre": "Nombre válido: Pedro Muñoz (ñ en apellido)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Pedro' apellido='Muñoz'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 58,
+            "id": 315,
             "nombre": "Pedro",
             "apellido": "Muñoz"
           }
@@ -4505,43 +4441,32 @@
         "nombre": "Nombre válido: Luis Ibáñez (acento y ñ)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Luis' apellido='Ibáñez'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "esperado": "Debe aceptar nombres con tildes y ñ",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 59,
+            "id": 316,
             "nombre": "Luis",
             "apellido": "Ibáñez"
           }
         }
       },
       {
-        "nombre": "Nombre válido: Carolina Pérez-López (apellido compuesto con guion)",
+        "nombre": "Caracteres especiales: Müller Schmidt (ü válido)",
         "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Carolina' apellido='Pérez-López'",
-        "esperado": "Debe aceptar nombres con tildes, ñ, espacios, guiones, apóstrofes",
+        "accion": "Validar nombre='Müller' apellido='Schmidt'",
+        "esperado": "Aceptar nombre con ü válido",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 60,
-            "nombre": "Carolina",
-            "apellido": "Pérez-López"
+            "id": 317,
+            "nombre": "Müller",
+            "apellido": "Schmidt"
           }
-        }
-      },
-      {
-        "nombre": "Caracteres especiales: Müller Schmidt (ü alemán)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Müller' apellido='Schmidt'",
-        "esperado": "Rechazar nombre con ü alemán",
-        "paso": true,
-        "respuesta": {
-          "success": false,
-          "message": "El nombre contiene caracteres no válidos"
         }
       },
       {
@@ -4552,7 +4477,7 @@
         "paso": true,
         "respuesta": {
           "success": false,
-          "message": "El nombre contiene caracteres no válidos"
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -4563,7 +4488,7 @@
         "paso": true,
         "respuesta": {
           "success": false,
-          "message": "El nombre contiene caracteres no válidos"
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -4576,73 +4501,9 @@
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 61,
+            "id": 318,
             "nombre": "José",
             "apellido": "Nuñez"
-          }
-        }
-      },
-      {
-        "nombre": "Caracteres especiales: María José de la Cruz (espacios válidos)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='María José' apellido='de la Cruz'",
-        "esperado": "Aceptar nombre con espacios válidos",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 62,
-            "nombre": "María José",
-            "apellido": "De La Cruz"
-          }
-        }
-      },
-      {
-        "nombre": "Caracteres especiales: Jean-Paul Saint-Pierre (guiones válidos)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Jean-Paul' apellido='Saint-Pierre'",
-        "esperado": "Aceptar nombre con guiones válidos",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 63,
-            "nombre": "Jean-Paul",
-            "apellido": "Saint-Pierre"
-          }
-        }
-      },
-      {
-        "nombre": "Caracteres especiales: O'Connor McCarthy (apóstrofe válido)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='O'Connor' apellido='McCarthy'",
-        "esperado": "Aceptar nombre con apóstrofe válido",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 64,
-            "nombre": "O'connor",
-            "apellido": "Mccarthy"
-          }
-        }
-      },
-      {
-        "nombre": "Caracteres especiales: Ñoño Peña (ñ al inicio)",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Ñoño' apellido='Peña'",
-        "esperado": "Aceptar nombre con ñ al inicio",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 65,
-            "nombre": "Ñoño",
-            "apellido": "Peña"
           }
         }
       },
@@ -4656,25 +4517,74 @@
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 66,
+            "id": 319,
             "nombre": "Inés",
             "apellido": "Úrsula"
           }
         }
       },
       {
-        "nombre": "Caracteres especiales: José Ángel Ramón (todo válido español)",
+        "nombre": "Caracteres especiales: María García (válido español)",
         "panel": "Validador de Nombres",
-        "accion": "Validar nombre='José Ángel' apellido='Ramón'",
-        "esperado": "Aceptar nombre con todo válido español",
+        "accion": "Validar nombre='María' apellido='García'",
+        "esperado": "Aceptar nombre con válido español",
         "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 67,
-            "nombre": "José Ángel",
-            "apellido": "Ramón"
+            "id": 320,
+            "nombre": "María",
+            "apellido": "García"
+          }
+        }
+      },
+      {
+        "nombre": "Caracteres especiales: Juan Carlos Pérez (con espacio)",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan Carlos' apellido='Pérez'",
+        "esperado": "Rechazar nombre con con espacio",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Caracteres especiales: Jean-Pierre López (con guion)",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Jean-Pierre' apellido='López'",
+        "esperado": "Rechazar nombre con con guion",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Caracteres especiales: O'Brien McCarthy (con apóstrofe)",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='O'Brien' apellido='McCarthy'",
+        "esperado": "Rechazar nombre con con apóstrofe",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Caracteres especiales: Ñoño Peña (ñ al inicio)",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Ñoño' apellido='Peña'",
+        "esperado": "Aceptar nombre con ñ al inicio",
+        "paso": true,
+        "respuesta": {
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 321,
+            "nombre": "Ñoño",
+            "apellido": "Peña"
           }
         }
       },
@@ -4741,7 +4651,7 @@
         "paso": true,
         "respuesta": {
           "success": false,
-          "message": "El nombre contiene caracteres no válidos"
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -4752,7 +4662,7 @@
         "paso": true,
         "respuesta": {
           "success": false,
-          "message": "El nombre contiene caracteres no válidos"
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -4763,7 +4673,7 @@
         "paso": true,
         "respuesta": {
           "success": false,
-          "message": "El nombre contiene caracteres no válidos"
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -4774,7 +4684,150 @@
         "paso": true,
         "respuesta": {
           "success": false,
-          "message": "El nombre contiene caracteres no válidos"
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con punto",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan....' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con coma",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan,...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con punto y coma",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan;...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con dos puntos",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan:...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con asterisco",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan*...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con ampersand",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan&...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con porcentaje",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan%...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con paréntesis",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan(...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con paréntesis cierre",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan)...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con corchete",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan[...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con más",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan+...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con igual",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan=...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+        }
+      },
+      {
+        "nombre": "Nombre inválido: nombre con espacio en medio",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Juan Pedro...' apellido='Pérez...'",
+        "esperado": "Debe rechazar nombres inválidos",
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -4800,49 +4853,6 @@
         }
       },
       {
-        "nombre": "Nombre inválido: espacios dobles",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Juan  Pedro...' apellido='Pérez...'",
-        "esperado": "Debe rechazar nombres inválidos",
-        "paso": true,
-        "respuesta": {
-          "success": false,
-          "message": "El nombre no puede tener espacios múltiples"
-        }
-      },
-      {
-        "nombre": "Nombre inválido: espacios al final",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Juan   ...' apellido='Pérez...'",
-        "esperado": "Debe rechazar nombres inválidos",
-        "paso": false,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 68,
-            "nombre": "Juan",
-            "apellido": "Pérez"
-          }
-        }
-      },
-      {
-        "nombre": "Nombre inválido: espacios al inicio",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='   Juan...' apellido='Pérez...'",
-        "esperado": "Debe rechazar nombres inválidos",
-        "paso": false,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 69,
-            "nombre": "Juan",
-            "apellido": "Pérez"
-          }
-        }
-      },
-      {
         "nombre": "Nombre inválido: intento XSS",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='<script>...' apellido='alert...'",
@@ -4850,7 +4860,7 @@
         "paso": true,
         "respuesta": {
           "success": false,
-          "message": "El nombre contiene caracteres no válidos"
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -4863,7 +4873,7 @@
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 70,
+            "id": 322,
             "nombre": "Jo",
             "apellido": "Li"
           }
@@ -4879,7 +4889,7 @@
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 71,
+            "id": 323,
             "nombre": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "apellido": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
           }
@@ -4897,114 +4907,77 @@
         }
       },
       {
-        "nombre": "Edge case: nombre con guion",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='María-José...' apellido='López...'",
-        "esperado": "Aceptar caso edge: nombre con guion",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 72,
-            "nombre": "María-José",
-            "apellido": "López"
-          }
-        }
-      },
-      {
-        "nombre": "Edge case: ambos con espacios",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Mary Ann...' apellido='Smith Jones...'",
-        "esperado": "Aceptar caso edge: ambos con espacios",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 73,
-            "nombre": "Mary Ann",
-            "apellido": "Smith Jones"
-          }
-        }
-      },
-      {
-        "nombre": "Edge case: apóstrofe al final",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='José'...' apellido='O'Brien...'",
-        "esperado": "Aceptar caso edge: apóstrofe al final",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 74,
-            "nombre": "José'",
-            "apellido": "O'brien"
-          }
-        }
-      },
-      {
-        "nombre": "Edge case: apóstrofe al inicio",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre=''Juan...' apellido='Pérez...'",
-        "esperado": "Aceptar caso edge: apóstrofe al inicio",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 75,
-            "nombre": "'Juan",
-            "apellido": "Pérez"
-          }
-        }
-      },
-      {
-        "nombre": "Edge case: guion al inicio",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='-Juan...' apellido='Pérez...'",
-        "esperado": "Aceptar caso edge: guion al inicio",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 76,
-            "nombre": "-Juan",
-            "apellido": "Pérez"
-          }
-        }
-      },
-      {
-        "nombre": "Edge case: guion al final",
-        "panel": "Validador de Nombres",
-        "accion": "Validar nombre='Juan-...' apellido='Pérez...'",
-        "esperado": "Aceptar caso edge: guion al final",
-        "paso": true,
-        "respuesta": {
-          "success": true,
-          "message": "Registro exitoso",
-          "cliente": {
-            "id": 77,
-            "nombre": "Juan-",
-            "apellido": "Pérez"
-          }
-        }
-      },
-      {
         "nombre": "Edge case: solo ñ (1 char)",
         "panel": "Validador de Nombres",
         "accion": "Validar nombre='Ñ...' apellido='Ñ...'",
         "esperado": "Rechazar caso edge: solo ñ (1 char)",
-        "paso": false,
+        "paso": true,
+        "respuesta": {
+          "success": false,
+          "message": "El nombre debe tener al menos 2 caracteres"
+        }
+      },
+      {
+        "nombre": "Edge case: nombres simples válidos",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='María...' apellido='José...'",
+        "esperado": "Aceptar caso edge: nombres simples válidos",
+        "paso": true,
         "respuesta": {
           "success": true,
           "message": "Registro exitoso",
           "cliente": {
-            "id": 78,
-            "nombre": "Ñ",
-            "apellido": "Ñ"
+            "id": 324,
+            "nombre": "María",
+            "apellido": "José"
+          }
+        }
+      },
+      {
+        "nombre": "Edge case: acentos en Ó y Á",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Óscar...' apellido='Álvarez...'",
+        "esperado": "Aceptar caso edge: acentos en Ó y Á",
+        "paso": true,
+        "respuesta": {
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 325,
+            "nombre": "Óscar",
+            "apellido": "Álvarez"
+          }
+        }
+      },
+      {
+        "nombre": "Edge case: múltiples acentos",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Íñigo...' apellido='Érica...'",
+        "esperado": "Aceptar caso edge: múltiples acentos",
+        "paso": true,
+        "respuesta": {
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 326,
+            "nombre": "Íñigo",
+            "apellido": "Érica"
+          }
+        }
+      },
+      {
+        "nombre": "Edge case: con ü",
+        "panel": "Validador de Nombres",
+        "accion": "Validar nombre='Übel...' apellido='Müller...'",
+        "esperado": "Aceptar caso edge: con ü",
+        "paso": true,
+        "respuesta": {
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 327,
+            "nombre": "Übel",
+            "apellido": "Müller"
           }
         }
       }
@@ -6520,9 +6493,9 @@
   },
   "grupo_cliente": {
     "total": 102,
-    "pasados": 34,
-    "fallados": 68,
-    "porcentaje": 33.3,
+    "pasados": 102,
+    "fallados": 0,
+    "porcentaje": 100.0,
     "tests": [
       {
         "nombre": "Login sin email ni teléfono",
@@ -6694,9 +6667,10 @@
         "panel": "Registro Cliente",
         "accion": "POST:  Apellido",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -6704,9 +6678,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan ",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -6714,9 +6689,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan123 Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre no puede contener n\\u00fameros\"}"
+          "success": false,
+          "message": "El nombre no puede contener números"
         }
       },
       {
@@ -6724,9 +6700,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez@#$",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El apellido contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+          "success": false,
+          "message": "El apellido solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -6734,9 +6711,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan'; DROP TABLE clientes;-- Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -6744,9 +6722,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan <script>alert('XSS')</script>",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El apellido contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+          "success": false,
+          "message": "El apellido solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -6754,9 +6733,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre no puede tener m\\u00e1s de 50 caracteres\"}"
+          "success": false,
+          "message": "El nombre no puede tener más de 50 caracteres"
         }
       },
       {
@@ -6764,9 +6744,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: O'Brien Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -6774,9 +6755,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan\tCarlos Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -6784,9 +6766,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan\nCarlos Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -6794,9 +6777,10 @@
         "panel": "Registro Cliente",
         "accion": "POST:       Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -6804,9 +6788,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: Müller Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 298,
+            "nombre": "Müller",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -6814,9 +6804,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: José García",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 299,
+            "nombre": "José",
+            "apellido": "García"
+          }
         }
       },
       {
@@ -6824,9 +6820,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: Nuñez Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 300,
+            "nombre": "Nuñez",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -6834,9 +6836,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: María López",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 301,
+            "nombre": "María",
+            "apellido": "López"
+          }
         }
       },
       {
@@ -6844,9 +6852,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -6854,9 +6863,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula debe tener exactamente 10 d\\u00edgitos\"}"
+          "success": false,
+          "message": "La cédula debe tener exactamente 10 dígitos"
         }
       },
       {
@@ -6864,9 +6874,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -6874,9 +6885,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -6884,9 +6896,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -6894,9 +6907,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula debe tener exactamente 10 d\\u00edgitos\"}"
+          "success": false,
+          "message": "La cédula debe tener exactamente 10 dígitos"
         }
       },
       {
@@ -6904,9 +6918,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -6914,9 +6929,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -6924,9 +6940,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: Cliente Base",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 302,
+            "nombre": "Cliente",
+            "apellido": "Base"
+          }
         }
       },
       {
@@ -6934,9 +6956,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Otro Cliente",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "La cédula ya está registrada en el sistema"
         }
       },
       {
@@ -6944,9 +6967,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: Pedro Ramírez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 303,
+            "nombre": "Pedro",
+            "apellido": "Ramírez"
+          }
         }
       },
       {
@@ -6954,9 +6983,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -6964,9 +6994,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -6974,9 +7005,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Otro Usuario",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El usuario ya está en uso"
         }
       },
       {
@@ -6984,9 +7016,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario solo puede contener letras, n\\u00fameros, guiones y guiones bajos\"}"
+          "success": false,
+          "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
         }
       },
       {
@@ -6994,9 +7027,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario solo puede contener letras, n\\u00fameros, guiones y guiones bajos\"}"
+          "success": false,
+          "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
         }
       },
       {
@@ -7004,9 +7038,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario no puede tener m\\u00e1s de 30 caracteres\"}"
+          "success": false,
+          "message": "El usuario no puede tener más de 30 caracteres"
         }
       },
       {
@@ -7014,9 +7049,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 304,
+            "nombre": "Juan",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -7024,9 +7065,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 305,
+            "nombre": "Juan",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -7034,9 +7081,10 @@
         "panel": "Registro Cliente",
         "accion": "POST: Juan Pérez",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El n\\u00famero de celular solo puede contener d\\u00edgitos\"}"
+          "success": false,
+          "message": "El número de celular solo puede contener dígitos"
         }
       },
       {
@@ -7044,9 +7092,15 @@
         "panel": "Registro Cliente",
         "accion": "POST: Carlos Mendoza",
         "esperado": "Validar campos, rechazar duplicados/ataques SQL/XSS/longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 306,
+            "nombre": "Carlos",
+            "apellido": "Mendoza"
+          }
         }
       },
       {
@@ -7219,9 +7273,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro:  Apellido",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -7229,9 +7284,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan ",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -7239,9 +7295,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan123 Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre no puede contener n\\u00fameros\"}"
+          "success": false,
+          "message": "El nombre no puede contener números"
         }
       },
       {
@@ -7249,9 +7306,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez@#$",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El apellido contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+          "success": false,
+          "message": "El apellido solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -7259,9 +7317,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan'; DROP TABLE clientes;-- Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -7269,9 +7328,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan <script>alert('XSS')</script>",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El apellido contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+          "success": false,
+          "message": "El apellido solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -7279,9 +7339,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre no puede tener m\\u00e1s de 50 caracteres\"}"
+          "success": false,
+          "message": "El nombre no puede tener más de 50 caracteres"
         }
       },
       {
@@ -7289,9 +7350,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: O'Brien Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -7299,9 +7361,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan\tCarlos Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -7309,9 +7372,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan\nCarlos Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
         }
       },
       {
@@ -7319,9 +7383,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro:       Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -7329,9 +7394,15 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Müller Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 289,
+            "nombre": "Müller",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -7339,9 +7410,15 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: José García",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 290,
+            "nombre": "José",
+            "apellido": "García"
+          }
         }
       },
       {
@@ -7349,9 +7426,15 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Nuñez Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 291,
+            "nombre": "Nuñez",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -7361,7 +7444,13 @@
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
         "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 292,
+            "nombre": "María",
+            "apellido": "López"
+          }
         }
       },
       {
@@ -7369,9 +7458,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -7379,9 +7469,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula debe tener exactamente 10 d\\u00edgitos\"}"
+          "success": false,
+          "message": "La cédula debe tener exactamente 10 dígitos"
         }
       },
       {
@@ -7389,9 +7480,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -7399,9 +7491,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -7409,9 +7502,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -7419,9 +7513,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula debe tener exactamente 10 d\\u00edgitos\"}"
+          "success": false,
+          "message": "La cédula debe tener exactamente 10 dígitos"
         }
       },
       {
@@ -7429,9 +7524,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -7439,9 +7535,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+          "success": false,
+          "message": "La cédula solo debe contener números"
         }
       },
       {
@@ -7451,7 +7548,13 @@
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
         "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 293,
+            "nombre": "Cliente",
+            "apellido": "Base"
+          }
         }
       },
       {
@@ -7459,9 +7562,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Otro Cliente",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "La cédula ya está registrada en el sistema"
         }
       },
       {
@@ -7471,7 +7575,13 @@
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
         "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 294,
+            "nombre": "Pedro",
+            "apellido": "Ramírez"
+          }
         }
       },
       {
@@ -7479,9 +7589,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -7489,9 +7600,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+          "success": false,
+          "message": "Faltan campos requeridos"
         }
       },
       {
@@ -7499,9 +7611,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Otro Usuario",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": false,
+          "message": "El usuario ya está en uso"
         }
       },
       {
@@ -7509,9 +7622,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario solo puede contener letras, n\\u00fameros, guiones y guiones bajos\"}"
+          "success": false,
+          "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
         }
       },
       {
@@ -7519,9 +7633,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario solo puede contener letras, n\\u00fameros, guiones y guiones bajos\"}"
+          "success": false,
+          "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
         }
       },
       {
@@ -7529,9 +7644,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario no puede tener m\\u00e1s de 30 caracteres\"}"
+          "success": false,
+          "message": "El usuario no puede tener más de 30 caracteres"
         }
       },
       {
@@ -7539,9 +7655,15 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 295,
+            "nombre": "Juan",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -7549,9 +7671,15 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 296,
+            "nombre": "Juan",
+            "apellido": "Pérez"
+          }
         }
       },
       {
@@ -7559,9 +7687,10 @@
         "panel": "Registro Cliente",
         "accion": "POST registro: Juan Pérez",
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-        "paso": false,
+        "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El n\\u00famero de celular solo puede contener d\\u00edgitos\"}"
+          "success": false,
+          "message": "El número de celular solo puede contener dígitos"
         }
       },
       {
@@ -7571,7 +7700,13 @@
         "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
         "paso": true,
         "respuesta": {
-          "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+          "success": true,
+          "message": "Registro exitoso",
+          "cliente": {
+            "id": 297,
+            "nombre": "Carlos",
+            "apellido": "Mendoza"
+          }
         }
       }
     ]

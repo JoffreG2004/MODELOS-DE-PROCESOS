@@ -169,9 +169,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro:  Apellido",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+      "success": false,
+      "message": "Faltan campos requeridos"
     }
   },
   {
@@ -179,9 +180,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan ",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+      "success": false,
+      "message": "Faltan campos requeridos"
     }
   },
   {
@@ -189,9 +191,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan123 Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre no puede contener n\\u00fameros\"}"
+      "success": false,
+      "message": "El nombre no puede contener números"
     }
   },
   {
@@ -199,9 +202,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez@#$",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El apellido contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+      "success": false,
+      "message": "El apellido solo puede contener letras (sin espacios ni caracteres especiales)"
     }
   },
   {
@@ -209,9 +213,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan'; DROP TABLE clientes;-- Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
     }
   },
   {
@@ -219,9 +224,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan <script>alert('XSS')</script>",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El apellido contiene caracteres no v\\u00e1lidos (solo letras, tildes y di\\u00e9resis permitidas)\"}"
+      "success": false,
+      "message": "El apellido solo puede contener letras (sin espacios ni caracteres especiales)"
     }
   },
   {
@@ -229,9 +235,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El nombre no puede tener m\\u00e1s de 50 caracteres\"}"
+      "success": false,
+      "message": "El nombre no puede tener más de 50 caracteres"
     }
   },
   {
@@ -239,9 +246,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: O'Brien Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
     }
   },
   {
@@ -249,9 +257,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan\tCarlos Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
     }
   },
   {
@@ -259,9 +268,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan\nCarlos Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
     }
   },
   {
@@ -269,9 +279,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro:       Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+      "success": false,
+      "message": "Faltan campos requeridos"
     }
   },
   {
@@ -279,9 +290,15 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Müller Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 289,
+        "nombre": "Müller",
+        "apellido": "Pérez"
+      }
     }
   },
   {
@@ -289,9 +306,15 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: José García",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 290,
+        "nombre": "José",
+        "apellido": "García"
+      }
     }
   },
   {
@@ -299,9 +322,15 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Nuñez Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 291,
+        "nombre": "Nuñez",
+        "apellido": "Pérez"
+      }
     }
   },
   {
@@ -311,7 +340,13 @@
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
     "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 292,
+        "nombre": "María",
+        "apellido": "López"
+      }
     }
   },
   {
@@ -319,9 +354,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+      "success": false,
+      "message": "Faltan campos requeridos"
     }
   },
   {
@@ -329,9 +365,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula debe tener exactamente 10 d\\u00edgitos\"}"
+      "success": false,
+      "message": "La cédula debe tener exactamente 10 dígitos"
     }
   },
   {
@@ -339,9 +376,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+      "success": false,
+      "message": "La cédula solo debe contener números"
     }
   },
   {
@@ -349,9 +387,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+      "success": false,
+      "message": "La cédula solo debe contener números"
     }
   },
   {
@@ -359,9 +398,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+      "success": false,
+      "message": "La cédula solo debe contener números"
     }
   },
   {
@@ -369,9 +409,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula debe tener exactamente 10 d\\u00edgitos\"}"
+      "success": false,
+      "message": "La cédula debe tener exactamente 10 dígitos"
     }
   },
   {
@@ -379,9 +420,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+      "success": false,
+      "message": "La cédula solo debe contener números"
     }
   },
   {
@@ -389,9 +431,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"La c\\u00e9dula solo debe contener n\\u00fameros\"}"
+      "success": false,
+      "message": "La cédula solo debe contener números"
     }
   },
   {
@@ -401,7 +444,13 @@
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
     "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 293,
+        "nombre": "Cliente",
+        "apellido": "Base"
+      }
     }
   },
   {
@@ -409,9 +458,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Otro Cliente",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": false,
+      "message": "La cédula ya está registrada en el sistema"
     }
   },
   {
@@ -421,7 +471,13 @@
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
     "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 294,
+        "nombre": "Pedro",
+        "apellido": "Ramírez"
+      }
     }
   },
   {
@@ -429,9 +485,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+      "success": false,
+      "message": "Faltan campos requeridos"
     }
   },
   {
@@ -439,9 +496,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Faltan campos requeridos\"}"
+      "success": false,
+      "message": "Faltan campos requeridos"
     }
   },
   {
@@ -449,9 +507,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Otro Usuario",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": false,
+      "message": "El usuario ya está en uso"
     }
   },
   {
@@ -459,9 +518,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario solo puede contener letras, n\\u00fameros, guiones y guiones bajos\"}"
+      "success": false,
+      "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
     }
   },
   {
@@ -469,9 +529,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario solo puede contener letras, n\\u00fameros, guiones y guiones bajos\"}"
+      "success": false,
+      "message": "El usuario solo puede contener letras, números, guiones y guiones bajos"
     }
   },
   {
@@ -479,9 +540,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El usuario no puede tener m\\u00e1s de 30 caracteres\"}"
+      "success": false,
+      "message": "El usuario no puede tener más de 30 caracteres"
     }
   },
   {
@@ -489,9 +551,15 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 295,
+        "nombre": "Juan",
+        "apellido": "Pérez"
+      }
     }
   },
   {
@@ -499,9 +567,15 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 296,
+        "nombre": "Juan",
+        "apellido": "Pérez"
+      }
     }
   },
   {
@@ -509,9 +583,10 @@
     "panel": "Registro Cliente",
     "accion": "POST registro: Juan Pérez",
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
-    "paso": false,
+    "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"El n\\u00famero de celular solo puede contener d\\u00edgitos\"}"
+      "success": false,
+      "message": "El número de celular solo puede contener dígitos"
     }
   },
   {
@@ -521,7 +596,13 @@
     "esperado": "Debe validar campos, rechazar duplicados, ataques SQL/XSS, longitudes inválidas",
     "paso": true,
     "respuesta": {
-      "raw": " solo tenias que hacer esto{\"success\":false,\"message\":\"Error interno del servidor\"}"
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 297,
+        "nombre": "Carlos",
+        "apellido": "Mendoza"
+      }
     }
   }
 ]
