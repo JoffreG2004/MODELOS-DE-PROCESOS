@@ -1,12 +1,17 @@
 # 🔐 Guía de Seguridad y Configuración de Credenciales
 
-## ⚠️ IMPORTANTE: Archivos que NUNCA debes subir a Git
+## 📚 PROYECTO DE CLASE/GRUPO - Configuración Simplificada
 
-Los siguientes archivos contienen credenciales sensibles y **NUNCA** deben subirse al repositorio:
+Para proyectos de clase o grupos pequeños, **los archivos de configuración SÍ están en Git** para facilitar el trabajo colaborativo.
 
-- ❌ `.env` (cualquier archivo .env)
-- ❌ `conexion/db.php` (credenciales de base de datos)
-- ❌ `config/whatsapp_config.php` (credenciales de Twilio)
+### ✅ Archivos Incluidos en Git (Para Desarrollo/Clase):
+- ✅ `conexion/db.php` - Configuración de base de datos (credenciales de desarrollo compartidas)
+- ✅ `config/whatsapp_config.php` - Configuración de Twilio (credenciales de desarrollo)
+- ✅ Todos los archivos `.example` como referencia
+
+### ❌ Solo se Ignoran (Para Producción):
+- ❌ `.env.production` - Variables de entorno de servidor
+- ❌ `.env.server` - Credenciales de producción
 
 ## ✅ Configuración Correcta
 
