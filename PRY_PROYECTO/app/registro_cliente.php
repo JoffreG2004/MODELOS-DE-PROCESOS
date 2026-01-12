@@ -21,6 +21,7 @@ try {
     $ciudad = trim($_POST['ciudad'] ?? '');
     $usuario = trim($_POST['usuario'] ?? '');
     $password = $_POST['password'] ?? '';
+    $email = trim($_POST['email'] ?? '');
 
     if (!$nombre || !$apellido || !$cedula || !$telefono || !$usuario || !$password) {
         echo json_encode(['success' => false, 'message' => 'Faltan campos requeridos']);
@@ -83,9 +84,9 @@ try {
 
     // Insertar nuevo cliente
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $mysqli->prepare("INSERT INTO clientes (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, email, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, '', NOW())");
+    $stmt = $mysqli->prepare("INSERT INTO clientes (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     if (!$stmt) throw new Exception('Error en prepare: ' . $mysqli->error);
-    $stmt->bind_param('sssssss', $nombre, $apellido, $cedula, $telefono, $ciudad, $usuario, $password_hash);
+    $stmt->bind_param('ssssssss', $nombre, $apellido, $cedula, $telefono, $ciudad, $usuario, $password_hash, $email);
     $ok = $stmt->execute();
 
     if (!$ok) throw new Exception('Error al insertar: ' . $stmt->error);

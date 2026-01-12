@@ -344,6 +344,7 @@ En la próxima ejecución de auditoría, el sistema comparará automáticamente 
         
         if abs(cambio_total_tests) > 10:
             # Cambio significativo en número de tests = refactoring completo
+            cambio = 0  # Inicializar para evitar UnboundLocalError
             cambio_fallados = actual['fallados'] - anterior['fallados']
             cambio_pct = actual['porcentaje'] - anterior['porcentaje']
             

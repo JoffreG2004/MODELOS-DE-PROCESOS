@@ -1,0 +1,690 @@
+[
+  {
+    "nombre": "Nombre válido: Juan Pérez (nombre con tilde)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan' apellido='Pérez'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 123,
+        "nombre": "Juan",
+        "apellido": "Pérez"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: María José (nombre simple)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='María' apellido='José'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 124,
+        "nombre": "María",
+        "apellido": "José"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Sofía López (acento en í)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Sofía' apellido='López'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 125,
+        "nombre": "Sofía",
+        "apellido": "López"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Andrés Sánchez (acento en é)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Andrés' apellido='Sánchez'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 126,
+        "nombre": "Andrés",
+        "apellido": "Sánchez"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Raúl Fernández (acento en ú)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Raúl' apellido='Fernández'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 127,
+        "nombre": "Raúl",
+        "apellido": "Fernández"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Mónica González (acento en ó)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Mónica' apellido='González'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 128,
+        "nombre": "Mónica",
+        "apellido": "González"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Ángel Ramírez (acento en á)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Ángel' apellido='Ramírez'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 129,
+        "nombre": "Ángel",
+        "apellido": "Ramírez"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Antonio Nuñez (ñ minúscula)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Antonio' apellido='Nuñez'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 130,
+        "nombre": "Antonio",
+        "apellido": "Nuñez"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Pedro Muñoz (ñ en apellido)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Pedro' apellido='Muñoz'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 131,
+        "nombre": "Pedro",
+        "apellido": "Muñoz"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre válido: Luis Ibáñez (acento y ñ)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Luis' apellido='Ibáñez'",
+    "esperado": "Debe aceptar nombres con tildes y ñ",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 132,
+        "nombre": "Luis",
+        "apellido": "Ibáñez"
+      }
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Müller Schmidt (ü válido)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Müller' apellido='Schmidt'",
+    "esperado": "Aceptar nombre con ü válido",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 133,
+        "nombre": "Müller",
+        "apellido": "Schmidt"
+      }
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: François Dubois (ç francés)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='François' apellido='Dubois'",
+    "esperado": "Rechazar nombre con ç francés",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Björk Guðmundsdóttir (ö islandés)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Björk' apellido='Guðmundsdóttir'",
+    "esperado": "Rechazar nombre con ö islandés",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: José Nuñez (ñ válido)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='José' apellido='Nuñez'",
+    "esperado": "Aceptar nombre con ñ válido",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 134,
+        "nombre": "José",
+        "apellido": "Nuñez"
+      }
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Inés Úrsula (acentos válidos)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Inés' apellido='Úrsula'",
+    "esperado": "Aceptar nombre con acentos válidos",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 135,
+        "nombre": "Inés",
+        "apellido": "Úrsula"
+      }
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: María García (válido español)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='María' apellido='García'",
+    "esperado": "Aceptar nombre con válido español",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 136,
+        "nombre": "María",
+        "apellido": "García"
+      }
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Juan Carlos Pérez (con espacio)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan Carlos' apellido='Pérez'",
+    "esperado": "Rechazar nombre con con espacio",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Jean-Pierre López (con guion)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Jean-Pierre' apellido='López'",
+    "esperado": "Rechazar nombre con con guion",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: O'Brien McCarthy (con apóstrofe)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='O'Brien' apellido='McCarthy'",
+    "esperado": "Rechazar nombre con con apóstrofe",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Caracteres especiales: Ñoño Peña (ñ al inicio)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Ñoño' apellido='Peña'",
+    "esperado": "Aceptar nombre con ñ al inicio",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 137,
+        "nombre": "Ñoño",
+        "apellido": "Peña"
+      }
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre vacío",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: apellido vacío",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan...' apellido='...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "Faltan campos requeridos"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con números",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='123...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede contener números"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: apellido con números",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan...' apellido='456...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El apellido no puede contener números"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con números al final",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan123...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede contener números"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con @",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan@...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con #",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan#Test...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con !",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan!...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con $",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan$...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con punto",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan....' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con coma",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan,...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con punto y coma",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan;...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con dos puntos",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan:...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con asterisco",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan*...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con ampersand",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan&...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con porcentaje",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan%...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con paréntesis",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan(...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con paréntesis cierre",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan)...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con corchete",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan[...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con más",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan+...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con igual",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan=...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre con espacio en medio",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Juan Pedro...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre muy corto (1 char)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='A...' apellido='B...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre debe tener al menos 2 caracteres"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: nombre muy largo (>50 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='JuanJuanJuanJuanJuan...' apellido='Pérez...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede tener más de 50 caracteres"
+    }
+  },
+  {
+    "nombre": "Nombre inválido: intento XSS",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='<script>...' apellido='alert...'",
+    "esperado": "Debe rechazar nombres inválidos",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre solo puede contener letras (sin espacios ni caracteres especiales)"
+    }
+  },
+  {
+    "nombre": "Edge case: longitud mínima (2 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Jo...' apellido='Li...'",
+    "esperado": "Aceptar caso edge: longitud mínima (2 chars)",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 138,
+        "nombre": "Jo",
+        "apellido": "Li"
+      }
+    }
+  },
+  {
+    "nombre": "Edge case: longitud máxima exacta (50 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='AAAAAAAAAAAAAAAAAAAA...' apellido='BBBBBBBBBBBBBBBBBBBB...'",
+    "esperado": "Aceptar caso edge: longitud máxima exacta (50 chars)",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 139,
+        "nombre": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "apellido": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    }
+  },
+  {
+    "nombre": "Edge case: excede máximo (51 chars)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='AAAAAAAAAAAAAAAAAAAA...' apellido='Pérez...'",
+    "esperado": "Rechazar caso edge: excede máximo (51 chars)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre no puede tener más de 50 caracteres"
+    }
+  },
+  {
+    "nombre": "Edge case: solo ñ (1 char)",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Ñ...' apellido='Ñ...'",
+    "esperado": "Rechazar caso edge: solo ñ (1 char)",
+    "paso": true,
+    "respuesta": {
+      "success": false,
+      "message": "El nombre debe tener al menos 2 caracteres"
+    }
+  },
+  {
+    "nombre": "Edge case: nombres simples válidos",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='María...' apellido='José...'",
+    "esperado": "Aceptar caso edge: nombres simples válidos",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 140,
+        "nombre": "María",
+        "apellido": "José"
+      }
+    }
+  },
+  {
+    "nombre": "Edge case: acentos en Ó y Á",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Óscar...' apellido='Álvarez...'",
+    "esperado": "Aceptar caso edge: acentos en Ó y Á",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 141,
+        "nombre": "Óscar",
+        "apellido": "Álvarez"
+      }
+    }
+  },
+  {
+    "nombre": "Edge case: múltiples acentos",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Íñigo...' apellido='Érica...'",
+    "esperado": "Aceptar caso edge: múltiples acentos",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 142,
+        "nombre": "Íñigo",
+        "apellido": "Érica"
+      }
+    }
+  },
+  {
+    "nombre": "Edge case: con ü",
+    "panel": "Validador de Nombres",
+    "accion": "Validar nombre='Übel...' apellido='Müller...'",
+    "esperado": "Aceptar caso edge: con ü",
+    "paso": true,
+    "respuesta": {
+      "success": true,
+      "message": "Registro exitoso",
+      "cliente": {
+        "id": 143,
+        "nombre": "Übel",
+        "apellido": "Müller"
+      }
+    }
+  }
+]
