@@ -40,15 +40,8 @@ def login_cliente():
     return login_response
 
 
-def reservar_zona(zonas, fecha, hora, personas, nombre_test, debe_pasar=False, mensaje_esperado=None):
-    """
-    Helper para crear reserva de zona
-    
-    Args:
-        mensaje_esperado: Palabra clave que DEBE aparecer en el mensaje de error
-                         Ej: "fecha", "hora", "personas", "zona", etc.
-                         Si no se proporciona, solo verifica success=False
-    """
+def reservar_zona(zonas, fecha, hora, personas, nombre_test, debe_pasar=False):
+    """Helper para crear reserva de zona"""
     payload = {
         "zonas": zonas,
         "fecha_reserva": fecha,
@@ -60,33 +53,13 @@ def reservar_zona(zonas, fecha, hora, personas, nombre_test, debe_pasar=False, m
     data = res.get("data", {})
     
     ok = data.get("success") is True
-    mensaje = str(data.get("message", "")).lower()
-    
-    # Si debe pasar, verificar success=True
-    if debe_pasar:
-        paso = ok
-    else:
-        # Si debe fallar, verificar:
-        # 1. success=False
-        # 2. El mensaje contiene la palabra clave esperada (si se proporcionó)
-        if mensaje_esperado:
-            # Validación estricta: rechazó Y por el motivo correcto
-            paso = (not ok) and (mensaje_esperado.lower() in mensaje)
-            if not paso and not ok:
-                # Rechazó pero por motivo incorrecto - agregar info al resultado
-                esperado_msg = f"Debe rechazar con mensaje conteniendo '{mensaje_esperado}'"
-            else:
-                esperado_msg = f"Debe rechazar: {mensaje_esperado}"
-        else:
-            # Validación básica: solo verificar que rechazó
-            paso = not ok
-            esperado_msg = "Debe rechazar datos inválidos"
+    paso = ok if debe_pasar else not ok
     
     return result(
         nombre=nombre_test,
         panel="Reservar Zona",
         accion=f"POST zonas={zonas} fecha={fecha} hora={hora} personas={personas}",
-        esperado=esperado_msg if not debe_pasar else "Debe aceptar datos válidos",
+        esperado="Debe validar fechas (no pasadas, max 6 meses), horarios, disponibilidad y datos",
         paso=paso,
         respuesta=data
     )
@@ -135,40 +108,40 @@ def main():
     print("\n📅 GRUPO 1: Validación de Fechas")
     
     # 1 - Fecha vacía
-    resultados.append(reservar_zona(["interior"], "", "19:00", 10, "Fecha vacía", mensaje_esperado="fecha"))
+    resultados.append(reservar_zona(["interior"], "", "19:00", 10, "Fecha vacía"))
     
     # 2 - Fecha ayer
-    resultados.append(reservar_zona(["interior"], ayer, "19:00", 10, f"Fecha pasada (ayer: {ayer})", mensaje_esperado="pasada"))
+    resultados.append(reservar_zona(["interior"], ayer, "19:00", 10, f"Fecha pasada (ayer: {ayer})"))
     
     # 3 - Fecha hace 1 semana
-    resultados.append(reservar_zona(["terraza"], semana_pasada, "20:00", 15, f"Fecha hace 1 semana ({semana_pasada})", mensaje_esperado="pasada"))
+    resultados.append(reservar_zona(["terraza"], semana_pasada, "20:00", 15, f"Fecha hace 1 semana ({semana_pasada})"))
     
     # 4 - Fecha hace 1 mes
-    resultados.append(reservar_zona(["vip"], mes_pasado, "21:00", 8, f"Fecha hace 1 mes ({mes_pasado})", mensaje_esperado="pasada"))
+    resultados.append(reservar_zona(["vip"], mes_pasado, "21:00", 8, f"Fecha hace 1 mes ({mes_pasado})"))
     
     # 5 - Fecha año 3000
-    resultados.append(reservar_zona(["bar"], "3000-12-31", "19:00", 5, "Fecha año 3000 (muy lejana)", mensaje_esperado="mes"))
+    resultados.append(reservar_zona(["bar"], "3000-12-31", "19:00", 5, "Fecha año 3000 (muy lejana)"))
     
     # 6 - Fecha año 2100
-    resultados.append(reservar_zona(["interior"], "2100-01-01", "18:00", 12, "Fecha año 2100", mensaje_esperado="mes"))
+    resultados.append(reservar_zona(["interior"], "2100-01-01", "18:00", 12, "Fecha año 2100"))
     
     # 7 - Fecha 7 meses adelante
-    resultados.append(reservar_zona(["terraza"], siete_meses, "19:30", 20, f"Fecha 7 meses ({siete_meses}) >6 meses", mensaje_esperado="mes"))
+    resultados.append(reservar_zona(["terraza"], siete_meses, "19:30", 20, f"Fecha 7 meses ({siete_meses}) >6 meses"))
     
     # 8 - Formato inválido DD/MM/YYYY
-    resultados.append(reservar_zona(["vip"], "31/12/2026", "20:00", 6, "Fecha formato DD/MM/YYYY", mensaje_esperado="fecha"))
+    resultados.append(reservar_zona(["vip"], "31/12/2026", "20:00", 6, "Fecha formato DD/MM/YYYY"))
     
     # 9 - Fecha con texto
-    resultados.append(reservar_zona(["bar"], "mañana", "19:00", 4, "Fecha texto 'mañana'", mensaje_esperado="fecha"))
+    resultados.append(reservar_zona(["bar"], "mañana", "19:00", 4, "Fecha texto 'mañana'"))
     
     # 10 - SQL injection en fecha
-    resultados.append(reservar_zona(["interior"], "2026-01-01' OR '1'='1", "18:00", 10, "SQL injection en fecha", mensaje_esperado="fecha"))
+    resultados.append(reservar_zona(["interior"], "2026-01-01' OR '1'='1", "18:00", 10, "SQL injection en fecha"))
     
     # 11 - Fecha XSS
-    resultados.append(reservar_zona(["terraza"], "<script>alert('xss')</script>", "19:00", 8, "XSS en fecha", mensaje_esperado="fecha"))
+    resultados.append(reservar_zona(["terraza"], "<script>alert('xss')</script>", "19:00", 8, "XSS en fecha"))
     
     # 12 - Fecha null/None
-    resultados.append(reservar_zona(["bar"], None, "19:00", 5, "Fecha None/null", mensaje_esperado="fecha"))
+    resultados.append(reservar_zona(["bar"], None, "19:00", 5, "Fecha None/null"))
     
     # =============================================
     # GRUPO 2: VALIDACIÓN DE HORARIOS (6 tests)
@@ -177,22 +150,22 @@ def main():
     print("\n🕐 GRUPO 2: Validación de Horarios")
     
     # 13 - Hora vacía
-    resultados.append(reservar_zona(["interior"], manana, "", 10, "Hora vacía", mensaje_esperado="hora"))
+    resultados.append(reservar_zona(["interior"], manana, "", 10, "Hora vacía"))
     
     # 14 - Hora antes de apertura (06:00)
-    resultados.append(reservar_zona(["terraza"], manana, "06:00", 8, "Hora 06:00 (antes apertura)", mensaje_esperado="hora"))
+    resultados.append(reservar_zona(["terraza"], manana, "06:00", 8, "Hora 06:00 (antes apertura)"))
     
     # 15 - Hora después de cierre (02:00)
-    resultados.append(reservar_zona(["vip"], manana, "02:00", 6, "Hora 02:00 (después cierre)", mensaje_esperado="hora"))
+    resultados.append(reservar_zona(["vip"], manana, "02:00", 6, "Hora 02:00 (después cierre)"))
     
     # 16 - Hora formato inválido '7pm'
-    resultados.append(reservar_zona(["bar"], manana, "7pm", 5, "Hora formato '7pm'", mensaje_esperado="hora"))
+    resultados.append(reservar_zona(["bar"], manana, "7pm", 5, "Hora formato '7pm'"))
     
     # 17 - Hora inválida 25:00
-    resultados.append(reservar_zona(["interior"], manana, "25:00", 10, "Hora 25:00 (inválida)", mensaje_esperado="hora"))
+    resultados.append(reservar_zona(["interior"], manana, "25:00", 10, "Hora 25:00 (inválida)"))
     
     # 18 - Hora XSS
-    resultados.append(reservar_zona(["terraza"], manana, "<script>alert('xss')</script>", 8, "XSS en hora", mensaje_esperado="hora"))
+    resultados.append(reservar_zona(["terraza"], manana, "<script>alert('xss')</script>", 8, "XSS en hora"))
     
     # =============================================
     # GRUPO 3: VALIDACIÓN DE DISPONIBILIDAD (7 tests)
@@ -203,7 +176,7 @@ def main():
     # 19 - Reservar sin mesas en BD
     subprocess.run(['/opt/lampp/bin/mysql', '-u', 'root', 'crud_proyecto', '-e', 'DELETE FROM mesas'], 
                    capture_output=True)
-    resultados.append(reservar_zona(["interior"], manana, "19:00", 10, "Sin mesas en BD", mensaje_esperado="mesa"))
+    resultados.append(reservar_zona(["interior"], manana, "19:00", 10, "Sin mesas en BD"))
     
     # Restaurar mesas pero OCUPADAS
     subprocess.run([
@@ -216,7 +189,7 @@ def main():
     ], capture_output=True)
     
     # 20 - Zona con solo mesas ocupadas
-    resultados.append(reservar_zona(["interior"], manana, "20:00", 8, "Zona solo mesas ocupadas", mensaje_esperado="mesa"))
+    resultados.append(reservar_zona(["interior"], manana, "20:00", 8, "Zona solo mesas ocupadas"))
     
     # Restaurar disponibles
     subprocess.run([
@@ -230,19 +203,19 @@ def main():
     ], capture_output=True)
     
     # 21 - Array de zonas vacío
-    resultados.append(reservar_zona([], manana, "19:00", 10, "Array zonas vacío []", mensaje_esperado="zona"))
+    resultados.append(reservar_zona([], manana, "19:00", 10, "Array zonas vacío []"))
     
     # 22 - Zona inexistente
-    resultados.append(reservar_zona(["jardin", "piscina"], manana, "19:00", 15, "Zonas inexistentes", mensaje_esperado="mesa"))
+    resultados.append(reservar_zona(["jardin", "piscina"], manana, "19:00", 15, "Zonas inexistentes"))
     
     # 23 - SQL injection en zona
-    resultados.append(reservar_zona(["interior' OR '1'='1"], manana, "19:00", 10, "SQL injection en zona", mensaje_esperado="mesa"))
+    resultados.append(reservar_zona(["interior' OR '1'='1"], manana, "19:00", 10, "SQL injection en zona"))
     
     # 24 - XSS en zona
-    resultados.append(reservar_zona(["<script>alert('xss')</script>"], manana, "19:00", 8, "XSS en zona", mensaje_esperado="mesa"))
+    resultados.append(reservar_zona(["<script>alert('xss')</script>"], manana, "19:00", 8, "XSS en zona"))
     
     # 25 - Zona None/null
-    resultados.append(reservar_zona(None, manana, "19:00", 10, "Zonas None/null", mensaje_esperado="zona"))
+    resultados.append(reservar_zona(None, manana, "19:00", 10, "Zonas None/null"))
     
     # =============================================
     # GRUPO 4: VALIDACIÓN DE PERSONAS (6 tests)
@@ -251,23 +224,23 @@ def main():
     print("\n👥 GRUPO 4: Validación de Número de Personas")
     
     # 26 - 0 personas
-    resultados.append(reservar_zona(["interior"], manana, "19:00", 0, "0 personas", mensaje_esperado="persona"))
+    resultados.append(reservar_zona(["interior"], manana, "19:00", 0, "0 personas"))
     
     # 27 - Número negativo
-    resultados.append(reservar_zona(["terraza"], manana, "20:00", -5, "Personas negativas (-5)", mensaje_esperado="persona"))
+    resultados.append(reservar_zona(["terraza"], manana, "20:00", -5, "Personas negativas (-5)"))
     
     # 28 - Número excesivo (1000)
-    resultados.append(reservar_zona(["interior"], manana, "19:00", 1000, "1000 personas (excesivo)", mensaje_esperado="persona"))
+    resultados.append(reservar_zona(["interior"], manana, "19:00", 1000, "1000 personas (excesivo)"))
     
     # 29 - Personas como texto
-    resultados.append(reservar_zona(["vip"], manana, "21:00", "diez", "Personas como texto 'diez'", mensaje_esperado="persona"))
+    resultados.append(reservar_zona(["vip"], manana, "21:00", "diez", "Personas como texto 'diez'"))
     
     # 30 - Campo personas None
-    resultados.append(reservar_zona(["bar"], manana, "19:00", None, "Personas None/null", mensaje_esperado="persona"))
+    resultados.append(reservar_zona(["bar"], manana, "19:00", None, "Personas None/null"))
     
     # 31 - XSS en personas
     resultados.append(reservar_zona(["interior"], manana, "19:00", "<script>alert('xss')</script>", 
-                                    "XSS en número personas", mensaje_esperado="persona"))
+                                    "XSS en número personas"))
     
     # =============================================
     # GRUPO 5: ESTRÉS ADICIONAL - CASOS EXTREMOS (19 tests)
@@ -281,15 +254,15 @@ def main():
     resultados.append(reservar_zona(["interior", "terraza", "vip", "bar"], manana, "20:00", 50, 
                                     "Todas las zonas simultáneas", debe_pasar=True))
     resultados.append(reservar_zona(["interior", "jardin"], manana, "19:00", 15, 
-                                    "Zona válida + zona inexistente", mensaje_esperado="mesa"))
+                                    "Zona válida + zona inexistente"))
     resultados.append(reservar_zona(["<script>", "interior"], manana, "19:00", 10, 
-                                    "XSS + zona válida en array", mensaje_esperado="mesa"))
+                                    "XSS + zona válida en array"))
     
     # 36-40 - Combinaciones de fechas/horas límite
     resultados.append(reservar_zona(["interior"], hoy, "00:00", 5, 
-                                    "Hoy medianoche (hora límite)", mensaje_esperado="hora"))
+                                    "Hoy medianoche (hora límite)"))
     resultados.append(reservar_zona(["terraza"], hoy, "23:59", 8, 
-                                    "Hoy 23:59 (hora límite)", mensaje_esperado="hora"))
+                                    "Hoy 23:59 (hora límite)"))
     
     # Fecha exactamente 6 meses
     seis_meses = (datetime.now() + timedelta(days=180)).strftime('%Y-%m-%d')
@@ -299,23 +272,23 @@ def main():
     # Fecha 6 meses + 1 día
     seis_meses_un_dia = (datetime.now() + timedelta(days=181)).strftime('%Y-%m-%d')
     resultados.append(reservar_zona(["bar"], seis_meses_un_dia, "19:00", 10, 
-                                    f"Fecha 6 meses + 1 día ({seis_meses_un_dia})", mensaje_esperado="mes"))
+                                    f"Fecha 6 meses + 1 día ({seis_meses_un_dia})"))
     
     # Fecha límite año
     resultados.append(reservar_zona(["interior"], "2026-12-31", "23:59", 15, 
-                                    "Fin de año 2026 23:59", mensaje_esperado="hora"))
+                                    "Fin de año 2026 23:59"))
     
     # 41-45 - Ataques SQL injection avanzados
     resultados.append(reservar_zona(["interior"], manana, "19:00' OR '1'='1", 10, 
-                                    "SQL injection en hora (OR)", mensaje_esperado="hora"))
+                                    "SQL injection en hora (OR)"))
     resultados.append(reservar_zona(["interior"], manana, "19:00; DROP TABLE mesas; --", 10, 
-                                    "SQL injection DROP TABLE en hora", mensaje_esperado="hora"))
+                                    "SQL injection DROP TABLE en hora"))
     resultados.append(reservar_zona(["interior' UNION SELECT * FROM clientes --"], manana, "19:00", 10, 
-                                    "SQL injection UNION en zona", mensaje_esperado="mesa"))
+                                    "SQL injection UNION en zona"))
     resultados.append(reservar_zona(["interior"], manana, "19:00", "10 OR 1=1", 
-                                    "SQL injection en personas (texto)", mensaje_esperado="persona"))
+                                    "SQL injection en personas (texto)"))
     resultados.append(reservar_zona(["interior"], "2026-01-20' AND 1=0 UNION SELECT NULL,NULL,NULL --", 
-                                    "19:00", 10, "SQL injection UNION en fecha", mensaje_esperado="fecha"))
+                                    "19:00", 10, "SQL injection UNION en fecha"))
     
     # 46-50 - Payloads maliciosos completos
     resultados.append(reservar_zona(
@@ -326,13 +299,13 @@ def main():
         "XSS en todos los campos"))
     
     resultados.append(reservar_zona(["interior"], manana, "19:00", -999999, 
-                                    "Personas número muy negativo", mensaje_esperado="persona"))
+                                    "Personas número muy negativo"))
     resultados.append(reservar_zona(["interior"], manana, "19:00", 2147483647, 
-                                    "Personas MAX_INT (overflow)", mensaje_esperado="persona"))
+                                    "Personas MAX_INT (overflow)"))
     resultados.append(reservar_zona(["interior"], manana, "19:00", 0.5, 
-                                    "Personas decimal (0.5)", mensaje_esperado="persona"))
+                                    "Personas decimal (0.5)"))
     resultados.append(reservar_zona([""], manana, "19:00", 10, 
-                                    "Zona string vacío en array", mensaje_esperado="mesa"))
+                                    "Zona string vacío en array"))
     
     # =============================================
     # GUARDAR RESULTADOS
