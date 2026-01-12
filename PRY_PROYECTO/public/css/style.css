@@ -1540,4 +1540,116 @@ body.dark-mode #ModalCliente .nav-tabs .nav-link.active {
     opacity: 0.5;
 }
 
+/* ================================
+   ESTILOS PARA SWEETALERT MODALS
+   ================================ */
+
+/* Inputs dentro de modales SweetAlert */
+.swal2-html-container .form-control,
+.swal2-popup .form-control {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    font-size: 1rem !important;
+    caret-color: #000000 !important;
+}
+
+.swal2-html-container .form-control:focus,
+.swal2-popup .form-control:focus {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2) !important;
+    outline: none !important;
+    caret-color: #000000 !important;
+}
+
+.swal2-html-container .form-control::placeholder,
+.swal2-popup .form-control::placeholder {
+    color: #999999 !important;
+    opacity: 1 !important;
+}
+
+/* Asegurar que el texto digitado sea visible en inputs */
+.swal2-html-container input[type="date"],
+.swal2-html-container input[type="time"],
+.swal2-html-container input[type="number"],
+.swal2-html-container input[type="text"],
+.swal2-popup input[type="date"],
+.swal2-popup input[type="time"],
+.swal2-popup input[type="number"],
+.swal2-popup input[type="text"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    caret-color: #000000 !important;
+}
+
+.swal2-html-container input[type="date"]::selection,
+.swal2-html-container input[type="time"]::selection,
+.swal2-html-container input[type="number"]::selection,
+.swal2-html-container input[type="text"]::selection,
+.swal2-popup input[type="date"]::selection,
+.swal2-popup input[type="time"]::selection,
+.swal2-popup input[type="number"]::selection,
+.swal2-popup input[type="text"]::selection {
+    background-color: #d4af37 !important;
+    color: #000000 !important;
+}
+
+/* Labels dentro de SweetAlert */
+.swal2-html-container .form-label,
+.swal2-popup .form-label {
+    color: #2d1b12 !important;
+    font-weight: 600 !important;
+    margin-bottom: 6px !important;
+}
+
+/* Small text dentro de SweetAlert */
+.swal2-html-container small,
+.swal2-popup small {
+    color: #2d1b12 !important;
+}
+
+/* Text-muted en SweetAlert */
+.swal2-html-container .text-muted,
+.swal2-popup .text-muted {
+    color: #5d4e37 !important;
+}
+
+/* Alertas dentro de SweetAlert */
+.swal2-html-container .alert,
+.swal2-popup .alert {
+    color: #000000 !important;
+}
+
+.swal2-html-container .alert-info,
+.swal2-popup .alert-info {
+    background: #e7f3ff !important;
+    border-color: #b3d9ff !important;
+    color: #004085 !important;
+}
+
+.swal2-html-container .alert-success,
+.swal2-popup .alert-success {
+    background: #d4edda !important;
+    border-color: #c3e6cb !important;
+    color: #155724 !important;
+}
+
+.swal2-html-container .alert-warning,
+.swal2-popup .alert-warning {
+    background: #fff3cd !important;
+    border-color: #ffeaa7 !important;
+    color: #856404 !important;
+}
+
+/* Textos fuertes en SweetAlert */
+.swal2-html-container strong,
+.swal2-popup strong {
+    color: #2d1b12 !important;
+    font-weight: 700 !important;
+}
+
 /* CACHE BUSTER 1762917976 */
