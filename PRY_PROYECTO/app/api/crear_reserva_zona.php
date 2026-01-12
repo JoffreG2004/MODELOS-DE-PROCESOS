@@ -36,6 +36,49 @@ try {
         exit;
     }
     
+    // Validación de hora
+    if (!preg_match('/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/', $hora_reserva)) {
+        echo json_encode(['success' => false, 'message' => 'Formato de hora inválido (use HH:MM)']);
+        exit;
+    }
+    
+    // Validar horario de apertura/cierre
+    $hora_num = (int)substr($hora_reserva, 0, 2);
+    $minutos_num = (int)substr($hora_reserva, 3, 2);
+    
+    // Validar que no sean negativos
+    if ($hora_num < 0 || $minutos_num < 0) {
+        echo json_encode(['success' => false, 'message' => 'La hora no puede contener valores negativos']);
+        exit;
+    }
+    
+    // Validar horario usando la API
+    $url = 'http://localhost/PRY_PROYECTO/app/api/validar_horario_reserva.php';
+    $data_to_send = json_encode(['fecha' => $fecha_reserva, 'hora' => $hora_reserva]);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_to_send);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $result = json_decode($response, true);
+    if (!$result['valido']) {
+        echo json_encode(['success' => false, 'message' => $result['message']]);
+        exit;
+    }
+    
+    // Validación de número de personas
+    if (!is_numeric($numero_personas) || $numero_personas < 20) {
+        echo json_encode(['success' => false, 'message' => 'El número de personas debe ser entre 20 y 50']);
+        exit;
+    }
+    
+    if ($numero_personas > 50) {
+        echo json_encode(['success' => false, 'message' => 'Para grupos mayores a 50 personas contacte directamente al restaurante']);
+        exit;
+    }
+    
     // Calcular precio según cantidad de zonas
     $precios = [
         1 => 60.00,  // 1 zona
