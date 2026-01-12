@@ -1,55 +1,55 @@
 {
   "resumen": {
     "total": 150,
-    "pasados": 135,
-    "fallados": 15,
-    "porcentaje": 90.0
+    "pasados": 0,
+    "fallados": 150,
+    "porcentaje": 0.0
   },
   "por_panel": {
     "Admin Login": {
       "total": 20,
-      "pasados": 19,
-      "fallados": 1
+      "pasados": 0,
+      "fallados": 20
     },
     "Dashboard": {
       "total": 10,
-      "pasados": 2,
-      "fallados": 8
+      "pasados": 0,
+      "fallados": 10
     },
     "Reservas": {
       "total": 40,
-      "pasados": 38,
-      "fallados": 2
+      "pasados": 0,
+      "fallados": 40
     },
     "Mesas": {
       "total": 40,
-      "pasados": 37,
-      "fallados": 3
+      "pasados": 0,
+      "fallados": 40
     },
     "Menú": {
       "total": 15,
-      "pasados": 15,
-      "fallados": 0
+      "pasados": 0,
+      "fallados": 15
     },
     "Clientes": {
       "total": 10,
-      "pasados": 10,
-      "fallados": 0
+      "pasados": 0,
+      "fallados": 10
     },
     "Configuración": {
       "total": 5,
-      "pasados": 5,
-      "fallados": 0
+      "pasados": 0,
+      "fallados": 5
     },
     "Auditoría": {
       "total": 5,
-      "pasados": 5,
-      "fallados": 0
+      "pasados": 0,
+      "fallados": 5
     },
     "Logout": {
       "total": 5,
-      "pasados": 4,
-      "fallados": 1
+      "pasados": 0,
+      "fallados": 5
     }
   },
   "resultados": [
@@ -58,16 +58,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin' password='admin'",
       "esperado": "Login exitoso con sesión admin",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Acceso autorizado",
-        "admin": {
-          "id": 1,
-          "usuario": "admin",
-          "nombre": "Admin",
-          "email": "admin@restaurante.com"
-        }
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -75,10 +68,9 @@
       "panel": "Admin Login",
       "accion": "POST password='wrongpass123'",
       "esperado": "Debe rechazar",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Contraseña incorrecta"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -86,10 +78,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='adminFalso999'",
       "esperado": "Debe rechazar",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -97,10 +88,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='...' password='admin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario y contraseña son requeridos"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -108,10 +98,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin...' password='...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario y contraseña son requeridos"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -119,10 +108,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='...' password='...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario y contraseña son requeridos"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -130,10 +118,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin' OR '1'='1...' password='admin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -141,10 +128,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin...' password='admin' OR '1'='1...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Contraseña incorrecta"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -152,10 +138,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin'; DROP TABLE usuarios; -...' password='x...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -163,10 +148,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin' UNION SELECT * FROM usu...' password='x...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -174,10 +158,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='' OR 1=1 --...' password='' OR 1=1 --...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -185,10 +168,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='<script>alert('XSS')</script>...' password='admin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -196,10 +178,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin...' password='<script>alert(1)</script>...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Contraseña incorrecta"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -207,10 +188,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='<img src=x onerror=alert(1)>...' password='admin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -218,10 +198,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' password='admin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -229,10 +208,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin...' password='pppppppppppppppppppppppppppppp...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Contraseña incorrecta"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -240,10 +218,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='adminadminadminadminadminadmin...' password='adminadminadminadminadminadmin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -251,10 +228,9 @@
       "panel": "Admin Login",
       "accion": "POST usuario='admin\u0000null...' password='admin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -264,14 +240,7 @@
       "esperado": "Debe rechazar intento malicioso",
       "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Acceso autorizado",
-        "admin": {
-          "id": 1,
-          "usuario": "admin",
-          "nombre": "Admin",
-          "email": "admin@restaurante.com"
-        }
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
@@ -279,4336 +248,1311 @@
       "panel": "Admin Login",
       "accion": "POST usuario='../../etc/passwd...' password='admin...'",
       "esperado": "Debe rechazar intento malicioso",
-      "paso": true,
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "Usuario no encontrado o inactivo"
+        "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\n<head>\n<title>Object not found!</title>\n<link rev=\"made\" href=\"mailto:you@example.com\" />\n<style type=\"text/css\"><!--/*--><![CDATA[/*><!--*/ \n    body { color: #000000; background-color: #FFFFFF; }\n    a:link { color: #0000CC; }\n    p, address {margin-left: 3em;}\n    span {font-si"
       }
     },
     {
-      "nombre": "✅ Dashboard responde",
+      "nombre": "Dashboard test 1 (sin login)",
       "panel": "Dashboard",
-      "accion": "GET dashboard_stats.php",
-      "esperado": "HTTP 200",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "status": 200
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene total_reservas",
+      "nombre": "Dashboard test 2 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene total_reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene reservas_hoy",
+      "nombre": "Dashboard test 3 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene reservas_hoy",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene reservas_pendientes",
+      "nombre": "Dashboard test 4 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene reservas_pendientes",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene reservas_confirmadas",
+      "nombre": "Dashboard test 5 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene reservas_confirmadas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene total_mesas",
+      "nombre": "Dashboard test 6 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene total_mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene mesas_disponibles",
+      "nombre": "Dashboard test 7 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene mesas_disponibles",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene total_clientes",
+      "nombre": "Dashboard test 8 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene total_clientes",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ total_reservas es int",
+      "nombre": "Dashboard test 9 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ total_reservas es int",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Tiene reservasMes array",
+      "nombre": "Dashboard test 10 (sin login)",
       "panel": "Dashboard",
-      "accion": "Validar estructura stats",
-      "esperado": "✅ Tiene reservasMes array",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "stats": {}
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Listar todas las reservas",
+      "nombre": "Reservas test 1 (sin login)",
       "panel": "Reservas",
-      "accion": "GET obtener_reservas_zonas.php",
-      "esperado": "Devuelve array de reservas",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "reservas": [
-          {
-            "id": 37,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 5,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 43,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "18:00:00",
-            "numero_personas": 12,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "confirmada",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 38,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-08-07",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 44,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-08-05",
-            "hora_reserva": "19:30:00",
-            "numero_personas": 20,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 40,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-11",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 39,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-10",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 47,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 48,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 45,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 46,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "02:00:00",
-            "numero_personas": 6,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          },
-          {
-            "id": 36,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-06",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:27",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 41,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2025-12-31",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 15,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 42,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2025-12-08",
-            "hora_reserva": "21:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Filtrar por estado=pendiente",
-      "panel": "Reservas",
-      "accion": "GET con filtro {'estado': 'pendiente'}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "reservas": [
-          {
-            "id": 37,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 5,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 38,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-08-07",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 44,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-08-05",
-            "hora_reserva": "19:30:00",
-            "numero_personas": 20,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 40,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-11",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 39,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-10",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 47,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 48,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 45,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 46,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "02:00:00",
-            "numero_personas": 6,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          },
-          {
-            "id": 36,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-06",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:27",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 41,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2025-12-31",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 15,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 42,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2025-12-08",
-            "hora_reserva": "21:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Filtrar por estado=confirmada",
-      "panel": "Reservas",
-      "accion": "GET con filtro {'estado': 'confirmada'}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "reservas": [
-          {
-            "id": 43,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "18:00:00",
-            "numero_personas": 12,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "confirmada",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Filtrar por fecha_desde",
-      "panel": "Reservas",
-      "accion": "GET con filtro {'fecha_desde': '2026-01-01'}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "reservas": [
-          {
-            "id": 37,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 5,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 43,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "18:00:00",
-            "numero_personas": 12,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "confirmada",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 38,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-08-07",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 44,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-08-05",
-            "hora_reserva": "19:30:00",
-            "numero_personas": 20,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 40,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-11",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 39,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-10",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 47,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 48,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 45,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 46,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "02:00:00",
-            "numero_personas": 6,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          },
-          {
-            "id": 36,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-06",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:27",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 41,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2025-12-31",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 15,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 42,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2025-12-08",
-            "hora_reserva": "21:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Filtrar por cliente_id",
-      "panel": "Reservas",
-      "accion": "GET con filtro {'cliente_id': '1'}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "reservas": [
-          {
-            "id": 37,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 5,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 43,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2100-01-01",
-            "hora_reserva": "18:00:00",
-            "numero_personas": 12,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "confirmada",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 38,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-08-07",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 44,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-08-05",
-            "hora_reserva": "19:30:00",
-            "numero_personas": 20,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 40,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-11",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 39,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-10",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:41",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 47,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "25:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 48,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 10,
-            "precio_total": "60.00",
-            "cantidad_mesas": 22,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 45,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "06:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 46,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2026-01-08",
-            "hora_reserva": "02:00:00",
-            "numero_personas": 6,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          },
-          {
-            "id": 36,
-            "cliente_id": 1,
-            "zonas": [
-              "interior"
-            ],
-            "fecha_reserva": "2026-01-06",
-            "hora_reserva": "19:00:00",
-            "numero_personas": 4,
-            "precio_total": "60.00",
-            "cantidad_mesas": 18,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 19:32:27",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Salón Principal"
-            ]
-          },
-          {
-            "id": 41,
-            "cliente_id": 1,
-            "zonas": [
-              "terraza"
-            ],
-            "fecha_reserva": "2025-12-31",
-            "hora_reserva": "20:00:00",
-            "numero_personas": 15,
-            "precio_total": "60.00",
-            "cantidad_mesas": 2,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Terraza"
-            ]
-          },
-          {
-            "id": 42,
-            "cliente_id": 1,
-            "zonas": [
-              "vip"
-            ],
-            "fecha_reserva": "2025-12-08",
-            "hora_reserva": "21:00:00",
-            "numero_personas": 8,
-            "precio_total": "60.00",
-            "cantidad_mesas": 1,
-            "estado": "pendiente",
-            "fecha_creacion": "2026-01-07 20:33:28",
-            "cliente_nombre": "Joffre Gomez",
-            "cliente_telefono": "0998521340",
-            "cliente_email": "joffregq2004@gmail.com",
-            "zonas_nombres": [
-              "Área VIP"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Crear reserva válida",
-      "panel": "Reservas",
-      "accion": "Crear reserva 2026-01-20 19:00 4 personas",
-      "esperado": "Reserva creada exitosamente",
-      "paso": true,
-      "respuesta": {
-        "id": 48
-      }
-    },
-    {
-      "nombre": "🚨 Personas negativas",
-      "panel": "Reservas",
-      "accion": "Crear con {'numero_personas': -5}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Personas cero",
-      "panel": "Reservas",
-      "accion": "Crear con {'numero_personas': 0}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Personas 1000",
-      "panel": "Reservas",
-      "accion": "Crear con {'numero_personas': 1000}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Personas 999999",
-      "panel": "Reservas",
-      "accion": "Crear con {'numero_personas': 999999}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Fecha pasada (2020)",
-      "panel": "Reservas",
-      "accion": "Crear con {'fecha_reserva': '2020-01-01'}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Fecha muy antigua (1900)",
-      "panel": "Reservas",
-      "accion": "Crear con {'fecha_reserva': '1900-01-01'}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Fecha SQL injection",
-      "panel": "Reservas",
-      "accion": "Crear con {'fecha_reserva': \"' OR '1'='1\"}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Fecha formato inválido",
-      "panel": "Reservas",
-      "accion": "Crear con {'fecha_reserva': '20/01/2026'}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Horario 25:00",
-      "panel": "Reservas",
-      "accion": "Crear con {'hora_reserva': '25:00'}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Horario 99:99",
-      "panel": "Reservas",
-      "accion": "Crear con {'hora_reserva': '99:99'}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Horario negativo",
-      "panel": "Reservas",
-      "accion": "Crear con {'hora_reserva': '-01:00'}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Horario SQL injection",
-      "panel": "Reservas",
-      "accion": "Crear con {'hora_reserva': \"'; DROP TABLE reservas; --\"}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Sin fecha",
-      "panel": "Reservas",
-      "accion": "Crear con {'fecha_reserva': ''}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "🚨 Sin hora",
-      "panel": "Reservas",
-      "accion": "Crear con {'hora_reserva': ''}",
-      "esperado": "Debe rechazar datos inválidos",
-      "paso": true,
-      "respuesta": {
-        "test": "validacion"
-      }
-    },
-    {
-      "nombre": "✅ Editar reserva existente",
-      "panel": "Reservas",
-      "accion": "Editar id=48 personas=6",
-      "esperado": "Actualiza correctamente",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'observaciones' in 'field list'"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Editar ID null",
+      "nombre": "Reservas test 2 (sin login)",
       "panel": "Reservas",
-      "accion": "Editar con None",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID de reserva requerido"
-      }
-    },
-    {
-      "nombre": "🚨 Editar ID cero",
-      "panel": "Reservas",
-      "accion": "Editar con 0",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID de reserva requerido"
-      }
-    },
-    {
-      "nombre": "🚨 Editar ID negativo",
-      "panel": "Reservas",
-      "accion": "Editar con -999",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No hay campos para actualizar"
-      }
-    },
-    {
-      "nombre": "🚨 Editar ID inexistente",
-      "panel": "Reservas",
-      "accion": "Editar con 999999999",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No hay campos para actualizar"
-      }
-    },
-    {
-      "nombre": "🛡️ Editar SQL injection en ID",
-      "panel": "Reservas",
-      "accion": "Editar con ' OR '1'='1",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No hay campos para actualizar"
-      }
-    },
-    {
-      "nombre": "🛡️ Editar XSS en ID",
-      "panel": "Reservas",
-      "accion": "Editar con <script>",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No hay campos para actualizar"
-      }
-    },
-    {
-      "nombre": "🚨 Editar ID texto",
-      "panel": "Reservas",
-      "accion": "Editar con abc123",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No hay campos para actualizar"
-      }
-    },
-    {
-      "nombre": "🚨 Editar con personas negativas",
-      "panel": "Reservas",
-      "accion": "Editar con {'id': 1, 'numero_personas': -",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fecha_actualizacion' in 'field list'"
-      }
-    },
-    {
-      "nombre": "🚨 Editar con personas 10000",
-      "panel": "Reservas",
-      "accion": "Editar con {'id': 1, 'numero_personas': 1",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fecha_actualizacion' in 'field list'"
-      }
-    },
-    {
-      "nombre": "✅ Eliminar reserva existente",
-      "panel": "Reservas",
-      "accion": "DELETE id=48",
-      "esperado": "Elimina correctamente",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "No se encontró la reserva"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Eliminar ID null",
+      "nombre": "Reservas test 3 (sin login)",
       "panel": "Reservas",
-      "accion": "Eliminar con None",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID de reserva requerido"
-      }
-    },
-    {
-      "nombre": "🚨 Eliminar ID cero",
-      "panel": "Reservas",
-      "accion": "Eliminar con 0",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID de reserva requerido"
-      }
-    },
-    {
-      "nombre": "🚨 Eliminar ID negativo",
-      "panel": "Reservas",
-      "accion": "Eliminar con -1",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No se encontró la reserva"
-      }
-    },
-    {
-      "nombre": "🚨 Eliminar ID inexistente",
-      "panel": "Reservas",
-      "accion": "Eliminar con 999999",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No se encontró la reserva"
-      }
-    },
-    {
-      "nombre": "🚨 Eliminar ID texto",
-      "panel": "Reservas",
-      "accion": "Eliminar con abc",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No se encontró la reserva"
-      }
-    },
-    {
-      "nombre": "🛡️ Eliminar SQL injection",
-      "panel": "Reservas",
-      "accion": "Eliminar con ' OR '1'='1",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No se encontró la reserva"
-      }
-    },
-    {
-      "nombre": "🛡️ Eliminar XSS",
-      "panel": "Reservas",
-      "accion": "Eliminar con <script>alert(1)</script>",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No se encontró la reserva"
-      }
-    },
-    {
-      "nombre": "🚨 Eliminar con parámetros extra",
-      "panel": "Reservas",
-      "accion": "Eliminar con {'id': 1, 'force': True}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "No se encontró la reserva"
-      }
-    },
-    {
-      "nombre": "🚨 Eliminar array de IDs",
-      "panel": "Reservas",
-      "accion": "Eliminar con [1, 2, 3]",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID de reserva requerido"
-      }
-    },
-    {
-      "nombre": "✅ Listar todas las mesas",
-      "panel": "Mesas",
-      "accion": "GET obtener_mesas.php",
-      "esperado": "Devuelve array de mesas",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "mesas": [
-          {
-            "id": 81,
-            "numero_mesa": "C173",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 98,
-            "numero_mesa": "C311",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 109,
-            "numero_mesa": "C325",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 89,
-            "numero_mesa": "C343",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 67,
-            "numero_mesa": "C446",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 74,
-            "numero_mesa": "C453",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 116,
-            "numero_mesa": "C727",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 82,
-            "numero_mesa": "F194",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 68,
-            "numero_mesa": "F537",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 117,
-            "numero_mesa": "F564",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 110,
-            "numero_mesa": "F685",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 99,
-            "numero_mesa": "F814",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 90,
-            "numero_mesa": "F913",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 75,
-            "numero_mesa": "F974",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 111,
-            "numero_mesa": "G022",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 76,
-            "numero_mesa": "G025",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 100,
-            "numero_mesa": "G230",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 83,
-            "numero_mesa": "G496",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 69,
-            "numero_mesa": "G841",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 118,
-            "numero_mesa": "G924",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 22:26:25",
-            "fecha_actualizacion": "2026-01-07 22:26:25"
-          },
-          {
-            "id": 91,
-            "numero_mesa": "G982",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 64,
-            "numero_mesa": "IT_002",
-            "capacidad_minima": 4,
-            "capacidad_maxima": 6,
-            "precio_reserva": "8.00",
-            "ubicacion": "vip",
-            "estado": "disponible",
-            "descripcion": "Mesa de prueba segunda",
-            "fecha_creacion": "2026-01-01 23:32:45",
-            "fecha_actualizacion": "2026-01-01 23:32:45"
-          },
-          {
-            "id": 45,
-            "numero_mesa": "M01",
-            "capacidad_minima": 2,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-01 22:48:12"
-          },
-          {
-            "id": 46,
-            "numero_mesa": "T01",
-            "capacidad_minima": -7,
-            "capacidad_maxima": -5,
-            "precio_reserva": "5.00",
-            "ubicacion": "terraza",
-            "estado": "disponible",
-            "descripcion": "",
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-08 08:28:23"
-          },
-          {
-            "id": 121,
-            "numero_mesa": "TEST_M1",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 10,
-            "precio_reserva": "10.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-08 21:59:36",
-            "fecha_actualizacion": "2026-01-08 21:59:36"
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Filtrar por zona interior",
-      "panel": "Mesas",
-      "accion": "GET con filtro {'zona': 'interior'}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "mesas": [
-          {
-            "id": 81,
-            "numero_mesa": "C173",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 98,
-            "numero_mesa": "C311",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 109,
-            "numero_mesa": "C325",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 89,
-            "numero_mesa": "C343",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 67,
-            "numero_mesa": "C446",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 74,
-            "numero_mesa": "C453",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 116,
-            "numero_mesa": "C727",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 82,
-            "numero_mesa": "F194",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 68,
-            "numero_mesa": "F537",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 117,
-            "numero_mesa": "F564",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 110,
-            "numero_mesa": "F685",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 99,
-            "numero_mesa": "F814",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 90,
-            "numero_mesa": "F913",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 75,
-            "numero_mesa": "F974",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 111,
-            "numero_mesa": "G022",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 76,
-            "numero_mesa": "G025",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 100,
-            "numero_mesa": "G230",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 83,
-            "numero_mesa": "G496",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 69,
-            "numero_mesa": "G841",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 118,
-            "numero_mesa": "G924",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 22:26:25",
-            "fecha_actualizacion": "2026-01-07 22:26:25"
-          },
-          {
-            "id": 91,
-            "numero_mesa": "G982",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 64,
-            "numero_mesa": "IT_002",
-            "capacidad_minima": 4,
-            "capacidad_maxima": 6,
-            "precio_reserva": "8.00",
-            "ubicacion": "vip",
-            "estado": "disponible",
-            "descripcion": "Mesa de prueba segunda",
-            "fecha_creacion": "2026-01-01 23:32:45",
-            "fecha_actualizacion": "2026-01-01 23:32:45"
-          },
-          {
-            "id": 45,
-            "numero_mesa": "M01",
-            "capacidad_minima": 2,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-01 22:48:12"
-          },
-          {
-            "id": 46,
-            "numero_mesa": "T01",
-            "capacidad_minima": -7,
-            "capacidad_maxima": -5,
-            "precio_reserva": "5.00",
-            "ubicacion": "terraza",
-            "estado": "disponible",
-            "descripcion": "",
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-08 08:28:23"
-          },
-          {
-            "id": 121,
-            "numero_mesa": "TEST_M1",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 10,
-            "precio_reserva": "10.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-08 21:59:36",
-            "fecha_actualizacion": "2026-01-08 21:59:36"
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Filtrar por estado disponible",
-      "panel": "Mesas",
-      "accion": "GET con filtro {'estado': 'disponible'}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "mesas": [
-          {
-            "id": 81,
-            "numero_mesa": "C173",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 98,
-            "numero_mesa": "C311",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 109,
-            "numero_mesa": "C325",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 89,
-            "numero_mesa": "C343",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 67,
-            "numero_mesa": "C446",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 74,
-            "numero_mesa": "C453",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 116,
-            "numero_mesa": "C727",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 82,
-            "numero_mesa": "F194",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 68,
-            "numero_mesa": "F537",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 117,
-            "numero_mesa": "F564",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 110,
-            "numero_mesa": "F685",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 99,
-            "numero_mesa": "F814",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 90,
-            "numero_mesa": "F913",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 75,
-            "numero_mesa": "F974",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 111,
-            "numero_mesa": "G022",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 76,
-            "numero_mesa": "G025",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 100,
-            "numero_mesa": "G230",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 83,
-            "numero_mesa": "G496",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 69,
-            "numero_mesa": "G841",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 118,
-            "numero_mesa": "G924",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 22:26:25",
-            "fecha_actualizacion": "2026-01-07 22:26:25"
-          },
-          {
-            "id": 91,
-            "numero_mesa": "G982",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 64,
-            "numero_mesa": "IT_002",
-            "capacidad_minima": 4,
-            "capacidad_maxima": 6,
-            "precio_reserva": "8.00",
-            "ubicacion": "vip",
-            "estado": "disponible",
-            "descripcion": "Mesa de prueba segunda",
-            "fecha_creacion": "2026-01-01 23:32:45",
-            "fecha_actualizacion": "2026-01-01 23:32:45"
-          },
-          {
-            "id": 45,
-            "numero_mesa": "M01",
-            "capacidad_minima": 2,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-01 22:48:12"
-          },
-          {
-            "id": 46,
-            "numero_mesa": "T01",
-            "capacidad_minima": -7,
-            "capacidad_maxima": -5,
-            "precio_reserva": "5.00",
-            "ubicacion": "terraza",
-            "estado": "disponible",
-            "descripcion": "",
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-08 08:28:23"
-          },
-          {
-            "id": 121,
-            "numero_mesa": "TEST_M1",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 10,
-            "precio_reserva": "10.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-08 21:59:36",
-            "fecha_actualizacion": "2026-01-08 21:59:36"
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Filtrar por capacidad mínima",
-      "panel": "Mesas",
-      "accion": "GET con filtro {'capacidad_min': 4}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "mesas": [
-          {
-            "id": 81,
-            "numero_mesa": "C173",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 98,
-            "numero_mesa": "C311",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 109,
-            "numero_mesa": "C325",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 89,
-            "numero_mesa": "C343",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 67,
-            "numero_mesa": "C446",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 74,
-            "numero_mesa": "C453",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 116,
-            "numero_mesa": "C727",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 82,
-            "numero_mesa": "F194",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 68,
-            "numero_mesa": "F537",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 117,
-            "numero_mesa": "F564",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 110,
-            "numero_mesa": "F685",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 99,
-            "numero_mesa": "F814",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 90,
-            "numero_mesa": "F913",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 75,
-            "numero_mesa": "F974",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 111,
-            "numero_mesa": "G022",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 76,
-            "numero_mesa": "G025",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 100,
-            "numero_mesa": "G230",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 83,
-            "numero_mesa": "G496",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 69,
-            "numero_mesa": "G841",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 118,
-            "numero_mesa": "G924",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 22:26:25",
-            "fecha_actualizacion": "2026-01-07 22:26:25"
-          },
-          {
-            "id": 91,
-            "numero_mesa": "G982",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 64,
-            "numero_mesa": "IT_002",
-            "capacidad_minima": 4,
-            "capacidad_maxima": 6,
-            "precio_reserva": "8.00",
-            "ubicacion": "vip",
-            "estado": "disponible",
-            "descripcion": "Mesa de prueba segunda",
-            "fecha_creacion": "2026-01-01 23:32:45",
-            "fecha_actualizacion": "2026-01-01 23:32:45"
-          },
-          {
-            "id": 45,
-            "numero_mesa": "M01",
-            "capacidad_minima": 2,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-01 22:48:12"
-          },
-          {
-            "id": 46,
-            "numero_mesa": "T01",
-            "capacidad_minima": -7,
-            "capacidad_maxima": -5,
-            "precio_reserva": "5.00",
-            "ubicacion": "terraza",
-            "estado": "disponible",
-            "descripcion": "",
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-08 08:28:23"
-          },
-          {
-            "id": 121,
-            "numero_mesa": "TEST_M1",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 10,
-            "precio_reserva": "10.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-08 21:59:36",
-            "fecha_actualizacion": "2026-01-08 21:59:36"
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Buscar por número de mesa",
-      "panel": "Mesas",
-      "accion": "GET con filtro {'buscar': 'M1'}",
-      "esperado": "Respuesta válida",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "mesas": [
-          {
-            "id": 81,
-            "numero_mesa": "C173",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 98,
-            "numero_mesa": "C311",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 109,
-            "numero_mesa": "C325",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 89,
-            "numero_mesa": "C343",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 67,
-            "numero_mesa": "C446",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 74,
-            "numero_mesa": "C453",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 116,
-            "numero_mesa": "C727",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 100,
-            "precio_reserva": "15.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 82,
-            "numero_mesa": "F194",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 68,
-            "numero_mesa": "F537",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 117,
-            "numero_mesa": "F564",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 22:26:24",
-            "fecha_actualizacion": "2026-01-07 22:26:24"
-          },
-          {
-            "id": 110,
-            "numero_mesa": "F685",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 99,
-            "numero_mesa": "F814",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 90,
-            "numero_mesa": "F913",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 75,
-            "numero_mesa": "F974",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 111,
-            "numero_mesa": "G022",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 20:33:27",
-            "fecha_actualizacion": "2026-01-07 20:33:27"
-          },
-          {
-            "id": 76,
-            "numero_mesa": "G025",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:31:04",
-            "fecha_actualizacion": "2026-01-06 22:31:04"
-          },
-          {
-            "id": 100,
-            "numero_mesa": "G230",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:27:48",
-            "fecha_actualizacion": "2026-01-07 19:27:48"
-          },
-          {
-            "id": 83,
-            "numero_mesa": "G496",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:34:48",
-            "fecha_actualizacion": "2026-01-06 22:34:48"
-          },
-          {
-            "id": 69,
-            "numero_mesa": "G841",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-06 22:23:45",
-            "fecha_actualizacion": "2026-01-06 22:23:45"
-          },
-          {
-            "id": 118,
-            "numero_mesa": "G924",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 22:26:25",
-            "fecha_actualizacion": "2026-01-07 22:26:25"
-          },
-          {
-            "id": 91,
-            "numero_mesa": "G982",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": "<script>alert(1)</script>",
-            "fecha_creacion": "2026-01-07 19:20:28",
-            "fecha_actualizacion": "2026-01-07 19:20:28"
-          },
-          {
-            "id": 64,
-            "numero_mesa": "IT_002",
-            "capacidad_minima": 4,
-            "capacidad_maxima": 6,
-            "precio_reserva": "8.00",
-            "ubicacion": "vip",
-            "estado": "disponible",
-            "descripcion": "Mesa de prueba segunda",
-            "fecha_creacion": "2026-01-01 23:32:45",
-            "fecha_actualizacion": "2026-01-01 23:32:45"
-          },
-          {
-            "id": 45,
-            "numero_mesa": "M01",
-            "capacidad_minima": 2,
-            "capacidad_maxima": 4,
-            "precio_reserva": "6.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-01 22:48:12"
-          },
-          {
-            "id": 46,
-            "numero_mesa": "T01",
-            "capacidad_minima": -7,
-            "capacidad_maxima": -5,
-            "precio_reserva": "5.00",
-            "ubicacion": "terraza",
-            "estado": "disponible",
-            "descripcion": "",
-            "fecha_creacion": "2026-01-01 22:48:12",
-            "fecha_actualizacion": "2026-01-08 08:28:23"
-          },
-          {
-            "id": 121,
-            "numero_mesa": "TEST_M1",
-            "capacidad_minima": 1,
-            "capacidad_maxima": 10,
-            "precio_reserva": "10.00",
-            "ubicacion": "interior",
-            "estado": "disponible",
-            "descripcion": null,
-            "fecha_creacion": "2026-01-08 21:59:36",
-            "fecha_actualizacion": "2026-01-08 21:59:36"
-          }
-        ]
-      }
-    },
-    {
-      "nombre": "✅ Crear mesa válida (cap. 10)",
-      "panel": "Mesas",
-      "accion": "Crear mesa capacidad 1-10",
-      "esperado": "Mesa creada correctamente",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "El número de mesa ya existe"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 CRÍTICO: Capacidad 16 (máx 15)",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': 16}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 CRÍTICO: Capacidad 20 (máx 15)",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': 20}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 CRÍTICO: Capacidad 50 (máx 15)",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': 50}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 CRÍTICO: Capacidad 100 (máx 15)",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': 100}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 CRÍTICO: Capacidad 1000 (máx 15)",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': 1000}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 Capacidad 0 (mín 1)",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': 0}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "Número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🚨 Capacidad negativa -1",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': -1}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 Capacidad -999",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_maxima': -999}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 Capacidad mínima 0",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_minima': 0}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 Capacidad mínima negativa",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_minima': -5}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 Min > Max",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_minima': 10, 'capacidad_maxima': 5}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 Min 15 > Max 10",
-      "panel": "Mesas",
-      "accion": "Crear con {'capacidad_minima': 15, 'capacidad_maxima': 10}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "🚨 Número de mesa vacío",
-      "panel": "Mesas",
-      "accion": "Crear con {'numero_mesa': ''}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "Número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🚨 Número de mesa muy largo",
-      "panel": "Mesas",
-      "accion": "Crear con {'numero_mesa': 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'}",
-      "esperado": "DEBE RECHAZAR (validación fallando)",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'numero_mesa' at row 1"
-      }
-    },
-    {
-      "nombre": "⚠️ Editar mesa (sin ID)",
-      "panel": "Mesas",
-      "accion": "No se creó mesa de prueba",
-      "esperado": "Crear mesa primero",
+      "nombre": "Reservas test 4 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "error": "Sin mesa"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Editar ID inexistente + cap 50",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': 999999, 'capacidad_maxima': 50}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🚨 Editar cap 100 (máx 15)",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': 1, 'capacidad_maxima': 100}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🚨 Editar cap 0",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': 1, 'capacidad_maxima': 0}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🚨 Editar cap negativa",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': 1, 'capacidad_maxima': -10}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🚨 Editar ID null",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': None}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🛡️ Editar SQL injection",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': \"' OR '1'='1\"}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🛡️ Editar XSS",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': '<script>'}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🚨 Editar número vacío",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': 1, 'numero_mesa': ''}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "🛡️ SQL injection en zona",
-      "panel": "Mesas",
-      "accion": "Editar con {'id': 1, 'zona': \"'; DROP TABLE mesas; --\"}",
-      "esperado": "Debe rechazar",
-      "paso": true,
-      "respuesta": {
-        "success": false,
-        "message": "ID, número de mesa y capacidad máxima son requeridos"
-      }
-    },
-    {
-      "nombre": "⚠️ Eliminar mesa (sin ID)",
-      "panel": "Mesas",
-      "accion": "No se pudo crear mesa",
-      "esperado": "Crear mesa de prueba",
+      "nombre": "Reservas test 5 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "error": "Sin mesa"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Eliminar ID null",
+      "nombre": "Reservas test 6 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 7 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 8 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 9 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 10 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 11 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 12 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 13 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 14 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 15 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 16 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 17 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 18 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 19 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 20 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 21 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 22 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 23 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 24 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 25 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 26 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 27 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 28 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 29 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 30 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 31 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 32 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 33 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 34 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 35 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 36 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 37 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 38 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 39 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Reservas test 40 (sin login)",
+      "panel": "Reservas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 1 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con None",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "ID de mesa requerido"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Eliminar ID cero",
+      "nombre": "Mesas test 2 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con 0",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "ID de mesa requerido"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Eliminar ID negativo",
+      "nombre": "Mesas test 3 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con -1",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Mesa eliminada exitosamente"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Eliminar ID inexistente",
+      "nombre": "Mesas test 4 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con 999999",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Mesa eliminada exitosamente"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Eliminar ID texto",
+      "nombre": "Mesas test 5 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con abc",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Mesa eliminada exitosamente"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🛡️ SQL injection",
+      "nombre": "Mesas test 6 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con ' OR '1'='1",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Mesa eliminada exitosamente"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🛡️ XSS",
+      "nombre": "Mesas test 7 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con <img src=x>",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Mesa eliminada exitosamente"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Array de IDs",
+      "nombre": "Mesas test 8 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con [1, 2, 3]",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": false,
-        "message": "ID de mesa requerido"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🚨 Parámetros extra",
+      "nombre": "Mesas test 9 (sin login)",
       "panel": "Mesas",
-      "accion": "Eliminar con {'id': 1, 'cascade': True}",
-      "esperado": "Debe rechazar",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "message": "Mesa eliminada exitosamente"
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Obtener menú completo",
+      "nombre": "Mesas test 10 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 11 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 12 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 13 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 14 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 15 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 16 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 17 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 18 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 19 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 20 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 21 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 22 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 23 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 24 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 25 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 26 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 27 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 28 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 29 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 30 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 31 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 32 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 33 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 34 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 35 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 36 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 37 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 38 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 39 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Mesas test 40 (sin login)",
+      "panel": "Mesas",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Menú test 1 (sin login)",
       "panel": "Menú",
-      "accion": "GET obtener_menu.php",
-      "esperado": "Devuelve platos y categorías",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "categorias": [
-          {
-            "id": 35,
-            "nombre": "Entradas",
-            "descripcion": "Platos para comenzar la experiencia gastronómica",
-            "imagen_url": null,
-            "platos": [
-              {
-                "id": 64,
-                "categoria_id": 35,
-                "nombre": "Croquetas de jamón",
-                "descripcion": "Crujientes croquetas de jamón serrano",
-                "precio": "7.50",
-                "stock_disponible": 15,
-                "imagen_url": "https://picsum.photos/200?food1",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 65,
-                "categoria_id": 35,
-                "nombre": "Ensalada César",
-                "descripcion": "Clásica ensalada con aderezo César",
-                "precio": "6.80",
-                "stock_disponible": 15,
-                "imagen_url": "https://picsum.photos/200?food2",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 66,
-                "categoria_id": 35,
-                "nombre": "Sopa de tomate",
-                "descripcion": "Sopa cremosa de tomate con especias",
-                "precio": "5.50",
-                "stock_disponible": 10,
-                "imagen_url": "https://picsum.photos/200?food3",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              }
-            ]
-          },
-          {
-            "id": 36,
-            "nombre": "Platos Principales",
-            "descripcion": "Especialidades de la casa y platos principales",
-            "imagen_url": null,
-            "platos": [
-              {
-                "id": 67,
-                "categoria_id": 36,
-                "nombre": "Lasaña boloñesa",
-                "descripcion": "Lasaña casera con salsa boloñesa",
-                "precio": "14.50",
-                "stock_disponible": 12,
-                "imagen_url": "https://picsum.photos/200?food4",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 69,
-                "categoria_id": 36,
-                "nombre": "Pollo teriyaki",
-                "descripcion": "Pollo glaseado en salsa teriyaki",
-                "precio": "13.90",
-                "stock_disponible": 18,
-                "imagen_url": "https://picsum.photos/200?food6",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 68,
-                "categoria_id": 36,
-                "nombre": "Risotto de hongos",
-                "descripcion": "Risotto cremoso con variedad de hongos",
-                "precio": "16.20",
-                "stock_disponible": 10,
-                "imagen_url": "https://picsum.photos/200?food5",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 70,
-                "categoria_id": 36,
-                "nombre": "Tacos de carne",
-                "descripcion": "Tacos tradicionales con carne marinada",
-                "precio": "11.20",
-                "stock_disponible": 29,
-                "imagen_url": "https://picsum.photos/200?food7",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              }
-            ]
-          },
-          {
-            "id": 37,
-            "nombre": "Carnes",
-            "descripcion": "Selección premium de carnes y parrillas",
-            "imagen_url": null,
-            "platos": [
-              {
-                "id": 71,
-                "categoria_id": 37,
-                "nombre": "Costillas BBQ",
-                "descripcion": "Costillas de cerdo con salsa BBQ",
-                "precio": "19.90",
-                "stock_disponible": 9,
-                "imagen_url": "https://picsum.photos/200?food8",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 72,
-                "categoria_id": 37,
-                "nombre": "Lomo fino",
-                "descripcion": "Lomo fino a la parrilla en su punto",
-                "precio": "22.50",
-                "stock_disponible": 6,
-                "imagen_url": "https://picsum.photos/200?food9",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 74,
-                "categoria_id": 37,
-                "nombre": "Medallones de cerdo",
-                "descripcion": "Medallones con salsa de champiñones",
-                "precio": "17.50",
-                "stock_disponible": 13,
-                "imagen_url": "https://picsum.photos/200?food11",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 73,
-                "categoria_id": 37,
-                "nombre": "Pollo a la plancha",
-                "descripcion": "Pechuga de pollo grillada",
-                "precio": "12.00",
-                "stock_disponible": 19,
-                "imagen_url": "https://picsum.photos/200?food10",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              }
-            ]
-          },
-          {
-            "id": 38,
-            "nombre": "Mariscos",
-            "descripcion": "Frescos del mar preparados con maestría",
-            "imagen_url": null,
-            "platos": [
-              {
-                "id": 78,
-                "categoria_id": 38,
-                "nombre": "Arroz marinero",
-                "descripcion": "Arroz con variedad de mariscos",
-                "precio": "14.90",
-                "stock_disponible": 13,
-                "imagen_url": "https://picsum.photos/200?food15",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 76,
-                "categoria_id": 38,
-                "nombre": "Camarones al ajillo",
-                "descripcion": "Camarones salteados en ajo",
-                "precio": "15.50",
-                "stock_disponible": 16,
-                "imagen_url": "https://picsum.photos/200?food13",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 75,
-                "categoria_id": 38,
-                "nombre": "Ceviche mixto",
-                "descripcion": "Ceviche de pescado y mariscos frescos",
-                "precio": "13.80",
-                "stock_disponible": 25,
-                "imagen_url": "https://picsum.photos/200?food12",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 77,
-                "categoria_id": 38,
-                "nombre": "Pulpo a la parrilla",
-                "descripcion": "Pulpo tierno a la parrilla",
-                "precio": "18.30",
-                "stock_disponible": 10,
-                "imagen_url": "https://picsum.photos/200?food14",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              }
-            ]
-          },
-          {
-            "id": 39,
-            "nombre": "Postres",
-            "descripcion": "Dulces creaciones para finalizar",
-            "imagen_url": null,
-            "platos": [
-              {
-                "id": 82,
-                "categoria_id": 39,
-                "nombre": "Brownie con helado",
-                "descripcion": "Brownie caliente con bola de helado",
-                "precio": "7.20",
-                "stock_disponible": 15,
-                "imagen_url": "https://picsum.photos/200?food19",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 80,
-                "categoria_id": 39,
-                "nombre": "Cheesecake",
-                "descripcion": "Pastel de queso clásico",
-                "precio": "6.80",
-                "stock_disponible": 18,
-                "imagen_url": "https://picsum.photos/200?food17",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 81,
-                "categoria_id": 39,
-                "nombre": "Helado artesanal",
-                "descripcion": "Helado de crema artesanal",
-                "precio": "4.90",
-                "stock_disponible": 30,
-                "imagen_url": "https://picsum.photos/200?food18",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 79,
-                "categoria_id": 39,
-                "nombre": "Tiramisú",
-                "descripcion": "Postre italiano con café",
-                "precio": "6.50",
-                "stock_disponible": 20,
-                "imagen_url": "https://picsum.photos/200?food16",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              }
-            ]
-          },
-          {
-            "id": 40,
-            "nombre": "Bebidas",
-            "descripcion": "Selección de bebidas y cocteles",
-            "imagen_url": null,
-            "platos": [
-              {
-                "id": 85,
-                "categoria_id": 40,
-                "nombre": "Café americano",
-                "descripcion": "Café filtrado clásico",
-                "precio": "2.50",
-                "stock_disponible": 50,
-                "imagen_url": "https://picsum.photos/200?food22",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 86,
-                "categoria_id": 40,
-                "nombre": "Chocolate caliente",
-                "descripcion": "Chocolate cremoso caliente",
-                "precio": "3.90",
-                "stock_disponible": 34,
-                "imagen_url": "https://picsum.photos/200?food23",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 83,
-                "categoria_id": 40,
-                "nombre": "Limonada natural",
-                "descripcion": "Refrescante limonada casera",
-                "precio": "3.50",
-                "stock_disponible": 40,
-                "imagen_url": "https://picsum.photos/200?food20",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 84,
-                "categoria_id": 40,
-                "nombre": "Mojito",
-                "descripcion": "Cóctel de ron con menta",
-                "precio": "5.80",
-                "stock_disponible": 25,
-                "imagen_url": "https://picsum.photos/200?food21",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              },
-              {
-                "id": 87,
-                "categoria_id": 40,
-                "nombre": "Té verde",
-                "descripcion": "Té verde natural",
-                "precio": "2.80",
-                "stock_disponible": 45,
-                "imagen_url": "https://picsum.photos/200?food24",
-                "activo": 1,
-                "tiempo_preparacion": 15,
-                "fecha_creacion": "2025-11-19 21:04:46"
-              }
-            ]
-          }
-        ]
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 2 (pendiente implementar)",
+      "nombre": "Menú test 2 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 2",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 3 (pendiente implementar)",
+      "nombre": "Menú test 3 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 3",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 4 (pendiente implementar)",
+      "nombre": "Menú test 4 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 4",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 5 (pendiente implementar)",
+      "nombre": "Menú test 5 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 5",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 6 (pendiente implementar)",
+      "nombre": "Menú test 6 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 6",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 7 (pendiente implementar)",
+      "nombre": "Menú test 7 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 7",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 8 (pendiente implementar)",
+      "nombre": "Menú test 8 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 8",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 9 (pendiente implementar)",
+      "nombre": "Menú test 9 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 9",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 10 (pendiente implementar)",
+      "nombre": "Menú test 10 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 10",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 11 (pendiente implementar)",
+      "nombre": "Menú test 11 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 11",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 12 (pendiente implementar)",
+      "nombre": "Menú test 12 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 12",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 13 (pendiente implementar)",
+      "nombre": "Menú test 13 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 13",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 14 (pendiente implementar)",
+      "nombre": "Menú test 14 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 14",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Menú test 15 (pendiente implementar)",
+      "nombre": "Menú test 15 (sin login)",
       "panel": "Menú",
-      "accion": "CRUD de platos test 15",
-      "esperado": "Implementar tests de menú",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Listar todos los clientes",
+      "nombre": "Clientes test 1 (sin login)",
       "panel": "Clientes",
-      "accion": "GET obtener_clientes.php",
-      "esperado": "Devuelve array de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "clientes": [
-          {
-            "id": 1,
-            "nombre": "Joffre",
-            "apellido": "Gomez",
-            "cedula": "1728677574",
-            "telefono": "0998521340",
-            "email": "joffregq2004@gmail.com"
-          }
-        ]
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 2 (pendiente)",
+      "nombre": "Clientes test 2 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 2",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 3 (pendiente)",
+      "nombre": "Clientes test 3 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 3",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 4 (pendiente)",
+      "nombre": "Clientes test 4 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 4",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 5 (pendiente)",
+      "nombre": "Clientes test 5 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 5",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 6 (pendiente)",
+      "nombre": "Clientes test 6 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 6",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 7 (pendiente)",
+      "nombre": "Clientes test 7 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 7",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 8 (pendiente)",
+      "nombre": "Clientes test 8 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 8",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 9 (pendiente)",
+      "nombre": "Clientes test 9 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 9",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Clientes test 10 (pendiente)",
+      "nombre": "Clientes test 10 (sin login)",
       "panel": "Clientes",
-      "accion": "Búsqueda/filtros test 10",
-      "esperado": "Implementar tests de clientes",
-      "paso": true,
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "✅ Obtener horarios del restaurante",
+      "nombre": "Configuración test 1 (sin login)",
       "panel": "Configuración",
-      "accion": "GET obtener_info_horarios.php",
-      "esperado": "Devuelve horarios",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "horarios": {
-          "lunes_viernes": "10:00 - 22:00",
-          "sabado": "11:00 - 23:00",
-          "domingo": "12:00 - 21:00",
-          "general": "15:00 - 20:00",
-          "usar_especificos": false
-        },
-        "dias_cerrados": "",
-        "reservas_activas": true
-      }
-    },
-    {
-      "nombre": "⚠️ Configuración test 2 (pendiente)",
-      "panel": "Configuración",
-      "accion": "Horarios/zonas test 2",
-      "esperado": "Implementar tests de configuración",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "⚠️ Configuración test 3 (pendiente)",
-      "panel": "Configuración",
-      "accion": "Horarios/zonas test 3",
-      "esperado": "Implementar tests de configuración",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "⚠️ Configuración test 4 (pendiente)",
-      "panel": "Configuración",
-      "accion": "Horarios/zonas test 4",
-      "esperado": "Implementar tests de configuración",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "⚠️ Configuración test 5 (pendiente)",
-      "panel": "Configuración",
-      "accion": "Horarios/zonas test 5",
-      "esperado": "Implementar tests de configuración",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "✅ Obtener logs de auditoría",
-      "panel": "Auditoría",
-      "accion": "GET auditoria.php",
-      "esperado": "Devuelve logs de acciones",
-      "paso": true,
-      "respuesta": {
-        "success": true,
-        "tipo": "horarios",
-        "total": 0,
-        "datos": []
-      }
-    },
-    {
-      "nombre": "⚠️ Auditoría test 2 (pendiente)",
-      "panel": "Auditoría",
-      "accion": "Filtros de logs test 2",
-      "esperado": "Implementar tests de auditoría",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "⚠️ Auditoría test 3 (pendiente)",
-      "panel": "Auditoría",
-      "accion": "Filtros de logs test 3",
-      "esperado": "Implementar tests de auditoría",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "⚠️ Auditoría test 4 (pendiente)",
-      "panel": "Auditoría",
-      "accion": "Filtros de logs test 4",
-      "esperado": "Implementar tests de auditoría",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "⚠️ Auditoría test 5 (pendiente)",
-      "panel": "Auditoría",
-      "accion": "Filtros de logs test 5",
-      "esperado": "Implementar tests de auditoría",
-      "paso": true,
-      "respuesta": {
-        "placeholder": true
-      }
-    },
-    {
-      "nombre": "✅ Cerrar sesión correctamente",
-      "panel": "Logout",
-      "accion": "POST logout.php",
-      "esperado": "Cierra sesión y destruye SESSION",
-      "paso": true,
-      "respuesta": {
-        "raw": "<!DOCTYPE html>\r\n<html lang=\"es\">\r\n\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Le Salon de LumiÃ¨re - Sistema de Reservas y GestiÃ³n</title>\r\n\r\n    <!-- Bootstrap CSS -->\r\n    <link rel=\"stylesheet\" href=\"public/bootstrap/css/bootstrap.min.css\">\r\n\r\n    <!-- Bootstrap Icons -->\r\n    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css\">\r\n\r\n    <!-- Google Fonts -->"
-      }
-    },
-    {
-      "nombre": "✅ Sesión cerrada (verificación)",
-      "panel": "Logout",
-      "accion": "GET verificar_sesion_admin.php",
-      "esperado": "Debe indicar sesión cerrada",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
       "paso": false,
       "respuesta": {
-        "activa": false,
-        "usuario": null
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "🔒 Dashboard rechaza sin sesión",
-      "panel": "Logout",
-      "accion": "GET dashboard sin login",
-      "esperado": "Debe rechazar acceso",
-      "paso": true,
+      "nombre": "Configuración test 2 (sin login)",
+      "panel": "Configuración",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "success": true,
-        "data": {
-          "reservasMes": [
-            {
-              "semana": "Hace 22-30 días",
-              "total": 0
-            },
-            {
-              "semana": "Hace 15-21 días",
-              "total": 0
-            },
-            {
-              "semana": "Hace 8-14 días",
-              "total": 1
-            },
-            {
-              "semana": "Últimos 7 días",
-              "total": 0
-            }
-          ],
-          "horariosPopulares": [
-            {
-              "horario": "16:00-19:00",
-              "total": 2
-            }
-          ],
-          "mesasPopulares": [
-            {
-              "mesa": "Mesa T01",
-              "total": 2
-            }
-          ],
-          "estadosReservas": [
-            {
-              "estado": "Confirmadas",
-              "total": 1
-            },
-            {
-              "estado": "Canceladas",
-              "total": 1
-            }
-          ],
-          "totalMesas": 25,
-          "mesasDisponibles": 25,
-          "mesasOcupadas": 0,
-          "reservasHoy": 0,
-          "reservasPendientes": 0,
-          "clientesTotal": 1,
-          "platosActivos": 24,
-          "porcentajeOcupacion": 0
-        }
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Logout test 4 (pendiente)",
-      "panel": "Logout",
-      "accion": "Validación de sesión test 4",
-      "esperado": "Implementar tests de logout",
-      "paso": true,
+      "nombre": "Configuración test 3 (sin login)",
+      "panel": "Configuración",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
       }
     },
     {
-      "nombre": "⚠️ Logout test 5 (pendiente)",
-      "panel": "Logout",
-      "accion": "Validación de sesión test 5",
-      "esperado": "Implementar tests de logout",
-      "paso": true,
+      "nombre": "Configuración test 4 (sin login)",
+      "panel": "Configuración",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
       "respuesta": {
-        "placeholder": true
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Configuración test 5 (sin login)",
+      "panel": "Configuración",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Auditoría test 1 (sin login)",
+      "panel": "Auditoría",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Auditoría test 2 (sin login)",
+      "panel": "Auditoría",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Auditoría test 3 (sin login)",
+      "panel": "Auditoría",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Auditoría test 4 (sin login)",
+      "panel": "Auditoría",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Auditoría test 5 (sin login)",
+      "panel": "Auditoría",
+      "accion": "Requiere login",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Logout test 1 (no logueado)",
+      "panel": "Logout",
+      "accion": "Requiere login previo",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Logout test 2 (no logueado)",
+      "panel": "Logout",
+      "accion": "Requiere login previo",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Logout test 3 (no logueado)",
+      "panel": "Logout",
+      "accion": "Requiere login previo",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Logout test 4 (no logueado)",
+      "panel": "Logout",
+      "accion": "Requiere login previo",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
+      }
+    },
+    {
+      "nombre": "Logout test 5 (no logueado)",
+      "panel": "Logout",
+      "accion": "Requiere login previo",
+      "esperado": "Admin logueado",
+      "paso": false,
+      "respuesta": {
+        "error": "No logueado"
       }
     }
   ],
-  "fecha": "2026-01-08T22:13:52.666663"
+  "fecha": "2026-01-11T21:48:24.602805"
 }
