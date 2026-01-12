@@ -1,7 +1,7 @@
 <?php
 /**
  * Validador de Nombres y Apellidos
- * Valida que solo contengan letras, espacios y caracteres especiales válidos
+ * Versión corregida: Soporta tildes, eñes y diéresis.
  */
 
 class ValidadorNombres {
@@ -47,11 +47,13 @@ class ValidadorNombres {
             ];
         }
         
-        // Verificar que solo contenga letras, espacios, acentos y caracteres especiales válidos (ñ, Ñ, ', -)
-        if (!preg_match("/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s'\-]+$/u", $texto)) {
+        // EXPRESIÓN REGULAR CORREGIDA:
+        // Incluye: áéíóú ÁÉÍÓÚ (tildes), ñ Ñ (eñe), ü Ü (diéresis)
+        // El modificador /u es vital para procesar estos caracteres en UTF-8
+        if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'\-]+$/u", $texto)) {
             return [
                 'valido' => false,
-                'mensaje' => "El $tipo contiene caracteres no válidos"
+                'mensaje' => "El $tipo contiene caracteres no válidos (solo letras, tildes y diéresis permitidas)"
             ];
         }
         
@@ -72,19 +74,19 @@ class ValidadorNombres {
     /**
      * Limpia y formatea un nombre o apellido
      * @param string $texto Texto a limpiar
-     * @return string Texto limpio y formateado
+     * @return string Texto limpio y formateado (Capitaliza palabras)
      */
     public static function limpiar($texto) {
         // Eliminar espacios al inicio y final
         $texto = trim($texto);
         
-        // Eliminar espacios múltiples
+        // Eliminar espacios múltiples internos
         $texto = preg_replace('/\s+/', ' ', $texto);
         
-        // Capitalizar primera letra de cada palabra
+        // Capitalizar primera letra de cada palabra (ej: joffre gomez -> Joffre Gomez)
         $texto = mb_convert_case($texto, MB_CASE_TITLE, 'UTF-8');
         
         return $texto;
     }
 }
-?>
+?> solo tenias que hacer esto
