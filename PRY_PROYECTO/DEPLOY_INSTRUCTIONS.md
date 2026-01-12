@@ -1,18 +1,23 @@
 # 🚀 Instrucciones de Despliegue
 
-## 📦 Pasos para Subir el Proyecto al Servidor
+## � **PARA TRABAJO EN GRUPO/CLASE**
 
-### 1️⃣ En tu Computadora (Local)
+### 1️⃣ Clonar el Proyecto (Compañeros del Grupo)
 
 ```bash
-# 1. Verifica que el .gitignore esté funcionando
-git status
+# 1. Clonar el repositorio
+git clone https://github.com/TU_USUARIO/TU_REPO.git
+cd TU_REPO
 
-# 2. Sube el proyecto a Git (GitHub, GitLab, etc.)
-git add .
-git commit -m "Actualización del proyecto"
-git push origin main  # o el nombre de tu rama
+# 2. Importar la base de datos
+mysql -u root -p < sql/database.sql
+
+# 3. ¡Ya está! Los archivos de configuración ya vienen incluidos
+# - conexion/db.php ✅ Ya configurado
+# - config/whatsapp_config.php ✅ Ya configurado
 ```
+
+**¡Eso es todo!** Tu grupo puede empezar a trabajar inmediatamente.
 
 ### 2️⃣ En el Servidor (Hosting/VPS)
 
