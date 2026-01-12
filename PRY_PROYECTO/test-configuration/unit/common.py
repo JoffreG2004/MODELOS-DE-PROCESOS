@@ -8,7 +8,7 @@ try:
 except Exception:
     requests = None
 
-DEFAULT_BASE_URL = "http://localhost/PRY_PROYECTO"
+DEFAULT_BASE_URL = "http://localhost/MODELOS-DE-PROCESOS/PRY_PROYECTO"
 
 
 def get_base_url() -> str:

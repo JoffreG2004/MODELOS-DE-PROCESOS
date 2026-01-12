@@ -2,7 +2,7 @@
 
 **Archivo de test:** `test-configuration/unit/test_mesas.py`  
 **Panel evaluado:** `Gestión de Mesas`  
-**Fecha:** 2026-01-08
+**Fecha:** 2026-01-12
 
 ---
 
@@ -70,4 +70,4 @@
 ---
 
 *Generado automáticamente por: `generar_reportes.py`*  
-*Fecha: 2026-01-08 22:30:29*
+*Fecha: 2026-01-12 18:38:38*
