@@ -6,6 +6,7 @@ require_once '../conexion/db.php';
 require_once '../validacion/ValidadorNombres.php';
 require_once '../validacion/ValidadorCedula.php';
 require_once '../validacion/ValidadorUsuario.php';
+require_once '../validacion/ValidadorTelefono.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
@@ -54,6 +55,13 @@ try {
         exit;
     }
 
+    // VALIDAR TELÉFONO (10 dígitos)
+    $validacionTelefono = ValidadorTelefono::validar($telefono);
+    if (!$validacionTelefono['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionTelefono['mensaje']]);
+        exit;
+    }
+
     // VALIDAR USUARIO
     $validacionUsuario = ValidadorUsuario::validarFormato($usuario);
     if (!$validacionUsuario['valido']) {
@@ -68,9 +76,10 @@ try {
         exit;
     }
 
-    // Limpiar y formatear nombre y apellido
+    // Limpiar y formatear nombre, apellido y teléfono
     $nombre = ValidadorNombres::limpiar($nombre);
     $apellido = ValidadorNombres::limpiar($apellido);
+    $telefono = ValidadorTelefono::limpiar($telefono);
 
     // Insertar nuevo cliente
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
