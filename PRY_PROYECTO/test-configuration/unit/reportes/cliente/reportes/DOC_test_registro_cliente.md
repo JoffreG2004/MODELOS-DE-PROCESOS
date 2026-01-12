@@ -8,11 +8,6 @@
 
 ## 📊 Resumen
 
-- **Total tests:** 36
-- **Pasados:** 29 ✅
-- **Fallados:** 7 ❌
-- **Porcentaje éxito:** 80.6%
-
 ---
 
 ## ❌ TESTS FALLADOS (7)
