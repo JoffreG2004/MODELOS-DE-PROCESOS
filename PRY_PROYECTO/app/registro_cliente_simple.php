@@ -6,6 +6,7 @@ require_once __DIR__ . '/../conexion/db.php';
 require_once __DIR__ . '/../validacion/ValidadorNombres.php';
 require_once __DIR__ . '/../validacion/ValidadorCedula.php';
 require_once __DIR__ . '/../validacion/ValidadorUsuario.php';
+require_once __DIR__ . '/../validacion/ValidadorTelefono.php';
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -69,6 +70,13 @@ try {
         exit;
     }
 
+    // VALIDAR TELÉFONO (10 dígitos)
+    $validacionTelefono = ValidadorTelefono::validar($telefono);
+    if (!$validacionTelefono['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionTelefono['mensaje']]);
+        exit;
+    }
+
     // VALIDAR FORMATO DE USUARIO
     $validacionUsuario = ValidadorUsuario::validarFormato($usuario);
     if (!$validacionUsuario['valido']) {
@@ -97,9 +105,10 @@ try {
         exit;
     }
 
-    // Limpiar y formatear nombre y apellido
+    // Limpiar y formatear nombre, apellido y teléfono
     $nombre = ValidadorNombres::limpiar($nombre);
     $apellido = ValidadorNombres::limpiar($apellido);
+    $telefono = ValidadorTelefono::limpiar($telefono);
     
     // Insertar nuevo cliente (password sin hash en columna password_hash)
     $insert_sql = "INSERT INTO clientes (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, email) 
