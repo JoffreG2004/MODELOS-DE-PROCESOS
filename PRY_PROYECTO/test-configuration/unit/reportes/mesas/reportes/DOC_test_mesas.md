@@ -8,22 +8,22 @@
 
 ## 📊 Resumen
 
-- **Total tests:** 17
-- **Pasados:** 14 ✅
-- **Fallados:** 3 ❌
-- **Porcentaje éxito:** 82.35%
+- **Total tests:** 21
+- **Pasados:** 16 ✅
+- **Fallados:** 5 ❌
+- **Porcentaje éxito:** 76.19%
 
 ---
 
 ## ⚠️ ESTADO: NECESITA CORRECCIONES
 
-**3 tests fallan** - Requiere atención
+**5 tests fallan** - Requiere atención
 
 ---
 
-## ✅ Tests que pasan (14):
+## ✅ Tests que pasan (16):
 
-### Gestión de Mesas (14 tests)
+### Gestión de Mesas (16 tests)
 - ✅ Listar inicial
 - ✅ Agregar mesa válida A095
 - ✅ Duplicado (debe fallar)
@@ -34,13 +34,13 @@
 - ✅ Crear base H456
 - ✅ Editar con duplicado (debe fallar)
 - ✅ Eliminar mesa1
-- ✅ ... y 4 tests más
+- ✅ ... y 6 tests más
 
 ---
 
-## ❌ Tests que fallan (3):
+## ❌ Tests que fallan (5):
 
-### Gestión de Mesas (3 tests fallando)
+### Gestión de Mesas (5 tests fallando)
 
 - ❌ **Capacidad 100 (debe fallar)**
   - Esperado: Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)
@@ -51,15 +51,21 @@
 - ❌ **Descripción XSS (debe fallar)**
   - Esperado: Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)
 
+- ❌ **Agregar mesa válida A329**
+  - Esperado: Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)
+
+- ❌ **Crear base H326**
+  - Esperado: Respetar reglas (unicidad, capacidad<=15, estado/ubicación válidos)
+
 ---
 
 ## 🎯 Conclusión
 
 **Gestión de Mesas - Estado General:**
 
-⚠️ **BUENO** - 82.35% de tests pasando
-- Funcionalidad principal operativa
-- Requiere correcciones menores
+⚠️ **REGULAR** - 76.19% de tests pasando
+- Funcionalidad básica operativa
+- Múltiples bugs que corregir
 
 **Próximos pasos:**
 1. Revisar tests fallados
@@ -70,4 +76,4 @@
 ---
 
 *Generado automáticamente por: `generar_reportes.py`*  
-*Fecha: 2026-01-12 18:38:38*
+*Fecha: 2026-01-12 22:00:37*
