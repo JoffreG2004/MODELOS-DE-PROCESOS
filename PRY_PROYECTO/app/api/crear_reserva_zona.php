@@ -30,7 +30,19 @@ try {
         echo json_encode(['success' => false, 'message' => 'Debe seleccionar al menos una zona']);
         exit;
     }
-    
+
+    // Normalizar y validar nombres de zonas aceptadas
+    $allowed_zonas = ['interior', 'terraza', 'vip', 'bar'];
+    $zonas = array_filter(array_map('trim', $zonas), function($z) use ($allowed_zonas) {
+        return $z !== '' && in_array($z, $allowed_zonas, true);
+    });
+    $zonas = array_values(array_unique($zonas));
+
+    if (empty($zonas)) {
+        echo json_encode(['success' => false, 'message' => 'No hay zonas válidas en la selección']);
+        exit;
+    }
+
     if (empty($fecha_reserva) || empty($hora_reserva)) {
         echo json_encode(['success' => false, 'message' => 'Fecha y hora son requeridas']);
         exit;
@@ -61,19 +73,27 @@ try {
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_to_send);
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
     $response = curl_exec($ch);
+    $curlErr = curl_error($ch);
     curl_close($ch);
     $result = json_decode($response, true);
+    if (!is_array($result) || !isset($result['valido'])) {
+        $msg = 'Error al validar horario';
+        if (!empty($curlErr)) $msg .= ': ' . $curlErr;
+        echo json_encode(['success' => false, 'message' => $msg]);
+        exit;
+    }
     if (!$result['valido']) {
-        echo json_encode(['success' => false, 'message' => $result['message']]);
+        echo json_encode(['success' => false, 'message' => $result['message'] ?? 'Horario inválido']);
         exit;
     }
     
-    // Validación de número de personas
-    if (!is_numeric($numero_personas) || $numero_personas < 20) {
-        echo json_encode(['success' => false, 'message' => 'El número de personas debe ser entre 20 y 50']);
+    // Validación de número de personas: permitir 1-50 (enteros)
+    if (!is_numeric($numero_personas) || (int)$numero_personas < 1) {
+        echo json_encode(['success' => false, 'message' => 'El número de personas debe ser entre 1 y 50']);
         exit;
     }
-    
+
+    $numero_personas = (int)$numero_personas;
     if ($numero_personas > 50) {
         echo json_encode(['success' => false, 'message' => 'Para grupos mayores a 50 personas contacte directamente al restaurante']);
         exit;
@@ -88,21 +108,43 @@ try {
     ];
     
     $cantidad_zonas = count($zonas);
-    $precio_total = $precios[$cantidad_zonas] ?? 60.00;
+    $precio_total = $precios[$cantidad_zonas] ?? $precios[1];
     
-    // Contar las mesas totales en las zonas seleccionadas
+    // Contar las mesas totales DISPONIBLES en las zonas seleccionadas
+    // Y verificar que la capacidad máxima total sea suficiente
     $placeholders = str_repeat('?,', count($zonas) - 1) . '?';
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*) as total_mesas
+    $query_mesas = "
+        SELECT COUNT(*) as total_mesas, COALESCE(SUM(capacidad_maxima), 0) as capacidad_total
         FROM mesas 
         WHERE ubicacion IN ($placeholders)
-        AND estado NOT IN ('mantenimiento')
-    ");
-    $stmt->execute($zonas);
-    $cantidad_mesas = $stmt->fetch(PDO::FETCH_ASSOC)['total_mesas'];
+        AND estado = 'disponible'
+    ";
+    $stmt = $pdo->prepare($query_mesas);
+    if (!$stmt->execute(array_values($zonas))) {
+        echo json_encode(['success' => false, 'message' => 'Error al validar mesas disponibles']);
+        exit;
+    }
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if ($cantidad_mesas == 0) {
+    // Asegurar conversión correcta de tipos
+    $cantidad_mesas = (int)($resultado['total_mesas'] ?? 0);
+    $capacidad_total = (int)($resultado['capacidad_total'] ?? 0);
+    
+    // Validar que hay mesas disponibles
+    if ($cantidad_mesas <= 0) {
         echo json_encode(['success' => false, 'message' => 'No hay mesas disponibles en las zonas seleccionadas']);
+        exit;
+    }
+    
+    // Validar que hay mesas disponibles
+    if ($cantidad_mesas <= 0) {
+        echo json_encode(['success' => false, 'message' => 'No hay mesas disponibles en las zonas seleccionadas']);
+        exit;
+    }
+    
+    // Validar que la capacidad total es suficiente para el número de personas
+    if ($capacidad_total < $numero_personas) {
+        echo json_encode(['success' => false, 'message' => 'Capacidad insuficiente en las zonas seleccionadas para ' . $numero_personas . ' personas. Máximo disponible: ' . $capacidad_total]);
         exit;
     }
     
@@ -112,16 +154,14 @@ try {
         FROM reservas_zonas
         WHERE fecha_reserva = ?
         AND estado IN ('pendiente', 'confirmada')
-        AND (
-            (? >= hora_reserva AND ? < ADDTIME(hora_reserva, '02:00:00'))
-            OR
-            (ADDTIME(?, '02:00:00') > hora_reserva AND ADDTIME(?, '02:00:00') <= ADDTIME(hora_reserva, '02:00:00'))
-            OR
-            (? <= hora_reserva AND ADDTIME(?, '02:00:00') >= ADDTIME(hora_reserva, '02:00:00'))
-        )
+        AND hora_reserva = ?
     ");
-    $stmt->execute([$fecha_reserva, $hora_reserva, $hora_reserva, $hora_reserva, $hora_reserva, $hora_reserva, $hora_reserva]);
-    $conflictos = $stmt->fetch(PDO::FETCH_ASSOC)['conflictos'];
+    if (!$stmt || !$stmt->execute([$fecha_reserva, $hora_reserva])) {
+        echo json_encode(['success' => false, 'message' => 'Error al verificar conflictos de horarios']);
+        exit;
+    }
+    $resultado_conflictos = $stmt->fetch(PDO::FETCH_ASSOC);
+    $conflictos = (int)($resultado_conflictos['conflictos'] ?? 0);
     
     if ($conflictos > 0) {
         echo json_encode([

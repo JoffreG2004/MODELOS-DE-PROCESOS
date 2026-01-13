@@ -32,7 +32,9 @@ try {
         echo json_encode(['success' => false, 'valido' => false, 'message' => 'Formato de fecha inválido']);
         exit;
     }
-    
+    // Normalizar hora de fecha a 00:00 para comparaciones de días
+    $fecha_obj->setTime(0, 0, 0);
+
     // Validar que no sea fecha pasada
     $hoy = new DateTime();
     $hoy->setTime(0, 0, 0);
@@ -41,8 +43,12 @@ try {
         exit;
     }
     
-    // Validar que no sea más de 6 meses adelante
-    $max_adelanto = (new DateTime())->modify('+6 months');
+    // Validar que no sea más de 180 días (aprox. 6 meses) adelante
+    $max_adelanto = new DateTime();
+    $max_adelanto->setTime(0, 0, 0);
+    $max_adelanto->modify('+180 days');
+    // Si la fecha es ESTRICTAMENTE mayor que la máxima permitida, rechazar
+    // +180 días debe ser permitido, +181 debe ser rechazado
     if ($fecha_obj > $max_adelanto) {
         echo json_encode(['success' => false, 'valido' => false, 'message' => 'No se pueden hacer reservas con más de 6 meses de anticipación']);
         exit;

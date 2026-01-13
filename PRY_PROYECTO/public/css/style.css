@@ -1606,6 +1606,30 @@ body.dark-mode #ModalCliente .nav-tabs .nav-link.active {
     margin-bottom: 6px !important;
 }
 
+/* Forzar color en partes internas de inputs date/time en WebKit */
+.swal2-html-container input[type="date"]::-webkit-datetime-edit,
+.swal2-html-container input[type="time"]::-webkit-datetime-edit,
+.swal2-html-container input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+.swal2-html-container input[type="time"]::-webkit-datetime-edit-fields-wrapper,
+.swal2-popup input[type="date"]::-webkit-datetime-edit,
+.swal2-popup input[type="time"]::-webkit-datetime-edit,
+.swal2-popup input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+.swal2-popup input[type="time"]::-webkit-datetime-edit-fields-wrapper,
+.swal2-html-container input[type="date"]::-webkit-datetime-edit-text,
+.swal2-html-container input[type="time"]::-webkit-datetime-edit-text,
+.swal2-popup input[type="date"]::-webkit-datetime-edit-text,
+.swal2-popup input[type="time"]::-webkit-datetime-edit-text {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+/* Forzar color en inputs numéricos y texto dentro de SweetAlert para todos los navegadores */
+.swal2-html-container input,
+.swal2-popup input {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
 /* Small text dentro de SweetAlert */
 .swal2-html-container small,
 .swal2-popup small {
@@ -1650,6 +1674,181 @@ body.dark-mode #ModalCliente .nav-tabs .nav-link.active {
 .swal2-popup strong {
     color: #2d1b12 !important;
     font-weight: 700 !important;
+}
+
+/* Forzar estilos cuando el body usa modo oscuro */
+body.dark-mode .swal2-html-container .form-control,
+body.dark-mode .swal2-popup .form-control,
+body.dark-mode .swal2-html-container input,
+body.dark-mode .swal2-popup input {
+    background: #ffffff !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+/* Estilos para checkboxes dentro de SweetAlert */
+.swal2-html-container .form-check-input,
+.swal2-popup .form-check-input,
+.swal2-html-container .zona-checkbox,
+.swal2-popup .zona-checkbox {
+    accent-color: #d4af37 !important;
+    background-color: #ffffff !important;
+    border: 2px solid rgba(45, 27, 18, 0.1) !important;
+}
+
+.swal2-html-container .form-check-input:checked,
+.swal2-popup .form-check-input:checked,
+.swal2-html-container .zona-checkbox:checked,
+.swal2-popup .zona-checkbox:checked {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+}
+
+/* In case Bootstrap uses background-image for checkbox check, ensure contrast */
+.swal2-html-container .form-check-input:checked::after,
+.swal2-popup .form-check-input:checked::after,
+.swal2-html-container .zona-checkbox:checked::after,
+.swal2-popup .zona-checkbox:checked::after {
+    color: #000000 !important;
+}
+
+/* Force native checkbox appearance and remove custom background-images that hide the check */
+.swal2-html-container .form-check-input,
+.swal2-popup .form-check-input,
+.swal2-html-container .zona-checkbox,
+.swal2-popup .zona-checkbox {
+    -webkit-appearance: checkbox !important;
+    appearance: checkbox !important;
+    background-image: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+}
+
+.swal2-html-container .form-check-input:checked,
+.swal2-popup .form-check-input:checked,
+.swal2-html-container .zona-checkbox:checked,
+.swal2-popup .zona-checkbox:checked {
+    background-image: none !important;
+}
+
+/* If label is used as sibling, ensure checkbox is visible and label has space */
+.swal2-html-container .form-check-label,
+.swal2-popup .form-check-label {
+    position: relative;
+    padding-left: 38px !important;
+}
+
+.swal2-html-container .form-check-input,
+.swal2-popup .form-check-input,
+.swal2-html-container .zona-checkbox,
+.swal2-popup .zona-checkbox {
+    width: 20px !important;
+    height: 20px !important;
+    margin-left: 0 !important;
+    margin-top: -2px !important;
+}
+
+/* Reemplazo visual de checkbox: ocultar input nativo y mostrar caja personalizada */
+.swal2-html-container .zona-check-item,
+.swal2-popup .zona-check-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.swal2-html-container .zona-checkbox,
+.swal2-popup .zona-checkbox {
+    position: absolute !important;
+    left: 12px !important;
+    opacity: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+    pointer-events: auto !important;
+}
+
+.swal2-html-container .zona-check-item .form-check-label,
+.swal2-popup .zona-check-item .form-check-label {
+    position: relative;
+    padding-left: 44px !important;
+    cursor: pointer;
+}
+
+.swal2-html-container .zona-check-item .form-check-label::before,
+.swal2-popup .zona-check-item .form-check-label::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(180, 180, 180, 0.8);
+    border-radius: 6px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+/* Marca visible cuando está seleccionado */
+.swal2-html-container .zona-checkbox:checked+.form-check-label::before,
+.swal2-popup .zona-checkbox:checked+.form-check-label::before {
+    background: #d4af37;
+    border-color: #d4af37;
+}
+
+.swal2-html-container .zona-checkbox:checked+.form-check-label::after,
+.swal2-popup .zona-checkbox:checked+.form-check-label::after {
+    content: '✓';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+}
+
+/* Universal fallback: handle any checkbox inside SweetAlert popup */
+.swal2-popup input[type="checkbox"],
+.swal2-html-container input[type="checkbox"] {
+    position: absolute !important;
+    left: 12px !important;
+    opacity: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.swal2-popup input[type="checkbox"] + label::before,
+.swal2-html-container input[type="checkbox"] + label::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(180,180,180,0.8);
+    border-radius: 6px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.swal2-popup input[type="checkbox"]:checked + label::before,
+.swal2-html-container input[type="checkbox"]:checked + label::before {
+    background: #d4af37;
+    border-color: #d4af37;
+}
+
+.swal2-popup input[type="checkbox"]:checked + label::after,
+.swal2-html-container input[type="checkbox"]:checked + label::after {
+    content: '✓';
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
 }
 
 /* CACHE BUSTER 1762917976 */
