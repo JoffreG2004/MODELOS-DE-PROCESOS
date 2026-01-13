@@ -70,4 +70,4 @@
 ---
 
 *Generado automáticamente por: `generar_reportes.py`*  
-*Fecha: 2026-01-12 18:38:38*
+*Fecha: 2026-01-12 22:00:37*
