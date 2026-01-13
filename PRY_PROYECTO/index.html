@@ -405,6 +405,35 @@
             color: rgba(255, 255, 255, 0.7) !important;
         }
 
+                /* Estilos para el filtro de precio */
+        #filtroPrecio {
+            transition: all 0.3s ease;
+        }
+
+        #filtroPrecio:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            outline: none;
+        }
+
+        .dark-mode #filtroPrecio {
+            background: #1a1a1a !important;
+            color: white !important;
+            border-color: #d4af37 !important;
+        }
+
+        .dark-mode #filtroPrecio option {
+            background: #1a1a1a;
+            color: #d4af37;
+        }
+
+        .dark-mode label[for="filtroPrecio"] ,.dark-mode label[for="filtroPrecio"] i{
+            color: #d4af37 !important;
+        }
+        .dark-mode p strong{
+            color: #d4af37 !important;
+        }
+       
         /* Modales mantienen su diseño original en modo oscuro */
     </style>
 </head>
@@ -871,6 +900,28 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Filtro de Precio -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+                        <label for="filtroPrecio" class="form-label mb-0" style=" font-weight: 500;color: #666">
+                            <i class="bi bi-funnel-fill"></i> Filtrar por Precio:
+                        </label>
+                        <select id="filtroPrecio" class="form-select"
+                            style="max-width: 300px; background: #3d2e24; color: #f5f2ed; border: 1px solid #d4af37; border-radius: 25px; padding: 10px 20px;">
+                            <option value="todos">Todas las mesas</option>
+                            <!-- <option value="0-5">$0 - $5</option> -->
+                             <option value="1-6">$1 - $6</option>
+                            <option value="7-12">$7 - $12</option>
+                            <!-- <option value="5-10">$5 - $10</option> -->
+                            <option value="13-20">$13 - $20</option>
+                            <option value="20-">$20 o más</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Grid de Mesas con Imágenes Elegantes -->
             <div class="row g-4" id="mesasGallery">
@@ -2412,6 +2463,7 @@
         class MesasVisualizacion {
             constructor() {
                 this.mesas = [];
+                this.mesasFiltradas = [];
                 this.updateInterval = null;
                 this.init();
             }
@@ -2419,11 +2471,56 @@
             async init() {
                 await this.cargarMesas();
                 this.iniciarActualizacionAutomatica();
+                this.configurarFiltros();
 
                 // Event listener para el botón de actualizar
                 const btnActualizar = document.getElementById('btnActualizarMesas');
                 if (btnActualizar) {
                     btnActualizar.addEventListener('click', () => this.cargarMesas());
+                }
+            }
+
+            configurarFiltros() {
+                const filtroPrecio = document.getElementById('filtroPrecio');
+                if (filtroPrecio) {
+                    filtroPrecio.addEventListener('change', (e) => {
+                        this.filtrarPorPrecio(e.target.value);
+                    });
+                }
+            }
+
+            filtrarPorPrecio(rangoSeleccionado) {
+                if (rangoSeleccionado === 'todos') {
+                    this.mesasFiltradas = this.mesas;
+                } else {
+                    const [min, max] = rangoSeleccionado.split('-').map(v => v === '' ? Infinity : parseFloat(v));
+
+                    this.mesasFiltradas = this.mesas.filter(mesa => {
+                        const precio = parseFloat(mesa.precio_reserva || 5);
+                        if (max === undefined) {
+                            // Caso "20+" (sin límite superior)
+                            return precio >= min;
+                        }
+                        return precio >= min && precio <= max;
+                    });
+                }
+
+                this.renderizarMesas();
+                this.mostrarMensajeFiltro(this.mesasFiltradas.length);
+            }
+
+            mostrarMensajeFiltro(cantidad) {
+                const gallery = document.getElementById('mesasGallery');
+                if (cantidad === 0) {
+                    gallery.innerHTML = `
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-search" style="font-size: 3rem; color: #d4af37;"></i>
+                    <p class="mt-3" style="color: #d4af37; font-size: 1.2rem;">
+                        No se encontraron mesas en este rango de precio
+                    </p>
+                    <p class="text-muted">Intenta con otro rango de precio</p>
+                </div>
+            `;
                 }
             }
 
@@ -2438,6 +2535,7 @@
 
                     if (data.success) {
                         this.mesas = data.mesas;
+                        this.mesasFiltradas = this.mesas; // Inicialmente mostrar todas
                         this.renderizarMesas();
                         this.actualizarEstadisticas(data.resumen);
                     } else {
@@ -2454,7 +2552,7 @@
                 const gallery = document.getElementById('mesasGallery');
                 if (gallery) {
                     gallery.innerHTML = '';
-                    this.mesas.forEach(mesa => {
+                    this.mesasFiltradas.forEach(mesa => {
                         const mesaElement = this.crearElementoMesa(mesa);
                         gallery.appendChild(mesaElement);
                     });
