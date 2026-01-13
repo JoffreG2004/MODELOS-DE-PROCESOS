@@ -2535,8 +2535,11 @@
 
                     if (data.success) {
                         this.mesas = data.mesas;
-                        this.mesasFiltradas = this.mesas; // Inicialmente mostrar todas
-                        this.renderizarMesas();
+                        // Obtener valor actual del select
+                        const filtroPrecio = document.getElementById('filtroPrecio');
+                        const valorRango = filtroPrecio ? filtroPrecio.value : 'todos';
+                        this.filtrarPorPrecio(valorRango);
+
                         this.actualizarEstadisticas(data.resumen);
                     } else {
                         console.error('Error en la respuesta:', data.message);
