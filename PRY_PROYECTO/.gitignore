@@ -83,3 +83,4 @@ __pycache__/
 .phpunit.cache/
 storage/framework/cache/*
 !storage/framework/cache/.gitkeep
+.env
