@@ -29,17 +29,39 @@ function enviarWhatsAppTwilio($telefono, $mensaje) {
             'disabled' => true
         ];
     }
+
+    if (empty($config['twilio_account_sid']) || empty($config['twilio_auth_token']) || empty($config['twilio_whatsapp_from'])) {
+        return [
+            'success' => false,
+            'message' => 'Configuración de Twilio incompleta (SID/Auth Token/From)'
+        ];
+    }
     
     try {
         // Limpiar y formatear teléfono
-        $telefonoLimpio = preg_replace('/\D/', '', $telefono);
-        
-        // Si el número empieza con 0, quitarlo (formato local ecuatoriano)
-        if (substr($telefonoLimpio, 0, 1) === '0') {
-            $telefonoLimpio = substr($telefonoLimpio, 1);
+        $telefonoLimpio = preg_replace('/\D/', '', (string)$telefono);
+        $countryCode = (string)($config['country_code'] ?? '593');
+        $countryCode = preg_replace('/\D/', '', $countryCode);
+
+        if ($countryCode === '') {
+            $countryCode = '593';
         }
-        
-        $telefonoCompleto = 'whatsapp:+' . $config['country_code'] . $telefonoLimpio;
+
+        // Quitar prefijo internacional 00
+        if (strpos($telefonoLimpio, '00') === 0) {
+            $telefonoLimpio = substr($telefonoLimpio, 2);
+        }
+
+        // Si ya trae código de país, respetarlo; si no, prefijarlo
+        if (strpos($telefonoLimpio, $countryCode) === 0) {
+            $telefonoNormalizado = $telefonoLimpio;
+        } elseif (strpos($telefonoLimpio, '0') === 0) {
+            $telefonoNormalizado = $countryCode . substr($telefonoLimpio, 1);
+        } else {
+            $telefonoNormalizado = $countryCode . $telefonoLimpio;
+        }
+
+        $telefonoCompleto = 'whatsapp:+' . $telefonoNormalizado;
         
         // Preparar datos para Twilio
         $data = [
@@ -62,7 +84,15 @@ function enviarWhatsAppTwilio($telefono, $mensaje) {
         // Ejecutar request
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
         curl_close($ch);
+
+        if ($curlError) {
+            return [
+                'success' => false,
+                'message' => 'Error cURL al enviar WhatsApp: ' . $curlError
+            ];
+        }
         
         $result = json_decode($response, true);
         

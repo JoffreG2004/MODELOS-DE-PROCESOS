@@ -4,6 +4,13 @@
 // Cargar variables de entorno
 require_once __DIR__ . '/../config/env_loader.php';
 
+// Alinear todas las validaciones de fecha/hora con la zona del negocio
+$appTimezone = env('APP_TIMEZONE', 'America/Guayaquil');
+if (!in_array($appTimezone, timezone_identifiers_list(), true)) {
+    $appTimezone = 'America/Guayaquil';
+}
+date_default_timezone_set($appTimezone);
+
 $host = env('DB_HOST', 'localhost');
 $dbname = env('DB_NAME', 'crud_proyecto');
 $username = env('DB_USER', 'root');

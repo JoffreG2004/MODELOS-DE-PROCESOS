@@ -42,6 +42,7 @@ class GestionMesas {
 
             const estadoBadge = this.getEstadoBadge(mesa.estado);
             const ubicacionIcon = this.getUbicacionIcon(mesa.ubicacion);
+            const bloqueada = ['ocupada', 'reservada'].includes(mesa.estado);
 
             tr.innerHTML = `
                 <td><strong>${mesa.numero_mesa}</strong></td>
@@ -54,7 +55,7 @@ class GestionMesas {
                 <td>${estadoBadge}</td>
                 <td>${mesa.descripcion || '-'}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="gestionMesas.editarMesa(${mesa.id})">
+                    <button class="btn btn-sm btn-primary" onclick="gestionMesas.editarMesa(${mesa.id})" ${bloqueada ? 'disabled' : ''} title="${bloqueada ? 'No se puede editar: mesa ocupada o reservada' : 'Editar'}">
                         <i class="fas fa-edit"></i> Editar
                     </button>
                     <button class="btn btn-sm btn-danger" onclick="gestionMesas.confirmarEliminar(${mesa.id}, '${mesa.numero_mesa}')">
@@ -124,13 +125,15 @@ class GestionMesas {
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Capacidad Mínima</label>
                                         <input type="number" class="form-control" id="capacidadMinima" 
-                                               value="${mesaData?.capacidad_minima || 1}" min="1" max="50">
+                                               value="${mesaData?.capacidad_minima || 1}" min="1" max="20"
+                                               step="1" inputmode="numeric" pattern="\\d*">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Capacidad Máxima *</label>
                                         <input type="number" class="form-control" id="capacidadMaxima" 
                                                value="${mesaData?.capacidad_maxima || ''}" 
-                                               min="1" max="50" required>
+                                               min="1" max="20" required
+                                               step="1" inputmode="numeric" pattern="\\d*">
                                     </div>
                                 </div>
 
@@ -184,6 +187,16 @@ class GestionMesas {
         // Mostrar modal
         const modal = new bootstrap.Modal(document.getElementById('modalMesa'));
         modal.show();
+
+        const minInput = document.getElementById('capacidadMinima');
+        const maxInput = document.getElementById('capacidadMaxima');
+        [minInput, maxInput].forEach(input => {
+            if (input) {
+                input.addEventListener('input', () => {
+                    input.value = input.value.replace(/[^0-9]/g, '');
+                });
+            }
+        });
     }
 
     async editarMesa(id) {
@@ -216,6 +229,31 @@ class GestionMesas {
                 icon: 'warning',
                 title: 'Capacidad inválida',
                 text: 'La capacidad mínima no puede ser mayor que la máxima'
+            });
+            return;
+        }
+
+        if (capacidad_maxima > 20 || capacidad_minima > 20) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Capacidad inválida',
+                text: 'No se permiten mesas de más de 20 personas'
+            });
+            return;
+        }
+
+        // Validar max 5 mesas por zona
+        const totalZona = this.mesas.filter(m => m.ubicacion === ubicacion).length;
+        const esEdicion = modo === 'editar';
+        const mesaActual = esEdicion ? this.mesas.find(m => String(m.id) === String(id)) : null;
+        const mismaZona = mesaActual && mesaActual.ubicacion === ubicacion;
+        const totalZonaAjustado = mismaZona ? totalZona : totalZona + 1;
+
+        if (totalZonaAjustado > 5) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Límite de zona',
+                text: 'No se permiten más de 5 mesas por zona'
             });
             return;
         }
@@ -393,16 +431,14 @@ class GestionMesas {
             title: '🔧 Acciones Masivas de Mesas',
             html: `
                 <div class="text-start">
-                    <p class="mb-3">Selecciona una acción para gestionar múltiples mesas:</p>
+                    <p class="mb-2">Solo se permiten cambios en <strong>mesas seleccionadas</strong>.</p>
                     <div class="alert alert-info">
-                        <small><i class="fas fa-info-circle"></i> Estas acciones actualizan el estado de las mesas instantáneamente</small>
+                        <small><i class="fas fa-info-circle"></i> Se mostrará una vista previa antes de aplicar cambios.</small>
                     </div>
                 </div>
             `,
             input: 'select',
             inputOptions: {
-                'marcar_todas_ocupadas': '🔴 Marcar TODAS como Ocupadas (Restaurante lleno)',
-                'marcar_todas_disponibles': '🟢 Marcar TODAS como Disponibles (Reset)',
                 'marcar_seleccionadas': '✅ Cambiar Mesas Específicas (Selección manual)',
                 'liberar_ocupadas': '🔓 Liberar Solo las Ocupadas (Limpieza rápida)'
             },
@@ -417,12 +453,6 @@ class GestionMesas {
 
         if (accion) {
             switch (accion) {
-                case 'marcar_todas_ocupadas':
-                    await this.confirmarCambioMasivo('todas', 'ocupada');
-                    break;
-                case 'marcar_todas_disponibles':
-                    await this.confirmarCambioMasivo('todas', 'disponible');
-                    break;
                 case 'marcar_seleccionadas':
                     await this.seleccionarMesasEspecificas();
                     break;

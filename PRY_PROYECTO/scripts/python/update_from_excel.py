@@ -194,9 +194,13 @@ def main():
         if args.clear_before:
             with conn.cursor() as c:
                 print("🗑️  Limpiando tablas existentes...")
+                c.execute("SET FOREIGN_KEY_CHECKS=0")
+                if table_exists(conn, 'pre_pedidos'):
+                    c.execute("DELETE FROM pre_pedidos")
                 c.execute(f"DELETE FROM {platos_table}")
                 c.execute(f"DELETE FROM {categorias_table}")
-                print(f"✅ Tablas limpiadas: {platos_table}, {categorias_table}")
+                c.execute("SET FOREIGN_KEY_CHECKS=1")
+                print(f"✅ Tablas limpiadas: pre_pedidos, {platos_table}, {categorias_table}")
 
         ensure_unique_indexes(conn, categorias_table=categorias_table, platos_table=platos_table)
 

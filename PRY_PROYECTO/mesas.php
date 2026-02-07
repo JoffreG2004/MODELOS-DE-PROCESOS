@@ -619,20 +619,60 @@ if ($mesa_seleccionada_id) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script>
-        // Cargar mesas disponibles
-        async function cargarMesas() {
+        // MEJORA: Cargar mesas considerando fecha y hora seleccionadas
+        async function cargarMesas(fecha = null, hora = null) {
             try {
-                const response = await fetch('app/api/mesas_estado.php');
+                // Evitar que eventos u objetos se traten como fecha
+                if (fecha && typeof fecha !== 'string') {
+                    fecha = null;
+                }
+                // Construir URL con parámetros opcionales
+                let url = 'app/api/mesas_estado.php';
+                const params = new URLSearchParams();
+                
+                if (fecha) {
+                    params.append('fecha', fecha);
+                }
+                if (hora) {
+                    params.append('hora', hora);
+                }
+                
+                if (params.toString()) {
+                    url += '?' + params.toString();
+                }
+                
+                const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.success) {
                     mostrarMesas(data.mesas);
+                    
+                    // Mostrar información de la fecha consultada si es diferente de hoy
+                    if (data.fecha_consultada !== fechaLocalISO()) {
+                        const container = document.getElementById('mesasContainer');
+                        if (container && container.previousElementSibling) {
+                            const infoDiv = document.createElement('div');
+                            infoDiv.className = 'alert alert-info mb-3';
+                            infoDiv.style.cssText = 'background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold-color); color: var(--gold-color);';
+                            infoDiv.innerHTML = `
+                                <i class="bi bi-calendar-check"></i> 
+                                Mostrando disponibilidad para: <strong>${formatearFecha(data.fecha_consultada)}</strong>
+                                ${data.hora_consultada ? ` a las <strong>${data.hora_consultada}</strong>` : ''}
+                            `;
+                            container.parentNode.insertBefore(infoDiv, container);
+                        }
+                    }
                 } else {
                     console.error('Error:', data.message);
                 }
             } catch (error) {
                 console.error('Error cargando mesas:', error);
             }
+        }
+        
+        function formatearFecha(fecha) {
+            const [year, month, day] = fecha.split('-');
+            return `${day}/${month}/${year}`;
         }
 
         function mostrarMesas(mesas) {
@@ -642,7 +682,6 @@ if ($mesa_seleccionada_id) {
             container.innerHTML = '';
             
             mesas.forEach(mesa => {
-                const disponible = mesa.estado === 'disponible';
                 const iconos = {
                     'interior': '🏛️',
                     'terraza': '🌿',
@@ -653,7 +692,7 @@ if ($mesa_seleccionada_id) {
                 const col = document.createElement('div');
                 col.className = 'col-md-4 col-lg-3';
                 col.innerHTML = `
-                    <div class="mesa-card-mini ${mesa.estado}" onclick="${disponible ? `seleccionarMesa(${mesa.id})` : ''}">
+                    <div class="mesa-card-mini disponible" onclick="seleccionarMesa(${mesa.id})">
                         <div class="text-center mb-2">
                             <div style="font-size: 2.5rem;">${iconos[mesa.ubicacion] || '🍽️'}</div>
                             <h5 style="color: white; font-weight: 700; margin: 10px 0;">
@@ -667,16 +706,14 @@ if ($mesa_seleccionada_id) {
                         </div>
                         
                         <div class="text-center mb-2">
-                            <span class="badge ${disponible ? 'bg-success' : 'bg-danger'}">
-                                ${disponible ? 'Disponible' : mesa.estado.charAt(0).toUpperCase() + mesa.estado.slice(1)}
+                            <span class="badge bg-success">
+                                Disponible
                             </span>
                         </div>
                         
-                        ${disponible ? `
                         <div class="text-center p-2" style="background: rgba(212, 175, 55, 0.2); border-radius: 10px; border: 1px solid var(--gold-color);">
                             <strong style="color: var(--gold-color); font-size: 1.2rem;">$${parseFloat(mesa.precio_reserva || 5).toFixed(2)}</strong>
                         </div>
-                        ` : ''}
                     </div>
                 `;
                 
@@ -766,12 +803,19 @@ if ($mesa_seleccionada_id) {
             });
         }
 
+        function fechaLocalISO(fecha = new Date()) {
+            const year = fecha.getFullYear();
+            const month = String(fecha.getMonth() + 1).padStart(2, '0');
+            const day = String(fecha.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         async function confirmarReserva() {
             // Primero obtener el horario disponible
             let horarioDisponible = null;
             
             try {
-                const fechaHoy = new Date().toISOString().split('T')[0];
+                const fechaHoy = fechaLocalISO();
                 const horaActual = new Date().toTimeString().slice(0,5);
                 
                 const validacionResponse = await fetch('app/api/validar_horario_reserva.php', {
@@ -849,7 +893,7 @@ if ($mesa_seleccionada_id) {
                     <div style="margin-top: 20px;">
                         <label class="reserva-form-label">Hora de Reserva</label>
                         <input type="time" id="hora_reserva" class="reserva-form-control" 
-                            min="${minHora}" max="${maxHora}" required>
+                            min="${minHora}" max="${maxHora}" step="60" required>
                     </div>
                     <div style="margin-top: 20px;">
                         <label class="reserva-form-label">Número de Personas</label>
@@ -857,6 +901,7 @@ if ($mesa_seleccionada_id) {
                             min="<?php echo $mesa_seleccionada['capacidad_minima'] ?? 1; ?>" 
                             max="<?php echo $mesa_seleccionada['capacidad_maxima'] ?? 10; ?>" 
                             value="<?php echo $mesa_seleccionada['capacidad_minima'] ?? 1; ?>"
+                            step="1" inputmode="numeric" pattern="\\d*"
                             placeholder="Ingrese cantidad de personas" required>
                     </div>
                     <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 10px;">
@@ -872,6 +917,12 @@ if ($mesa_seleccionada_id) {
                 didOpen: () => {
                     // Enfocar el primer campo al abrir
                     document.getElementById('fecha_reserva').focus();
+                    const numInput = document.getElementById('num_personas');
+                    if (numInput) {
+                        numInput.addEventListener('input', () => {
+                            numInput.value = numInput.value.replace(/[^0-9]/g, '');
+                        });
+                    }
                 },
                 preConfirm: () => {
                     const fecha = document.getElementById('fecha_reserva').value.trim();
@@ -894,10 +945,15 @@ if ($mesa_seleccionada_id) {
                         Swal.showValidationMessage('Por favor ingresa el número de personas');
                         return false;
                     }
+
+                    if (!/^\d+$/.test(personas)) {
+                        Swal.showValidationMessage('El número de personas debe ser un entero sin puntos ni comas');
+                        return false;
+                    }
                     
                     const min = <?php echo $mesa_seleccionada['capacidad_minima'] ?? 1; ?>;
                     const max = <?php echo $mesa_seleccionada['capacidad_maxima'] ?? 10; ?>;
-                    const numPersonas = parseInt(personas);
+                    const numPersonas = parseInt(personas, 10);
                     
                     if (isNaN(numPersonas) || numPersonas < min || numPersonas > max) {
                         Swal.showValidationMessage(`El número de personas debe estar entre ${min} y ${max}`);
@@ -921,10 +977,13 @@ if ($mesa_seleccionada_id) {
                         const validacionData = await validacionResponse.json();
                         
                         if (!validacionData.valido) {
+                            const detalleFecha = validacionData.detalle
+                                ? ` Fecha seleccionada: ${validacionData.detalle.fecha_seleccionada}. Fecha actual del sistema: ${validacionData.detalle.fecha_actual_sistema} (${validacionData.detalle.zona_horaria}).`
+                                : '';
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Horario no permitido',
-                                text: validacionData.message,
+                                text: `${validacionData.message}${detalleFecha}`,
                                 background: '#1a1a1a',
                                 color: '#ffffff',
                                 confirmButtonColor: '#d4af37'
@@ -1018,7 +1077,7 @@ if ($mesa_seleccionada_id) {
                         fechaReserva: datos.fecha,
                         horaReserva: datos.hora,
                         numeroPersonas: datos.personas,
-                        numeroNota: 'NC-' + new Date().toISOString().split('T')[0].replace(/-/g, '') + '-000000',
+                        numeroNota: 'NC-' + fechaLocalISO().replace(/-/g, '') + '-000000',
                         platosIncluidos: [],
                         precioMesa: <?php echo $mesa_seleccionada['precio_reserva'] ?? 0; ?>,
                         subtotalPlatos: 0,
@@ -1090,7 +1149,7 @@ if ($mesa_seleccionada_id) {
 
         // Cargar mesas al iniciar
         <?php if (!$mesa_seleccionada): ?>
-        document.addEventListener('DOMContentLoaded', cargarMesas);
+        document.addEventListener('DOMContentLoaded', () => cargarMesas());
         <?php endif; ?>
 
         // ========================================
@@ -1440,7 +1499,7 @@ if ($mesa_seleccionada_id) {
             let horarioDisponible = null;
             
             try {
-                const fechaHoy = new Date().toISOString().split('T')[0];
+                const fechaHoy = fechaLocalISO();
                 const horaActual = new Date().toTimeString().slice(0,5);
                 
                 const validacionResponse = await fetch('app/api/validar_horario_reserva.php', {
@@ -1484,13 +1543,13 @@ if ($mesa_seleccionada_id) {
                         ${tipoDia ? `<p style="color: var(--gold-color); margin-bottom: 15px;">📅 <strong>${tipoDia}</strong>: Horario de ${minHora} a ${maxHora}</p>` : ''}
                         
                         <label class="reserva-form-label">Fecha de Reserva:</label>
-                        <input type="date" id="fecha" class="swal2-input" min="${new Date().toISOString().split('T')[0]}" value="${datosGuardados?.fecha || new Date().toISOString().split('T')[0]}">
+                        <input type="date" id="fecha" class="swal2-input" min="${fechaLocalISO()}" value="${datosGuardados?.fecha || fechaLocalISO()}">
                         
                         <label class="reserva-form-label">Hora de Reserva:</label>
-                        <input type="time" id="hora" class="swal2-input" min="${minHora}" max="${maxHora}" value="${datosGuardados?.hora || new Date().toTimeString().slice(0,5)}">
+                        <input type="time" id="hora" class="swal2-input" min="${minHora}" max="${maxHora}" step="60" value="${datosGuardados?.hora || new Date().toTimeString().slice(0,5)}">
                         
                         <label class="reserva-form-label">Número de Personas:</label>
-                        <input type="number" id="personas" class="swal2-input" min="<?php echo $mesa_seleccionada['capacidad_minima']; ?>" max="<?php echo $mesa_seleccionada['capacidad_maxima']; ?>" value="${datosGuardados?.personas || '<?php echo $mesa_seleccionada['capacidad_minima']; ?>'}">
+                        <input type="number" id="personas" class="swal2-input" min="<?php echo $mesa_seleccionada['capacidad_minima']; ?>" max="<?php echo $mesa_seleccionada['capacidad_maxima']; ?>" value="${datosGuardados?.personas || '<?php echo $mesa_seleccionada['capacidad_minima']; ?>'}" step="1" inputmode="numeric" pattern="\\d*">
                         
                         <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 10px;">
                             ⓘ Mesa <?php echo $mesa_seleccionada['numero_mesa']; ?>: de <?php echo $mesa_seleccionada['capacidad_minima']; ?> a <?php echo $mesa_seleccionada['capacidad_maxima']; ?> personas
@@ -1502,14 +1561,28 @@ if ($mesa_seleccionada_id) {
                 cancelButtonText: 'Cancelar',
                 confirmButtonColor: '#d4af37',
                 cancelButtonColor: '#666',
+                didOpen: () => {
+                    const numInput = document.getElementById('personas');
+                    if (numInput) {
+                        numInput.addEventListener('input', () => {
+                            numInput.value = numInput.value.replace(/[^0-9]/g, '');
+                        });
+                    }
+                },
                 preConfirm: () => {
                     const fecha = document.getElementById('fecha').value;
                     const hora = document.getElementById('hora').value;
-                    const personas = parseInt(document.getElementById('personas').value);
+                    const personasRaw = document.getElementById('personas').value.trim();
+                    const personas = parseInt(personasRaw, 10);
                     
                     // Validaciones en el cliente
-                    if (!fecha || !hora || !personas) {
+                    if (!fecha || !hora || !personasRaw) {
                         Swal.showValidationMessage('Por favor complete todos los campos');
+                        return false;
+                    }
+
+                    if (!/^\d+$/.test(personasRaw)) {
+                        Swal.showValidationMessage('El número de personas debe ser un entero sin puntos ni comas');
                         return false;
                     }
                     
@@ -1542,10 +1615,13 @@ if ($mesa_seleccionada_id) {
                     const validacionData = await validacionResponse.json();
                     
                     if (!validacionData.valido) {
+                        const detalleFecha = validacionData.detalle
+                            ? ` Fecha seleccionada: ${validacionData.detalle.fecha_seleccionada}. Fecha actual del sistema: ${validacionData.detalle.fecha_actual_sistema} (${validacionData.detalle.zona_horaria}).`
+                            : '';
                         Swal.fire({
                             icon: 'error',
                             title: 'Horario no permitido',
-                            text: validacionData.message,
+                            text: `${validacionData.message}${detalleFecha}`,
                             background: '#1a1a1a',
                             color: '#ffffff',
                             confirmButtonColor: '#d4af37'
@@ -1614,7 +1690,18 @@ if ($mesa_seleccionada_id) {
         <?php endif; ?>
     </script>
     
+    <script>
+        <?php
+        $tz = new DateTimeZone('America/Guayaquil');
+        $fechaHoyServidor = (new DateTime('now', $tz))->format('Y-m-d');
+        ?>
+        window.FECHA_HOY_SERVIDOR = "<?php echo $fechaHoyServidor; ?>";
+    </script>
+
     <!-- Script de reserva de zonas -->
     <script src="public/js/reserva-zonas.js"></script>
+
+    <!-- Script de Seguridad: Deshabilitar click derecho en formularios -->
+    <script src="public/js/security.js"></script>
 </body>
 </html>

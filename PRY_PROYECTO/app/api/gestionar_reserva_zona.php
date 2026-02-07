@@ -12,6 +12,7 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 require_once __DIR__ . '/../../conexion/db.php';
+require_once __DIR__ . '/../../controllers/EmailController.php';
 
 // Cargar configuración de WhatsApp
 $whatsapp_config = require __DIR__ . '/../../config/whatsapp_config.php';
@@ -30,7 +31,7 @@ try {
     
     // Obtener datos de la reserva
     $stmt = $pdo->prepare("
-        SELECT rz.*, CONCAT(c.nombre, ' ', c.apellido) as cliente_nombre, c.telefono
+        SELECT rz.*, CONCAT(c.nombre, ' ', c.apellido) as cliente_nombre, c.telefono, c.email as cliente_email
         FROM reservas_zonas rz
         INNER JOIN clientes c ON rz.cliente_id = c.id
         WHERE rz.id = ?
@@ -47,6 +48,42 @@ try {
     $whatsapp_result = ['enviado' => false];
     
     if ($accion === 'confirmar') {
+        // Validar que no existan reservas normales confirmadas en las zonas para ese dia
+        $zonas_array = json_decode($reserva['zonas'] ?? '[]', true);
+        if (!is_array($zonas_array)) {
+            $zonas_array = [];
+        }
+        if (!empty($zonas_array)) {
+            $placeholdersZonas = str_repeat('?,', count($zonas_array) - 1) . '?';
+            $stmtConflictoNormal = $pdo->prepare("
+                SELECT r.id, m.numero_mesa, m.ubicacion, TIME_FORMAT(r.hora_reserva, '%H:%i') as hora
+                FROM reservas r
+                INNER JOIN mesas m ON r.mesa_id = m.id
+                WHERE m.ubicacion IN ($placeholdersZonas)
+                  AND DATE(r.fecha_reserva) = DATE(?)
+                  AND r.estado IN ('confirmada', 'preparando', 'en_curso')
+                ORDER BY m.ubicacion ASC, TIME(r.hora_reserva) ASC
+            ");
+            $paramsNormal = array_merge(array_values($zonas_array), [$reserva['fecha_reserva']]);
+            $stmtConflictoNormal->execute($paramsNormal);
+            $conflictosNormales = $stmtConflictoNormal->fetchAll(PDO::FETCH_ASSOC);
+            if (!empty($conflictosNormales)) {
+                $detalles = array_map(function ($c) {
+                    return "{$c['ubicacion']} - Mesa {$c['numero_mesa']} a las {$c['hora']}";
+                }, $conflictosNormales);
+                $zonasAfectadas = array_values(array_unique(array_map(function ($c) {
+                    return $c['ubicacion'];
+                }, $conflictosNormales)));
+                $totalMesasOcupadas = count($conflictosNormales);
+                $lineaResumen = "Zonas afectadas: " . implode(', ', $zonasAfectadas) . ". Mesas ocupadas: {$totalMesasOcupadas}.";
+                echo json_encode([
+                    'success' => false,
+                    'message' => "No se puede confirmar: {$lineaResumen} Detalles: " . implode('; ', $detalles)
+                ]);
+                exit;
+            }
+        }
+
         $stmt = $pdo->prepare("
             UPDATE reservas_zonas 
             SET estado = 'confirmada'
@@ -55,24 +92,61 @@ try {
         $stmt->execute([$reserva_id]);
         
         $mensaje = 'Reserva de zona confirmada exitosamente';
+
+        // Preparar nombres de zonas para correo y WhatsApp
+        $zonas_array = json_decode($reserva['zonas'] ?? '[]', true);
+        if (!is_array($zonas_array)) {
+            $zonas_array = [];
+        }
+        $nombres_zonas = [
+            'interior' => 'Salón Principal',
+            'terraza' => 'Terraza',
+            'vip' => 'Área VIP',
+            'bar' => 'Bar & Lounge'
+        ];
+        $zonas_nombres = array_map(function($z) use ($nombres_zonas) {
+            return $nombres_zonas[$z] ?? $z;
+        }, $zonas_array);
+        $zonas_texto = implode(', ', $zonas_nombres);
+
+        // Enviar correo de confirmación para reserva de zona
+        $email_result = ['enviado' => false];
+        try {
+            $emailController = new EmailController($pdo);
+            $correo = $reserva['cliente_email'] ?? null;
+            $nombreCompleto = $reserva['cliente_nombre'] ?? '';
+            $parts = preg_split('/\s+/', trim($nombreCompleto));
+            $nombre = $parts[0] ?? $nombreCompleto;
+            $apellido = count($parts) > 1 ? implode(' ', array_slice($parts, 1)) : '';
+            $emailData = [
+                'id' => $reserva_id,
+                'nombre' => $nombre,
+                'apellido' => $apellido,
+                'correo' => $correo,
+                'fecha_reserva' => $reserva['fecha_reserva'],
+                'hora_reserva' => $reserva['hora_reserva'],
+                'numero_personas' => $reserva['numero_personas'],
+                'numero_mesa' => 'Zona completa',
+                'zona' => $zonas_texto,
+                'precio_total' => $reserva['precio_total']
+            ];
+            $resultadoEmail = $emailController->enviarCorreoReservaConfirmada($emailData);
+            $email_result = [
+                'enviado' => $resultadoEmail['success'] ?? false,
+                'error' => $resultadoEmail['error'] ?? null
+            ];
+        } catch (Throwable $e) {
+            $email_result = [
+                'enviado' => false,
+                'error' => $e->getMessage()
+            ];
+            error_log("Error email zona (ReservaZona #{$reserva_id}): " . $e->getMessage());
+        }
         
         // Enviar WhatsApp usando el mismo método que las reservas normales
         if (!empty($reserva['telefono'])) {
             try {
-                // Decodificar zonas y traducir nombres
-                $zonas_array = json_decode($reserva['zonas'], true);
-                $nombres_zonas = [
-                    'interior' => 'Salón Principal',
-                    'terraza' => 'Terraza',
-                    'vip' => 'Área VIP',
-                    'bar' => 'Bar & Lounge'
-                ];
-                
-                $zonas_nombres = array_map(function($z) use ($nombres_zonas) {
-                    return $nombres_zonas[$z] ?? $z;
-                }, $zonas_array);
-                
-                $zonas_texto = implode(', ', $zonas_nombres);
+                // Usar zonas_texto ya preparado
                 
                 // Formatear fecha
                 $fecha_obj = new DateTime($reserva['fecha_reserva']);
@@ -105,13 +179,26 @@ try {
                 
                 // Limpiar y formatear teléfono (igual que enviar_whatsapp.php)
                 $telefonoLimpio = preg_replace('/\D/', '', $reserva['telefono']);
-                
-                // Si el número empieza con 0, quitarlo
-                if (substr($telefonoLimpio, 0, 1) === '0') {
-                    $telefonoLimpio = substr($telefonoLimpio, 1);
+                $countryCode = preg_replace('/\D/', '', (string)($whatsapp_config['country_code'] ?? '593'));
+                if ($countryCode === '') {
+                    $countryCode = '593';
                 }
                 
-                $telefonoCompleto = 'whatsapp:+' . $whatsapp_config['country_code'] . $telefonoLimpio;
+                // Quitar prefijo internacional 00 si existe
+                if (strpos($telefonoLimpio, '00') === 0) {
+                    $telefonoLimpio = substr($telefonoLimpio, 2);
+                }
+                
+                // Si ya trae código país, no duplicarlo
+                if (strpos($telefonoLimpio, $countryCode) === 0) {
+                    $telefonoNormalizado = $telefonoLimpio;
+                } elseif (strpos($telefonoLimpio, '0') === 0) {
+                    $telefonoNormalizado = $countryCode . substr($telefonoLimpio, 1);
+                } else {
+                    $telefonoNormalizado = $countryCode . $telefonoLimpio;
+                }
+
+                $telefonoCompleto = 'whatsapp:+' . $telefonoNormalizado;
                 
                 // Preparar datos para Twilio
                 $data_whatsapp = [
@@ -189,7 +276,8 @@ try {
     echo json_encode([
         'success' => true,
         'message' => $mensaje,
-        'whatsapp' => $whatsapp_result
+        'whatsapp' => $whatsapp_result,
+        'email' => $email_result ?? ['enviado' => false]
     ]);
     
 } catch (Exception $e) {

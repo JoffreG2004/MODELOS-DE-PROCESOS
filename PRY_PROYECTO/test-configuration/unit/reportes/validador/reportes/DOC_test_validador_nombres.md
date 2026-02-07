@@ -3,7 +3,7 @@
 **Archivo de test:** `test-configuration/unit/test_validador_nombres.py`
 **Clase validada:** `validacion/ValidadorNombres.php`
 **Endpoint evaluado:** `app/registro_cliente.php`
-**Fecha:** 2026-01-11
+**Fecha:** 2026-02-04
 
 ---
 

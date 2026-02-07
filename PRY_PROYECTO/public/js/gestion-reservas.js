@@ -26,9 +26,16 @@ class GestionReservas {
             const data = await response.json();
 
             if (data.success && data.configuracion) {
+                const normalizarHora = (v, fallback) => (v ? String(v).slice(0, 5) : fallback);
                 this.configuracionHorarios = {
-                    hora_apertura: data.configuracion.hora_apertura?.valor || '11:00',
-                    hora_cierre: data.configuracion.hora_cierre?.valor || '23:00',
+                    hora_apertura: normalizarHora(data.configuracion.hora_apertura?.valor, '11:00'),
+                    hora_cierre: normalizarHora(data.configuracion.hora_cierre?.valor, '20:00'),
+                    horario_lunes_viernes_inicio: normalizarHora(data.configuracion.horario_lunes_viernes_inicio?.valor, ''),
+                    horario_lunes_viernes_fin: normalizarHora(data.configuracion.horario_lunes_viernes_fin?.valor, ''),
+                    horario_sabado_inicio: normalizarHora(data.configuracion.horario_sabado_inicio?.valor, ''),
+                    horario_sabado_fin: normalizarHora(data.configuracion.horario_sabado_fin?.valor, ''),
+                    horario_domingo_inicio: normalizarHora(data.configuracion.horario_domingo_inicio?.valor, ''),
+                    horario_domingo_fin: normalizarHora(data.configuracion.horario_domingo_fin?.valor, ''),
                     dias_cerrados: data.configuracion.dias_cerrados?.valor || ''
                 };
                 console.log('Configuración de horarios cargada:', this.configuracionHorarios);
@@ -39,24 +46,65 @@ class GestionReservas {
     }
 
     validarHorarioReserva(fecha, hora) {
-        if (!this.configuracionHorarios) {
-            return { valido: true }; // Si no hay configuración, permitir
-        }
-
-        const { hora_apertura, hora_cierre, dias_cerrados } = this.configuracionHorarios;
-
-        // Validar hora dentro del rango de apertura-cierre
-        if (hora < hora_apertura || hora > hora_cierre) {
+        const hoyServidor = window.FECHA_HOY_SERVIDOR || new Date().toISOString().slice(0, 10);
+        if (fecha < hoyServidor) {
             return {
                 valido: false,
-                mensaje: `El horario de reserva debe estar entre ${hora_apertura} y ${hora_cierre}`
+                mensaje: 'No se pueden hacer reservas con fechas pasadas'
+            };
+        }
+
+        if (!this.configuracionHorarios) {
+            const inicioFallback = '11:00';
+            const finFallback = '20:00';
+            if (hora < inicioFallback || hora > finFallback) {
+                return {
+                    valido: false,
+                    mensaje: `El horario de reserva debe estar entre ${inicioFallback} y ${finFallback}`
+                };
+            }
+            return { valido: true };
+        }
+
+        const {
+            hora_apertura,
+            hora_cierre,
+            horario_lunes_viernes_inicio,
+            horario_lunes_viernes_fin,
+            horario_sabado_inicio,
+            horario_sabado_fin,
+            horario_domingo_inicio,
+            horario_domingo_fin,
+            dias_cerrados
+        } = this.configuracionHorarios;
+
+        const fechaObj = new Date(fecha + 'T00:00:00');
+        const diaSemana = fechaObj.getDay(); // 0=Domingo, 1=Lunes, ..., 6=Sábado
+
+        // Prioridad: horario por día -> horario global
+        let inicio = hora_apertura;
+        let fin = hora_cierre;
+        if (diaSemana >= 1 && diaSemana <= 5) {
+            inicio = horario_lunes_viernes_inicio || hora_apertura;
+            fin = horario_lunes_viernes_fin || hora_cierre;
+        } else if (diaSemana === 6) {
+            inicio = horario_sabado_inicio || hora_apertura;
+            fin = horario_sabado_fin || hora_cierre;
+        } else if (diaSemana === 0) {
+            inicio = horario_domingo_inicio || hora_apertura;
+            fin = horario_domingo_fin || hora_cierre;
+        }
+
+        // Validar hora dentro del rango de apertura-cierre
+        if (hora < inicio || hora > fin) {
+            return {
+                valido: false,
+                mensaje: `El horario de reserva debe estar entre ${inicio} y ${fin}`
             };
         }
 
         // Validar día de la semana no esté cerrado
         if (dias_cerrados) {
-            const fechaObj = new Date(fecha + 'T00:00:00');
-            const diaSemana = fechaObj.getDay(); // 0=Domingo, 1=Lunes, ..., 6=Sábado
             const diasCerradosArray = dias_cerrados.split(',').map(d => parseInt(d.trim()));
 
             if (diasCerradosArray.includes(diaSemana)) {
@@ -159,9 +207,6 @@ class GestionReservas {
                 <td>${estadoBadge}</td>
                 <td>
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary" onclick="gestionReservas.editarReserva(${reserva.id})" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </button>
                         ${reserva.estado !== 'cancelada' && reserva.estado !== 'finalizada' ? `
                             <button class="btn btn-danger" onclick="gestionReservas.confirmarEliminar(${reserva.id}, '${reserva.cliente_nombre}')" title="Cancelar reserva">
                                 <i class="fas fa-ban"></i>
@@ -192,11 +237,30 @@ class GestionReservas {
     }
 
     formatearFecha(fecha) {
-        const date = new Date(fecha);
+        if (!fecha) return '';
+
+        const soloFecha = String(fecha).split('T')[0].split(' ')[0];
+        const partes = soloFecha.split('-');
+
+        if (partes.length !== 3) {
+            return soloFecha;
+        }
+
+        const [year, month, day] = partes;
+        const date = new Date(Number(year), Number(month) - 1, Number(day));
+
         return date.toLocaleDateString('es-EC', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
     async mostrarModalReserva(modo = 'crear', reservaData = null) {
+        if (modo !== 'crear') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Edición deshabilitada',
+                text: 'La edición de reservas está deshabilitada en este módulo'
+            });
+            return;
+        }
         // Cargar mesas y clientes primero
         await this.cargarMesas();
         await this.cargarClientes();
@@ -249,7 +313,7 @@ class GestionReservas {
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Hora *</label>
                                         <input type="time" class="form-control" id="horaReserva" 
-                                               value="${reservaData?.hora_reserva || ''}" required>
+                                               value="${reservaData?.hora_reserva || ''}" step="60" required>
                                     </div>
                                 </div>
 
@@ -257,7 +321,8 @@ class GestionReservas {
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Número de Personas *</label>
                                         <input type="number" class="form-control" id="numeroPersonas" 
-                                               value="${reservaData?.numero_personas || 2}" min="1" max="50" required>
+                                               value="${reservaData?.numero_personas || 2}" min="1" max="50" required
+                                               step="1" inputmode="numeric" pattern="\\d*">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Estado *</label>
@@ -298,13 +363,37 @@ class GestionReservas {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         const modal = new bootstrap.Modal(document.getElementById('modalReserva'));
         modal.show();
+
+        const numInput = document.getElementById('numeroPersonas');
+        if (numInput) {
+            numInput.addEventListener('input', () => {
+                numInput.value = numInput.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        const mesaSelect = document.getElementById('mesaId');
+        if (mesaSelect && numInput) {
+            const actualizarLimites = () => {
+                const mesaSel = this.mesas.find(m => String(m.id) === String(mesaSelect.value));
+                if (mesaSel) {
+                    numInput.min = mesaSel.capacidad_minima || 1;
+                    numInput.max = mesaSel.capacidad_maxima || 50;
+                } else {
+                    numInput.min = 1;
+                    numInput.max = 50;
+                }
+            };
+            mesaSelect.addEventListener('change', actualizarLimites);
+            actualizarLimites();
+        }
     }
 
     async editarReserva(id) {
-        const reserva = this.reservas.find(r => r.id == id);
-        if (reserva) {
-            this.mostrarModalReserva('editar', reserva);
-        }
+        Swal.fire({
+            icon: 'warning',
+            title: 'Edición deshabilitada',
+            text: 'La edición de reservas está deshabilitada en este módulo'
+        });
     }
 
     async guardarReserva(modo) {
@@ -313,17 +402,46 @@ class GestionReservas {
         const mesa_id = document.getElementById('mesaId').value;
         const fecha_reserva = document.getElementById('fechaReserva').value;
         const hora_reserva = document.getElementById('horaReserva').value;
-        const numero_personas = parseInt(document.getElementById('numeroPersonas').value);
+        const numeroPersonasRaw = document.getElementById('numeroPersonas').value.trim();
+        const numero_personas = parseInt(numeroPersonasRaw, 10);
         const estado = document.getElementById('estadoReserva').value;
         const observaciones = document.getElementById('observaciones').value.trim();
 
-        if (!cliente_id || !mesa_id || !fecha_reserva || !hora_reserva || !numero_personas) {
+        if (!cliente_id || !mesa_id || !fecha_reserva || !hora_reserva || !numeroPersonasRaw) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Campos requeridos',
                 text: 'Por favor complete todos los campos obligatorios'
             });
             return;
+        }
+
+        if (!/^\d+$/.test(numeroPersonasRaw)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Número inválido',
+                text: 'El número de personas debe ser un entero sin puntos ni comas'
+            });
+            return;
+        }
+
+        const mesaSel = this.mesas.find(m => String(m.id) === String(mesa_id));
+        if (mesaSel) {
+            const minCap = parseInt(mesaSel.capacidad_minima || 1, 10);
+            const maxCap = parseInt(mesaSel.capacidad_maxima || 50, 10);
+            if (numero_personas < minCap || numero_personas > maxCap) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Capacidad inválida',
+                    text: `La mesa permite entre ${minCap} y ${maxCap} personas`
+                });
+                return;
+            }
+        }
+
+        // Asegurar que la configuración esté cargada antes de validar
+        if (!this.configuracionHorarios) {
+            await this.cargarConfiguracionHorarios();
         }
 
         // VALIDAR HORARIO DE RESERVA
@@ -538,19 +656,36 @@ class GestionReservas {
 
     async cambiarEstado(id, nuevoEstado) {
         try {
-            const response = await fetch('app/editar_reserva.php', {
+            if (!id) {
+                throw new Error('ID de reserva requerido');
+            }
+
+            const endpoint = nuevoEstado === 'confirmada'
+                ? 'app/api/confirmar_reserva_admin.php'
+                : 'app/editar_reserva.php';
+            const payload = nuevoEstado === 'confirmada'
+                ? { reserva_id: id, id: id }
+                : { id, estado: nuevoEstado };
+
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, estado: nuevoEstado })
+                body: JSON.stringify(payload)
             });
 
-            const result = await response.json();
+            const raw = await response.text();
+            let result;
+            try {
+                result = JSON.parse(raw);
+            } catch (e) {
+                throw new Error(raw || `Error HTTP ${response.status}`);
+            }
 
             if (result.success) {
                 Swal.fire({
                     icon: 'success',
                     title: '¡Actualizado!',
-                    text: `Reserva marcada como ${nuevoEstado}`,
+                    text: result.message || `Reserva marcada como ${nuevoEstado}`,
                     timer: 2000
                 });
 

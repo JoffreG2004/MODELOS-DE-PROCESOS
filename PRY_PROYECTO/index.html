@@ -133,13 +133,222 @@
             transform: translateY(-2px) !important;
         }
 
-        /* Estilos para modo oscuro del modal de selección de perfil */
-        .dark-mode #ModalSeleccionPerfil .modal-content {
-            background: #1a1410 !important;
+        /* Estilos para modo claro del modal de selección de perfil */
+        #ModalSeleccionPerfil .modal-dialog {
+            max-width: 420px;
         }
 
-        .dark-mode #ModalSeleccionPerfil .btn-close {
-            filter: brightness(2.5) !important;
+        #ModalSeleccionPerfil .modal-content.modal-seleccion-perfil {
+            background: #4a3529 !important;
+            color: #d4af37 !important;
+        }
+
+        #ModalSeleccionPerfil .modal-body {
+            background: transparent !important;
+            padding: 36px 32px !important;
+        }
+
+        #ModalSeleccionPerfil .modal-body * {
+            color: inherit !important;
+        }
+
+        .titulo-modal-perfil {
+            color: #d4af37 !important;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3) !important;
+            font-size: 2.4rem !important;
+            margin-bottom: 10px !important;
+        }
+
+        .subtitulo-modal-perfil {
+            color: rgba(255, 255, 255, 0.75) !important;
+            margin-bottom: 28px !important;
+        }
+
+        .btn-perfil-opcion {
+            background: #f5f2ed !important;
+            border: none !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.3s ease !important;
+            border-radius: 12px !important;
+            padding: 16px 22px !important;
+        }
+
+        .btn-perfil-opcion:hover {
+            background: #fff !important;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .texto-btn-perfil,
+        .icono-btn-perfil {
+            color: #d4af37 !important;
+        }
+
+        .btn-cancelar-modal-perfil {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: rgba(255, 255, 255, 0.8) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-cancelar-modal-perfil:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* Estilos para modo oscuro del modal de selección de perfil */
+        .dark-mode #ModalSeleccionPerfil .modal-content.modal-seleccion-perfil {
+            background: #1a1a1a !important;
+            color: #8B6F47 !important;
+        }
+
+        .dark-mode #ModalSeleccionPerfil .modal-body {
+            background: transparent !important;
+            padding: 36px 32px !important;
+        }
+
+        .dark-mode #ModalSeleccionPerfil .modal-body * {
+            color: inherit !important;
+        }
+
+        .dark-mode .titulo-modal-perfil {
+            color: #8B6F47 !important;
+        }
+
+        .dark-mode .subtitulo-modal-perfil {
+            color: #8B6F47 !important;
+        }
+
+        /* ==============================
+           Modales de Login (Admin/Cliente)
+           ============================== */
+        .modal-auth .modal-content {
+            border-radius: 22px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+        }
+        .modal-auth .modal-header {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #2b1f15;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .modal-auth .modal-body {
+            background: #ffffff;
+        }
+        .modal-auth .form-label {
+            color: #3d2e24;
+            font-weight: 600;
+        }
+        .modal-auth .form-control,
+        .modal-auth .form-select {
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-weight: 500;
+        }
+        .modal-auth .input-group .btn {
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-left: none;
+            color: #6d5942;
+        }
+        .modal-auth .btn-auth-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            border: none;
+            color: #2b1f15;
+            font-weight: 700;
+        }
+        .modal-auth .btn-auth-secondary {
+            background: #3d2e24;
+            border: none;
+            color: #f5f2ed;
+            font-weight: 700;
+        }
+        .modal-auth .auth-divider {
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+        .modal-auth .auth-footnote {
+            color: #6b5a4a;
+        }
+        .modal-auth .auth-hint {
+            background: rgba(13, 202, 240, 0.12);
+            border: 1px solid rgba(13, 202, 240, 0.3);
+            color: #0d6efd;
+        }
+
+        .dark-mode .modal-auth .modal-header {
+            background: #3d2e24;
+            color: #f5f2ed;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        }
+        .dark-mode .modal-auth .modal-body {
+            background: #1a1a1a;
+        }
+        .dark-mode .modal-auth .form-label {
+            color: #f5f2ed;
+        }
+        .dark-mode .modal-auth .form-control,
+        .dark-mode .modal-auth .form-select {
+            background: #121212;
+            color: #f5f2ed;
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        .dark-mode .modal-auth .input-group .btn {
+            background: #121212;
+            color: #d4af37;
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        .dark-mode .modal-auth .btn-auth-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #2b1f15;
+        }
+        .dark-mode .modal-auth .btn-auth-secondary {
+            background: #2b1f15;
+            color: #f5f2ed;
+        }
+        .dark-mode .modal-auth .auth-divider {
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .dark-mode .modal-auth .auth-footnote {
+            color: #cdbb9a;
+        }
+        .dark-mode .modal-auth .auth-hint {
+            background: rgba(13, 202, 240, 0.12);
+            border-color: rgba(13, 202, 240, 0.25);
+            color: #8bb7ff;
+        }
+
+        .dark-mode .btn-close-modal-perfil {
+            filter: invert(0.6) sepia(1) saturate(2) hue-rotate(5deg) !important;
+        }
+
+        .dark-mode .btn-perfil-opcion {
+            background: #2a2a2a !important;
+            border: 1px solid #8B6F47 !important;
+            box-shadow: 0 4px 15px rgba(139, 111, 71, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .dark-mode .btn-perfil-opcion:hover {
+            background: #3a3a3a !important;
+            border-color: #d4af37 !important;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .dark-mode .texto-btn-perfil,
+        .dark-mode .icono-btn-perfil {
+            color: #d4af37 !important;
+        }
+
+        .dark-mode .btn-cancelar-modal-perfil {
+            border-color: rgba(139, 111, 71, 0.5) !important;
+            color: #8B6F47 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .dark-mode .btn-cancelar-modal-perfil:hover {
+            background: rgba(139, 111, 71, 0.1) !important;
+            border-color: #8B6F47 !important;
         }
 
         /* Estilos para modo oscuro en la sección de mesas */
@@ -405,7 +614,7 @@
             color: rgba(255, 255, 255, 0.7) !important;
         }
 
-                /* Estilos para el filtro de precio */
+        /* Estilos para el filtro de precio */
         #filtroPrecio {
             transition: all 0.3s ease;
         }
@@ -427,13 +636,15 @@
             color: #d4af37;
         }
 
-        .dark-mode label[for="filtroPrecio"] ,.dark-mode label[for="filtroPrecio"] i{
+        .dark-mode label[for="filtroPrecio"],
+        .dark-mode label[for="filtroPrecio"] i {
             color: #d4af37 !important;
         }
-        .dark-mode p strong{
+
+        .dark-mode p strong {
             color: #d4af37 !important;
         }
-       
+
         /* Modales mantienen su diseño original en modo oscuro */
     </style>
 </head>
@@ -882,6 +1093,48 @@
                 </div>
             </div>
 
+            <!-- NUEVO: Selector de Fecha y Hora para Ver Disponibilidad -->
+            <div class="text-center mb-4">
+                <div class="d-inline-block"
+                    style="background: white; padding: 20px 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); border: 2px solid #d4af37;">
+                    <div class="mb-3">
+                        <label
+                            style="color: #3d2e24; font-weight: 700; font-size: 1.1rem; display: block; margin-bottom: 15px;">
+                            <i class="bi bi-calendar-event" style="color: var(--gold-color); margin-right: 8px;"></i>
+                            Ver Disponibilidad de Mesas
+                        </label>
+                    </div>
+
+                    <div class="row g-3" style="min-width: 500px;">
+                        <div class="col-md-6">
+                            <label for="filtroFechaDisponibilidad" class="form-label"
+                                style="color: #666; font-weight: 600; font-size: 0.9rem;">
+                                <i class="bi bi-calendar2" style="color: #d4af37;"></i> Fecha
+                            </label>
+                            <input type="date" id="filtroFechaDisponibilidad" class="form-control"
+                                style="border: 2px solid #d4af37; border-radius: 8px; padding: 10px 15px; font-weight: 500; font-size: 0.95rem;"
+                                min="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="filtroHoraDisponibilidad" class="form-label"
+                                style="color: #666; font-weight: 600; font-size: 0.9rem;">
+                                <i class="bi bi-clock" style="color: #d4af37;"></i> Hora (aproximada)
+                            </label>
+                        <select id="filtroHoraDisponibilidad" class="form-select"
+                                style="border: 2px solid #d4af37; border-radius: 8px; padding: 10px 15px; font-weight: 500;">
+                            <option value="">-- Cualquier hora --</option>
+                        </select>
+                        </div>
+                    </div>
+
+                    <small class="d-block mt-3" style="color: #999; font-size: 0.85rem; text-align: center;">
+                        <i class="bi bi-info-circle"></i> Cada reserva ocupa 3 horas. Admin puede liberar antes si el
+                        cliente se va.
+                    </small>
+                </div>
+            </div>
+
             <!-- Leyenda Minimalista -->
             <div class="text-center mb-5">
                 <div class="mesas-leyenda d-inline-flex gap-4 flex-wrap justify-content-center"
@@ -912,7 +1165,7 @@
                             style="max-width: 300px; background: #3d2e24; color: #f5f2ed; border: 1px solid #d4af37; border-radius: 25px; padding: 10px 20px;">
                             <option value="todos">Todas las mesas</option>
                             <!-- <option value="0-5">$0 - $5</option> -->
-                             <option value="1-6">$1 - $6</option>
+                            <option value="1-6">$1 - $6</option>
                             <option value="7-12">$7 - $12</option>
                             <!-- <option value="5-10">$5 - $10</option> -->
                             <option value="13-20">$13 - $20</option>
@@ -922,6 +1175,26 @@
                 </div>
             </div>
 
+            <!-- NUEVO: Panel de Horarios Disponibles (Bloques de 3 horas) -->
+            <div id="horariosDisponiblesPanel" class="d-none mb-4">
+                <div class="card"
+                    style="background: #3d2e24; border: 1px solid #d4af37; border-radius: 25px; box-shadow: 0 8px 25px rgba(0,0,0,0.2);">
+                    <div class="card-body p-4">
+                        <h5 class="card-title" style="color: #f5f2ed; font-weight: 700; margin-bottom: 20px;">
+                            <i class="bi bi-clock-history" style="color: #d4af37; margin-right: 10px;"></i>
+                            Bloques de 3 Horas Disponibles
+                        </h5>
+                        <div id="bloquesHorarios" class="d-flex flex-wrap gap-2"
+                            style="min-height: 60px; align-items: center;">
+                            <!-- Se llenarán dinámicamente -->
+                        </div>
+                        <small class="d-block mt-3" style="color: #f5f2ed;">
+                            <i class="bi bi-info-circle" style="color: #d4af37;"></i>
+                            Selecciona un bloque de horario para ver qué mesas están disponibles
+                        </small>
+                    </div>
+                </div>
+            </div>
 
             <!-- Grid de Mesas con Imágenes Elegantes -->
             <div class="row g-4" id="mesasGallery">
@@ -1282,23 +1555,23 @@
     <!-- Modal Selección de Perfil - Elegante -->
     <div class="modal fade" id="ModalSeleccionPerfil" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" id="modalSeleccionContent"
-                style="background: #4a3529 !important; border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+            <div class="modal-content modal-seleccion-perfil" id="modalSeleccionContent"
+                style="border: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
                 <!-- Close Button -->
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                <button type="button" class="btn-close btn-close-white btn-close-modal-perfil" data-bs-dismiss="modal"
                     style="position: absolute; top: 20px; right: 20px; z-index: 10; opacity: 0.8;"
                     onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"></button>
 
                 <div class="modal-body text-center" style="padding: 60px 40px;">
                     <!-- Título Bienvenido -->
-                    <h2
-                        style="font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; font-size: 3rem; font-weight: 700; margin-bottom: 15px; text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);">
+                    <h2 class="titulo-modal-perfil"
+                        style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 3rem; font-weight: 700; margin-bottom: 15px;">
                         Bienvenido
                     </h2>
 
                     <!-- Subtítulo -->
-                    <p id="modalSeleccionSubtitle"
-                        style="color: rgba(255, 255, 255, 0.7) !important; font-size: 1.1rem; margin-bottom: 50px; font-weight: 400;">
+                    <p id="modalSeleccionSubtitle" class="subtitulo-modal-perfil"
+                        style="font-size: 1.1rem; margin-bottom: 50px; font-weight: 400;">
                         Selecciona tu perfil para ingresar
                     </p>
 
@@ -1306,31 +1579,33 @@
                     <div class="d-grid gap-3" style="max-width: 450px; margin: 0 auto;">
                         <!-- Botón Cliente -->
                         <button id="btn-open-cliente"
-                            class="btn btn-lg d-flex align-items-center justify-content-between"
-                            style="background: #f5f2ed; border: none; border-radius: 15px; padding: 20px 30px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);"
+                            class="btn btn-lg d-flex align-items-center justify-content-between btn-perfil-opcion"
+                            style="border-radius: 15px; padding: 20px 30px; transition: all 0.3s ease;"
                             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(212, 175, 55, 0.4)'"
                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.2)'">
-                            <span
-                                style="font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; font-size: 1.8rem; font-weight: 900; text-align: left;">
+                            <span class="texto-btn-perfil"
+                                style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; font-weight: 900; text-align: left;">
                                 Cliente
                             </span>
-                            <i class="bi bi-arrow-right"
-                                style="color: #d4af37; font-size: 1.5rem; font-weight: bold;"></i>
+                            <i class="bi bi-arrow-right icono-btn-perfil"
+                                style="font-size: 1.5rem; font-weight: bold;"></i>
                         </button>
 
                         <!-- Botón Administrador -->
-                        <button id="btn-open-admin" class="btn btn-lg d-flex align-items-center justify-content-between"
-                            style="background: #f5f2ed; border: none; border-radius: 15px; padding: 20px 30px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);"
+                        <button id="btn-open-admin"
+                            class="btn btn-lg d-flex align-items-center justify-content-between btn-perfil-opcion"
+                            style="border-radius: 15px; padding: 20px 30px; transition: all 0.3s ease;"
                             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(212, 175, 55, 0.4)'"
                             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.2)'">
-                            <span
-                                style="font-family: 'Playfair Display', serif; font-style: italic; color: #d4af37; font-size: 1.8rem; font-weight: 900; text-align: left;">
+                            <span class="texto-btn-perfil"
+                                style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.8rem; font-weight: 900; text-align: left;">
                                 Administrador
                             </span>
-                            <i class="bi bi-arrow-right"
-                                style="color: #d4af37; font-size: 1.5rem; font-weight: bold;"></i>
+                            <i class="bi bi-arrow-right icono-btn-perfil"
+                                style="font-size: 1.5rem; font-weight: bold;"></i>
                         </button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -1339,13 +1614,13 @@
     <!-- Modal Login Administrador -->
     <div class="modal fade" id="ModalProfesor" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header text-white" style="background: var(--gradient-gold) !important;">
+            <div class="modal-content modal-auth">
+                <div class="modal-header">
                     <h5 class="modal-title">
                         <i class="bi bi-shield-lock-fill me-2"></i>
                         Acceso de Administrador
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="AdminForm">
@@ -1373,26 +1648,24 @@
                         <div id="loginError" class="alert alert-danger d-none" role="alert"></div>
 
                         <div class="d-grid gap-2">
-                            <button id="btn-admin-modal" class="btn btn-warning" type="button"
-                                style="background: var(--gradient-gold) !important; border: none; color: var(--primary-color); font-weight: 600;">
+                            <button id="btn-admin-modal" class="btn btn-auth-primary" type="button">
                                 <i class="bi bi-box-arrow-in-right"></i>
                                 Acceder al Panel de Control
                             </button>
                         </div>
                     </form>
 
-                    <hr>
+                    <hr class="auth-divider">
                     <div class="text-center">
-                        <small class="text-muted">
+                        <small class="auth-footnote">
                             <i class="bi bi-shield-check"></i>
                             Panel de Control de Le Salon de Lumière
                         </small>
                     </div>
 
                     <!-- Credenciales de prueba (solo para desarrollo) -->
-                    <div class="mt-3 p-2 rounded-3"
-                        style="background: rgba(13, 202, 240, 0.1); border: 1px solid rgba(13, 202, 240, 0.2);">
-                        <small class="text-info">
+                    <div class="mt-3 p-2 rounded-3 auth-hint">
+                        <small>
                             <i class="bi bi-info-circle me-1"></i>
                             <strong>Credenciales de prueba:</strong> admin / password
                         </small>
@@ -1405,13 +1678,13 @@
     <!-- Modal Login Cliente -->
     <div class="modal fade" id="ModalCliente" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header text-white" style="background: var(--gradient-secondary) !important;">
+            <div class="modal-content modal-auth">
+                <div class="modal-header">
                     <h5 class="modal-title">
                         <i class="bi bi-person-circle me-2"></i>
                         Acceso de Cliente
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Tabs para Login/Registro -->
@@ -1460,7 +1733,7 @@
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button id="btn-login-cliente" class="btn btn-primary" type="button">
+                                    <button id="btn-login-cliente" class="btn btn-auth-primary" type="button">
                                         <i class="bi bi-box-arrow-in-right"></i>
                                         Iniciar Sesión
                                     </button>
@@ -1547,7 +1820,7 @@
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button id="btn-registro-cliente" class="btn btn-success" type="button">
+                                    <button id="btn-registro-cliente" class="btn btn-auth-secondary" type="button">
                                         <i class="bi bi-person-plus"></i>
                                         Crear Cuenta
                                     </button>
@@ -1556,9 +1829,9 @@
                         </div>
                     </div>
 
-                    <hr>
+                    <hr class="auth-divider">
                     <div class="text-center">
-                        <small class="text-muted">
+                        <small class="auth-footnote">
                             <i class="bi bi-shield-check"></i>
                             Sistema de Reservas de Le Salon de Lumière
                         </small>
@@ -1866,18 +2139,91 @@
             keyboard: false
         });
 
+        // Función para actualizar el estilo del modal según el modo
+        function updateModalPerfilColors() {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const modalContent = document.getElementById('modalSeleccionContent');
+            const titulo = document.querySelector('.titulo-modal-perfil');
+            const subtitulo = document.querySelector('.subtitulo-modal-perfil');
+            const btnClose = document.querySelector('.btn-close-modal-perfil');
+            const btnsCancelار = document.querySelectorAll('.btn-cancelar-modal-perfil');
+            const btnsOpcion = document.querySelectorAll('.btn-perfil-opcion');
+
+            if (isDarkMode) {
+                // Modo oscuro: Fondo negro, texto café
+                if (modalContent) modalContent.style.background = '#1a1a1a';
+                if (titulo) titulo.style.color = '#8B6F47'; // Café/marrón
+                if (subtitulo) {
+                    subtitulo.style.color = '#8B6F47';
+                }
+                if (btnClose) {
+                    btnClose.classList.remove('btn-close-white');
+                    btnClose.classList.add('btn-close');
+                }
+                btnsOpcion.forEach(btn => {
+                    btn.style.background = '#2a2a2a';
+                    btn.style.border = '1px solid #8B6F47';
+                });
+                btnsCancelار.forEach(btn => {
+                    btn.style.borderColor = 'rgba(139, 111, 71, 0.5)';
+                    btn.style.color = '#8B6F47';
+                });
+            } else {
+                // Modo claro: Fondo café, texto dorado/blanco
+                if (modalContent) modalContent.style.background = '#4a3529';
+                if (titulo) titulo.style.color = '#d4af37';
+                if (subtitulo) {
+                    subtitulo.style.color = 'rgba(255, 255, 255, 0.7)';
+                }
+                if (btnClose) {
+                    btnClose.classList.remove('btn-close');
+                    btnClose.classList.add('btn-close-white');
+                }
+                btnsOpcion.forEach(btn => {
+                    btn.style.background = '#f5f2ed';
+                    btn.style.border = 'none';
+                });
+                btnsCancelار.forEach(btn => {
+                    btn.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    btn.style.color = 'rgba(255, 255, 255, 0.8)';
+                });
+            }
+        }
+
+        // Función para actualizar el botón Cancelar cuando se sale del hover
+        function updateCancelarButtonStyle(btn) {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            if (isDarkMode) {
+                btn.style.borderColor = 'rgba(139, 111, 71, 0.5)';
+                btn.style.color = '#8B6F47';
+            } else {
+                btn.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                btn.style.color = 'rgba(255, 255, 255, 0.8)';
+            }
+        }
+
         // Conectar el botón INGRESAR del navbar con el modal de selección de perfil
         (function () {
             const btnIngresarEl = document.getElementById('btn-ingresar');
             if (!btnIngresarEl) return;
             btnIngresarEl.addEventListener('click', function () {
                 try {
+                    updateModalPerfilColors();
                     ModalSeleccionPerfil.show();
                 } catch (err) {
                     console.error('Error mostrando ModalSeleccionPerfil:', err);
                 }
             });
         })();
+
+        // Actualizar colores del modal cuando cambie el modo oscuro
+        const darkModeBtnEl = document.getElementById('darkModeBtn');
+        if (darkModeBtnEl) {
+            darkModeBtnEl.addEventListener('click', function () {
+                // Esperar a que se aplique el cambio de modo
+                setTimeout(updateModalPerfilColors, 50);
+            });
+        }
 
         // Botones dentro del modal de selección
         (function () {
@@ -2464,7 +2810,11 @@
             constructor() {
                 this.mesas = [];
                 this.mesasFiltradas = [];
+                this.soloDisponiblesEnBloque = false;
+                this.mesasNoDisponiblesBloque = [];
                 this.updateInterval = null;
+                this.filtroFecha = null;
+                this.filtroHora = null;
                 this.init();
             }
 
@@ -2487,15 +2837,44 @@
                         this.filtrarPorPrecio(e.target.value);
                     });
                 }
+
+                // NUEVO: Listener para filtro de fecha
+                const filtroFecha = document.getElementById('filtroFechaDisponibilidad');
+                if (filtroFecha) {
+                    filtroFecha.addEventListener('change', () => {
+                        const fechaSeleccionada = filtroFecha.value;
+                        const horaSeleccionada = document.getElementById('filtroHoraDisponibilidad')?.value || null;
+                        const fechaParam = fechaSeleccionada && fechaSeleccionada.trim() !== '' ? fechaSeleccionada : null;
+                        this.filtroFecha = fechaParam;
+                        this.filtroHora = horaSeleccionada || null;
+                        this.cargarMesas(this.filtroFecha, this.filtroHora);
+                    });
+                }
+
+                // NUEVO: Listener para filtro de hora
+                const filtroHora = document.getElementById('filtroHoraDisponibilidad');
+                if (filtroHora) {
+                    filtroHora.addEventListener('change', () => {
+                        const fechaSeleccionada = document.getElementById('filtroFechaDisponibilidad')?.value || new Date().toISOString().split('T')[0];
+                        const horaSeleccionada = filtroHora.value || null;
+                        this.filtroFecha = fechaSeleccionada;
+                        this.filtroHora = horaSeleccionada || null;
+                        this.cargarMesas(this.filtroFecha, this.filtroHora);
+                    });
+                }
             }
 
             filtrarPorPrecio(rangoSeleccionado) {
+                const baseMesas = this.soloDisponiblesEnBloque
+                    ? this.mesas.filter(mesa => mesa.estado === 'disponible')
+                    : this.mesas;
+
                 if (rangoSeleccionado === 'todos') {
-                    this.mesasFiltradas = this.mesas;
+                    this.mesasFiltradas = baseMesas;
                 } else {
                     const [min, max] = rangoSeleccionado.split('-').map(v => v === '' ? Infinity : parseFloat(v));
 
-                    this.mesasFiltradas = this.mesas.filter(mesa => {
+                    this.mesasFiltradas = baseMesas.filter(mesa => {
                         const precio = parseFloat(mesa.precio_reserva || 5);
                         if (max === undefined) {
                             // Caso "20+" (sin límite superior)
@@ -2524,9 +2903,27 @@
                 }
             }
 
-            async cargarMesas() {
+            async cargarMesas(fecha = null, hora = null) {
                 try {
-                    const response = await fetch('app/api/mesas_estado.php');
+                    // MEJORA: Construir URL con parámetros opcionales para fecha/hora
+                    let url = 'app/api/mesas_estado.php';
+                    const params = new URLSearchParams();
+
+                    const fechaConsulta = fecha || this.filtroFecha || new Date().toISOString().split('T')[0];
+                    const horaConsulta = hora !== null ? hora : (this.filtroHora || null);
+
+                    if (fechaConsulta) {
+                        params.append('fecha', fechaConsulta);
+                    }
+                    if (horaConsulta) {
+                        params.append('hora', horaConsulta);
+                    }
+
+                    if (params.toString()) {
+                        url += '?' + params.toString();
+                    }
+
+                    const response = await fetch(url);
                     if (!response.ok) {
                         throw new Error('Error al obtener las mesas');
                     }
@@ -2535,9 +2932,55 @@
 
                     if (data.success) {
                         this.mesas = data.mesas;
-                        this.mesasFiltradas = this.mesas; // Inicialmente mostrar todas
+                        this.soloDisponiblesEnBloque = !!horaConsulta;
+                        this.mesasNoDisponiblesBloque = [];
+
+                        if (this.soloDisponiblesEnBloque) {
+                            this.mesasFiltradas = this.mesas.filter(mesa => mesa.estado === 'disponible');
+                            this.mesasNoDisponiblesBloque = this.mesas.filter(mesa => mesa.estado !== 'disponible');
+                        } else {
+                            this.mesasFiltradas = this.mesas;
+                        }
+
                         this.renderizarMesas();
                         this.actualizarEstadisticas(data.resumen);
+
+                        // NUEVO: Cargar y mostrar horarios disponibles si hay mesas
+                        if (this.mesas.length > 0) {
+                            this.cargarHorariosDisponibles(this.mesas[0].id, fechaConsulta);
+                        }
+
+                        // Mostrar información de fecha consultada
+                        const gallery = document.getElementById('mesasGallery');
+                        if (gallery) {
+                            const alertaAnterior = document.querySelector('.alerta-fecha-consultada');
+                            if (alertaAnterior) {
+                                alertaAnterior.remove();
+                            }
+
+                            const infoDiv = document.createElement('div');
+                            infoDiv.className = 'alert mb-3 alerta-fecha-consultada';
+                            infoDiv.style.cssText = 'background: #3d2e24; border: 1px solid #d4af37; color: #f5f2ed; padding: 15px 20px; border-radius: 25px; text-align: center; font-weight: 600;';
+                            const fechaFormato = this.formatearFecha(fechaConsulta);
+                            const recordatorio = data.recordatorio || 'Recuerda: puedes reservar 3 horas antes o 3 horas después.';
+                            const conflictos = this.soloDisponiblesEnBloque
+                                ? this.mesasNoDisponiblesBloque
+                                    .filter(m => m.reserva && m.reserva.hora)
+                                    .slice(0, 4)
+                                    .map(m => `Mesa ${m.numero}: ${m.reserva.hora} - ${m.reserva.hora_fin} (${m.reserva.estado})`)
+                                    .join(' | ')
+                                : '';
+
+                            infoDiv.innerHTML = `
+                                <i class="bi bi-check-circle-fill" style="color: #d4af37; margin-right: 8px;"></i> 
+                                Disponibilidad para: <strong>${fechaFormato}</strong>
+                                ${horaConsulta ? ` - Bloque: <strong>${horaConsulta} a ${this.sumarHoras(horaConsulta, 3)}</strong>` : ' (todos los bloques)'}
+                                ${this.soloDisponiblesEnBloque ? `<br><small><i class="bi bi-info-circle"></i> Mostrando solo mesas disponibles en este bloque de 3 horas.</small>` : ''}
+                                <br><small><i class="bi bi-clock-history"></i> ${recordatorio}</small>
+                                ${conflictos ? `<br><small><i class="bi bi-exclamation-circle"></i> Horas ya confirmadas: ${conflictos}</small>` : ''}
+                            `;
+                            gallery.parentNode.insertBefore(infoDiv, gallery);
+                        }
                     } else {
                         console.error('Error en la respuesta:', data.message);
                     }
@@ -2547,11 +2990,166 @@
                 }
             }
 
+            // NUEVO: Cargar y mostrar horarios disponibles
+            async cargarHorariosDisponibles(mesaId, fecha) {
+                try {
+                    let url = `app/api/obtener_horarios_disponibles.php?mesa_id=${mesaId}&fecha=${fecha}`;
+
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error('Error al obtener horarios');
+                    }
+
+                    const data = await response.json();
+
+                    const selectHora = document.getElementById('filtroHoraDisponibilidad');
+                    if (data.configuracion && data.configuracion.cerrado) {
+                        if (selectHora) {
+                            selectHora.innerHTML = '<option value="">-- Cualquier hora --</option>';
+                            selectHora.disabled = true;
+                        }
+                        const panel = document.getElementById('horariosDisponiblesPanel');
+                        const contenedor = document.getElementById('bloquesHorarios');
+                        if (panel && contenedor) {
+                            panel.classList.remove('d-none');
+                            contenedor.innerHTML = `
+                                <div class="w-100 p-3" style="background: #2f241c; border: 1px solid #5a4a3f; border-radius: 12px; color: #f5f2ed;">
+                                    <i class="bi bi-calendar-x me-2" style="color: #d4af37;"></i>
+                                    Restaurante cerrado en esta fecha
+                                </div>
+                            `;
+                        }
+                        return;
+                    }
+
+                    if (selectHora) {
+                        selectHora.disabled = false;
+                    }
+
+                    if (data.success && data.bloques) {
+                        // Actualizar select de horas segun configuracion y bloques
+                        if (selectHora) {
+                            const actual = selectHora.value;
+                            selectHora.innerHTML = '<option value="">-- Cualquier hora --</option>';
+                            data.bloques.forEach(b => {
+                                const opt = document.createElement('option');
+                                opt.value = b.hora_inicio;
+                                opt.textContent = `${b.hora_inicio} - ${b.hora_fin}`;
+                                selectHora.appendChild(opt);
+                            });
+                            if (actual) {
+                                const exists = Array.from(selectHora.options).some(o => o.value === actual);
+                                if (exists) {
+                                    selectHora.value = actual;
+                                }
+                            }
+                        }
+                        this.mostrarBloquesHorarios(data.bloques, fecha);
+                    }
+                } catch (error) {
+                    console.error('Error cargando horarios:', error);
+                }
+            }
+
+            // NUEVO: Mostrar bloques de horarios
+            mostrarBloquesHorarios(bloques, fecha) {
+                const panel = document.getElementById('horariosDisponiblesPanel');
+                const contenedor = document.getElementById('bloquesHorarios');
+
+                if (!panel || !contenedor) return;
+
+                contenedor.innerHTML = '';
+
+                let tieneDisponibles = false;
+
+                bloques.forEach(bloque => {
+                    const disponible = bloque.disponible;
+                    if (disponible) tieneDisponibles = true;
+
+                    const btn = document.createElement('button');
+                    btn.className = 'btn btn-sm';
+                    btn.style.cssText = `
+                        padding: 10px 20px;
+                        border-radius: 20px;
+                        font-weight: 600;
+                        border: 2px solid ${disponible ? '#d4af37' : '#5a4a3f'};
+                        background: ${disponible ? 'linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)' : '#2f241c'};
+                        color: ${disponible ? '#1a1a1a' : '#cdbb9a'};
+                        cursor: ${disponible ? 'pointer' : 'not-allowed'};
+                        opacity: ${disponible ? '1' : '0.8'};
+                        transition: all 0.3s ease;
+                        box-shadow: ${disponible ? '0 4px 12px rgba(212, 175, 55, 0.3)' : 'none'};
+                    `;
+
+                    btn.innerHTML = `
+                        <i class="bi ${disponible ? 'bi-check-circle' : 'bi-x-circle'}"></i>
+                        ${bloque.hora_inicio} - ${bloque.hora_fin}
+                        <small class="d-block" style="font-size: 0.8rem; margin-top: 3px;">
+                            ${disponible ? '✓ Disponible' : bloque.razon_no_disponible || 'No disponible'}
+                        </small>
+                    `;
+
+                    if (disponible) {
+                        btn.onclick = () => {
+                            document.getElementById('filtroHoraDisponibilidad').value = bloque.hora_inicio;
+                            this.cargarMesas(fecha, bloque.hora_inicio);
+                        };
+
+                        btn.onmouseover = () => {
+                            btn.style.transform = 'translateY(-2px)';
+                            btn.style.boxShadow = '0 6px 18px rgba(212, 175, 55, 0.5)';
+                        };
+
+                        btn.onmouseout = () => {
+                            btn.style.transform = 'translateY(0)';
+                            btn.style.boxShadow = '0 4px 12px rgba(212, 175, 55, 0.3)';
+                        };
+                    }
+
+                    contenedor.appendChild(btn);
+                });
+
+                // Mostrar u ocultar panel según si hay bloques disponibles
+                if (tieneDisponibles) {
+                    panel.classList.remove('d-none');
+                } else {
+                    panel.classList.add('d-none');
+                }
+            }
+
+            // NUEVO: Auxiliar para sumar horas
+            sumarHoras(hora, horas) {
+                const [h, m] = hora.split(':').map(Number);
+                const resultado = new Date(2000, 0, 1, h, m);
+                resultado.setHours(resultado.getHours() + horas);
+                return resultado.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+            }
+
+            formatearFecha(fecha) {
+                const [year, month, day] = fecha.split('-');
+                return `${day}/${month}/${year}`;
+            }
+
             renderizarMesas() {
                 // Renderizar todas las mesas en un solo grid de galería
                 const gallery = document.getElementById('mesasGallery');
                 if (gallery) {
                     gallery.innerHTML = '';
+
+                    if (!this.mesasFiltradas || this.mesasFiltradas.length === 0) {
+                        const mensajeVacio = document.createElement('div');
+                        mensajeVacio.className = 'col-12 text-center py-5';
+                        mensajeVacio.innerHTML = `
+                            <i class="bi bi-calendar-x" style="font-size: 3rem; color: #d4af37;"></i>
+                            <p class="mt-3" style="color: #3d2e24; font-size: 1.2rem; font-weight: 600;">
+                                No hay mesas disponibles para ese bloque de 3 horas
+                            </p>
+                            <p class="text-muted">Prueba 3 horas antes o 3 horas después.</p>
+                        `;
+                        gallery.appendChild(mensajeVacio);
+                        return;
+                    }
+
                     this.mesasFiltradas.forEach(mesa => {
                         const mesaElement = this.crearElementoMesa(mesa);
                         gallery.appendChild(mesaElement);
@@ -2653,6 +3251,14 @@
                                 <div class="mesa-consumo-text" style="font-size: 0.7rem; color: #5a4a3a; margin-top: 3px;">+ Consumo de platos</div>
                             </div>
                             
+                            ${mesa.reserva ? `
+                            <div class="mb-2 p-2" style="background: rgba(255,255,255,0.08); border-radius: 8px; color: #f5f2ed; font-size: 0.8rem;">
+                                <i class="bi bi-clock-history" style="color: #d4af37;"></i>
+                                Reservada: ${mesa.reserva.hora || '--:--'} - ${mesa.reserva.hora_fin || '--:--'} (${mesa.reserva.estado || 'confirmada'})
+                                ${mesa.reserva.sugerencia_antes && mesa.reserva.sugerencia_despues ? `<br><small style="color:#d4af37;">Sugerido: ${mesa.reserva.sugerencia_antes} o ${mesa.reserva.sugerencia_despues}</small>` : ''}
+                            </div>
+                            ` : ''}
+
                             ${disponible ? `
                             <button class="btn w-100 mt-2" style="background: #8b7355; color: #f5f2ed; border: none; border-radius: 25px; padding: 12px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease;"
                                 onmouseover="this.style.background='#6d5942'; this.style.transform='scale(1.02)'"
@@ -2815,10 +3421,10 @@
             }
 
             iniciarActualizacionAutomatica() {
-                // Actualizar cada 30 segundos
+                // Actualizar cada 90 segundos
                 this.updateInterval = setInterval(() => {
-                    this.cargarMesas();
-                }, 30000);
+                    this.cargarMesas(this.filtroFecha, this.filtroHora);
+                }, 90000);
             }
 
             mostrarError() {
@@ -3435,6 +4041,9 @@
             }
         });
     </script>
+
+    <!-- Script de Seguridad: Deshabilitar click derecho en formularios -->
+    <script src="public/js/security.js"></script>
 </body>
 
 </html>

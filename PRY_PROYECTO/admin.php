@@ -291,6 +291,110 @@ try {
             font-weight: 600;
         }
 
+        /* Estilos para Reservas Activas */
+        .reserva-card {
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-left: 5px solid transparent;
+        }
+
+        .reserva-card.preparando {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), transparent);
+        }
+
+        .reserva-card.en_curso {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), transparent);
+        }
+
+        .reserva-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .estado-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .estado-badge.preparando {
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #000;
+        }
+
+        .estado-badge.en_curso {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: #000;
+        }
+
+        .tiempo-transcurrido {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .tiempo-transcurrido.critico {
+            color: #ef4444;
+            font-weight: 700;
+            animation: pulso 2s infinite;
+        }
+
+        @keyframes pulso {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .indicador-llegada {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .indicador-llegada.llegado {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        .indicador-llegada.esperando {
+            background: #f59e0b;
+            box-shadow: 0 0 10px #f59e0b;
+        }
+
+        .indicador-llegada.no-llego {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+
+        .btn-accion {
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-accion:hover {
+            transform: scale(1.05);
+        }
+
+        .filter-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .bg-gradient {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa) !important;
+            color: white !important;
+        }
+
         .btn-outline-primary,
         .btn-outline-success,
         .btn-outline-warning,
@@ -558,6 +662,11 @@ try {
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" onclick="scrollToSection('reservas-activas-section')">
+                                    <i class="bi bi-clock-history me-2"></i> 🔴 Reservas Activas
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0);" onclick="scrollToSection('reservas-section')">
                                     <i class="bi bi-calendar-check me-2"></i> Reservas
                                 </a>
@@ -745,6 +854,67 @@ try {
                         </div>
                     </div>
 
+                    <!-- ========================================== -->
+                    <!-- SECCIÓN: RESERVAS ACTIVAS (EN CURSO)      -->
+                    <!-- ========================================== -->
+                    <div class="row mb-5" id="reservas-activas-section">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-gradient d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                    <h4 class="mb-0 text-white">
+                                        <i class="bi bi-clock-history me-2"></i>
+                                        Reservas Activas - Gestión Rápida
+                                    </h4>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-light btn-sm" onclick="cargarReservasActivas()" id="btn-refresh-activas">
+                                            <i class="bi bi-arrow-clockwise"></i> Actualizar
+                                        </button>
+                                        <span class="badge bg-white text-dark fs-6 px-3" id="contador-activas">0</span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <!-- Filtros -->
+                                    <div class="p-3 border-bottom bg-light">
+                                        <div class="row g-2">
+                                            <div class="col-md-4">
+                                                <select class="form-select form-select-sm" id="filtro-zona-activas">
+                                                    <option value="">🌐 Todas las zonas</option>
+                                                    <option value="interior">🏛️ Salón Principal</option>
+                                                    <option value="terraza">🌳 Terraza</option>
+                                                    <option value="vip">👑 VIP</option>
+                                                    <option value="bar">🍸 Bar & Lounge</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="form-select form-select-sm" id="filtro-estado-llegada">
+                                                    <option value="">Todos los estados</option>
+                                                    <option value="llegado">🟢 Cliente llegó</option>
+                                                    <option value="esperando">🟡 Esperando</option>
+                                                    <option value="no_llego">🔴 No llegó (+15min)</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button class="btn btn-primary btn-sm w-100" onclick="filtrarReservasActivas()">
+                                                    <i class="bi bi-funnel"></i> Filtrar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Lista de Reservas Activas -->
+                                    <div id="lista-reservas-activas" class="p-3">
+                                        <div class="text-center py-5">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Cargando...</span>
+                                            </div>
+                                            <p class="mt-3 text-muted">Cargando reservas activas...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- ESTADÍSTICAS SECUNDARIAS -->
                     <div class="row mb-5 g-4">
                         <div class="col-md-6 col-lg-4">
@@ -891,6 +1061,187 @@ try {
                                     <canvas id="chartEstadoReservas" style="max-height: 300px;"></canvas>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- FILTRO DE RESERVAS POR MESA Y FECHA -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, var(--dark-card) 0%, rgba(30, 35, 65, 0.95) 100%); border: 2px solid rgba(255, 215, 0, 0.2) !important; border-radius: 25px; overflow: hidden;">
+                                <div class="card-header" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(0, 212, 255, 0.1)); border-bottom: 2px solid rgba(255, 215, 0, 0.3) !important; padding: 1.5rem 2rem;">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h4 class="mb-0" style="font-weight: 700; background: linear-gradient(135deg, var(--accent-gold), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                                            <i class="bi bi-funnel-fill me-3" style="color: var(--accent-gold); -webkit-text-fill-color: var(--accent-gold); font-size: 1.8rem; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));"></i>
+                                            Consultar Reservas por Mesa y Fecha
+                                        </h4>
+                                        <span class="badge bg-gradient" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); padding: 0.6rem 1.2rem; font-size: 0.9rem;">
+                                            <i class="bi bi-search me-1"></i>Filtro Avanzado
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4" style="background: rgba(0, 0, 0, 0.2);">
+                                    <!-- Formulario de búsqueda mejorado -->
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-md-3">
+                                            <div class="filter-input-group">
+                                                <label for="filtro-fecha-inicio" class="form-label" style="color: var(--accent-gold); font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    <i class="bi bi-calendar-event-fill me-2" style="color: var(--accent-cyan);"></i>Fecha Inicio
+                                                </label>
+                                                <div class="input-group" style="position: relative;">
+                                                    <span class="input-group-text" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 1px solid var(--accent-cyan); color: var(--accent-cyan);">
+                                                        <i class="bi bi-calendar3"></i>
+                                                    </span>
+                                                    <input type="date" class="form-control filter-input" id="filtro-fecha-inicio" style="font-weight: 500;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="filter-input-group">
+                                                <label for="filtro-fecha-fin" class="form-label" style="color: var(--accent-gold); font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    <i class="bi bi-calendar-check-fill me-2" style="color: var(--accent-cyan);"></i>Fecha Fin
+                                                </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 1px solid var(--accent-cyan); color: var(--accent-cyan);">
+                                                        <i class="bi bi-calendar3"></i>
+                                                    </span>
+                                                    <input type="date" class="form-control filter-input" id="filtro-fecha-fin" style="font-weight: 500;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="filter-input-group">
+                                                <label for="filtro-mesa" class="form-label" style="color: var(--accent-gold); font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                    <i class="bi bi-table me-2" style="color: var(--accent-cyan);"></i>Seleccionar Mesa
+                                                </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); border: 1px solid var(--accent-cyan); color: var(--accent-cyan);">
+                                                        <i class="bi bi-grid-3x3-gap-fill"></i>
+                                                    </span>
+                                                    <select class="form-select filter-input" id="filtro-mesa" style="font-weight: 500;">
+                                                        <option value="">🍽️ Todas las mesas</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <button type="button" class="btn w-100" id="btn-filtrar-reservas" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: 700; padding: 0.75rem; border-radius: 15px; box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                <i class="bi bi-search me-2"></i>Buscar
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Resultados con diseño mejorado -->
+                                    <div id="resultados-filtro" class="mt-5" style="display: none;">
+                                        <div class="alert mb-4" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15)); border: 2px solid var(--accent-cyan); border-radius: 20px; padding: 1.5rem; box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3);">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-check-circle-fill me-3" style="color: var(--accent-cyan); font-size: 2rem;"></i>
+                                                    <div>
+                                                        <h5 class="mb-1" style="color: var(--accent-gold); font-weight: 700;">Resultados de la Búsqueda</h5>
+                                                        <p class="mb-0" style="color: #fff;">Se encontraron <strong style="color: var(--accent-cyan); font-size: 1.3rem;"><span id="total-reservas-filtradas">0</span></strong> reservas</p>
+                                                    </div>
+                                                </div>
+                                                <span class="badge" style="background: linear-gradient(135deg, var(--accent-gold), #fbbf24); color: #000; padding: 0.7rem 1.5rem; font-size: 1.1rem; border-radius: 15px;">
+                                                    <i class="bi bi-calendar-check me-1"></i><span id="total-reservas-filtradas-2">0</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive" style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
+                                            <table class="table table-hover mb-0" style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 215, 0, 0.2);">
+                                                <thead style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.1)); border-bottom: 2px solid var(--accent-gold);">
+                                                    <tr>
+                                                        <th style="color: var(--accent-gold); font-weight: 700; padding: 1.2rem; border: none;">#</th>
+                                                        <th style="color: var(--accent-gold); font-weight: 700; padding: 1.2rem; border: none;"><i class="bi bi-table me-2"></i>Mesa</th>
+                                                        <th style="color: var(--accent-gold); font-weight: 700; padding: 1.2rem; border: none;"><i class="bi bi-person-fill me-2"></i>Cliente</th>
+                                                        <th style="color: var(--accent-gold); font-weight: 700; padding: 1.2rem; border: none;"><i class="bi bi-calendar-event me-2"></i>Fecha</th>
+                                                        <th style="color: var(--accent-gold); font-weight: 700; padding: 1.2rem; border: none;"><i class="bi bi-clock-fill me-2"></i>Hora</th>
+                                                        <th style="color: var(--accent-gold); font-weight: 700; padding: 1.2rem; border: none;"><i class="bi bi-people-fill me-2"></i>Personas</th>
+                                                        <th style="color: var(--accent-gold); font-weight: 700; padding: 1.2rem; border: none;"><i class="bi bi-flag-fill me-2"></i>Estado</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tabla-reservas-filtradas" style="color: #fff;">
+                                                    <!-- Se llenará con JavaScript -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mensaje cuando no hay resultados -->
+                                    <div id="sin-resultados" class="alert mt-5" style="display: none; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(239, 68, 68, 0.15)); border: 2px solid var(--warning-glow); border-radius: 20px; padding: 2rem; box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);">
+                                        <div class="text-center">
+                                            <i class="bi bi-exclamation-triangle-fill mb-3" style="color: var(--warning-glow); font-size: 4rem; display: block;"></i>
+                                            <h5 style="color: var(--warning-glow); font-weight: 700; margin-bottom: 1rem;">No se encontraron reservas</h5>
+                                            <p style="color: #fff; font-size: 1.1rem;">No hay reservas que coincidan con los criterios seleccionados. Intenta con otro rango de fechas o mesa.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <style>
+                                .filter-input-group {
+                                    animation: fadeInUp 0.5s ease;
+                                }
+                                
+                                @keyframes fadeInUp {
+                                    from {
+                                        opacity: 0;
+                                        transform: translateY(20px);
+                                    }
+                                    to {
+                                        opacity: 1;
+                                        transform: translateY(0);
+                                    }
+                                }
+                                
+                                .filter-input {
+                                    background: rgba(26, 29, 53, 0.8) !important;
+                                    border: 1px solid rgba(0, 212, 255, 0.3) !important;
+                                    color: var(--accent-cyan) !important;
+                                    padding: 0.75rem 1rem;
+                                    border-radius: 0 12px 12px 0 !important;
+                                    transition: all 0.3s ease;
+                                }
+                                
+                                .filter-input:focus {
+                                    background: rgba(26, 29, 53, 1) !important;
+                                    border-color: var(--accent-gold) !important;
+                                    box-shadow: 0 0 0 0.3rem rgba(255, 215, 0, 0.25) !important;
+                                    transform: translateY(-2px);
+                                }
+                                
+                                .filter-input option {
+                                    background: #1a1d35 !important;
+                                    color: #ffffff !important;
+                                    padding: 10px;
+                                }
+                                
+                                #btn-filtrar-reservas:hover {
+                                    transform: translateY(-5px);
+                                    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6) !important;
+                                    background: linear-gradient(135deg, #2563eb, #7c3aed) !important;
+                                }
+                                
+                                #btn-filtrar-reservas:active {
+                                    transform: translateY(-2px);
+                                }
+                                
+                                .table-hover tbody tr:hover {
+                                    background: rgba(255, 215, 0, 0.1) !important;
+                                    transform: scale(1.01);
+                                    transition: all 0.2s ease;
+                                    cursor: pointer;
+                                }
+                                
+                                .table tbody td {
+                                    padding: 1rem !important;
+                                    border-color: rgba(255, 215, 0, 0.1) !important;
+                                    vertical-align: middle;
+                                }
+                                
+                                .input-group-text {
+                                    border-radius: 12px 0 0 12px !important;
+                                }
+                            </style>
                         </div>
                     </div>
                     
@@ -1096,7 +1447,7 @@ try {
                                                     <i class="bi bi-clock me-1"></i>
                                                     Hora de Inicio de Reservas
                                                 </label>
-                                                <input type="time" class="form-control" id="horaApertura" required>
+                                                <input type="time" class="form-control" id="horaApertura" step="60" required>
                                                 <small class="text-muted">Primera hora disponible para reservar</small>
                                             </div>
                                             
@@ -1105,7 +1456,7 @@ try {
                                                     <i class="bi bi-clock-fill me-1"></i>
                                                     Hora Final de Reservas
                                                 </label>
-                                                <input type="time" class="form-control" id="horaCierre" required>
+                                                <input type="time" class="form-control" id="horaCierre" step="60" required>
                                                 <small class="text-muted">Última hora disponible para reservar</small>
                                             </div>
                                         </div>
@@ -1263,6 +1614,12 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        // Variables globales para almacenar instancias de gráficos
+        let chartReservasMes = null;
+        let chartHorarios = null;
+        let chartMesas = null;
+        let chartEstado = null;
+        
         // Configuración global de Chart.js para tema oscuro
         Chart.defaults.color = '#a0aec0';
         Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
@@ -1323,9 +1680,6 @@ try {
                 return null;
             }
         }
-
-        // Variables globales para los gráficos
-        let chartReservasMes, chartHorarios, chartMesas, chartEstado;
 
         function cargarDatosYGraficos() {
             const indicador = document.getElementById('indicador-conexion');
@@ -1504,7 +1858,11 @@ try {
                                     </div>
                                     <div class="mb-2">
                                         <i class="bi bi-calendar3 text-muted"></i>
-                                        <strong>Fecha:</strong> ${new Date(reserva.fecha_reserva).toLocaleDateString('es-ES')}
+                                        <strong>Fecha:</strong> ${(() => {
+                                            const fecha = reserva.fecha_reserva.split('T')[0];
+                                            const [year, month, day] = fecha.split('-');
+                                            return `${day}/${month}/${year}`;
+                                        })()}
                                     </div>
                                     <div class="mb-2">
                                         <i class="bi bi-clock text-muted"></i>
@@ -1549,7 +1907,11 @@ try {
                                     </div>
                                     <div class="mb-2">
                                         <i class="bi bi-calendar3 text-muted"></i>
-                                        <strong>Fecha:</strong> ${new Date(reserva.fecha_reserva).toLocaleDateString('es-ES')}
+                                        <strong>Fecha:</strong> ${(() => {
+                                            const fecha = reserva.fecha_reserva.split('T')[0];
+                                            const [year, month, day] = fecha.split('-');
+                                            return `${day}/${month}/${year}`;
+                                        })()}
                                     </div>
                                     <div class="mb-2">
                                         <i class="bi bi-clock text-muted"></i>
@@ -1597,6 +1959,10 @@ try {
         // Función para confirmar reserva y enviar WhatsApp
         async function confirmarReservaNueva(reservaId) {
             try {
+                if (!reservaId) {
+                    throw new Error('ID de reserva requerido');
+                }
+
                 const resultado = await Swal.fire({
                     title: '¿Confirmar Reserva?',
                     html: `
@@ -1629,20 +1995,39 @@ try {
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ reserva_id: reservaId })
+                        body: JSON.stringify({ reserva_id: reservaId, id: reservaId })
                     });
 
-                    const data = await response.json();
+                    const raw = await response.text();
+                    let data;
+                    try {
+                        data = JSON.parse(raw);
+                    } catch (e) {
+                        throw new Error(raw || `Error HTTP ${response.status}`);
+                    }
 
                     if (data.success) {
+                        const zonasCanceladas = data.reservas_zona_canceladas && data.reservas_zona_canceladas.total > 0
+                            ? `
+                                <div class="alert alert-warning mt-3">
+                                    <strong>Reservas de zona canceladas automáticamente:</strong>
+                                    <ul style="margin: 8px 0 0 18px;">
+                                        ${data.reservas_zona_canceladas.detalles.map(z =>
+                                            `<li>#${z.id} - ${z.cliente} (${z.hora_reserva})</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                              `
+                            : '';
                         await Swal.fire({
                             title: '¡Reserva Confirmada!',
                             html: `
                                 <p>${data.message}</p>
                                 ${data.whatsapp && data.whatsapp.enviado 
                                     ? '<div class="alert alert-success mt-2"><i class="bi bi-whatsapp"></i> WhatsApp enviado correctamente</div>' 
-                                    : '<div class="alert alert-warning mt-2"><i class="bi bi-exclamation-triangle"></i> No se pudo enviar WhatsApp</div>'
+                                    : `<div class="alert alert-warning mt-2"><i class="bi bi-exclamation-triangle"></i> No se pudo enviar WhatsApp${data.whatsapp && data.whatsapp.error ? `<br><small>${data.whatsapp.error}</small>` : ''}</div>`
                                 }
+                                ${zonasCanceladas}
                             `,
                             icon: 'success',
                             confirmButtonColor: '#10b981'
@@ -1781,12 +2166,22 @@ try {
                     progreso++;
                     document.getElementById('progreso-reservas').textContent = progreso;
                     try {
+                        if (!reserva.id) {
+                            errores++;
+                            continue;
+                        }
                         const respuesta = await fetch('app/api/confirmar_reserva_admin.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ reserva_id: reserva.id })
+                            body: JSON.stringify({ reserva_id: reserva.id, id: reserva.id })
                         });
-                        const resultado = await respuesta.json();
+                        const raw = await respuesta.text();
+                        let resultado = { success: false };
+                        try {
+                            resultado = JSON.parse(raw);
+                        } catch (e) {
+                            resultado = { success: false, message: raw || `Error HTTP ${respuesta.status}` };
+                        }
                         if (resultado.success) confirmadas++;
                         else errores++;
                     } catch (error) {
@@ -1950,6 +2345,24 @@ try {
         }
 
         function inicializarGraficos(datos) {
+            // Destruir gráficos existentes antes de crear nuevos
+            if (chartReservasMes) {
+                chartReservasMes.destroy();
+                chartReservasMes = null;
+            }
+            if (chartHorarios) {
+                chartHorarios.destroy();
+                chartHorarios = null;
+            }
+            if (chartMesas) {
+                chartMesas.destroy();
+                chartMesas = null;
+            }
+            if (chartEstado) {
+                chartEstado.destroy();
+                chartEstado = null;
+            }
+            
             // GRÁFICO 1: Reservas del Mes (Barras)
             const ctxReservasMes = document.getElementById('chartReservasMes');
             if (ctxReservasMes) {
@@ -2504,6 +2917,14 @@ try {
     <!-- Gestión de Mesas JavaScript -->
     <script src="public/js/gestion-mesas.js?v=<?php echo time(); ?>"></script>
     
+    <?php
+        $tzAdmin = new DateTimeZone('America/Guayaquil');
+        $fechaHoyAdmin = (new DateTime('now', $tzAdmin))->format('Y-m-d');
+    ?>
+    <script>
+        window.FECHA_HOY_SERVIDOR = '<?php echo $fechaHoyAdmin; ?>';
+    </script>
+
     <!-- Gestión de Reservas JavaScript -->
     <script src="public/js/gestion-reservas.js?v=<?php echo time(); ?>"></script>
     
@@ -2512,6 +2933,14 @@ try {
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🍽️ Archivos de restaurant layout cargados');
         });
+
+        // Compatibilidad: algunos flujos heredados llaman cargarReservas() global
+        window.cargarReservas = async function() {
+            if (window.gestionReservas && typeof window.gestionReservas.cargarReservas === 'function') {
+                return window.gestionReservas.cargarReservas();
+            }
+            throw new Error('El módulo de gestión de reservas no está disponible');
+        };
         
         // FUNCIONES GLOBALES - Definidas en window
         window.mostrarGestionMesas = function() {
@@ -2581,7 +3010,7 @@ try {
                         document.getElementById('horaApertura').value = config.hora_apertura.valor || '11:00';
                     }
                     if (config.hora_cierre) {
-                        document.getElementById('horaCierre').value = config.hora_cierre.valor || '23:00';
+                        document.getElementById('horaCierre').value = config.hora_cierre.valor || '20:00';
                     }
                     
                     // Cargar días cerrados y marcar checkboxes
@@ -2620,6 +3049,9 @@ try {
                         <ul class="list-unstyled mb-0">
                             <li><strong>Apertura:</strong> ${config.hora_apertura?.valor || 'No configurado'}</li>
                             <li><strong>Cierre:</strong> ${config.hora_cierre?.valor || 'No configurado'}</li>
+                            <li><strong>L-V:</strong> ${(config.horario_lunes_viernes_inicio?.valor || config.hora_apertura?.valor || 'No configurado')} - ${(config.horario_lunes_viernes_fin?.valor || config.hora_cierre?.valor || 'No configurado')}</li>
+                            <li><strong>Sábado:</strong> ${(config.horario_sabado_inicio?.valor || config.hora_apertura?.valor || 'No configurado')} - ${(config.horario_sabado_fin?.valor || config.hora_cierre?.valor || 'No configurado')}</li>
+                            <li><strong>Domingo:</strong> ${(config.horario_domingo_inicio?.valor || config.hora_apertura?.valor || 'No configurado')} - ${(config.horario_domingo_fin?.valor || config.hora_cierre?.valor || 'No configurado')}</li>
                             <li><strong>Días cerrados:</strong> ${diasCerradosTexto}</li>
                         </ul>
                     `;
@@ -2675,6 +3107,12 @@ try {
                         configuraciones: {
                             hora_apertura: horaApertura,
                             hora_cierre: horaCierre,
+                            horario_lunes_viernes_inicio: horaApertura,
+                            horario_lunes_viernes_fin: horaCierre,
+                            horario_sabado_inicio: horaApertura,
+                            horario_sabado_fin: horaCierre,
+                            horario_domingo_inicio: horaApertura,
+                            horario_domingo_fin: horaCierre,
                             dias_cerrados: diasCerrados.join(',')
                         }
                     })
@@ -2786,6 +3224,12 @@ try {
                                         configuraciones: {
                                             hora_apertura: horaApertura,
                                             hora_cierre: horaCierre,
+                                            horario_lunes_viernes_inicio: horaApertura,
+                                            horario_lunes_viernes_fin: horaCierre,
+                                            horario_sabado_inicio: horaApertura,
+                                            horario_sabado_fin: horaCierre,
+                                            horario_domingo_inicio: horaApertura,
+                                            horario_domingo_fin: horaCierre,
                                             dias_cerrados: diasCerrados.join(',')
                                         },
                                         reservas_afectadas: data.reservas_afectadas
@@ -2941,6 +3385,555 @@ try {
                 });
             }
         };
+        
+        // =================================================================
+        // FILTRO DE RESERVAS POR MESA Y FECHA
+        // =================================================================
+        
+        // Cargar mesas en el select de filtro
+        const cargarMesasEnFiltro = async () => {
+            try {
+                const response = await fetch('app/obtener_mesas.php');
+                const data = await response.json();
+                
+                const selectMesa = document.getElementById('filtro-mesa');
+                selectMesa.innerHTML = '<option value="">Todas las mesas</option>';
+                
+                if (data.success && data.mesas) {
+                   data.mesas.forEach(mesa => {
+                       const option = document.createElement('option');
+                        option.value = mesa.id;
+                        option.textContent = `Mesa ${mesa.numero_mesa} - ${mesa.ubicacion} (${mesa.capacidad} personas)`;
+                        selectMesa.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error cargando mesas:', error);
+            }
+        };
+        
+        // Función lambda para filtrar reservas
+        const filtrarReservas = async () => {
+            const fechaInicio = document.getElementById('filtro-fecha-inicio').value;
+            const fechaFin = document.getElementById('filtro-fecha-fin').value;
+            const mesaId = document.getElementById('filtro-mesa').value;
+            
+            // Validaciones
+            if (!fechaInicio || !fechaFin) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Datos incompletos',
+                    text: 'Por favor selecciona las fechas de inicio y fin'
+                });
+                return;
+            }
+            
+            if (new Date(fechaInicio) > new Date(fechaFin)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Fechas inválidas',
+                    text: 'La fecha de inicio no puede ser mayor a la fecha fin'
+                });
+                return;
+            }
+            
+            try {
+                // Mostrar loading
+                Swal.fire({
+                    title: 'Buscando reservas...',
+                    text: 'Por favor espera',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                // Construir URL con parámetros
+                const params = new URLSearchParams({
+                    fecha_inicio: fechaInicio,
+                    fecha_fin: fechaFin
+                });
+                
+                if (mesaId) {
+                    params.append('mesa_id', mesaId);
+                }
+                
+                const response = await fetch(`app/api/obtener_reservas_filtradas.php?${params}`);
+                const data = await response.json();
+                
+                Swal.close();
+                
+                if (data.success) {
+                    const reservas = data.reservas;
+                    const total = data.total;
+                    
+                    // Mostrar/ocultar elementos según resultados
+                    if (total > 0) {
+                        document.getElementById('resultados-filtro').style.display = 'block';
+                        document.getElementById('sin-resultados').style.display = 'none';
+                        document.getElementById('total-reservas-filtradas').textContent = total;
+                        document.getElementById('total-reservas-filtradas-2').textContent = total;
+                        
+                        // Llenar tabla con resultados
+                        const tbody = document.getElementById('tabla-reservas-filtradas');
+                        tbody.innerHTML = '';
+                        
+                        reservas.forEach((reserva, index) => {
+                            const tr = document.createElement('tr');
+                            
+                            // Determinar clase del badge según estado
+                            let badgeClass = 'bg-secondary';
+                            let badgeIcon = 'bi-question-circle';
+                            switch(reserva.estado) {
+                                case 'confirmada':
+                                    badgeClass = 'bg-success';
+                                    badgeIcon = 'bi-check-circle-fill';
+                                    break;
+                                case 'pendiente':
+                                    badgeClass = 'bg-warning text-dark';
+                                    badgeIcon = 'bi-clock-fill';
+                                    break;
+                                case 'cancelada':
+                                    badgeClass = 'bg-danger';
+                                    badgeIcon = 'bi-x-circle-fill';
+                                    break;
+                                case 'finalizada':
+                                    badgeClass = 'bg-info';
+                                    badgeIcon = 'bi-flag-fill';
+                                    break;
+                                case 'en_curso':
+                                    badgeClass = 'bg-primary';
+                                    badgeIcon = 'bi-play-circle-fill';
+                                    break;
+                            }
+                            
+                            const esZona = reserva.tipo_reserva === 'zona';
+                            const zonaTexto = esZona
+                                ? (reserva.zonas_nombres ? reserva.zonas_nombres.join(', ') : 'Zona completa')
+                                : reserva.ubicacion;
+                            const tituloMesa = esZona
+                                ? 'Reserva de Zona'
+                                : `Mesa ${reserva.numero_mesa}`;
+
+                            tr.innerHTML = `
+                                <td style="font-weight: 700; color: var(--accent-gold);">${index + 1}</td>
+                                <td>
+                                    <div style="display: flex; align-items: center;">
+                                        <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.1)); padding: 0.5rem; border-radius: 10px; margin-right: 0.8rem;">
+                                            <i class="bi ${esZona ? 'bi-grid-3x3-gap-fill' : 'bi-table'}" style="color: var(--accent-gold); font-size: 1.2rem;"></i>
+                                        </div>
+                                        <div>
+                                            <strong style="color: var(--accent-cyan); font-size: 1.1rem;">${tituloMesa}</strong>
+                                            <br><small class="text-muted"><i class="bi bi-geo-alt-fill me-1"></i>${zonaTexto}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <strong style="color: #fff;">${reserva.cliente_nombre} ${reserva.cliente_apellido}</strong>
+                                        <br><small class="text-muted"><i class="bi bi-telephone-fill me-1"></i>${reserva.cliente_telefono}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span style="background: rgba(59, 130, 246, 0.2); padding: 0.4rem 0.8rem; border-radius: 10px; color: var(--accent-cyan); font-weight: 600;">
+                                        <i class="bi bi-calendar3 me-1"></i>${(() => {
+                                            const fecha = reserva.fecha_reserva.split('T')[0];
+                                            const [year, month, day] = fecha.split('-');
+                                            const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+                                            return `${day} ${meses[parseInt(month)-1]} ${year}`;
+                                        })()}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(0, 212, 255, 0.1)); padding: 0.5rem 1rem; border-radius: 12px; color: var(--accent-gold); font-weight: 700; font-size: 1.1rem;">
+                                        <i class="bi bi-clock-fill me-2"></i>${reserva.hora_reserva}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="background: rgba(139, 92, 246, 0.2); padding: 0.4rem 0.8rem; border-radius: 10px; color: #a78bfa; font-weight: 600;">
+                                        <i class="bi bi-people-fill me-1"></i>${reserva.numero_personas}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge ${badgeClass}" style="padding: 0.6rem 1.2rem; font-size: 0.9rem; border-radius: 12px; font-weight: 600;">
+                                        <i class="bi ${badgeIcon} me-1"></i>${reserva.estado.toUpperCase()}
+                                    </span>
+                                </td>
+                            `;
+                            
+                            tbody.appendChild(tr);
+                        });
+                        
+                        // Scroll suave hacia los resultados
+                        document.getElementById('resultados-filtro').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest' 
+                        });
+                        
+                    } else {
+                        document.getElementById('resultados-filtro').style.display = 'none';
+                        document.getElementById('sin-resultados').style.display = 'block';
+                        document.getElementById('sin-resultados').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest' 
+                        });
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.error || 'No se pudieron obtener las reservas'
+                    });
+                }
+                
+            } catch (error) {
+                Swal.close();
+                console.error('Error filtrando reservas:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al realizar la búsqueda: ' + error.message
+                });
+            }
+        };
+        
+        // Event listeners
+        document.getElementById('btn-filtrar-reservas').addEventListener('click', filtrarReservas);
+        
+        // Permitir filtrar con Enter
+        document.getElementById('filtro-fecha-inicio').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') filtrarReservas();
+        });
+        document.getElementById('filtro-fecha-fin').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') filtrarReservas();
+        });
+        
+        // Cargar mesas al cargar la página
+        cargarMesasEnFiltro();
+        
+        // =================================================================
+        // FIN FILTRO DE RESERVAS
+        // =================================================================
+
+        // =================================================================
+        // GESTIÓN DE RESERVAS ACTIVAS
+        // =================================================================
+        
+        let reservasActivasData = [];
+        
+        /**
+         * Cargar reservas activas desde el servidor
+         */
+        async function cargarReservasActivas() {
+            const btnRefresh = document.getElementById('btn-refresh-activas');
+            const listaContainer = document.getElementById('lista-reservas-activas');
+            
+            try {
+                btnRefresh.disabled = true;
+                btnRefresh.innerHTML = '<i class="bi bi-arrow-clockwise spinner-border spinner-border-sm"></i> Cargando...';
+                
+                const response = await fetch('app/obtener_reservas_activas.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    reservasActivasData = data.data;
+                    mostrarReservasActivas(reservasActivasData);
+                    document.getElementById('contador-activas').textContent = data.total;
+                } else {
+                    throw new Error(data.error || 'Error al cargar reservas');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                listaContainer.innerHTML = `
+                    <div class="alert alert-danger m-3">
+                        <i class="bi bi-exclamation-triangle"></i> 
+                        Error al cargar reservas activas: ${error.message}
+                    </div>
+                `;
+            } finally {
+                btnRefresh.disabled = false;
+                btnRefresh.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Actualizar';
+            }
+        }
+        
+        /**
+         * Mostrar reservas activas en la interfaz
+         */
+        function mostrarReservasActivas(reservas) {
+            const container = document.getElementById('lista-reservas-activas');
+            
+            if (!reservas || reservas.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox" style="font-size: 4rem; color: #ccc;"></i>
+                        <p class="mt-3 text-muted">No hay reservas activas en este momento</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<div class="row g-3">';
+            
+            reservas.forEach(reserva => {
+                const estiloEstado = obtenerEstiloEstadoLlegada(reserva.estado_llegada);
+                const colorBorde = {
+                    'preparando': '#fbbf24',
+                    'en_curso': '#10b981'
+                }[reserva.estado] || '#6b7280';
+                
+                html += `
+                    <div class="col-12 col-lg-6">
+                        <div class="card border-0 shadow-sm" style="border-left: 4px solid ${colorBorde} !important;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <i class="bi ${reserva.tipo_reserva === 'zona' ? 'bi-grid-3x3-gap-fill' : 'bi-table'}"></i>
+                                            ${reserva.tipo_reserva === 'zona' ? 'Zona: ' + reserva.zona : 'Mesa #' + reserva.numero_mesa}
+                                        </h5>
+                                        <small class="text-muted">
+                                            <i class="bi bi-geo-alt"></i> ${reserva.zona}
+                                        </small>
+                                    </div>
+                                    <span class="badge ${reserva.estado === 'preparando' ? 'bg-warning' : 'bg-success'} px-3 py-2">
+                                        ${reserva.estado === 'preparando' ? '⏳ PREPARANDO' : '🔵 EN CURSO'}
+                                    </span>
+                                </div>
+                                
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Cliente</small>
+                                        <strong>${reserva.cliente_nombre} ${reserva.cliente_apellido}</strong>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted d-block">Teléfono</small>
+                                        <a href="tel:${reserva.cliente_telefono}">${reserva.cliente_telefono}</a>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Hora</small>
+                                        <strong>${reserva.hora_reserva}</strong>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Personas</small>
+                                        <strong>${reserva.num_personas}</strong>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Tiempo</small>
+                                        <strong>${reserva.tiempo_transcurrido}</strong>
+                                    </div>
+                                </div>
+                                
+                                <!-- Indicador de Llegada -->
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center gap-2 p-2 rounded" style="background: ${estiloEstado.bg};">
+                                        <span style="font-size: 1.5rem;">${estiloEstado.icono}</span>
+                                        <div class="flex-fill">
+                                            <small class="text-muted d-block">Estado de Llegada</small>
+                                            <strong style="color: ${estiloEstado.color};">${estiloEstado.texto}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Botones de Acción -->
+                                <div class="btn-group w-100" role="group">
+                                    ${!reserva.cliente_llego ? `
+                                        <button class="btn btn-outline-success btn-sm" 
+                                                onclick="marcarComoLlegado(${reserva.id}, '${reserva.tipo_reserva}')">
+                                            <i class="bi bi-check-circle"></i> Llegó
+                                        </button>
+                                    ` : ''}
+                                    <button class="btn btn-primary btn-sm" 
+                                            onclick="finalizarReservaModal(${reserva.id}, '${reserva.tipo_reserva}', '${reserva.cliente_nombre} ${reserva.cliente_apellido}', 'Mesa ${reserva.numero_mesa}')">
+                                        <i class="bi bi-check-square"></i> Finalizar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        /**
+         * Obtener estilos según estado de llegada
+         */
+        function obtenerEstiloEstadoLlegada(estado) {
+            const estilos = {
+                'llegado': {
+                    icono: '🟢',
+                    texto: 'Cliente llegó',
+                    color: '#10b981',
+                    bg: 'rgba(16, 185, 129, 0.1)'
+                },
+                'esperando': {
+                    icono: '🟡',
+                    texto: 'Esperando llegada',
+                    color: '#f59e0b',
+                    bg: 'rgba(245, 158, 11, 0.1)'
+                },
+                'no_llego': {
+                    icono: '🔴',
+                    texto: 'No ha llegado (+15min)',
+                    color: '#ef4444',
+                    bg: 'rgba(239, 68, 68, 0.1)'
+                }
+            };
+            return estilos[estado] || estilos.esperando;
+        }
+        
+        /**
+         * Filtrar reservas activas
+         */
+        function filtrarReservasActivas() {
+            const zona = document.getElementById('filtro-zona-activas').value;
+            const estadoLlegada = document.getElementById('filtro-estado-llegada').value;
+            
+            let reservasFiltradas = reservasActivasData;
+            
+            if (zona) {
+                reservasFiltradas = reservasFiltradas.filter(r => r.zona.includes(zona));
+            }
+            
+            if (estadoLlegada) {
+                reservasFiltradas = reservasFiltradas.filter(r => r.estado_llegada === estadoLlegada);
+            }
+            
+            mostrarReservasActivas(reservasFiltradas);
+        }
+        
+        /**
+         * Marcar cliente como llegado
+         */
+        async function marcarComoLlegado(reservaId, tipoReserva) {
+            try {
+                const response = await fetch('app/marcar_cliente_llego.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reserva_id: reservaId, tipo_reserva: tipoReserva })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Cliente Llegó!',
+                        text: 'Se ha marcado la llegada del cliente',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    cargarReservasActivas();
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message
+                });
+            }
+        }
+        
+        /**
+         * Modal para finalizar reserva
+         */
+        async function finalizarReservaModal(reservaId, tipoReserva, cliente, mesa) {
+            const { value: formValues } = await Swal.fire({
+                title: '¿Finalizar Reserva?',
+                html: `
+                    <div class="text-start">
+                        <p><strong>Cliente:</strong> ${cliente}</p>
+                        <p><strong>${tipoReserva === 'zona' ? 'Zona' : 'Mesa'}:</strong> ${mesa}</p>
+                        <hr>
+                        <label for="observaciones" class="form-label">Observaciones (opcional):</label>
+                        <textarea id="observaciones" class="form-control" rows="3" 
+                                  placeholder="Ej: Cliente satisfecho, pidió factura..."></textarea>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: '<i class="bi bi-check-circle"></i> Finalizar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#10b981',
+                preConfirm: () => {
+                    return {
+                        observaciones: document.getElementById('observaciones').value
+                    };
+                }
+            });
+            
+            if (formValues) {
+                await finalizarReserva(reservaId, tipoReserva, formValues.observaciones);
+            }
+        }
+        
+        /**
+         * Finalizar reserva
+         */
+        async function finalizarReserva(reservaId, tipoReserva, observaciones) {
+            try {
+                const response = await fetch('app/finalizar_reserva_manual.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reserva_id: reservaId,
+                        tipo_reserva: tipoReserva,
+                        observaciones: observaciones
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Reserva Finalizada!',
+                        html: `
+                            <p>La reserva se finalizó correctamente.</p>
+                            <p><strong>Tiempo total:</strong> ${data.data.tiempo_total}</p>
+                        `,
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                    
+                    // Recargar listas (solo funciones disponibles en este archivo)
+                    await cargarReservasActivas();
+                    await cargarReservasPendientes();
+                    await cargarDatosYGraficos();
+
+                    // Recargar modal de gestión si está inicializado
+                    if (window.gestionReservas && typeof window.gestionReservas.cargarReservas === 'function') {
+                        await window.gestionReservas.cargarReservas();
+                    }
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message
+                });
+            }
+        }
+        
+        // Cargar reservas activas al inicio
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarReservasActivas();
+            // Auto-actualizar cada 2 minutos
+            setInterval(cargarReservasActivas, 120000);
+        });
+        
+        // =================================================================
+        // FIN GESTIÓN DE RESERVAS ACTIVAS
+        // =================================================================
     </script>
+
+    <!-- Script de Seguridad: Deshabilitar click derecho en formularios -->
+    <script src="public/js/security.js"></script>
 </body>
 </html>

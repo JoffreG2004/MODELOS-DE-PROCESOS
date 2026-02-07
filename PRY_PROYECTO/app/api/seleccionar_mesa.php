@@ -18,13 +18,13 @@ try {
         exit;
     }
     
-    // Verificar que la mesa existe y está disponible
-    $stmt = $pdo->prepare("SELECT * FROM mesas WHERE id = ? AND estado = 'disponible'");
+    // Verificar que la mesa existe (sin validar estado)
+    $stmt = $pdo->prepare("SELECT * FROM mesas WHERE id = ?");
     $stmt->execute([$mesa_id]);
     $mesa = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$mesa) {
-        echo json_encode(['success' => false, 'message' => 'Mesa no disponible']);
+        echo json_encode(['success' => false, 'message' => 'Mesa no existe']);
         exit;
     }
     

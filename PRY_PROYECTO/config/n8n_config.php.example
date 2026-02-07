@@ -1,0 +1,38 @@
+<?php
+/**
+ * Configuración de n8n para envío de correos HTML
+ * Copia este archivo como n8n_config.php y configura tus valores
+ */
+
+return [
+    // URL del webhook de n8n para envío de correos
+    'webhook_url' => 'https://tu-instancia-n8n.com/webhook/enviar-correo-reserva',
+    
+    // Configuración del remitente
+    'from_email' => 'noreply@lesalondelumiere.com',
+    'from_name' => 'Le Salon de Lumière',
+    
+    // Configuración del restaurante
+    'restaurant_name' => 'Le Salon de Lumière',
+    'restaurant_phone' => '+593999999999',
+    'restaurant_address' => 'Av. Principal 123, Quito, Ecuador',
+    'restaurant_website' => 'https://www.lesalondelumiere.com',
+    'restaurant_logo' => 'https://www.lesalondelumiere.com/assets/img/logo.png',
+    
+    // Activar/desactivar envío automático
+    'auto_send_enabled' => true,
+    
+    // Modo de prueba (true = no envía realmente, solo registra en logs)
+    'test_mode' => false,
+    
+    // Timeout para la petición a n8n (en segundos)
+    'timeout' => 10,
+    
+    // Tipos de correo a enviar
+    'email_types' => [
+        'reserva_confirmada' => true,
+        'reserva_modificada' => true,
+        'reserva_cancelada' => true,
+        'recordatorio_24h' => false,
+    ]
+];

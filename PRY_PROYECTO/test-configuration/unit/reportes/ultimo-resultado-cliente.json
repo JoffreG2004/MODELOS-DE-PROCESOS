@@ -295,7 +295,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 289,
+        "id": 332,
         "nombre": "Müller",
         "apellido": "Pérez"
       }
@@ -311,7 +311,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 290,
+        "id": 333,
         "nombre": "José",
         "apellido": "García"
       }
@@ -327,7 +327,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 291,
+        "id": 334,
         "nombre": "Nuñez",
         "apellido": "Pérez"
       }
@@ -343,7 +343,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 292,
+        "id": 335,
         "nombre": "María",
         "apellido": "López"
       }
@@ -447,7 +447,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 293,
+        "id": 336,
         "nombre": "Cliente",
         "apellido": "Base"
       }
@@ -474,7 +474,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 294,
+        "id": 337,
         "nombre": "Pedro",
         "apellido": "Ramírez"
       }
@@ -556,7 +556,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 295,
+        "id": 338,
         "nombre": "Juan",
         "apellido": "Pérez"
       }
@@ -572,7 +572,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 296,
+        "id": 339,
         "nombre": "Juan",
         "apellido": "Pérez"
       }
@@ -599,7 +599,7 @@
       "success": true,
       "message": "Registro exitoso",
       "cliente": {
-        "id": 297,
+        "id": 340,
         "nombre": "Carlos",
         "apellido": "Mendoza"
       }

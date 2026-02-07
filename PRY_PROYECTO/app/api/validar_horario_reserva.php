@@ -8,6 +8,7 @@ try {
     
     $fecha = $input['fecha'] ?? date('Y-m-d');
     $hora = $input['hora'] ?? date('H:i');
+    $tz = new DateTimeZone(date_default_timezone_get());
     
     // Obtener configuraciones
     $stmt = $pdo->query("SELECT clave, valor FROM configuracion_restaurante");
@@ -27,25 +28,30 @@ try {
     }
     
     // Validación de fecha
-    $fecha_obj = DateTime::createFromFormat('Y-m-d', $fecha);
+    $fecha_obj = DateTime::createFromFormat('!Y-m-d', $fecha, $tz);
     if (!$fecha_obj) {
         echo json_encode(['success' => false, 'valido' => false, 'message' => 'Formato de fecha inválido']);
         exit;
     }
-    // Normalizar hora de fecha a 00:00 para comparaciones de días
-    $fecha_obj->setTime(0, 0, 0);
 
     // Validar que no sea fecha pasada
-    $hoy = new DateTime();
-    $hoy->setTime(0, 0, 0);
+    $hoy = new DateTime('today', $tz);
     if ($fecha_obj < $hoy) {
-        echo json_encode(['success' => false, 'valido' => false, 'message' => 'No se pueden hacer reservas con fechas pasadas']);
+        echo json_encode([
+            'success' => false,
+            'valido' => false,
+            'message' => 'No se pueden hacer reservas con fechas pasadas',
+            'detalle' => [
+                'fecha_seleccionada' => $fecha_obj->format('Y-m-d'),
+                'fecha_actual_sistema' => $hoy->format('Y-m-d'),
+                'zona_horaria' => $tz->getName()
+            ]
+        ]);
         exit;
     }
     
     // Validar que no sea más de 180 días (aprox. 6 meses) adelante
-    $max_adelanto = new DateTime();
-    $max_adelanto->setTime(0, 0, 0);
+    $max_adelanto = new DateTime('today', $tz);
     $max_adelanto->modify('+180 days');
     // Si la fecha es ESTRICTAMENTE mayor que la máxima permitida, rechazar
     // +180 días debe ser permitido, +181 debe ser rechazado
@@ -55,16 +61,17 @@ try {
     }
     
     // Obtener hora de apertura y cierre según día de la semana
+    // Prioridad: horario por día -> horario global -> fallback
     $dia_semana = (int)$fecha_obj->format('N'); // 1=Lunes, 7=Domingo
     if ($dia_semana >= 1 && $dia_semana <= 5) { // Lunes-Viernes
-        $hora_apertura = '10:00';
-        $hora_cierre = '22:00';
+        $hora_apertura = $configs['horario_lunes_viernes_inicio'] ?? $configs['hora_apertura'] ?? '11:00';
+        $hora_cierre = $configs['horario_lunes_viernes_fin'] ?? $configs['hora_cierre'] ?? '20:00';
     } elseif ($dia_semana == 6) { // Sábado
-        $hora_apertura = '11:00';
-        $hora_cierre = '23:00';
+        $hora_apertura = $configs['horario_sabado_inicio'] ?? $configs['hora_apertura'] ?? '11:00';
+        $hora_cierre = $configs['horario_sabado_fin'] ?? $configs['hora_cierre'] ?? '20:00';
     } elseif ($dia_semana == 7) { // Domingo
-        $hora_apertura = '12:00';
-        $hora_cierre = '21:00';
+        $hora_apertura = $configs['horario_domingo_inicio'] ?? $configs['hora_apertura'] ?? '11:00';
+        $hora_cierre = $configs['horario_domingo_fin'] ?? $configs['hora_cierre'] ?? '20:00';
     } else {
         echo json_encode([
             'success' => false,
@@ -73,6 +80,10 @@ try {
         ]);
         exit;
     }
+
+    // Normalizar a HH:MM por si llegan con segundos
+    $hora_apertura = substr($hora_apertura, 0, 5);
+    $hora_cierre = substr($hora_cierre, 0, 5);
     
     $dias_cerrados = $configs['dias_cerrados'] ?? '';
     
@@ -98,17 +109,8 @@ try {
     // Validar que la hora esté dentro del rango de apertura-cierre
     $hora_valida = ($hora >= $hora_apertura && $hora <= $hora_cierre);
     
-    if ($hora_valida) {
-        // Validar minutos (solo en intervalos de 30)
-        $minutos = (int)substr($hora, 3, 2);
-        if ($minutos != 0 && $minutos != 30) {
-            $hora_valida = false;
-            $message_extra = 'Las reservas solo se pueden hacer en intervalos de 30 minutos';
-        }
-    }
-    
     if (!$hora_valida) {
-        $message = isset($message_extra) ? $message_extra : "El horario de reserva debe estar entre $hora_apertura y $hora_cierre";
+        $message = "El horario de reserva debe estar entre $hora_apertura y $hora_cierre";
         echo json_encode([
             'success' => false,
             'valido' => false,

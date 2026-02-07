@@ -6,6 +6,7 @@
 class ReservaZonas {
     constructor() {
         this.zonasSeleccionadas = new Set();
+        this.horarioZona = { inicio: '11:00', fin: '22:00' };
         this.precios = {
             1: 60,
             2: 100,
@@ -18,6 +19,50 @@ class ReservaZonas {
             'vip': '👑 Área VIP',
             'bar': '🍸 Bar & Lounge'
         };
+    }
+
+    obtenerFechaLocalISO(fecha = new Date()) {
+        const year = fecha.getFullYear();
+        const month = String(fecha.getMonth() + 1).padStart(2, '0');
+        const day = String(fecha.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    obtenerFechaMinima() {
+        const fechaLocal = this.obtenerFechaLocalISO();
+        const fechaServidor = typeof window !== 'undefined' ? window.FECHA_HOY_SERVIDOR : null;
+        if (fechaServidor && /^\d{4}-\d{2}-\d{2}$/.test(fechaServidor)) {
+            return fechaLocal < fechaServidor ? fechaLocal : fechaServidor;
+        }
+        return fechaLocal;
+    }
+
+    async actualizarHorarioZona(fecha) {
+        try {
+            const response = await fetch('app/api/validar_horario_reserva.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fecha, hora: '12:00' })
+            });
+            const data = await response.json();
+            if (data.horario_disponible) {
+                this.horarioZona = {
+                    inicio: data.horario_disponible.inicio,
+                    fin: data.horario_disponible.fin
+                };
+            }
+        } catch (e) {
+            // Mantener horario por defecto si falla
+        }
+
+        const timeInput = document.getElementById('horaReservaZona');
+        if (timeInput) {
+            timeInput.min = this.horarioZona.inicio;
+            timeInput.max = this.horarioZona.fin;
+            if (timeInput.value < this.horarioZona.inicio || timeInput.value > this.horarioZona.fin) {
+                timeInput.value = this.horarioZona.inicio;
+            }
+        }
     }
 
     mostrarModalReservaZona() {
@@ -33,10 +78,8 @@ class ReservaZonas {
             </div>
         `).join('');
 
-        // Obtener fecha mínima (mañana)
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const minDate = tomorrow.toISOString().split('T')[0];
+        // Fecha mínima local: hoy (evita desfase por UTC de toISOString)
+        const minDate = this.obtenerFechaMinima();
 
         Swal.fire({
             title: '🎉 Reserva de Zona Completa',
@@ -83,7 +126,7 @@ class ReservaZonas {
                                 Hora de Reserva
                             </label>
                             <input type="time" class="form-control" id="horaReservaZona" 
-                                   value="19:00" min="11:00" max="22:00" required
+                                   value="19:00" min="${this.horarioZona.inicio}" max="${this.horarioZona.fin}" step="60" required
                                    style="color: var(--text-primary) !important;">
                         </div>
                     </div>
@@ -95,6 +138,7 @@ class ReservaZonas {
                         </label>
                         <input type="number" class="form-control" id="personasReservaZona" 
                                min="10" max="200" value="20" required placeholder="Mínimo 10 personas"
+                               step="1" inputmode="numeric" pattern="\\d*"
                                style="color: var(--text-primary) !important;">
                         <small class="text-muted">Mínimo 10 personas para reserva de zona completa</small>
                     </div>
@@ -121,6 +165,20 @@ class ReservaZonas {
                 cancelButton: 'swal2-cancel',
                 actions: 'swal2-actions'
             },
+            didOpen: () => {
+                const dateInput = document.getElementById('fechaReservaZona');
+                if (dateInput) {
+                    const min = this.obtenerFechaMinima();
+                    dateInput.min = min;
+                    if (!dateInput.value || dateInput.value < min) {
+                        dateInput.value = min;
+                    }
+                    this.actualizarHorarioZona(dateInput.value);
+                    dateInput.addEventListener('change', () => {
+                        this.actualizarHorarioZona(dateInput.value);
+                    });
+                }
+            },
             preConfirm: () => {
                 if (this.zonasSeleccionadas.size === 0) {
                     Swal.showValidationMessage('❌ Debes seleccionar al menos una zona');
@@ -129,7 +187,8 @@ class ReservaZonas {
 
                 const fecha = document.getElementById('fechaReservaZona').value;
                 const hora = document.getElementById('horaReservaZona').value;
-                const personas = parseInt(document.getElementById('personasReservaZona').value);
+                const personasRaw = document.getElementById('personasReservaZona').value.trim();
+                const personas = parseInt(personasRaw, 10);
 
                 if (!fecha) {
                     Swal.showValidationMessage('📅 Por favor selecciona una fecha');
@@ -141,22 +200,33 @@ class ReservaZonas {
                     return false;
                 }
 
+                if (!personasRaw) {
+                    Swal.showValidationMessage('👥 Por favor ingresa el número de personas');
+                    return false;
+                }
+
+                if (!/^\d+$/.test(personasRaw)) {
+                    Swal.showValidationMessage('👥 El número de personas debe ser un entero sin puntos ni comas');
+                    return false;
+                }
+
                 if (!personas || personas < 10) {
                     Swal.showValidationMessage('👥 Mínimo 10 personas para reserva de zona');
                     return false;
                 }
 
-                // Validar que la fecha no sea hoy
-                const today = new Date().toISOString().split('T')[0];
-                if (fecha <= today) {
-                    Swal.showValidationMessage('📅 La reserva debe ser para mañana o posterior');
+                // Validar que la fecha no sea pasada (se permite hoy o futuro)
+                const today = this.obtenerFechaMinima();
+                if (fecha < today) {
+                    Swal.showValidationMessage('📅 No puedes seleccionar una fecha pasada');
                     return false;
                 }
 
-                // Validar horario de servicio
-                const [horaNum] = hora.split(':').map(Number);
-                if (horaNum < 11 || horaNum > 22) {
-                    Swal.showValidationMessage('⏰ Horario disponible: 11:00 - 22:00');
+                // Validar horario de servicio (dinamico)
+                const inicio = this.horarioZona.inicio;
+                const fin = this.horarioZona.fin;
+                if (hora < inicio || hora > fin) {
+                    Swal.showValidationMessage(`⏰ Horario disponible: ${inicio} - ${fin}`);
                     return false;
                 }
 
@@ -425,6 +495,12 @@ window.aplicarEstilosInputs = function() {
                 }
             }
         });
+
+        if (numberInput) {
+            numberInput.addEventListener('input', () => {
+                numberInput.value = numberInput.value.replace(/[^0-9]/g, '');
+            });
+        }
     }, 100);
 };
 

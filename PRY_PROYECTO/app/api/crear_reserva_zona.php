@@ -15,6 +15,7 @@ if (!isset($_SESSION['cliente_authenticated'])) {
 }
 
 require_once __DIR__ . '/../../conexion/db.php';
+require_once __DIR__ . '/../../validacion/ValidadorReserva.php';
 
 try {
     $data = json_decode(file_get_contents('php://input'), true);
@@ -64,8 +65,12 @@ try {
         exit;
     }
     
-    // Validar horario usando la API
-    $url = 'http://localhost/PRY_PROYECTO/app/api/validar_horario_reserva.php';
+    // Validar horario usando la API (ruta dinámica según instalación)
+    $scriptDir = dirname($_SERVER['SCRIPT_NAME'] ?? '');
+    $basePath = preg_replace('#/app/api$#', '', $scriptDir);
+    $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $url = $scheme . '://' . $host . $basePath . '/app/api/validar_horario_reserva.php';
     $data_to_send = json_encode(['fecha' => $fecha_reserva, 'hora' => $hora_reserva]);
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -74,11 +79,13 @@ try {
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
     $response = curl_exec($ch);
     $curlErr = curl_error($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     $result = json_decode($response, true);
     if (!is_array($result) || !isset($result['valido'])) {
         $msg = 'Error al validar horario';
         if (!empty($curlErr)) $msg .= ': ' . $curlErr;
+        if ($httpCode >= 400) $msg .= " (HTTP {$httpCode})";
         echo json_encode(['success' => false, 'message' => $msg]);
         exit;
     }
@@ -86,14 +93,46 @@ try {
         echo json_encode(['success' => false, 'message' => $result['message'] ?? 'Horario inválido']);
         exit;
     }
+
+    // Bloqueo por reservas normales confirmadas en el mismo dia para las zonas seleccionadas
+    $hora_ref = strlen($hora_reserva) === 5 ? ($hora_reserva . ':00') : $hora_reserva;
+    $placeholdersZonas = str_repeat('?,', count($zonas) - 1) . '?';
+    $stmtConflictoNormal = $pdo->prepare("
+        SELECT r.id, m.numero_mesa, m.ubicacion, TIME_FORMAT(r.hora_reserva, '%H:%i') as hora
+        FROM reservas r
+        INNER JOIN mesas m ON r.mesa_id = m.id
+        WHERE m.ubicacion IN ($placeholdersZonas)
+          AND DATE(r.fecha_reserva) = DATE(?)
+          AND r.estado IN ('confirmada', 'preparando', 'en_curso')
+        ORDER BY m.ubicacion ASC, TIME(r.hora_reserva) ASC
+    ");
+    $paramsNormal = array_merge(array_values($zonas), [$fecha_reserva]);
+    $stmtConflictoNormal->execute($paramsNormal);
+    $conflictosNormales = $stmtConflictoNormal->fetchAll(PDO::FETCH_ASSOC);
+    if (!empty($conflictosNormales)) {
+        $detalles = array_map(function ($c) {
+            return "{$c['ubicacion']} - Mesa {$c['numero_mesa']} a las {$c['hora']}";
+        }, $conflictosNormales);
+        $zonasAfectadas = array_values(array_unique(array_map(function ($c) {
+            return $c['ubicacion'];
+        }, $conflictosNormales)));
+        $totalMesasOcupadas = count($conflictosNormales);
+        $lineaResumen = "Zonas afectadas: " . implode(', ', $zonasAfectadas) . ". Mesas ocupadas: {$totalMesasOcupadas}.";
+        echo json_encode([
+            'success' => false,
+            'message' => "No se puede reservar zona completa: {$lineaResumen} Detalles: " . implode('; ', $detalles)
+        ]);
+        exit;
+    }
     
-    // Validación de número de personas: permitir 1-50 (enteros)
-    if (!is_numeric($numero_personas) || (int)$numero_personas < 1) {
-        echo json_encode(['success' => false, 'message' => 'El número de personas debe ser entre 1 y 50']);
+    // Validación de número de personas: solo enteros (sin puntos ni comas)
+    $validacionPersonas = ValidadorReserva::validarNumeroPersonas($numero_personas, 1, null);
+    if (!$validacionPersonas['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionPersonas['mensaje']]);
         exit;
     }
 
-    $numero_personas = (int)$numero_personas;
+    $numero_personas = $validacionPersonas['valor'];
     if ($numero_personas > 50) {
         echo json_encode(['success' => false, 'message' => 'Para grupos mayores a 50 personas contacte directamente al restaurante']);
         exit;
@@ -148,25 +187,32 @@ try {
         exit;
     }
     
-    // Verificar que no haya otra reserva de zona en la misma fecha/hora
+    // Verificar que no haya otra reserva de zona en el mismo día para zonas solapadas
     $stmt = $pdo->prepare("
-        SELECT COUNT(*) as conflictos
+        SELECT id, zonas, estado
         FROM reservas_zonas
         WHERE fecha_reserva = ?
         AND estado IN ('pendiente', 'confirmada')
-        AND hora_reserva = ?
     ");
-    if (!$stmt || !$stmt->execute([$fecha_reserva, $hora_reserva])) {
-        echo json_encode(['success' => false, 'message' => 'Error al verificar conflictos de horarios']);
+    if (!$stmt || !$stmt->execute([$fecha_reserva])) {
+        echo json_encode(['success' => false, 'message' => 'Error al verificar conflictos de zonas']);
         exit;
     }
-    $resultado_conflictos = $stmt->fetch(PDO::FETCH_ASSOC);
-    $conflictos = (int)($resultado_conflictos['conflictos'] ?? 0);
-    
-    if ($conflictos > 0) {
+    $zonasReservadas = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $zonasRow = json_decode($row['zonas'] ?? '[]', true);
+        if (!is_array($zonasRow)) {
+            $zonasRow = [];
+        }
+        $interseccion = array_intersect($zonas, $zonasRow);
+        if (!empty($interseccion)) {
+            $zonasReservadas = array_values(array_unique(array_merge($zonasReservadas, $interseccion)));
+        }
+    }
+    if (!empty($zonasReservadas)) {
         echo json_encode([
-            'success' => false, 
-            'message' => 'Ya existe una reserva de zona en ese horario'
+            'success' => false,
+            'message' => 'Las zonas ' . implode(', ', $zonasReservadas) . ' ya tienen una reserva ese día. Las reservas de zona bloquean todo el día.'
         ]);
         exit;
     }

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Salon de Lumière - Sistema de Reservas y Gestión</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="public/bootstrap/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="public/css/style.css">
+    
+    <script src="public/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #3d2e24;
+            --gold-color: #d4af37;
+            --light-bg: #f5f2ed;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Navbar Styles */
+        #mainNavbar {
+            background: #3d2e24 !important;
+            box-shadow: none !important;
+            border-bottom: none !important;
+            transition: all 0.3s ease !important;
+            padding: 0.5rem 0 !important;
+        }
+
+        #mainNavbar .nav-link {
+            color: #f5f2ed !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.75rem 1rem !important;
+        }
+
+        #mainNavbar .nav-link:hover {
+            color: #d4af37 !important;
+        }
+
+        /* Responsive navbar */
+        @media (max-width: 991px) {
+            #mainNavbar .navbar-collapse {
+                background: rgba(61, 46, 36, 0.98);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                border-radius: 15px;
+                margin-top: 15px;
+                border: 1px solid rgba(212, 175, 55, 0.3);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            }
+
+            #mainNavbar .nav-link {
+                padding: 10px 15px !important;
+                border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            }
+
+            #mainNavbar .nav-link:last-child {
+                border-bottom: none;
+            }
+
+            .navbar-buttons .btn {
+                padding: 10px 20px !important;
+                font-size: 0.9rem !important;
+                width: 100% !important;
+            }
+        }
+
+        /* Header */
+        .main-header {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Feature boxes */
+        .feature-box {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3) !important;
+        }
+
+        /* Carousel custom */
+        .carousel-item img {
+            border-radius: 20px;
+        }
+
+        /* Categoria cards */
+        .categoria-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .categoria-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4) !important;
+        }
+
+        /* Espacio cards */
+        .espacio-card {
+            text-align: center;
+        }
+
+        .btn-espacio {
+            background: #3d2e24;
+            color: #f5f2ed;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-espacio:hover {
+            background: #2d1b12;
+            transform: translateY(-2px);
+        }
+
+        /* User card */
+        .user-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .user-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3) !important;
+        }
+
+        /* Section styling */
+        .section-title {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .text-gold {
+            color: var(--gold-color);
+        }
+
+        /* Buttons */
+        .btn-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #c9a86a 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+            color: white;
+        }
+
+        .btn-dark-gold {
+            background: linear-gradient(135deg, #3d2e24 0%, #4a3529 100%);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            font-weight: 700;
+            padding: 15px 40px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark-gold:hover {
+            background: linear-gradient(135deg, #d4af37 0%, #c9a04c 100%);
+            color: #3d2e24;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top border-0" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
+                <span style="font-size: 1.8rem; font-weight: 700; color: #f5f2ed; text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);">
+                    🍽️ Restaurante Mini
+                </span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="border-color: #d4af37;">
+                <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inicio">
+                            <i class="bi bi-house"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#nosotros">
+                            <i class="bi bi-heart"></i> Nosotros
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#menu">
+                            <i class="bi bi-book"></i> Menú
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#espacios">
+                            <i class="bi bi-building"></i> Espacios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#reservas">
+                            <i class="bi bi-calendar-check"></i> Reservas
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Botones de la derecha -->
+                <div class="d-flex align-items-center flex-column flex-lg-row mt-3 mt-lg-0 gap-2">
+                    <!-- Botón de Registrarse -->
+                    <a href="registro.php" class="btn border-0 shadow-sm w-100 w-lg-auto" style="background: transparent; color: #f5f2ed !important; font-weight: 600; transition: all 0.3s ease; padding: 8px 20px; font-size: 0.95rem; border-radius: 8px; border: 2px solid #d4af37 !important;">
+                        <i class="bi bi-person-plus me-1"></i>
+                        <span>Registrarse</span>
+                    </a>
+
+                    <!-- Botón de Ingresar -->
+                    <a href="login.php" class="btn border-0 shadow-sm w-100 w-lg-auto" style="background: #c9a04c !important; color: #2d1b12 !important; font-weight: 600; transition: all 0.3s ease; padding: 8px 20px; font-size: 0.95rem; border-radius: 8px;">
+                        <i class="bi bi-box-arrow-in-right me-1" style="font-size: 1rem;"></i>
+                        <span>INGRESAR</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <br>
+
+    <!-- Header Principal -->
+    <header class="main-header" id="inicio" style="background: linear-gradient(135deg, rgba(45, 27, 18, 0.95) 0%, rgba(61, 46, 36, 0.95) 100%), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed; position: relative;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);"></div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="logo-container fade-in-up" style="text-align: center; padding: 80px 0 100px 0;">
+                <div style="font-size: 8rem; margin-bottom: 20px; filter: drop-shadow(0 15px 40px rgba(212, 175, 55, 0.5));">🍽️</div>
+                <h1 style="font-size: 2rem; font-weight: 700; color: #f5f2ed; margin-bottom: 15px; font-family: 'Playfair Display', serif; letter-spacing: 2px; text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);">
+                    Restaurante Mini
+                </h1>
+                <p style="font-size: 1.1rem; color: #d4af37; font-weight: 400; font-style: italic; margin-bottom: 0; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);">
+                    Experiencia gastronómica única
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección Sobre Nosotros -->
+    <section class="sobre-nosotros-section py-5" id="nosotros" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); transition: background 0.3s ease;">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <h2 class="section-title">
+                    <i class="bi bi-heart-fill me-2" style="color: var(--gold-color);"></i>
+                    Sobre Nosotros
+                </h2>
+                <p class="text-muted" style="font-size: 1.1rem;">
+                    15 años de pasión por la excelencia gastronómica
+                </p>
+            </div>
+
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <!-- Carrusel de Imágenes -->
+                    <div id="carouselNosotros" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#carouselNosotros" data-bs-slide-to="3"></button>
+                        </div>
+                        <div class="carousel-inner" style="border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.2);">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" class="d-block w-100" alt="Interior del Restaurante" style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block" style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Ambiente Acogedor</h5>
+                                    <p>Un espacio diseñado para tu comodidad</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80" class="d-block w-100" alt="Platos Gourmet" style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block" style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Gastronomía de Excelencia</h5>
+                                    <p>Cada plato es una obra de arte culinaria</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" class="d-block w-100" alt="Chef Preparando" style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block" style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Maestros de la Cocina</h5>
+                                    <p>Chefs con pasión y dedicación</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=800&q=80" class="d-block w-100" alt="Celebraciones" style="height: 500px; object-fit: cover;">
+                                <div class="carousel-caption d-none d-md-block" style="background: rgba(45, 27, 18, 0.7); padding: 15px; border-radius: 10px;">
+                                    <h5 style="color: #d4af37; font-weight: 600;">Momentos Especiales</h5>
+                                    <p>El escenario perfecto para tus celebraciones</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNosotros" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselNosotros" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <h3 style="color: #3d2e24; font-size: 2rem; font-weight: 700; margin-bottom: 20px;">
+                        Nuestra Misión
+                        <div style="width: 80px; height: 3px; background: #d4af37; margin-top: 10px;"></div>
+                    </h3>
+                    <p style="color: #666; font-size: 1.1rem; line-height: 1.8; text-align: justify;">
+                        <strong>Restaurante Mini</strong> es un sistema simplificado pero potente, diseñado para hacer la gestión de tu restaurante más fácil y eficiente. Nuestro objetivo es proporcionarte todas las herramientas esenciales sin la complejidad innecesaria.
+                    </p>
+                    <p style="color: #666; font-size: 1.1rem; line-height: 1.8; text-align: justify;">
+                        Creemos que la tecnología debe simplificar tu trabajo, no complicarlo. Por eso, cada función está cuidadosamente diseñada para ser intuitiva y efectiva, permitiéndote enfocarte en lo que realmente importa: tus clientes y tu comida.
+                    </p>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-box text-center" style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;">
+                                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                    <i class="bi bi-award-fill" style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                </div>
+                                <h5 style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                    15 Años de Experiencia
+                                </h5>
+                                <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">
+                                    Trayectoria impecable en el sector
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-box text-center" style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;">
+                                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                    <i class="bi bi-stars" style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                </div>
+                                <h5 style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                    Ingredientes Premium
+                                </h5>
+                                <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">
+                                    Solo la mejor calidad para ti
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-box text-center" style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;">
+                                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                    <i class="bi bi-people-fill" style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                </div>
+                                <h5 style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                    Equipo Profesional
+                                </h5>
+                                <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">
+                                    Chefs y staff altamente capacitados
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-box text-center" style="padding: 30px 25px; background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); border: 2px solid rgba(212, 175, 55, 0.2); height: 100%;">
+                                <div style="width: 80px; height: 80px; margin: 0 auto 20px; background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                    <i class="bi bi-heart-pulse-fill" style="font-size: 2.5rem; color: #2d1b12;"></i>
+                                </div>
+                                <h5 style="color: var(--primary-color); margin-bottom: 12px; font-weight: 700; font-size: 1.2rem;">
+                                    Pasión en Cada Plato
+                                </h5>
+                                <p style="color: #666; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6;">
+                                    Amor por la gastronomía
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Menú -->
+    <section class="menu-section py-5" id="menu" style="background: linear-gradient(135deg, rgba(61, 46, 36, 0.95) 0%, rgba(45, 27, 18, 0.95) 100%), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed; margin-top: -50px; padding-top: 80px !important;">
+        <div class="container">
+            <!-- Card contenedor del menú -->
+            <div style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 30px; padding: 50px 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <div class="text-center mb-5 fade-in-up">
+                    <h2 class="section-title" style="color: #d4af37; font-size: 3rem; font-weight: 700;">
+                        <i class="bi bi-book me-2" style="color: #d4af37;"></i>
+                        Nuestro Menú
+                    </h2>
+                    <p class="text-muted" style="font-size: 1.2rem; color: #f5f2ed;">
+                        Descubra nuestra exclusiva selección gastronómica
+                    </p>
+                </div>
+
+                <!-- Categorías del menú -->
+                <div class="row g-4 justify-content-center">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="categoria-card" style="background: white; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);">
+                            <div style="background: linear-gradient(135deg, #d4af37 0%, #c9a86a 100%); padding: 40px; text-align: center;">
+                                <i class="bi bi-egg-fried" style="font-size: 4rem; color: white;"></i>
+                            </div>
+                            <div style="background: white; padding: 25px; text-align: center;">
+                                <h4 class="categoria-nombre" style="color: #3d2e24; font-weight: 700; margin-bottom: 10px;">Desayunos</h4>
+                                <p class="categoria-count" style="color: #d4af37; font-weight: 600; margin: 0;">8 platillos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="categoria-card" style="background: white; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);">
+                            <div style="background: linear-gradient(135deg, #c9a04c 0%, #b8941f 100%); padding: 40px; text-align: center;">
+                                <i class="bi bi-cup-hot" style="font-size: 4rem; color: white;"></i>
+                            </div>
+                            <div style="background: white; padding: 25px; text-align: center;">
+                                <h4 class="categoria-nombre" style="color: #3d2e24; font-weight: 700; margin-bottom: 10px;">Bebidas</h4>
+                                <p class="categoria-count" style="color: #d4af37; font-weight: 600; margin: 0;">12 opciones</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="categoria-card" style="background: white; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);">
+                            <div style="background: linear-gradient(135deg, #8b6914 0%, #7a5b12 100%); padding: 40px; text-align: center;">
+                                <i class="bi bi-pizza" style="font-size: 4rem; color: white;"></i>
+                            </div>
+                            <div style="background: white; padding: 25px; text-align: center;">
+                                <h4 class="categoria-nombre" style="color: #3d2e24; font-weight: 700; margin-bottom: 10px;">Platos Principales</h4>
+                                <p class="categoria-count" style="color: #d4af37; font-weight: 600; margin: 0;">15 platillos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="categoria-card" style="background: white; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);">
+                            <div style="background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%); padding: 40px; text-align: center;">
+                                <i class="bi bi-cake2" style="font-size: 4rem; color: white;"></i>
+                            </div>
+                            <div style="background: white; padding: 25px; text-align: center;">
+                                <h4 class="categoria-nombre" style="color: #3d2e24; font-weight: 700; margin-bottom: 10px;">Postres</h4>
+                                <p class="categoria-count" style="color: #d4af37; font-weight: 600; margin: 0;">10 delicias</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Espacios -->
+    <section class="espacios-section py-5" id="espacios" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+        <div class="container">
+            <div class="text-center mb-5 fade-in-up">
+                <h2 class="section-title espacios-title">
+                    <i class="bi bi-building me-2" style="color: var(--gold-color);"></i>
+                    Nuestros Espacios
+                </h2>
+            </div>
+
+            <!-- Contenedor de tarjetas -->
+            <div class="espacios-container" style="background: white; border: 3px solid #d4af37; border-radius: 30px; padding: 50px 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div class="row g-4">
+                    <!-- Terraza -->
+                    <div class="col-md-3">
+                        <div class="espacio-card">
+                            <div style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&q=80" alt="Terraza" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">TERRAZA</h4>
+                            <p class="espacio-descripcion" style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                Ambiente al aire libre con vista panorámica. Perfecto para disfrutar del clima y la naturaleza.
+                            </p>
+                            <button class="btn-espacio" onclick="alert('Terraza: Capacidad 40 personas | Disponible para eventos')">
+                                Más información
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Jardín -->
+                    <div class="col-md-3">
+                        <div style="border-left: 2px solid #3d2e24; border-right: 2px solid #3d2e24; padding: 0 20px;">
+                            <div class="espacio-card">
+                                <div style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400&q=80" alt="Jardín" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">JARDÍN</h4>
+                                <p class="espacio-descripcion" style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                    Espacio verde rodeado de naturaleza. Ideal para eventos al aire libre y celebraciones especiales.
+                                </p>
+                                <button class="btn-espacio" onclick="alert('Jardín: Capacidad 60 personas | Perfecto para bodas')">
+                                    Más información
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Salón VIP -->
+                    <div class="col-md-3">
+                        <div style="border-right: 2px solid #3d2e24; padding: 0 20px;">
+                            <div class="espacio-card">
+                                <div style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=400&q=80" alt="Salón VIP" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">SALÓN VIP</h4>
+                                <p class="espacio-descripcion" style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                    Exclusivo salón privado con servicio premium. Elegancia y privacidad para ocasiones especiales.
+                                </p>
+                                <button class="btn-espacio" onclick="alert('Salón VIP: Capacidad 25 personas | Servicio exclusivo')">
+                                    Más información
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- El Bar -->
+                    <div class="col-md-3">
+                        <div class="espacio-card">
+                            <div style="background: #e8e8e8; height: 180px; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&q=80" alt="El Bar" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h4 style="color: #d4af37; font-weight: 700; font-size: 1.3rem; margin-bottom: 10px;">EL BAR</h4>
+                            <p class="espacio-descripcion" style="color: #666; font-size: 0.9rem; margin-bottom: 15px; line-height: 1.4;">
+                                Bar moderno con amplia selección de bebidas. Ambiente sofisticado para disfrutar cócteles artesanales.
+                            </p>
+                            <button class="btn-espacio" onclick="alert('El Bar: Capacidad 30 personas | Cócteles premium')">
+                                Más información
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Selección de Usuario / Reservas -->
+    <section class="selection-container py-5" id="reservas" style="background: linear-gradient(135deg, #f8f5f0 0%, #ffffff 100%);">
+        <div class="container">
+            <!-- Título -->
+            <h2 class="section-title fade-in-up text-center mb-5">
+                <i class="bi bi-calendar-heart" style="color: #d4af37;"></i>
+                ¿Cómo deseas acceder?
+            </h2>
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-6 col-lg-5">
+                    <!-- Tarjeta Cliente/Usuario -->
+                    <div class="card user-card fade-in-up" style="border: 3px solid #d4af37; border-radius: 20px; box-shadow: 0 10px 30px rgba(61, 46, 36, 0.15); overflow: hidden;">
+                        <div class="card-body text-center p-5" style="background: linear-gradient(135deg, #ffffff 0%, #f8f5f0 100%);">
+                            <div class="mb-4" style="background: linear-gradient(135deg, #d4af37 0%, #c9a86a 100%); width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);">
+                                <i class="bi bi-person-heart" style="font-size: 3rem; color: white;"></i>
+                            </div>
+                            <h3 style="color: #3d2e24; font-weight: 700; font-size: 1.8rem; margin-bottom: 15px;">
+                                <i class="bi bi-calendar-check" style="color: #d4af37;"></i>
+                                Soy Cliente
+                            </h3>
+                            <p style="color: #666; font-size: 1.05rem; line-height: 1.7; margin-bottom: 25px;">
+                                Reserva tu mesa, consulta nuestro menú exclusivo, realiza pre-pedidos y disfruta de una experiencia gastronómica única.
+                            </p>
+                            <div class="mb-4 text-start" style="background: #f5f2ed; padding: 20px; border-radius: 15px; border-left: 4px solid #d4af37;">
+                                <p style="color: #3d2e24; margin-bottom: 10px; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Reservar tu lugar
+                                </p>
+                                <p style="color: #3d2e24; margin-bottom: 10px; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Ver menú y precios
+                                </p>
+                                <p style="color: #3d2e24; margin-bottom: 10px; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Gestión de reservas
+                                </p>
+                                <p style="color: #3d2e24; margin-bottom: 0; font-weight: 500;">
+                                    <i class="bi bi-check-circle-fill" style="color: #d4af37;"></i> Historial completo
+                                </p>
+                            </div>
+                            <a href="login.php" class="btn btn-dark-gold btn-lg w-100">
+                                <i class="bi bi-calendar-plus"></i>
+                                Hacer Reserva
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Reserva de Espacios -->
+            <div class="text-center mb-5 fade-in-up">
+                <div style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #c9a86a 100%); padding: 8px 25px; border-radius: 50px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);">
+                    <span style="color: white; font-weight: 600; font-size: 0.9rem; letter-spacing: 1px;">✨ EVENTOS ESPECIALES</span>
+                </div>
+                <h2 style="color: #3d2e24; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px;">
+                    ¡Reserva Espacios Completos!
+                </h2>
+                <p style="color: #666; font-size: 1.15rem; max-width: 700px; margin: 0 auto; line-height: 1.7;">
+                    Organiza celebraciones, eventos corporativos o reuniones especiales en nuestros exclusivos espacios.
+                </p>
+            </div>
+
+            <div class="text-center">
+                <a href="login.php" class="btn btn-gold btn-lg px-5 py-3" style="font-size: 1.2rem;">
+                    <i class="bi bi-star-fill me-2"></i>
+                    Reservar Ahora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 bg-white border-top">
+        <div class="container text-center">
+            <p class="mb-3 fs-5">🎓 <strong>Proyecto desarrollado para MODELOS DE PROCESOS</strong></p>
+            <p class="text-muted">Sistema de gestión simplificado para restaurantes · Versión resumida del proyecto principal</p>
+            <p class="text-muted small mt-3">© 2026 Restaurante Mini · Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+</body>
+</html>

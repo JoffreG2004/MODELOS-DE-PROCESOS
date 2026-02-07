@@ -23,12 +23,29 @@ try {
     if (empty($numero_mesa) || empty($capacidad_maxima)) {
         throw new Exception('Número de mesa y capacidad máxima son requeridos');
     }
+
+    $capacidad_minima = (int)$capacidad_minima;
+    $capacidad_maxima = (int)$capacidad_maxima;
+    if ($capacidad_minima < 1 || $capacidad_maxima < 1 || $capacidad_minima > $capacidad_maxima) {
+        throw new Exception('Capacidades inválidas');
+    }
+    if ($capacidad_minima > 20 || $capacidad_maxima > 20) {
+        throw new Exception('No se permiten mesas de más de 20 personas');
+    }
     
     // Verificar si el número de mesa ya existe
     $stmt = $pdo->prepare("SELECT id FROM mesas WHERE numero_mesa = ?");
     $stmt->execute([$numero_mesa]);
     if ($stmt->fetch()) {
         throw new Exception('El número de mesa ya existe');
+    }
+
+    // Validar máximo 5 mesas por zona
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM mesas WHERE ubicacion = ?");
+    $stmt->execute([$ubicacion]);
+    $countZona = (int)$stmt->fetchColumn();
+    if ($countZona >= 5) {
+        throw new Exception('No se permiten más de 5 mesas por zona');
     }
     
     $query = "INSERT INTO mesas (numero_mesa, capacidad_minima, capacidad_maxima, ubicacion, estado, descripcion) 

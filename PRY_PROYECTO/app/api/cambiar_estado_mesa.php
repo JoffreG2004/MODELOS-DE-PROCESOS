@@ -28,7 +28,7 @@ try {
         exit;
     }
     
-    $mesas = $data['mesas']; // Array de IDs de mesas o 'todas'
+    $mesas = $data['mesas']; // Array de IDs de mesas
     $nuevoEstado = $data['estado'];
     
     // Validar estado
@@ -40,16 +40,7 @@ try {
     
     $mesasActualizadas = 0;
     
-    if ($mesas === 'todas') {
-        // Cambiar estado de TODAS las mesas usando PDO
-        $stmt = $pdo->prepare("UPDATE mesas SET estado = :estado, fecha_actualizacion = NOW()");
-        $stmt->bindParam(':estado', $nuevoEstado, PDO::PARAM_STR);
-        
-        if ($stmt->execute()) {
-            $mesasActualizadas = $stmt->rowCount();
-        }
-        
-    } else if (is_array($mesas) && count($mesas) > 0) {
+    if (is_array($mesas) && count($mesas) > 0) {
         // Cambiar estado de mesas específicas usando PDO
         $placeholders = str_repeat('?,', count($mesas) - 1) . '?';
         $sql = "UPDATE mesas SET estado = ?, fecha_actualizacion = NOW() WHERE id IN ($placeholders)";
@@ -62,6 +53,9 @@ try {
         if ($stmt->execute($params)) {
             $mesasActualizadas = $stmt->rowCount();
         }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Debe seleccionar al menos una mesa']);
+        exit;
     }
     
     if ($mesasActualizadas > 0) {

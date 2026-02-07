@@ -527,5 +527,8 @@ usort($reservas, function($a, $b) {
 
     <!-- Script de Reserva de Zonas -->
     <script src="public/js/reserva-zonas.js"></script>
+
+    <!-- Script de Seguridad: Deshabilitar click derecho en formularios -->
+    <script src="public/js/security.js"></script>
 </body>
 </html>

@@ -97,9 +97,6 @@ class GestionReservas {
                 <td>${estadoBadge}</td>
                 <td>
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-primary" onclick="gestionReservas.editarReserva(${reserva.id})" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </button>
                         <button class="btn btn-danger" onclick="gestionReservas.confirmarEliminar(${reserva.id}, '${reserva.cliente_nombre}')" title="Eliminar">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -138,6 +135,14 @@ class GestionReservas {
     }
 
     async mostrarModalReserva(modo = 'crear', reservaData = null) {
+        if (modo !== 'crear') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Edición deshabilitada',
+                text: 'La edición de reservas está deshabilitada en este módulo'
+            });
+            return;
+        }
         // Cargar mesas y clientes primero
         await this.cargarMesas();
         await this.cargarClientes();
@@ -190,7 +195,7 @@ class GestionReservas {
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Hora *</label>
                                         <input type="time" class="form-control" id="horaReserva" 
-                                               value="${reservaData?.hora_reserva || ''}" required>
+                                               value="${reservaData?.hora_reserva || ''}" step="60" required>
                                     </div>
                                 </div>
 
@@ -198,7 +203,8 @@ class GestionReservas {
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Número de Personas *</label>
                                         <input type="number" class="form-control" id="numeroPersonas" 
-                                               value="${reservaData?.numero_personas || 2}" min="1" max="50" required>
+                                               value="${reservaData?.numero_personas || 2}" min="1" max="50" required
+                                               step="1" inputmode="numeric" pattern="\\d*">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Estado *</label>
@@ -239,13 +245,37 @@ class GestionReservas {
         document.body.insertAdjacentHTML('beforeend', modalHtml);
         const modal = new bootstrap.Modal(document.getElementById('modalReserva'));
         modal.show();
+
+        const numInput = document.getElementById('numeroPersonas');
+        if (numInput) {
+            numInput.addEventListener('input', () => {
+                numInput.value = numInput.value.replace(/[^0-9]/g, '');
+            });
+        }
+
+        const mesaSelect = document.getElementById('mesaId');
+        if (mesaSelect && numInput) {
+            const actualizarLimites = () => {
+                const mesaSel = this.mesas.find(m => String(m.id) === String(mesaSelect.value));
+                if (mesaSel) {
+                    numInput.min = mesaSel.capacidad_minima || 1;
+                    numInput.max = mesaSel.capacidad_maxima || 50;
+                } else {
+                    numInput.min = 1;
+                    numInput.max = 50;
+                }
+            };
+            mesaSelect.addEventListener('change', actualizarLimites);
+            actualizarLimites();
+        }
     }
 
     async editarReserva(id) {
-        const reserva = this.reservas.find(r => r.id == id);
-        if (reserva) {
-            this.mostrarModalReserva('editar', reserva);
-        }
+        Swal.fire({
+            icon: 'warning',
+            title: 'Edición deshabilitada',
+            text: 'La edición de reservas está deshabilitada en este módulo'
+        });
     }
 
     async guardarReserva(modo) {
@@ -254,17 +284,51 @@ class GestionReservas {
         const mesa_id = document.getElementById('mesaId').value;
         const fecha_reserva = document.getElementById('fechaReserva').value;
         const hora_reserva = document.getElementById('horaReserva').value;
-        const numero_personas = parseInt(document.getElementById('numeroPersonas').value);
+        const numeroPersonasRaw = document.getElementById('numeroPersonas').value.trim();
+        const numero_personas = parseInt(numeroPersonasRaw, 10);
         const estado = document.getElementById('estadoReserva').value;
         const observaciones = document.getElementById('observaciones').value.trim();
 
-        if (!cliente_id || !mesa_id || !fecha_reserva || !hora_reserva || !numero_personas) {
+        if (!cliente_id || !mesa_id || !fecha_reserva || !hora_reserva || !numeroPersonasRaw) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Campos requeridos',
                 text: 'Por favor complete todos los campos obligatorios'
             });
             return;
+        }
+
+        const hoyServidor = window.FECHA_HOY_SERVIDOR || new Date().toISOString().slice(0, 10);
+        if (fecha_reserva < hoyServidor) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Fecha inválida',
+                text: 'No se pueden hacer reservas con fechas pasadas'
+            });
+            return;
+        }
+
+        if (!/^\d+$/.test(numeroPersonasRaw)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Número inválido',
+                text: 'El número de personas debe ser un entero sin puntos ni comas'
+            });
+            return;
+        }
+
+        const mesaSel = this.mesas.find(m => String(m.id) === String(mesa_id));
+        if (mesaSel) {
+            const minCap = parseInt(mesaSel.capacidad_minima || 1, 10);
+            const maxCap = parseInt(mesaSel.capacidad_maxima || 50, 10);
+            if (numero_personas < minCap || numero_personas > maxCap) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Capacidad inválida',
+                    text: `La mesa permite entre ${minCap} y ${maxCap} personas`
+                });
+                return;
+            }
         }
 
         try {

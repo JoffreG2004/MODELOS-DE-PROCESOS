@@ -61,6 +61,12 @@ try {
     writeLog("Python detectado: $pythonBin");
     
     $pythonScript = realpath(__DIR__ . '/update_from_excel.py');
+    if (!$pythonScript) {
+        $pythonScript = realpath(__DIR__ . '/../../scripts/python/update_from_excel.py');
+    }
+    if (!$pythonScript) {
+        throw new Exception('No se encontró el script de importación de Excel (update_from_excel.py)');
+    }
     
     // Obtener credenciales de db.php (se espera que db.php exponga $host, $dbname, $username, $password)
     global $host, $dbname, $username, $password;

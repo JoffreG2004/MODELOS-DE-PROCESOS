@@ -1,8 +1,27 @@
 <?php
+// Forzar que TODOS los errores se devuelvan como JSON
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        header('Content-Type: application/json; charset=UTF-8');
+        http_response_code(500);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error interno del servidor: ' . $error['message'],
+            'file' => basename($error['file']),
+            'line' => $error['line']
+        ]);
+    }
+});
+
 header('Content-Type: application/json; charset=UTF-8');
 session_start();
 
 require_once '../../conexion/db.php';
+require_once __DIR__ . '/../../validacion/ValidadorReserva.php';
 
 // Verificar autenticación
 if (!isset($_SESSION['cliente_id']) || !$_SESSION['cliente_authenticated']) {
@@ -41,7 +60,18 @@ try {
     $mesa_id = $_SESSION['mesa_seleccionada_id'];
     $fecha_reserva = $input['fecha_reserva'] ?? date('Y-m-d');
     $hora_reserva = $input['hora_reserva'] ?? date('H:i:s');
-    $numero_personas = intval($input['numero_personas'] ?? 1);
+    $numero_personas_raw = $input['numero_personas'] ?? null;
+    $validacionPersonas = ValidadorReserva::validarNumeroPersonas($numero_personas_raw, 1, null);
+    if (!$validacionPersonas['valido']) {
+        throw new Exception($validacionPersonas['mensaje']);
+    }
+    $numero_personas = $validacionPersonas['valor'];
+
+    $normalizarHora = function($hora) {
+        if (!$hora) return $hora;
+        return strlen($hora) === 5 ? ($hora . ':00') : $hora;
+    };
+    $hora_reserva = $normalizarHora($hora_reserva);
     
     // 1. Validar horario de atención
     $dia_semana = date('N', strtotime($fecha_reserva));
@@ -96,7 +126,7 @@ try {
     $pdo->beginTransaction();
     
     // 2. Verificar que la mesa está disponible y validar capacidad
-    $stmt = $pdo->prepare("SELECT estado, numero_mesa, capacidad_minima, capacidad_maxima FROM mesas WHERE id = :id FOR UPDATE");
+    $stmt = $pdo->prepare("SELECT estado, numero_mesa, capacidad_minima, capacidad_maxima, ubicacion FROM mesas WHERE id = :id FOR UPDATE");
     $stmt->bindParam(':id', $mesa_id, PDO::PARAM_INT);
     $stmt->execute();
     $mesa = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -108,6 +138,36 @@ try {
     if ($mesa['estado'] !== 'disponible') {
         throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' no está disponible');
     }
+
+    // Bloqueo por reserva de zona: si existe una reserva de zona para esa fecha y zona,
+    // no permitir reservas normales que inicien menos de 3 horas antes del inicio de la zona.
+    if (!empty($mesa['ubicacion'])) {
+        $hora_normal = $hora_reserva;
+        $stmtZona = $pdo->prepare("
+            SELECT rz.id, rz.hora_reserva, rz.zonas
+            FROM reservas_zonas rz
+            WHERE rz.fecha_reserva = ?
+              AND rz.estado IN ('pendiente', 'confirmada')
+        ");
+        $stmtZona->execute([$fecha_reserva]);
+        while ($row = $stmtZona->fetch(PDO::FETCH_ASSOC)) {
+            $zonasRow = json_decode($row['zonas'] ?? '[]', true);
+            if (!is_array($zonasRow) || !in_array($mesa['ubicacion'], $zonasRow, true)) {
+                continue;
+            }
+            if (strlen($hora_normal) === 5) $hora_normal .= ':00';
+            $hora_zona = $row['hora_reserva'];
+            if (strlen($hora_zona) === 5) $hora_zona .= ':00';
+            $stmtOverlap = $pdo->prepare("
+                SELECT TIME_TO_SEC(TIMEDIFF(TIME(?), TIME(?))) AS diff_seg
+            ");
+            $stmtOverlap->execute([$hora_zona, $hora_normal]);
+            $diff = (int)$stmtOverlap->fetchColumn();
+            if ($diff < 10800) {
+                throw new Exception("No se puede reservar: hay una reserva de zona en {$mesa['ubicacion']} desde {$row['hora_reserva']} y bloquea el resto del día");
+            }
+        }
+    }
     
     // Validar capacidad
     if ($numero_personas < $mesa['capacidad_minima']) {
@@ -118,6 +178,48 @@ try {
         throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' permite máximo ' . $mesa['capacidad_maxima'] . ' personas. Seleccionaste ' . $numero_personas);
     }
     
+    // Bloquear si ya existe una reserva CONFIRMADA (o activa) en el mismo bloque de 3 horas
+    $duracion_horas = 3;
+    $hora_inicio_dt = DateTime::createFromFormat('H:i:s', $hora_reserva) ?: DateTime::createFromFormat('H:i', $hora_reserva);
+    if (!$hora_inicio_dt) {
+        throw new Exception('Hora de reserva inválida');
+    }
+    $hora_fin_dt = clone $hora_inicio_dt;
+    $hora_fin_dt->modify('+3 hours');
+
+    $stmtConflicto = $pdo->prepare("
+        SELECT r.id, m.numero_mesa, TIME_FORMAT(r.hora_reserva, '%H:%i') as hora
+        FROM reservas r
+        INNER JOIN mesas m ON r.mesa_id = m.id
+        WHERE r.mesa_id = :mesa_id
+          AND DATE(r.fecha_reserva) = DATE(:fecha)
+          AND r.estado IN ('confirmada', 'preparando', 'en_curso')
+          AND ABS(TIME_TO_SEC(TIMEDIFF(TIME(r.hora_reserva), TIME(:hora_ref)))) < 10800
+        ORDER BY ABS(TIME_TO_SEC(TIMEDIFF(TIME(r.hora_reserva), TIME(:hora_ref_orden)))) ASC
+        LIMIT 1
+    ");
+    $stmtConflicto->execute([
+        'mesa_id' => $mesa_id,
+        'fecha' => $fecha_reserva,
+        'hora_ref' => $hora_inicio_dt->format('H:i:s'),
+        'hora_ref_orden' => $hora_inicio_dt->format('H:i:s')
+    ]);
+    $conflicto = $stmtConflicto->fetch(PDO::FETCH_ASSOC);
+    if ($conflicto) {
+        $hora_conflicto = DateTime::createFromFormat('H:i', $conflicto['hora']);
+        $hora_antes = $hora_conflicto ? $hora_conflicto->modify('-3 hours')->format('H:i') : null;
+        $hora_conflicto = DateTime::createFromFormat('H:i', $conflicto['hora']);
+        $hora_despues = $hora_conflicto ? $hora_conflicto->modify('+3 hours')->format('H:i') : null;
+        $sugerencia = '';
+        if ($hora_antes && $hora_despues) {
+            $sugerencia = " Por favor reserva a las {$hora_antes} o a las {$hora_despues}.";
+        }
+        throw new Exception(
+            "La mesa {$conflicto['numero_mesa']} ya tiene una reserva a las {$conflicto['hora']} dentro del bloque de 3 horas." .
+            $sugerencia . " Solo se libera si el administrador la libera."
+        );
+    }
+
     // 2. Crear la reserva en estado PENDIENTE (el admin debe confirmarla)
     $stmt = $pdo->prepare("INSERT INTO reservas 
                            (cliente_id, mesa_id, fecha_reserva, hora_reserva, numero_personas, estado) 
@@ -237,14 +339,30 @@ try {
     ]);
     
 } catch (Exception $e) {
-    if (isset($pdo)) {
+    if (isset($pdo) && $pdo->inTransaction()) {
         $pdo->rollBack();
     }
+    
+    error_log("Error en confirmar_reserva_con_platos.php: " . $e->getMessage());
     
     http_response_code(400);
     echo json_encode([
         'success' => false,
-        'message' => 'Error al confirmar reserva: ' . $e->getMessage()
+        'message' => 'Error al confirmar reserva: ' . $e->getMessage(),
+        'error_detail' => $e->getFile() . ' en línea ' . $e->getLine()
+    ]);
+} catch (Throwable $e) {
+    // Capturar errores fatales de PHP 7+
+    if (isset($pdo) && $pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    
+    error_log("Error fatal en confirmar_reserva_con_platos.php: " . $e->getMessage());
+    
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error crítico del servidor: ' . $e->getMessage()
     ]);
 }
 ?>

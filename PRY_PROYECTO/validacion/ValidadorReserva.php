@@ -34,6 +34,57 @@ class ValidadorReserva {
             'mensaje' => 'Fecha válida'
         ];
     }
+
+    /**
+     * Valida que el numero de personas sea un entero sin puntos ni comas
+     * @param mixed $numero Valor a validar
+     * @param int $min Minimo permitido
+     * @param int|null $max Maximo permitido (opcional)
+     * @return array ['valido' => bool, 'mensaje' => string, 'valor' => int|null]
+     */
+    public static function validarNumeroPersonas($numero, $min = 1, $max = null) {
+        $numeroStr = trim((string)$numero);
+
+        if ($numeroStr === '') {
+            return [
+                'valido' => false,
+                'mensaje' => 'El número de personas es requerido',
+                'valor' => null
+            ];
+        }
+
+        if (!preg_match('/^\d+$/', $numeroStr)) {
+            return [
+                'valido' => false,
+                'mensaje' => 'El número de personas debe ser un entero sin puntos ni comas',
+                'valor' => null
+            ];
+        }
+
+        $numeroInt = (int)$numeroStr;
+
+        if ($numeroInt < $min) {
+            return [
+                'valido' => false,
+                'mensaje' => "El número de personas debe ser mayor o igual a {$min}",
+                'valor' => null
+            ];
+        }
+
+        if ($max !== null && $numeroInt > $max) {
+            return [
+                'valido' => false,
+                'mensaje' => "El número de personas debe ser menor o igual a {$max}",
+                'valor' => null
+            ];
+        }
+
+        return [
+            'valido' => true,
+            'mensaje' => 'Número de personas válido',
+            'valor' => $numeroInt
+        ];
+    }
     
     /**
      * Valida que la hora de reserva cumpla con el mínimo de 2 horas de anticipación
