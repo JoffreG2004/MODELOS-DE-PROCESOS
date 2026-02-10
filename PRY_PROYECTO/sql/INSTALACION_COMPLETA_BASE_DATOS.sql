@@ -1,11 +1,11 @@
 -- =============================================================================================================
 -- SCRIPT COMPLETO DE INSTALACIÓN - SISTEMA DE RESTAURANTE "Le Salon de Lumière"
 -- =============================================================================================================
--- Versión: 3.0 UNIFICADA TOTAL
--- Fecha: Enero 2026
+-- Versión: 3.1 ACTUALIZADA
+-- Fecha: Febrero 2026
 -- Descripción: Script 100% completo que incluye TODO lo necesario para levantar la base de datos
 --              Incluye: tablas, triggers, procedimientos, vistas, datos de ejemplo, configuraciones,
---              auditoría, notificaciones WhatsApp, zonas de reservas, y datos de prueba
+--              auditoría, notificaciones WhatsApp, notificaciones Email, zonas de reservas, y datos de prueba
 -- =============================================================================================================
 -- INSTRUCCIONES DE USO:
 -- 1. mysql -u root -p < INSTALACION_COMPLETA_BASE_DATOS.sql
@@ -392,7 +392,28 @@ CREATE TABLE `notificaciones_whatsapp` (
 COMMENT='Registro de notificaciones WhatsApp enviadas con Twilio API';
 
 -- =============================================
--- SECCIÓN 13: TABLA reservas_zonas
+-- SECCIÓN 13: TABLA notificaciones_email
+-- Registro de notificaciones enviadas por email (n8n)
+-- =============================================
+DROP TABLE IF EXISTS `notificaciones_email`;
+CREATE TABLE `notificaciones_email` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reserva_id` int(11) NOT NULL,
+  `correo` varchar(255) NOT NULL,
+  `tipo_email` varchar(50) NOT NULL,
+  `mensaje` text DEFAULT NULL,
+  `estado` enum('enviado','fallido','test') NOT NULL,
+  `fecha_envio` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_reserva` (`reserva_id`),
+  KEY `idx_estado` (`estado`),
+  KEY `idx_fecha` (`fecha_envio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+COMMENT='Registro de notificaciones por email enviadas vía n8n';
+
+-- =============================================
+-- SECCIÓN 14: TABLA reservas_zonas
 -- Reservas de zonas completas del restaurante
 -- =============================================
 DROP TABLE IF EXISTS `reservas_zonas`;
@@ -425,7 +446,7 @@ CREATE TABLE `reservas_zonas` (
 COMMENT='Reservas de zonas completas del restaurante';
 
 -- =============================================
--- SECCIÓN 14: TABLAS DE AUDITORÍA
+-- SECCIÓN 15: TABLAS DE AUDITORÍA
 -- Sistema completo de auditoría
 -- =============================================
 
@@ -517,7 +538,7 @@ CREATE TABLE `auditoria_cambios` (
 COMMENT='Auditoría de cambios operativos ejecutados por admin/sistema';
 
 -- =============================================
--- SECCIÓN 15: TRIGGERS
+-- SECCIÓN 16: TRIGGERS
 -- Automatización de procesos mediante triggers
 -- =============================================
 
@@ -588,7 +609,7 @@ END$$
 DELIMITER ;
 
 -- =============================================
--- SECCIÓN 16: PROCEDIMIENTOS ALMACENADOS
+-- SECCIÓN 17: PROCEDIMIENTOS ALMACENADOS
 -- =============================================
 
 -- Procedimiento: Activar reservas cuando llega su hora
@@ -625,7 +646,7 @@ END$$
 DELIMITER ;
 
 -- =============================================
--- SECCIÓN 17: VISTAS ÚTILES
+-- SECCIÓN 18: VISTAS ÚTILES
 -- =============================================
 
 -- Vista: Reservas con información completa
@@ -675,7 +696,7 @@ SELECT '✅ ============================================' as ' ';
 SELECT '' as ' ';
 SELECT 'Base de datos: crud_proyecto' as 'INFORMACIÓN';
 SELECT 'Charset: utf8mb4' as ' ';
-SELECT 'Tablas principales: 19' as ' ';
+SELECT 'Tablas principales: 20' as ' ';
 SELECT 'Triggers: 4' as ' ';
 SELECT 'Procedimientos: 1' as ' ';
 SELECT 'Vistas: 2' as ' ';
