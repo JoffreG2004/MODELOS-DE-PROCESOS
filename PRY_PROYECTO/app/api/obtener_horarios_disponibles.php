@@ -44,6 +44,22 @@ try {
         throw new Exception('Formato de fecha inválido');
     }
 
+    // Limitar reservas a hoy + 14 días
+    $tz = new DateTimeZone('America/Guayaquil');
+    $hoy = new DateTime('today', $tz);
+    $maxAdelanto = new DateTime('today', $tz);
+    $maxAdelanto->modify('+14 days');
+    $fechaObjTz = DateTime::createFromFormat('!Y-m-d', $fecha, $tz);
+    if (!$fechaObjTz) {
+        throw new Exception('Formato de fecha inválido');
+    }
+    if ($fechaObjTz < $hoy) {
+        throw new Exception('No se pueden consultar horarios para fechas pasadas');
+    }
+    if ($fechaObjTz > $maxAdelanto) {
+        throw new Exception('Solo se permiten reservas desde hoy hasta 14 días en adelante');
+    }
+
     // Validar dias cerrados
     $dias_cerrados = $configs['dias_cerrados'] ?? '';
     if (!empty($dias_cerrados)) {
@@ -90,7 +106,7 @@ try {
 
     $bloques_duracion = 3; // 3 horas por bloque
     
-    // Obtener todas las reservas confirmadas y pendientes para esta mesa en esta fecha
+    // Obtener reservas confirmadas/activas para esta mesa en esta fecha
     $query = "
         SELECT 
             hora_reserva,
@@ -99,7 +115,7 @@ try {
         FROM reservas
         WHERE mesa_id = :mesa_id
         AND DATE(fecha_reserva) = :fecha
-        AND estado IN ('confirmada', 'pendiente', 'preparando', 'en_curso')
+        AND estado IN ('confirmada', 'preparando', 'en_curso')
         ORDER BY hora_reserva ASC
     ";
     
@@ -123,7 +139,7 @@ try {
         SELECT hora_reserva, zonas
         FROM reservas_zonas
         WHERE fecha_reserva = ?
-          AND estado IN ('pendiente', 'confirmada')
+          AND estado IN ('confirmada', 'preparando', 'en_curso')
     ");
     $stmtZonas->execute([$fecha]);
     while ($row = $stmtZonas->fetch(PDO::FETCH_ASSOC)) {

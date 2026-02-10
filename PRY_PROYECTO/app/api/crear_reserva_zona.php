@@ -55,6 +55,25 @@ try {
         echo json_encode(['success' => false, 'message' => 'Fecha y hora son requeridas']);
         exit;
     }
+
+    // Ventana permitida: hoy hasta +14 días
+    $tz = new DateTimeZone('America/Guayaquil');
+    $fechaObj = DateTime::createFromFormat('Y-m-d', $fecha_reserva, $tz);
+    if (!$fechaObj) {
+        echo json_encode(['success' => false, 'message' => 'Fecha de reserva inválida']);
+        exit;
+    }
+    $hoy = new DateTime('today', $tz);
+    $maxAdelanto = new DateTime('today', $tz);
+    $maxAdelanto->modify('+14 days');
+    if ($fechaObj < $hoy) {
+        echo json_encode(['success' => false, 'message' => 'No se pueden hacer reservas con fechas pasadas']);
+        exit;
+    }
+    if ($fechaObj > $maxAdelanto) {
+        echo json_encode(['success' => false, 'message' => 'Solo se permiten reservas desde hoy hasta 14 días en adelante']);
+        exit;
+    }
     
     // Validación de hora
     if (!preg_match('/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/', $hora_reserva)) {
@@ -101,7 +120,7 @@ try {
         exit;
     }
 
-    // Bloqueo por reservas normales confirmadas en el mismo dia para las zonas seleccionadas
+    // Bloqueo por reservas normales confirmadas/activas en el mismo día para las zonas seleccionadas
     $hora_ref = strlen($hora_reserva) === 5 ? ($hora_reserva . ':00') : $hora_reserva;
     $placeholdersZonas = str_repeat('?,', count($zonas) - 1) . '?';
     $stmtConflictoNormal = $pdo->prepare("
@@ -243,7 +262,7 @@ try {
         SELECT id, zonas, estado
         FROM reservas_zonas
         WHERE fecha_reserva = ?
-        AND estado IN ('pendiente', 'confirmada')
+        AND estado IN ('confirmada', 'preparando', 'en_curso')
     ");
     if (!$stmt || !$stmt->execute([$fecha_reserva])) {
         echo json_encode(['success' => false, 'message' => 'Error al verificar conflictos de zonas']);

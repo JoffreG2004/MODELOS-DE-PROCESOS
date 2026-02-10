@@ -638,6 +638,42 @@ try {
         
             border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
+
+        .mini-section-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        .mini-section-header {
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+            padding: 1rem 1.25rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(0, 212, 255, 0.05));
+        }
+
+        .mini-section-body {
+            padding: 1rem 1.25rem;
+        }
+
+        @media (max-width: 991.98px) {
+            .dashboard-sidebar {
+                min-height: auto;
+            }
+
+            .sidebar-header {
+                padding: 1rem;
+            }
+
+            .sidebar-nav .nav-link {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+            }
+
+            .dashboard-content {
+                padding: 1rem !important;
+            }
+        }
     </style>
 </head>
 
@@ -667,7 +703,7 @@ try {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" onclick="scrollToSection('reservas-section')">
+                                <a class="nav-link" href="javascript:void(0);" onclick="mostrarGestionReservas()">
                                     <i class="bi bi-calendar-check me-2"></i> Reservas
                                 </a>
                             </li>
@@ -677,12 +713,12 @@ try {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" onclick="scrollToSection('gestion-mesas-section')">
+                                <a class="nav-link" href="javascript:void(0);" onclick="mostrarGestionMesas()">
                                     <i class="bi bi-table me-2"></i> Gestión de Mesas
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" onclick="scrollToSection('menu-section')">
+                                <a class="nav-link" href="javascript:void(0);" onclick="mostrarSubidaExcel()">
                                     <i class="bi bi-book me-2"></i> Gestión de Menú
                                 </a>
                             </li>
@@ -692,12 +728,12 @@ try {
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" onclick="scrollToSection('configuracion-section')">
+                                <a class="nav-link" href="javascript:void(0);" onclick="mostrarGestionHorarios()">
                                     <i class="bi bi-gear me-2"></i> Configuración
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="views/auditoria.php" target="_blank">
+                                <a class="nav-link" href="views/auditoria.php">
                                     <i class="bi bi-clipboard-data me-2"></i> Auditoría
                                 </a>
                             </li>
@@ -848,6 +884,91 @@ try {
                                     <p class="text-muted mb-3">Las siguientes reservas requieren tu confirmación inmediata:</p>
                                     <div id="lista-reservas-pendientes" class="row g-3">
                                         <!-- Se llenará dinámicamente -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================== -->
+                    <!-- SECCIÓN: RESERVAS DE ZONAS                -->
+                    <!-- ========================================== -->
+                    <div class="row mb-5" id="reservas-zonas-section">
+                        <div class="col-12">
+                            <div class="mini-section-card">
+                                <div class="mini-section-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-grid-3x3-gap-fill me-2" style="color: var(--accent-gold);"></i>
+                                        Reservas de Zonas
+                                    </h5>
+                                    <div class="d-flex gap-2">
+                                        <span class="badge bg-warning text-dark" id="zonas-pendientes-count">0 pendientes</span>
+                                        <span class="badge bg-success" id="zonas-confirmadas-count">0 confirmadas</span>
+                                        <button class="btn btn-sm btn-outline-info" onclick="cargarResumenReservasZonas()">
+                                            <i class="bi bi-arrow-clockwise"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mini-section-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover align-middle mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Cliente</th>
+                                                    <th>Zonas</th>
+                                                    <th>Fecha/Hora</th>
+                                                    <th>Personas</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tabla-reservas-zonas-dashboard">
+                                                <tr>
+                                                    <td colspan="6" class="text-center text-muted">Cargando reservas de zonas...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================== -->
+                    <!-- SECCIÓN: CLIENTES                          -->
+                    <!-- ========================================== -->
+                    <div class="row mb-5" id="clientes-section">
+                        <div class="col-12">
+                            <div class="mini-section-card">
+                                <div class="mini-section-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">
+                                        <i class="bi bi-people-fill me-2" style="color: var(--accent-cyan);"></i>
+                                        Clientes Recientes
+                                    </h5>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <span class="badge bg-info text-dark" id="clientes-listado-count">0 clientes</span>
+                                        <button class="btn btn-sm btn-outline-info" onclick="cargarResumenClientes()">
+                                            <i class="bi bi-arrow-clockwise"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mini-section-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-dark table-hover align-middle mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Cédula</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Email</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tabla-clientes-dashboard">
+                                                <tr>
+                                                    <td colspan="4" class="text-center text-muted">Cargando clientes...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -1634,6 +1755,8 @@ try {
         document.addEventListener('DOMContentLoaded', function() {
             actualizarEstadosAutomaticamente();
             cargarDatosYGraficos();
+            cargarResumenReservasZonas();
+            cargarResumenClientes();
             
             // Actualizar estados cada 2 minutos si está habilitado
             let intervaloActualizacion = setInterval(actualizarEstadosAutomaticamente, 120000);
@@ -1803,6 +1926,123 @@ try {
             
             // Cargar reservas pendientes
             cargarReservasPendientes();
+        }
+
+        function formatearFechaCorta(fechaIso) {
+            if (!fechaIso) return '-';
+            const soloFecha = String(fechaIso).split('T')[0];
+            const partes = soloFecha.split('-');
+            if (partes.length !== 3) return soloFecha;
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+
+        async function cargarResumenReservasZonas() {
+            const tbody = document.getElementById('tabla-reservas-zonas-dashboard');
+            const badgePendientes = document.getElementById('zonas-pendientes-count');
+            const badgeConfirmadas = document.getElementById('zonas-confirmadas-count');
+            if (!tbody) return;
+
+            try {
+                const response = await fetch('app/api/obtener_reservas_zonas.php', {
+                    credentials: 'same-origin',
+                    cache: 'no-cache'
+                });
+                const data = await response.json();
+
+                if (!data.success || !Array.isArray(data.reservas)) {
+                    throw new Error(data.message || 'No se pudo cargar reservas de zonas');
+                }
+
+                const reservas = data.reservas;
+                const pendientes = reservas.filter(r => r.estado === 'pendiente').length;
+                const confirmadas = reservas.filter(r => r.estado === 'confirmada').length;
+                badgePendientes.textContent = `${pendientes} pendientes`;
+                badgeConfirmadas.textContent = `${confirmadas} confirmadas`;
+
+                const top = reservas.slice(0, 8);
+                if (top.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No hay reservas de zonas registradas.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = top.map((r) => {
+                    const zonas = Array.isArray(r.zonas_nombres) ? r.zonas_nombres.join(', ') : 'Sin zonas';
+                    const estadoBadge = r.estado === 'pendiente'
+                        ? '<span class="badge bg-warning text-dark">Pendiente</span>'
+                        : (r.estado === 'confirmada'
+                            ? '<span class="badge bg-success">Confirmada</span>'
+                            : `<span class="badge bg-secondary">${r.estado || 'N/A'}</span>`);
+
+                    const acciones = r.estado === 'pendiente'
+                        ? `
+                            <button class="btn btn-sm btn-success me-1" onclick="confirmarReservaZona(${r.id})" title="Confirmar">
+                                <i class="bi bi-check-circle"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="rechazarReservaZona(${r.id})" title="Rechazar">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                        `
+                        : '<span class="text-muted">-</span>';
+
+                    return `
+                        <tr>
+                            <td>${r.cliente_nombre || 'Cliente'}</td>
+                            <td>${zonas}</td>
+                            <td>${formatearFechaCorta(r.fecha_reserva)} ${String(r.hora_reserva || '').slice(0, 5)}</td>
+                            <td>${r.numero_personas || 0}</td>
+                            <td>${estadoBadge}</td>
+                            <td>${acciones}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error cargando resumen de zonas:', error);
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">${error.message || 'Error al cargar reservas de zonas'}</td></tr>`;
+                if (badgePendientes) badgePendientes.textContent = '0 pendientes';
+                if (badgeConfirmadas) badgeConfirmadas.textContent = '0 confirmadas';
+            }
+        }
+
+        async function cargarResumenClientes() {
+            const tbody = document.getElementById('tabla-clientes-dashboard');
+            const badgeTotal = document.getElementById('clientes-listado-count');
+            if (!tbody) return;
+
+            try {
+                const response = await fetch('app/obtener_clientes.php', {
+                    credentials: 'same-origin',
+                    cache: 'no-cache'
+                });
+                const data = await response.json();
+
+                if (!data.success || !Array.isArray(data.clientes)) {
+                    throw new Error(data.message || 'No se pudo cargar clientes');
+                }
+
+                const clientes = data.clientes;
+                if (badgeTotal) {
+                    badgeTotal.textContent = `${clientes.length} clientes`;
+                }
+
+                const top = clientes.slice(0, 10);
+                if (top.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">No hay clientes registrados.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = top.map((c) => `
+                    <tr>
+                        <td>${c.nombre || ''} ${c.apellido || ''}</td>
+                        <td>${c.cedula || '-'}</td>
+                        <td>${c.telefono || '-'}</td>
+                        <td>${c.email || '-'}</td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error cargando resumen de clientes:', error);
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">${error.message || 'Error al cargar clientes'}</td></tr>`;
+                if (badgeTotal) badgeTotal.textContent = '0 clientes';
+            }
         }
 
         // Función para cargar y mostrar reservas pendientes
@@ -2035,6 +2275,8 @@ try {
 
                         // Recargar reservas pendientes y estadísticas
                         await cargarReservasPendientes();
+                        await cargarResumenReservasZonas();
+                        await cargarResumenClientes();
                         await actualizarEstadosAutomaticamente();
                         await cargarDatosYGraficos();
                     } else {
@@ -2086,6 +2328,8 @@ try {
 
                         // Recargar reservas pendientes y estadísticas
                         await cargarReservasPendientes();
+                        await cargarResumenReservasZonas();
+                        await cargarResumenClientes();
                         await actualizarEstadosAutomaticamente();
                         await cargarDatosYGraficos();
                     } else {
@@ -2220,6 +2464,8 @@ try {
                 });
                 
                 await cargarReservasPendientes();
+                await cargarResumenReservasZonas();
+                await cargarResumenClientes();
                 await actualizarEstadosAutomaticamente();
                 await cargarDatosYGraficos();
                 
@@ -2277,6 +2523,8 @@ try {
                         });
 
                         await cargarReservasPendientes();
+                        await cargarResumenReservasZonas();
+                        await cargarResumenClientes();
                         await actualizarEstadosAutomaticamente();
                         await cargarDatosYGraficos();
                     } else {
@@ -2329,6 +2577,8 @@ try {
                         });
 
                         await cargarReservasPendientes();
+                        await cargarResumenReservasZonas();
+                        await cargarResumenClientes();
                         await cargarDatosYGraficos();
                     } else {
                         throw new Error(data.message || 'Error al rechazar reserva');
@@ -2641,12 +2891,27 @@ try {
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
+                if (sectionId === 'reservas-zonas-section') {
+                    cargarResumenReservasZonas();
+                } else if (sectionId === 'clientes-section') {
+                    cargarResumenClientes();
+                }
                 element.scrollIntoView({ 
                     behavior: 'smooth', 
                     block: 'start' 
                 });
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+            navLinks.forEach((link) => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach((l) => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
 
         // Función para volver al inicio
         function scrollToTop() {
@@ -3914,6 +4179,8 @@ try {
                     // Recargar listas (solo funciones disponibles en este archivo)
                     await cargarReservasActivas();
                     await cargarReservasPendientes();
+                    await cargarResumenReservasZonas();
+                    await cargarResumenClientes();
                     await cargarDatosYGraficos();
 
                     // Recargar modal de gestión si está inicializado

@@ -39,6 +39,16 @@ class ReservaZonas {
         return fechaLocal;
     }
 
+    obtenerFechaMaxima() {
+        const fechaServidorMax = typeof window !== 'undefined' ? window.FECHA_MAX_RESERVA : null;
+        if (fechaServidorMax && /^\d{4}-\d{2}-\d{2}$/.test(fechaServidorMax)) {
+            return fechaServidorMax;
+        }
+        const fecha = new Date();
+        fecha.setDate(fecha.getDate() + 14);
+        return this.obtenerFechaLocalISO(fecha);
+    }
+
     async actualizarHorarioZona(fecha) {
         try {
             const response = await fetch('app/api/validar_horario_reserva.php', {
@@ -82,6 +92,7 @@ class ReservaZonas {
 
         // Fecha mínima local: hoy (evita desfase por UTC de toISOString)
         const minDate = this.obtenerFechaMinima();
+        const maxDate = this.obtenerFechaMaxima();
 
         Swal.fire({
             title: '🎉 Reserva de Zona Completa',
@@ -175,7 +186,7 @@ class ReservaZonas {
                                 Fecha de Reserva
                             </label>
                             <input type="date" class="form-control" id="fechaReservaZona" 
-                                   min="${minDate}" required 
+                                   min="${minDate}" max="${maxDate}" required 
                                    style="color: var(--text-primary) !important;">
                         </div>
 
@@ -229,9 +240,13 @@ class ReservaZonas {
                 const dateInput = document.getElementById('fechaReservaZona');
                 if (dateInput) {
                     const min = this.obtenerFechaMinima();
+                    const max = this.obtenerFechaMaxima();
                     dateInput.min = min;
+                    dateInput.max = max;
                     if (!dateInput.value || dateInput.value < min) {
                         dateInput.value = min;
+                    } else if (dateInput.value > max) {
+                        dateInput.value = max;
                     }
                     this.actualizarHorarioZona(dateInput.value);
                     dateInput.addEventListener('change', () => {
@@ -280,6 +295,12 @@ class ReservaZonas {
                 const today = this.obtenerFechaMinima();
                 if (fecha < today) {
                     Swal.showValidationMessage('📅 No puedes seleccionar una fecha pasada');
+                    return false;
+                }
+
+                const maxDate = this.obtenerFechaMaxima();
+                if (fecha > maxDate) {
+                    Swal.showValidationMessage(`📅 Solo puedes reservar hasta ${maxDate}`);
                     return false;
                 }
 

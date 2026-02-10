@@ -45,12 +45,19 @@ try {
     if ($fechaObj < $hoy) {
         throw new Exception('No se pueden hacer reservas con fechas pasadas');
     }
+    $maxAdelanto = new DateTime('today', $tz);
+    $maxAdelanto->modify('+14 days');
+    if ($fechaObj > $maxAdelanto) {
+        throw new Exception('Solo se permiten reservas desde hoy hasta 14 días en adelante');
+    }
 
     $normalizarHora = function($hora) {
         if (!$hora) return $hora;
         return strlen($hora) === 5 ? ($hora . ':00') : $hora;
     };
     $hora_reserva = $normalizarHora($hora_reserva);
+
+    $pdo->beginTransaction();
     
     // Verificar que el cliente existe
     $stmt = $pdo->prepare("SELECT id FROM clientes WHERE id = ?");
@@ -60,7 +67,7 @@ try {
     }
     
     // Verificar que la mesa existe y obtener zona/capacidad/precio
-    $stmt = $pdo->prepare("SELECT id, ubicacion, capacidad_minima, capacidad_maxima, precio_reserva FROM mesas WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT id, ubicacion, capacidad_minima, capacidad_maxima, precio_reserva FROM mesas WHERE id = ? FOR UPDATE");
     $stmt->execute([$mesa_id]);
     $mesa = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$mesa) {
@@ -73,15 +80,14 @@ try {
         throw new Exception("La mesa permite entre {$cap_min} y {$cap_max} personas");
     }
 
-    // Bloqueo por reserva de zona: si existe una reserva de zona para esa fecha y zona,
-    // no permitir reservas normales que inicien menos de 3 horas antes del inicio de la zona.
+    // Bloqueo por reserva de zona confirmada/activa: no bloquear por pendientes.
     if ($zona_mesa) {
         $hora_normal = $hora_reserva;
         $stmtZona = $pdo->prepare("
             SELECT rz.id, rz.hora_reserva, rz.zonas
             FROM reservas_zonas rz
             WHERE rz.fecha_reserva = ?
-              AND rz.estado IN ('pendiente', 'confirmada')
+              AND rz.estado IN ('confirmada', 'preparando', 'en_curso')
         ");
         $stmtZona->execute([$fecha_reserva]);
         while ($row = $stmtZona->fetch(PDO::FETCH_ASSOC)) {
@@ -103,7 +109,7 @@ try {
         }
     }
     
-    // BLOQUEO: Si ya hay una reserva CONFIRMADA (o activa) en el mismo bloque de 3 horas,
+    // BLOQUEO: Si ya hay una reserva confirmada/activa en el mismo bloque de 3 horas,
     // no permitir nuevas reservas para esa mesa/fecha/hora.
     $duracion_horas = is_numeric($duracion_horas) ? (int)$duracion_horas : 3;
     $hora_inicio_dt = DateTime::createFromFormat('H:i:s', $hora_reserva) ?: DateTime::createFromFormat('H:i', $hora_reserva);
@@ -153,8 +159,6 @@ try {
         $duracion_horas = $duracion_horas ?? 3; // 3 horas por defecto para reservas normales
     }
     
-    $pdo->beginTransaction();
-
     $query = "INSERT INTO reservas (cliente_id, mesa_id, fecha_reserva, hora_reserva, numero_personas, duracion_horas, estado) 
               VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($query);

@@ -21,11 +21,20 @@ class ValidadorReserva {
         
         $fechaReserva = new DateTime($fecha);
         $hoy = new DateTime('today');
+        $fechaMaxima = new DateTime('today');
+        $fechaMaxima->modify('+14 days');
         
         if ($fechaReserva < $hoy) {
             return [
                 'valido' => false,
                 'mensaje' => 'No se pueden hacer reservas para días pasados. Solo puede reservar desde hoy en adelante'
+            ];
+        }
+
+        if ($fechaReserva > $fechaMaxima) {
+            return [
+                'valido' => false,
+                'mensaje' => 'Solo se permiten reservas desde hoy hasta 14 días en adelante'
             ];
         }
         

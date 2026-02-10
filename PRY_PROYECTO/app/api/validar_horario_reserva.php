@@ -50,13 +50,20 @@ try {
         exit;
     }
     
-    // Validar que no sea más de 180 días (aprox. 6 meses) adelante
+    // Validar que no sea más de 14 días (2 semanas) adelante
     $max_adelanto = new DateTime('today', $tz);
-    $max_adelanto->modify('+180 days');
+    $max_adelanto->modify('+14 days');
     // Si la fecha es ESTRICTAMENTE mayor que la máxima permitida, rechazar
-    // +180 días debe ser permitido, +181 debe ser rechazado
+    // +14 días debe ser permitido, +15 debe ser rechazado
     if ($fecha_obj > $max_adelanto) {
-        echo json_encode(['success' => false, 'valido' => false, 'message' => 'No se pueden hacer reservas con más de 6 meses de anticipación']);
+        echo json_encode([
+            'success' => false,
+            'valido' => false,
+            'message' => 'Solo se permiten reservas desde hoy hasta 14 días en adelante',
+            'detalle' => [
+                'fecha_maxima_permitida' => $max_adelanto->format('Y-m-d')
+            ]
+        ]);
         exit;
     }
     

@@ -171,7 +171,7 @@ try {
             SELECT rz.id, rz.hora_reserva, rz.zonas
             FROM reservas_zonas rz
             WHERE rz.fecha_reserva = ?
-              AND rz.estado IN ('pendiente', 'confirmada')
+              AND rz.estado IN ('confirmada', 'preparando', 'en_curso')
         ");
         $stmtZona->execute([$reserva['fecha_reserva']]);
         $zona_conflict_id = null;

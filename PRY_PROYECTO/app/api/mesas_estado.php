@@ -18,12 +18,27 @@ try {
         throw new Exception('Formato de fecha inválido. Use YYYY-MM-DD');
     }
 
+    $tz = new DateTimeZone('America/Guayaquil');
+    $fechaObj = DateTime::createFromFormat('!Y-m-d', $fecha_consulta, $tz);
+    if (!$fechaObj) {
+        throw new Exception('Formato de fecha inválido. Use YYYY-MM-DD');
+    }
+    $hoy = new DateTime('today', $tz);
+    $maxAdelanto = new DateTime('today', $tz);
+    $maxAdelanto->modify('+14 days');
+    if ($fechaObj < $hoy) {
+        throw new Exception('No se pueden consultar mesas para fechas pasadas');
+    }
+    if ($fechaObj > $maxAdelanto) {
+        throw new Exception('Solo se permiten reservas desde hoy hasta 14 días en adelante');
+    }
+
     // Obtener reservas de zonas para la fecha
     $stmtZonas = $pdo->prepare("
         SELECT hora_reserva, zonas
         FROM reservas_zonas
         WHERE fecha_reserva = ?
-          AND estado IN ('pendiente', 'confirmada')
+          AND estado IN ('confirmada', 'preparando', 'en_curso')
     ");
     $stmtZonas->execute([$fecha_consulta]);
     $zonaInicioPorZona = [];
@@ -131,7 +146,7 @@ try {
                        ROW_NUMBER() OVER (PARTITION BY r.mesa_id ORDER BY r.hora_reserva ASC) as rn
                 FROM reservas r
                 WHERE DATE(r.fecha_reserva) = :fecha_consulta
-                AND r.estado IN ('confirmada', 'pendiente', 'preparando', 'en_curso')
+                AND r.estado IN ('confirmada', 'preparando', 'en_curso')
             ) r ON m.id = r.mesa_id AND r.rn = 1
             LEFT JOIN clientes c ON r.cliente_id = c.id
             ORDER BY m.numero_mesa ASC
@@ -208,7 +223,7 @@ try {
                 'motivo' => 'Zona reservada'
             ] : null,
             'disponible_desde' => $estado_calculado === 'disponible' ? date('H:i') : null,
-            'recordatorio_3h' => 'Puedes reservar en esta mesa solo fuera del tramo de 3 horas de una reserva confirmada.',
+            'recordatorio_3h' => 'Puedes reservar en esta mesa solo fuera del tramo de 3 horas de una reserva confirmada o activa.',
             'color_estado' => in_array($estado_calculado, ['ocupada', 'reservada', 'mantenimiento'], true) ? '#dc3545' : '#28a745'
         ];
     }, $mesas);
@@ -224,7 +239,7 @@ try {
         'fecha_consultada' => $fecha_consulta,
         'hora_consultada' => $hora_consulta ? substr($hora_consulta, 0, 5) : null,
         'bloque_horas' => 3,
-        'recordatorio' => 'Recuerda: puedes reservar 3 horas antes o 3 horas después de una reserva confirmada en la misma mesa.',
+        'recordatorio' => 'Recuerda: puedes reservar 3 horas antes o 3 horas después de una reserva confirmada o activa en la misma mesa.',
         'mesas' => $mesas_formateadas,
         'resumen' => [
             'total' => $total_mesas,

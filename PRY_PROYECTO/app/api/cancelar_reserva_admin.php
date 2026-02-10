@@ -7,7 +7,7 @@ session_start();
 header('Content-Type: application/json');
 
 // Verificar sesión de admin
-if (!isset($_SESSION['admin_id'])) {
+if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
     echo json_encode(['success' => false, 'message' => 'No autorizado']);
     exit;
 }
@@ -84,6 +84,36 @@ try {
         $stmt->bind_param('i', $reserva['mesa_id']);
         $stmt->execute();
         $stmt->close();
+
+        // 2.1 Registrar en auditoría de reservas (si la tabla existe)
+        $admin_id = (int)($_SESSION['admin_id'] ?? 0);
+        $ip_address = $_SERVER['REMOTE_ADDR'] ?? null;
+        $user_agent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+        $estado_anterior = $reserva['estado'] ?? 'pendiente';
+        $estado_nuevo = 'cancelada';
+
+        $checkAudit = $mysqli->query("SHOW TABLES LIKE 'auditoria_reservas'");
+        if ($checkAudit && $checkAudit->num_rows > 0) {
+            $stmtAudit = $mysqli->prepare("
+                INSERT INTO auditoria_reservas
+                (reserva_id, admin_id, accion, estado_anterior, estado_nuevo, datos_anteriores, datos_nuevos, motivo, ip_address, user_agent)
+                VALUES (?, ?, 'cancelar_reserva_admin', ?, ?, NULL, NULL, ?, ?, ?)
+            ");
+            if ($stmtAudit) {
+                $stmtAudit->bind_param(
+                    'iisssss',
+                    $reserva_id,
+                    $admin_id,
+                    $estado_anterior,
+                    $estado_nuevo,
+                    $motivo,
+                    $ip_address,
+                    $user_agent
+                );
+                $stmtAudit->execute();
+                $stmtAudit->close();
+            }
+        }
         
         // 3. Enviar notificación por WhatsApp
         $whatsappEnviado = false;

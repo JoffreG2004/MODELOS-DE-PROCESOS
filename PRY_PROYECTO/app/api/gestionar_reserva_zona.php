@@ -48,7 +48,7 @@ try {
     $whatsapp_result = ['enviado' => false];
     
     if ($accion === 'confirmar') {
-        // Validar que no existan reservas normales confirmadas en las zonas para ese dia
+        // Validar que no existan reservas normales confirmadas/activas en las zonas para ese día
         $zonas_array = json_decode($reserva['zonas'] ?? '[]', true);
         if (!is_array($zonas_array)) {
             $zonas_array = [];

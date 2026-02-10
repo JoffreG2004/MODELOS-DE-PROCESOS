@@ -810,6 +810,15 @@ if ($mesa_seleccionada_id) {
             return `${year}-${month}-${day}`;
         }
 
+        function fechaMaxReservaISO() {
+            if (typeof window.FECHA_MAX_RESERVA === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(window.FECHA_MAX_RESERVA)) {
+                return window.FECHA_MAX_RESERVA;
+            }
+            const fecha = new Date();
+            fecha.setDate(fecha.getDate() + 14);
+            return fechaLocalISO(fecha);
+        }
+
         async function confirmarReserva() {
             // Primero obtener el horario disponible
             let horarioDisponible = null;
@@ -888,7 +897,7 @@ if ($mesa_seleccionada_id) {
                     <div style="margin-top: 20px;">
                         <label class="reserva-form-label">Fecha de Reserva</label>
                         <input type="date" id="fecha_reserva" class="reserva-form-control" 
-                            min="<?php echo date('Y-m-d'); ?>" required>
+                            min="<?php echo date('Y-m-d'); ?>" max="${fechaMaxReservaISO()}" required>
                     </div>
                     <div style="margin-top: 20px;">
                         <label class="reserva-form-label">Hora de Reserva</label>
@@ -933,6 +942,12 @@ if ($mesa_seleccionada_id) {
                     
                     if (!fecha) {
                         Swal.showValidationMessage('Por favor selecciona una fecha');
+                        return false;
+                    }
+
+                    const fechaMax = fechaMaxReservaISO();
+                    if (fecha > fechaMax) {
+                        Swal.showValidationMessage(`Solo puedes reservar hasta ${fechaMax}`);
                         return false;
                     }
                     
@@ -1542,7 +1557,7 @@ if ($mesa_seleccionada_id) {
                         ${tipoDia ? `<p style="color: var(--gold-color); margin-bottom: 15px;">📅 <strong>${tipoDia}</strong>: Horario de ${minHora} a ${maxHora}</p>` : ''}
                         
                         <label class="reserva-form-label">Fecha de Reserva:</label>
-                        <input type="date" id="fecha" class="swal2-input" min="${fechaLocalISO()}" value="${datosGuardados?.fecha || fechaLocalISO()}">
+                        <input type="date" id="fecha" class="swal2-input" min="${fechaLocalISO()}" max="${fechaMaxReservaISO()}" value="${datosGuardados?.fecha || fechaLocalISO()}">
                         
                         <label class="reserva-form-label">Hora de Reserva:</label>
                         <input type="time" id="hora" class="swal2-input" min="${minHora}" max="${maxHora}" step="60" value="${datosGuardados?.hora || new Date().toTimeString().slice(0,5)}">
@@ -1577,6 +1592,12 @@ if ($mesa_seleccionada_id) {
                     // Validaciones en el cliente
                     if (!fecha || !hora || !personasRaw) {
                         Swal.showValidationMessage('Por favor complete todos los campos');
+                        return false;
+                    }
+
+                    const fechaMax = fechaMaxReservaISO();
+                    if (fecha > fechaMax) {
+                        Swal.showValidationMessage(`Solo puedes reservar hasta ${fechaMax}`);
                         return false;
                     }
 
@@ -1693,8 +1714,10 @@ if ($mesa_seleccionada_id) {
         <?php
         $tz = new DateTimeZone('America/Guayaquil');
         $fechaHoyServidor = (new DateTime('now', $tz))->format('Y-m-d');
+        $fechaMaxReserva = (new DateTime('now', $tz))->modify('+14 days')->format('Y-m-d');
         ?>
         window.FECHA_HOY_SERVIDOR = "<?php echo $fechaHoyServidor; ?>";
+        window.FECHA_MAX_RESERVA = "<?php echo $fechaMaxReserva; ?>";
     </script>
 
     <!-- Script de reserva de zonas -->

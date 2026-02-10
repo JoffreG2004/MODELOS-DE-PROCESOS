@@ -49,6 +49,11 @@ try {
         if ($fechaObj < $hoy) {
             throw new Exception('No se pueden hacer reservas con fechas pasadas');
         }
+        $maxAdelanto = new DateTime('today', $tz);
+        $maxAdelanto->modify('+14 days');
+        if ($fechaObj > $maxAdelanto) {
+            throw new Exception('Solo se permiten reservas desde hoy hasta 14 días en adelante');
+        }
     }
 
     // Bloqueo por reserva de zona (si la reserva quedará activa/pendiente)
@@ -62,7 +67,7 @@ try {
                 SELECT rz.id, rz.hora_reserva, rz.zonas
                 FROM reservas_zonas rz
                 WHERE rz.fecha_reserva = ?
-                  AND rz.estado IN ('pendiente', 'confirmada')
+                  AND rz.estado IN ('confirmada', 'preparando', 'en_curso')
             ");
             $stmtZona->execute([$fecha_final]);
             while ($row = $stmtZona->fetch(PDO::FETCH_ASSOC)) {

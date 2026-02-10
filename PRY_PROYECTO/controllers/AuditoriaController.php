@@ -169,7 +169,7 @@ class AuditoriaController {
     public function obtenerHistorialReserva($reservaId) {
         try {
             $stmt = $this->pdo->prepare("
-                SELECT ar.*, a.nombre as admin_nombre_completo
+                SELECT ar.*, CONCAT(COALESCE(a.nombre,''), ' ', COALESCE(a.apellido,'')) as admin_nombre_completo
                 FROM auditoria_reservas ar
                 LEFT JOIN administradores a ON ar.admin_id = a.id
                 WHERE ar.reserva_id = ?
@@ -184,9 +184,40 @@ class AuditoriaController {
     }
     
     /**
+     * Obtener acciones recientes sobre reservas (global o por admin)
+     */
+    public function obtenerHistorialReservas($limite = 50, $adminId = null) {
+        try {
+            $query = "
+                SELECT 
+                    ar.*,
+                    CONCAT(COALESCE(a.nombre,''), ' ', COALESCE(a.apellido,'')) as admin_nombre_completo
+                FROM auditoria_reservas ar
+                LEFT JOIN administradores a ON ar.admin_id = a.id
+            ";
+            $params = [];
+
+            if ($adminId !== null) {
+                $query .= " WHERE ar.admin_id = ? ";
+                $params[] = (int)$adminId;
+            }
+
+            $query .= " ORDER BY ar.fecha_accion DESC LIMIT ? ";
+            $params[] = (int)$limite;
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            error_log("Error obteniendo historial global de reservas: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Obtener acciones de un administrador
      */
-    public function obtenerAccionesAdmin($adminId, $fechaInicio = null, $fechaFin = null) {
+    public function obtenerAccionesAdmin($adminId, $fechaInicio = null, $fechaFin = null, $limite = 200) {
         try {
             $query = "
                 SELECT 'horarios' as tipo, accion, fecha_cambio as fecha, 
@@ -221,8 +252,10 @@ class AuditoriaController {
             } else {
                 $stmt->execute([$adminId, $adminId]);
             }
-            
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $limite = max(1, (int)$limite);
+            return array_slice($rows, 0, $limite);
         } catch (Exception $e) {
             error_log("Error obteniendo acciones del admin: " . $e->getMessage());
             return [];

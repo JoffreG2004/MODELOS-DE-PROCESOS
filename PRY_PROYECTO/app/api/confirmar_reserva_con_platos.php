@@ -99,6 +99,22 @@ try {
             throw new Exception('El restaurante está cerrado en esta fecha');
         }
     }
+
+    // Validar ventana de reserva: hoy hasta +14 días
+    $tz = new DateTimeZone('America/Guayaquil');
+    $fechaObj = DateTime::createFromFormat('Y-m-d', $fecha_reserva, $tz);
+    if (!$fechaObj) {
+        throw new Exception('Fecha de reserva inválida');
+    }
+    $hoy = new DateTime('today', $tz);
+    $maxAdelanto = new DateTime('today', $tz);
+    $maxAdelanto->modify('+14 days');
+    if ($fechaObj < $hoy) {
+        throw new Exception('No se pueden hacer reservas con fechas pasadas');
+    }
+    if ($fechaObj > $maxAdelanto) {
+        throw new Exception('Solo se permiten reservas desde hoy hasta 14 días en adelante');
+    }
     
     // Determinar horario según día de la semana
     // Priorizar horarios específicos, si no existen usar horarios generales
@@ -139,15 +155,15 @@ try {
         throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' no está disponible');
     }
 
-    // Bloqueo por reserva de zona: si existe una reserva de zona para esa fecha y zona,
-    // no permitir reservas normales que inicien menos de 3 horas antes del inicio de la zona.
+    // Bloqueo por reserva de zona confirmada/activa: si existe una reserva de zona
+    // confirmada para esa fecha y zona, no permitir reservas normales en el mismo bloque.
     if (!empty($mesa['ubicacion'])) {
         $hora_normal = $hora_reserva;
         $stmtZona = $pdo->prepare("
             SELECT rz.id, rz.hora_reserva, rz.zonas
             FROM reservas_zonas rz
             WHERE rz.fecha_reserva = ?
-              AND rz.estado IN ('pendiente', 'confirmada')
+              AND rz.estado IN ('confirmada', 'preparando', 'en_curso')
         ");
         $stmtZona->execute([$fecha_reserva]);
         while ($row = $stmtZona->fetch(PDO::FETCH_ASSOC)) {
@@ -178,7 +194,7 @@ try {
         throw new Exception('La mesa ' . $mesa['numero_mesa'] . ' permite máximo ' . $mesa['capacidad_maxima'] . ' personas. Seleccionaste ' . $numero_personas);
     }
     
-    // Bloquear si ya existe una reserva CONFIRMADA (o activa) en el mismo bloque de 3 horas
+    // Bloquear si ya existe una reserva confirmada/activa en el mismo bloque de 3 horas
     $duracion_horas = 3;
     $hora_inicio_dt = DateTime::createFromFormat('H:i:s', $hora_reserva) ?: DateTime::createFromFormat('H:i', $hora_reserva);
     if (!$hora_inicio_dt) {
