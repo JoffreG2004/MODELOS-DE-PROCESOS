@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/../models/Cliente.php';
+require_once __DIR__ . '/../utils/security/password_utils.php';
 
 class AuthController {
     private $clienteModel;
@@ -37,6 +38,11 @@ class AuthController {
      * Registro de cliente
      */
     public function registroCliente($data) {
+        $validacionPassword = validarPoliticaPasswordSegura($data['password'] ?? '');
+        if (!$validacionPassword['valido']) {
+            return ['success' => false, 'message' => $validacionPassword['mensaje']];
+        }
+
         // Validar que no exista el email
         if ($this->clienteModel->emailExiste($data['email'])) {
             return ['success' => false, 'message' => 'El email ya está registrado'];

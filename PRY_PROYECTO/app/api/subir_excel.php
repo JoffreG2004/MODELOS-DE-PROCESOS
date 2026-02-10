@@ -1,12 +1,35 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, X-HTTP-Method-Override');
 
 require_once '../../conexion/db.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// Soportar preflight CORS
+$requestMethod = strtoupper($_SERVER['REQUEST_METHOD'] ?? '');
+if ($requestMethod === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+// Compatibilidad: algunos entornos envían override
+$methodOverride = strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] ?? '');
+if ($methodOverride !== '') {
+    $requestMethod = $methodOverride;
+}
+
+$contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+$esMultipart = stripos($contentType, 'multipart/form-data') !== false;
+$hayArchivo = isset($_FILES['excel_file']);
+
+if ($requestMethod !== 'POST' && !($esMultipart || $hayArchivo)) {
     http_response_code(405);
-    echo json_encode(['ok' => false, 'message' => 'Método no permitido']);
+    echo json_encode([
+        'ok' => false,
+        'message' => 'Método no permitido',
+        'method_received' => $requestMethod !== '' ? $requestMethod : 'UNKNOWN'
+    ]);
     exit;
 }
 

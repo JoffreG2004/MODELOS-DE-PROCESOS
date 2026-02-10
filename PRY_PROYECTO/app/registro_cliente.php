@@ -22,10 +22,22 @@ try {
     $ciudad = trim($_POST['ciudad'] ?? '');
     $usuario = trim($_POST['usuario'] ?? '');
     $password = $_POST['password'] ?? '';
+    $passwordConfirm = $_POST['password_confirm'] ?? null;
     $email = trim($_POST['email'] ?? '');
 
     if (!$nombre || !$apellido || !$cedula || !$telefono || !$usuario || !$password) {
         echo json_encode(['success' => false, 'message' => 'Faltan campos requeridos']);
+        exit;
+    }
+
+    if ($passwordConfirm !== null && !hash_equals((string)$password, (string)$passwordConfirm)) {
+        echo json_encode(['success' => false, 'message' => 'Las contraseñas no coinciden']);
+        exit;
+    }
+
+    $validacionPassword = validarPoliticaPasswordSegura($password);
+    if (!$validacionPassword['valido']) {
+        echo json_encode(['success' => false, 'message' => $validacionPassword['mensaje']]);
         exit;
     }
 

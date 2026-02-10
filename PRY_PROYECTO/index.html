@@ -1729,6 +1729,13 @@
                                     </div>
                                 </div>
 
+                                <div class="text-end mb-3">
+                                    <button type="button" class="btn btn-link p-0 auth-hint"
+                                        onclick="solicitarRecuperacionPassword()">
+                                        ¿Olvidaste tu contraseña?
+                                    </button>
+                                </div>
+
                                 <div id="loginErrorCliente" class="alert alert-danger d-none" role="alert">
                                 </div>
 
@@ -1807,11 +1814,28 @@
                                         <i class="bi bi-lock"></i> Contraseña
                                     </label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="regPassword" required
+                                        <input type="password" class="form-control" id="regPassword" required minlength="8"
+                                            pattern="(?=.*[A-Z])(?=.*\d).{8,}"
                                             placeholder="Elige una contraseña">
                                         <button class="btn btn-outline-secondary" type="button"
                                             onclick="togglePasswordCliente('registro')">
                                             <i class="bi bi-eye" id="toggleIconRegistro"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text">Mínimo 8 caracteres, al menos 1 mayúscula y 1 número.</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="regPasswordConfirm" class="form-label">
+                                        <i class="bi bi-shield-lock"></i> Repetir Contraseña
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="regPasswordConfirm" required minlength="8"
+                                            pattern="(?=.*[A-Z])(?=.*\d).{8,}"
+                                            placeholder="Repite tu contraseña">
+                                        <button class="btn btn-outline-secondary" type="button"
+                                            onclick="togglePasswordCliente('registro_confirm')">
+                                            <i class="bi bi-eye" id="toggleIconRegistroConfirm"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -2326,6 +2350,84 @@
                     toggleIcon.classList.remove('bi-eye-slash');
                     toggleIcon.classList.add('bi-eye');
                 }
+            } else if (tipo === 'registro_confirm') {
+                const passwordInput = document.getElementById('regPasswordConfirm');
+                const toggleIcon = document.getElementById('toggleIconRegistroConfirm');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.classList.remove('bi-eye');
+                    toggleIcon.classList.add('bi-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    toggleIcon.classList.remove('bi-eye-slash');
+                    toggleIcon.classList.add('bi-eye');
+                }
+            }
+        }
+
+        async function solicitarRecuperacionPassword() {
+            const modalClienteEl = document.getElementById('ModalCliente');
+            const swalTarget = modalClienteEl || document.body;
+
+            const input = await Swal.fire({
+                title: 'Recuperar contraseña',
+                text: 'Ingresa tu usuario o correo registrado',
+                input: 'text',
+                inputPlaceholder: 'usuario o correo',
+                target: swalTarget,
+                keydownListenerCapture: true,
+                showCancelButton: true,
+                confirmButtonText: 'Enviar enlace',
+                cancelButtonText: 'Cancelar',
+                didOpen: () => {
+                    const swalInput = Swal.getInput();
+                    if (swalInput) {
+                        swalInput.removeAttribute('readonly');
+                        swalInput.focus();
+                    }
+                },
+                inputValidator: (value) => {
+                    if (!value || !value.trim()) {
+                        return 'Debes ingresar un valor';
+                    }
+                    return null;
+                }
+            });
+
+            if (!input.isConfirmed) return;
+
+            const identificador = (input.value || '').trim();
+            if (!identificador) return;
+
+            const formData = new FormData();
+            formData.append('identificador', identificador);
+
+            try {
+                Swal.fire({
+                    title: 'Procesando',
+                    html: '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+
+                const response = await fetch('app/solicitar_recuperacion_password.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                Swal.fire({
+                    icon: data.success ? 'success' : 'error',
+                    title: data.success ? 'Solicitud enviada' : 'No se pudo procesar',
+                    text: data.message || 'Revisa tu bandeja de entrada y spam.'
+                });
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo procesar la solicitud. Intenta nuevamente.'
+                });
             }
         }
 
@@ -2456,15 +2558,29 @@
             const usuario = document.getElementById('regUsuario').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value.trim();
+            const passwordConfirm = document.getElementById('regPasswordConfirm').value.trim();
             const errorDiv = document.getElementById('registroErrorCliente');
 
             // Validación
-            if (!nombre || !apellido || !cedula || !telefono || !ciudad || !usuario || !email || !password) {
+            if (!nombre || !apellido || !cedula || !telefono || !ciudad || !usuario || !email || !password || !passwordConfirm) {
                 errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Por favor complete todos los campos';
                 errorDiv.classList.remove('d-none');
                 return;
             } else {
                 errorDiv.classList.add('d-none');
+            }
+
+            const passwordPolicy = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!passwordPolicy.test(password)) {
+                errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle"></i> La contraseña debe tener mínimo 8 caracteres, 1 mayúscula y 1 número';
+                errorDiv.classList.remove('d-none');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Las contraseñas no coinciden';
+                errorDiv.classList.remove('d-none');
+                return;
             }
 
             const formData = new FormData();
@@ -2476,6 +2592,7 @@
             formData.append('usuario', usuario);
             formData.append('email', email);
             formData.append('password', password);
+            formData.append('password_confirm', passwordConfirm);
 
             // Mostrar loading
             Swal.fire({

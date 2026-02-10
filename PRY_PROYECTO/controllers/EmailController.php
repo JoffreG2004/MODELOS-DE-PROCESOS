@@ -232,6 +232,23 @@ class EmailController {
             return ['success' => false, 'error' => $e->getMessage()];
         }
     }
+
+    /**
+     * Compatibilidad interna: envía a n8n y registra resultado en notificaciones_email.
+     */
+    private function enviarAN8N($payload, $reservaId, $tipo) {
+        $resultado = $this->enviarWebhookN8N($payload);
+
+        $this->registrarCorreo(
+            $reservaId,
+            $payload['to'] ?? '',
+            $tipo,
+            $resultado['success'] ? 'Enviado exitosamente' : ($resultado['error'] ?? 'Error enviando correo'),
+            $resultado['success'] ? 'enviado' : 'fallido'
+        );
+
+        return $resultado;
+    }
     
     /**
      * Formatear fecha para mostrar
@@ -417,6 +434,112 @@ class EmailController {
         </body>
         </html>';
         
+        return $html;
+    }
+
+    /**
+     * Enviar correo de recuperación de contraseña con token temporal.
+     */
+    public function enviarCorreoRecuperacionPassword($cliente, $resetUrl, $expiraMinutos = 30) {
+        try {
+            if (!$this->n8nConfig['auto_send_enabled']) {
+                return ['success' => false, 'error' => 'Envío automático de correos deshabilitado'];
+            }
+
+            if (empty($cliente['correo'])) {
+                return ['success' => false, 'error' => 'Cliente sin correo electrónico'];
+            }
+
+            $emailData = [
+                'restaurant_name' => $this->n8nConfig['restaurant_name'],
+                'restaurant_phone' => $this->n8nConfig['restaurant_phone'],
+                'restaurant_address' => $this->n8nConfig['restaurant_address'],
+                'restaurant_website' => $this->n8nConfig['restaurant_website'],
+                'cliente_nombre' => $cliente['nombre'] ?? '',
+                'cliente_apellido' => $cliente['apellido'] ?? '',
+                'reset_url' => $resetUrl,
+                'expira_minutos' => (int)$expiraMinutos
+            ];
+
+            $payload = [
+                'to' => $cliente['correo'],
+                'to_name' => trim(($cliente['nombre'] ?? '') . ' ' . ($cliente['apellido'] ?? '')),
+                'from' => $this->n8nConfig['from_email'],
+                'from_name' => $this->n8nConfig['from_name'],
+                'subject' => '🔐 Recuperación de contraseña - ' . $this->n8nConfig['restaurant_name'],
+                'html' => $this->generarHTMLRecuperacionPassword($emailData),
+                'tipo' => 'recuperacion_password',
+                'cliente_id' => $cliente['id'] ?? null
+            ];
+
+            if ($this->n8nConfig['test_mode']) {
+                return [
+                    'success' => true,
+                    'message' => 'Modo de prueba - correo de recuperación no enviado realmente',
+                    'test_mode' => true
+                ];
+            }
+
+            return $this->enviarWebhookN8N($payload);
+
+        } catch (Exception $e) {
+            error_log("Error enviando correo de recuperación de contraseña: " . $e->getMessage());
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    /**
+     * HTML para recuperación de contraseña.
+     */
+    private function generarHTMLRecuperacionPassword($data) {
+        $nombreCompleto = trim(($data['cliente_nombre'] ?? '') . ' ' . ($data['cliente_apellido'] ?? ''));
+        if ($nombreCompleto === '') {
+            $nombreCompleto = 'Cliente';
+        }
+
+        $html = '
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset=\"UTF-8\">
+            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+            <style>
+                body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+                .container { max-width: 600px; margin: 20px auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+                .header { background: linear-gradient(135deg, #1f2937 0%, #111827 100%); color: white; padding: 32px 24px; text-align: center; }
+                .header h1 { margin: 0; font-size: 24px; }
+                .content { padding: 28px 24px; color: #374151; }
+                .alert-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 14px; border-radius: 6px; margin: 16px 0; }
+                .btn { display: inline-block; background: #2563eb; color: #ffffff !important; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; }
+                .copy-box { word-break: break-all; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 10px; font-size: 12px; color: #4b5563; margin-top: 16px; }
+                .footer { background: #f9fafb; padding: 20px 24px; text-align: center; font-size: 13px; color: #6b7280; }
+            </style>
+        </head>
+        <body>
+            <div class=\"container\">
+                <div class=\"header\">
+                    <h1>Restablecer contraseña</h1>
+                </div>
+                <div class=\"content\">
+                    <p>Hola <strong>' . htmlspecialchars($nombreCompleto) . '</strong>,</p>
+                    <p>Recibimos una solicitud para restablecer tu contraseña.</p>
+                    <div class=\"alert-box\">
+                        Este enlace caduca en <strong>' . (int)$data['expira_minutos'] . ' minutos</strong> y solo puede usarse una vez.
+                    </div>
+                    <p style=\"text-align:center;\">
+                        <a class=\"btn\" href=\"' . htmlspecialchars($data['reset_url']) . '\">Cambiar mi contraseña</a>
+                    </p>
+                    <p>Si no fuiste tú, ignora este correo.</p>
+                    <div class=\"copy-box\">Enlace directo: ' . htmlspecialchars($data['reset_url']) . '</div>
+                </div>
+                <div class=\"footer\">
+                    <p><strong>' . htmlspecialchars($data['restaurant_name']) . '</strong></p>
+                    <p>📞 ' . htmlspecialchars($data['restaurant_phone']) . ' | 📍 ' . htmlspecialchars($data['restaurant_address']) . '</p>
+                </div>
+            </div>
+        </body>
+        </html>';
+
         return $html;
     }
     

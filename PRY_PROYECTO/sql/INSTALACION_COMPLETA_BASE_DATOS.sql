@@ -154,6 +154,7 @@ CREATE TABLE `reservas` (
   `fecha_reserva` date NOT NULL,
   `hora_reserva` time NOT NULL,
   `numero_personas` int(11) NOT NULL,
+  `duracion_horas` decimal(5,2) NOT NULL DEFAULT 3.00 COMMENT 'Compatibilidad legacy: duración en horas',
   `estado` enum('pendiente','confirmada','preparando','en_curso','finalizada','cancelada') DEFAULT 'pendiente',
   `motivo_cancelacion` VARCHAR(255) NULL DEFAULT NULL,
   `duracion_estimada` int(11) DEFAULT 120 COMMENT 'Duración estimada en minutos',
@@ -369,6 +370,27 @@ INSERT INTO `configuracion_duraciones` (`id`, `nombre`, `minutos`, `descripcion`
 (4, 'Evento', 480, 'Evento grande - 8 horas', 1),
 (5, 'Medio día', 720, 'Alquiler medio día - 12 horas', 1),
 (6, 'Día completo', 1440, 'Alquiler día completo - 24 horas', 1);
+
+-- Tokens de recuperación de contraseña (clientes)
+DROP TABLE IF EXISTS `password_reset_tokens`;
+CREATE TABLE `password_reset_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cliente_id` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `token_hash` char(64) NOT NULL,
+  `requested_identifier` varchar(100) DEFAULT NULL,
+  `requested_ip` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `expires_at` datetime NOT NULL,
+  `used_at` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_token_hash` (`token_hash`),
+  KEY `idx_cliente_estado` (`cliente_id`,`used_at`,`expires_at`),
+  KEY `idx_email_created` (`email`,`created_at`),
+  CONSTRAINT `fk_password_reset_cliente` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+COMMENT='Tokens de recuperación de contraseña de un solo uso';
 
 -- =============================================
 -- SECCIÓN 12: TABLA notificaciones_whatsapp

@@ -25,6 +25,20 @@ if (!function_exists('hashPasswordSeguro')) {
     }
 }
 
+if (!function_exists('permitirPasswordPlanoLegacy')) {
+    function permitirPasswordPlanoLegacy() {
+        $valor = $_ENV['ALLOW_LEGACY_PLAINTEXT_PASSWORDS']
+            ?? $_SERVER['ALLOW_LEGACY_PLAINTEXT_PASSWORDS']
+            ?? getenv('ALLOW_LEGACY_PLAINTEXT_PASSWORDS');
+
+        if ($valor === false || $valor === null) {
+            return false;
+        }
+
+        return in_array(strtolower((string)$valor), ['1', 'true', 'yes', 'on'], true);
+    }
+}
+
 if (!function_exists('verificarPasswordSeguro')) {
     function verificarPasswordSeguro($passwordPlano, $passwordGuardado) {
         if (!is_string($passwordGuardado) || $passwordGuardado === '') {
@@ -33,6 +47,11 @@ if (!function_exists('verificarPasswordSeguro')) {
 
         if (esPasswordHash($passwordGuardado)) {
             return password_verify((string)$passwordPlano, $passwordGuardado);
+        }
+
+        // Compatibilidad legacy opcional: por seguridad está DESACTIVADO por defecto.
+        if (!permitirPasswordPlanoLegacy()) {
+            return false;
         }
 
         return hash_equals((string)$passwordGuardado, (string)$passwordPlano);
@@ -48,3 +67,22 @@ if (!function_exists('requiereRehashPassword')) {
     }
 }
 
+if (!function_exists('validarPoliticaPasswordSegura')) {
+    function validarPoliticaPasswordSegura($passwordPlano) {
+        $password = (string)$passwordPlano;
+
+        if (strlen($password) < 8) {
+            return ['valido' => false, 'mensaje' => 'La contraseña debe tener mínimo 8 caracteres'];
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            return ['valido' => false, 'mensaje' => 'La contraseña debe incluir al menos 1 letra mayúscula'];
+        }
+
+        if (!preg_match('/\d/', $password)) {
+            return ['valido' => false, 'mensaje' => 'La contraseña debe incluir al menos 1 número'];
+        }
+
+        return ['valido' => true, 'mensaje' => ''];
+    }
+}
