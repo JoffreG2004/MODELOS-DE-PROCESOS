@@ -9,6 +9,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 // Conectar a la base de datos
 require_once '../conexion/db.php';
+require_once '../utils/security/password_utils.php';
 
 // Verificar método POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -39,7 +40,18 @@ try {
         if ($res && $res->num_rows === 1) {
             $cliente = $res->fetch_assoc();
             // verificar contraseña
-            if (isset($cliente['password_hash']) && password_verify($password, $cliente['password_hash'])) {
+            if (isset($cliente['password_hash']) && verificarPasswordSeguro($password, $cliente['password_hash'])) {
+                if (!esPasswordHash($cliente['password_hash']) || requiereRehashPassword($cliente['password_hash'])) {
+                    $nuevoHash = hashPasswordSeguro($password);
+                    $updHash = $mysqli->prepare("UPDATE clientes SET password_hash = ? WHERE id = ?");
+                    if ($updHash) {
+                        $updHash->bind_param('si', $nuevoHash, $cliente['id']);
+                        $updHash->execute();
+                        $updHash->close();
+                    }
+                }
+
+                session_regenerate_id(true);
                 // Crear sesión
                 $_SESSION['cliente_id'] = $cliente['id'];
                 $_SESSION['cliente_nombre'] = $cliente['nombre'];

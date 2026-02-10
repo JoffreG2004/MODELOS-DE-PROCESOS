@@ -7,6 +7,7 @@ require_once '../validacion/ValidadorNombres.php';
 require_once '../validacion/ValidadorCedula.php';
 require_once '../validacion/ValidadorUsuario.php';
 require_once '../validacion/ValidadorTelefono.php';
+require_once '../utils/security/password_utils.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
@@ -83,7 +84,7 @@ try {
     $telefono = ValidadorTelefono::limpiar($telefono);
 
     // Insertar nuevo cliente
-    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $password_hash = hashPasswordSeguro($password);
     $stmt = $mysqli->prepare("INSERT INTO clientes (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     if (!$stmt) throw new Exception('Error en prepare: ' . $mysqli->error);
     $stmt->bind_param('ssssssss', $nombre, $apellido, $cedula, $telefono, $ciudad, $usuario, $password_hash, $email);
@@ -95,6 +96,7 @@ try {
     $stmt->close();
 
     // Crear sesión automática
+    session_regenerate_id(true);
     $_SESSION['cliente_id'] = $new_id;
     $_SESSION['cliente_nombre'] = $nombre;
     $_SESSION['cliente_apellido'] = $apellido;

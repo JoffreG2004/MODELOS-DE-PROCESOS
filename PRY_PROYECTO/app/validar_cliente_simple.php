@@ -3,6 +3,7 @@ session_start();
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../conexion/db.php';
+require_once __DIR__ . '/../utils/security/password_utils.php';
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -58,8 +59,19 @@ try {
             'email' => $email
         ];
 
-        // Comparación directa de password (sin hash)
-        if ($cliente['password_hash'] === $password) {
+        if (verificarPasswordSeguro($password, $cliente['password_hash'])) {
+            // Si el password está en texto plano o requiere rehash, actualizarlo al formato seguro
+            if (!esPasswordHash($cliente['password_hash']) || requiereRehashPassword($cliente['password_hash'])) {
+                $nuevoHash = hashPasswordSeguro($password);
+                $upd = $mysqli->prepare("UPDATE clientes SET password_hash = ? WHERE id = ?");
+                if ($upd) {
+                    $upd->bind_param('si', $nuevoHash, $cliente['id']);
+                    $upd->execute();
+                    $upd->close();
+                }
+            }
+
+            session_regenerate_id(true);
             // Create session
             $_SESSION['cliente_id'] = $cliente['id'];
             $_SESSION['cliente_usuario'] = $cliente['usuario'];
@@ -84,10 +96,10 @@ try {
                 ]
             ]);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Contraseña incorrecta']);
+            echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos']);
         }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Usuario no encontrado']);
+        echo json_encode(['success' => false, 'message' => 'Usuario o contraseña incorrectos']);
     }
 
     if ($stmt) $stmt->close();

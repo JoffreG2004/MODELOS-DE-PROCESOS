@@ -28,8 +28,10 @@ try {
 } catch (PDOException $e) {
     error_log("PDO connection error: " . $e->getMessage());
     // Para APIs que requieren JSON, lanzar excepción
-    if (strpos($_SERVER['REQUEST_URI'], '/api/') !== false || 
-        strpos($_SERVER['SCRIPT_NAME'], 'obtener_') !== false) {
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+    if (strpos($requestUri, '/api/') !== false || 
+        strpos($scriptName, 'obtener_') !== false) {
         http_response_code(500);
         header('Content-Type: application/json');
         die(json_encode([

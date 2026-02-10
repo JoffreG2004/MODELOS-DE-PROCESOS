@@ -5,6 +5,7 @@
  */
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../utils/security/password_utils.php';
 
 class Cliente {
     private $db;
@@ -61,12 +62,12 @@ class Cliente {
      */
     public function create($data) {
         $query = "INSERT INTO {$this->table} 
-                  (nombre, apellido, email, telefono, password) 
+                  (nombre, apellido, email, telefono, password_hash) 
                   VALUES (?, ?, ?, ?, ?)";
         
         $stmt = $this->db->prepare($query);
         
-        $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+        $passwordHash = hashPasswordSeguro($data['password']);
         
         return $stmt->execute([
             $data['nombre'],
@@ -83,9 +84,14 @@ class Cliente {
     public function validarCredenciales($email, $password) {
         $cliente = $this->getByEmail($email);
         
-        if ($cliente && password_verify($password, $cliente['password'])) {
+        if ($cliente && isset($cliente['password_hash']) && verificarPasswordSeguro($password, $cliente['password_hash'])) {
+            if (!esPasswordHash($cliente['password_hash']) || requiereRehashPassword($cliente['password_hash'])) {
+                $nuevoHash = hashPasswordSeguro($password);
+                $upd = $this->db->prepare("UPDATE {$this->table} SET password_hash = ? WHERE id = ?");
+                $upd->execute([$nuevoHash, $cliente['id']]);
+            }
             // No retornar el password
-            unset($cliente['password']);
+            unset($cliente['password_hash']);
             return $cliente;
         }
         
@@ -115,9 +121,9 @@ class Cliente {
      * Cambiar password
      */
     public function cambiarPassword($id, $newPassword) {
-        $query = "UPDATE {$this->table} SET password = ? WHERE id = ?";
+        $query = "UPDATE {$this->table} SET password_hash = ? WHERE id = ?";
         $stmt = $this->db->prepare($query);
-        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+        $passwordHash = hashPasswordSeguro($newPassword);
         return $stmt->execute([$passwordHash, $id]);
     }
     

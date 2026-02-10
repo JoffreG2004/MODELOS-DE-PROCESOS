@@ -19,6 +19,8 @@ class ReservaZonas {
             'vip': '👑 Área VIP',
             'bar': '🍸 Bar & Lounge'
         };
+        this.aforoPorZona = {};
+        this.aforoCargado = false;
     }
 
     obtenerFechaLocalISO(fecha = new Date()) {
@@ -84,7 +86,59 @@ class ReservaZonas {
         Swal.fire({
             title: '🎉 Reserva de Zona Completa',
             html: `
-                <div class="text-start">
+                <style>
+                    .swal2-popup.reserva-zona-modal {
+                        width: min(700px, calc(100vw - 24px)) !important;
+                        max-width: 700px !important;
+                        margin: 0 auto !important;
+                        padding: clamp(14px, 2vw, 22px) !important;
+                    }
+
+                    .swal2-popup.reserva-zona-modal .swal2-html-container {
+                        margin: 0 !important;
+                        max-height: min(72vh, 650px) !important;
+                        overflow-y: auto !important;
+                        overflow-x: hidden !important;
+                        padding-right: 6px !important;
+                    }
+
+                    .swal2-popup.reserva-zona-modal .zona-check-item {
+                        display: flex !important;
+                        align-items: flex-start !important;
+                        gap: 10px !important;
+                        overflow: visible !important;
+                    }
+
+                    .swal2-popup.reserva-zona-modal .zona-checkbox {
+                        position: static !important;
+                        opacity: 1 !important;
+                        width: 18px !important;
+                        height: 18px !important;
+                        margin: 5px 0 0 0 !important;
+                        flex: 0 0 auto !important;
+                        accent-color: #d4af37 !important;
+                        pointer-events: none !important;
+                    }
+
+                    .swal2-popup.reserva-zona-modal .zona-check-item .form-check-label {
+                        padding-left: 0 !important;
+                        display: block !important;
+                    }
+
+                    .swal2-popup.reserva-zona-modal .zona-check-item .form-check-label::before,
+                    .swal2-popup.reserva-zona-modal .zona-check-item .form-check-label::after {
+                        content: none !important;
+                    }
+
+                    @media (max-width: 768px) {
+                        .swal2-popup.reserva-zona-modal .swal2-title {
+                            font-size: 1.85rem !important;
+                            line-height: 1.2 !important;
+                        }
+                    }
+                </style>
+
+                <div class="text-start reserva-zona-contenido">
                     <div class="alert alert-info mb-4">
                         <strong>💡 Precios de reserva por zonas:</strong><br>
                         <small style="line-height: 1.6;">
@@ -105,6 +159,11 @@ class ReservaZonas {
                     <div id="precioSeleccion" class="alert alert-success mt-3" style="display: none;">
                         <strong>💰 Precio total: $<span id="precioTotal">0</span></strong><br>
                         <small><span id="zonasSeleccionadasText"></span></small>
+                    </div>
+
+                    <div id="aforoSeleccion" class="alert alert-secondary mt-3">
+                        <strong id="aforoTitulo">👥 Aforo máximo</strong>: <span id="aforoTotalSeleccion">-</span> personas<br>
+                        <small id="aforoDetalleSeleccion">Selecciona una o más zonas para calcular el aforo.</small>
                     </div>
 
                     <hr class="my-4">
@@ -137,10 +196,10 @@ class ReservaZonas {
                             Número de Personas
                         </label>
                         <input type="number" class="form-control" id="personasReservaZona" 
-                               min="1" max="100" value="1" required placeholder="Máximo 100 personas"
+                               min="1" value="1" required placeholder="Selecciona zonas para calcular aforo"
                                step="1" inputmode="numeric" pattern="\\d*"
                                style="color: var(--text-primary) !important;">
-                        <small class="text-muted">Máximo 100 personas (aforo)</small>
+                        <small class="text-muted" id="aforoHint">El aforo se calcula por zonas: sillas disponibles + 10 personas de pie por zona.</small>
                     </div>
 
                     <div class="alert alert-warning mt-3">
@@ -152,7 +211,8 @@ class ReservaZonas {
                     </div>
                 </div>
             `,
-            width: '650px',
+            width: '95vw',
+            heightAuto: false,
             showCancelButton: true,
             confirmButtonText: '<i class="fas fa-paper-plane"></i> Solicitar Reserva',
             cancelButtonText: '<i class="fas fa-times"></i> Cancelar',
@@ -178,6 +238,7 @@ class ReservaZonas {
                         this.actualizarHorarioZona(dateInput.value);
                     });
                 }
+                this.cargarAforoBasePorZona();
             },
             preConfirm: () => {
                 if (this.zonasSeleccionadas.size === 0) {
@@ -215,11 +276,6 @@ class ReservaZonas {
                     return false;
                 }
 
-                if (personas > 100) {
-                    Swal.showValidationMessage('👥 Máximo 100 personas (aforo)');
-                    return false;
-                }
-
                 // Validar que la fecha no sea pasada (se permite hoy o futuro)
                 const today = this.obtenerFechaMinima();
                 if (fecha < today) {
@@ -233,6 +289,20 @@ class ReservaZonas {
                 if (hora < inicio || hora > fin) {
                     Swal.showValidationMessage(`⏰ Horario disponible: ${inicio} - ${fin}`);
                     return false;
+                }
+
+                if (this.aforoCargado) {
+                    const aforoSeleccion = this.calcularAforoSeleccionado();
+                    if (aforoSeleccion.aforoTotal <= 0) {
+                        Swal.showValidationMessage('👥 No hay aforo disponible en las zonas seleccionadas');
+                        return false;
+                    }
+                    if (personas > aforoSeleccion.aforoTotal) {
+                        Swal.showValidationMessage(
+                            `👥 Capacidad insuficiente: máximo ${aforoSeleccion.aforoTotal} personas (${aforoSeleccion.totalSillas} sillas + ${aforoSeleccion.totalParados} de pie)`
+                        );
+                        return false;
+                    }
                 }
 
                 return {
@@ -284,6 +354,158 @@ class ReservaZonas {
         this.actualizarPrecio();
     }
 
+    async cargarAforoBasePorZona() {
+        const base = {};
+        Object.keys(this.nombresZonas).forEach((zona) => {
+            base[zona] = { mesas: 0, sillas: 0, parados: 0, aforoTotal: 0 };
+        });
+
+        this.aforoPorZona = base;
+        this.aforoCargado = false;
+        this.actualizarAforoSeleccionado();
+
+        try {
+            const response = await fetch('app/api/mesas_estado.php', { cache: 'no-store' });
+            const data = await response.json();
+            if (!data.success || !Array.isArray(data.mesas)) {
+                return;
+            }
+
+            data.mesas.forEach((mesa) => {
+                const zona = mesa.ubicacion || mesa.tipo;
+                if (!base[zona]) {
+                    return;
+                }
+
+                const estadoOriginal = String(mesa.estado_original || mesa.estado || '').toLowerCase();
+                if (estadoOriginal !== 'disponible') {
+                    return;
+                }
+
+                const capacidadMesa = parseInt(mesa.capacidad_maxima ?? mesa.capacidad ?? 0, 10) || 0;
+                base[zona].mesas += 1;
+                base[zona].sillas += capacidadMesa;
+            });
+
+            Object.keys(base).forEach((zona) => {
+                base[zona].parados = base[zona].mesas > 0 ? 10 : 0;
+                base[zona].aforoTotal = base[zona].sillas + base[zona].parados;
+            });
+
+            this.aforoPorZona = base;
+            this.aforoCargado = true;
+            this.actualizarAforoSeleccionado();
+        } catch (error) {
+            this.aforoCargado = false;
+            this.actualizarAforoSeleccionado();
+        }
+    }
+
+    calcularAforoSeleccionado() {
+        const seleccion = Array.from(this.zonasSeleccionadas);
+        const detalle = seleccion.map((zona) => {
+            const aforoZona = this.aforoPorZona[zona] || { mesas: 0, sillas: 0, parados: 0, aforoTotal: 0 };
+            return {
+                zona,
+                nombre: this.nombresZonas[zona] || zona,
+                mesas: aforoZona.mesas,
+                sillas: aforoZona.sillas,
+                parados: aforoZona.parados,
+                aforoTotal: aforoZona.aforoTotal
+            };
+        });
+
+        const totalSillas = detalle.reduce((sum, zona) => sum + zona.sillas, 0);
+        const totalParados = detalle.reduce((sum, zona) => sum + zona.parados, 0);
+        const aforoTotal = detalle.reduce((sum, zona) => sum + zona.aforoTotal, 0);
+
+        return { detalle, totalSillas, totalParados, aforoTotal };
+    }
+
+    actualizarAforoSeleccionado() {
+        const aforoDiv = document.getElementById('aforoSeleccion');
+        const aforoTitulo = document.getElementById('aforoTitulo');
+        const aforoTotalSpan = document.getElementById('aforoTotalSeleccion');
+        const aforoDetalle = document.getElementById('aforoDetalleSeleccion');
+        const aforoHint = document.getElementById('aforoHint');
+        const personasInput = document.getElementById('personasReservaZona');
+        const cantidad = this.zonasSeleccionadas.size;
+
+        if (cantidad === 0) {
+            if (aforoDiv) {
+                aforoDiv.style.display = 'block';
+            }
+            if (aforoTitulo) {
+                aforoTitulo.textContent = '👥 Aforo máximo';
+            }
+            if (aforoTotalSpan) {
+                aforoTotalSpan.textContent = '-';
+            }
+            if (aforoDetalle) {
+                aforoDetalle.textContent = 'Selecciona una o más zonas para calcular el aforo.';
+            }
+            if (personasInput) {
+                personasInput.removeAttribute('max');
+                personasInput.placeholder = 'Selecciona zonas para calcular aforo';
+            }
+            if (aforoHint) {
+                aforoHint.textContent = 'El aforo se calcula por zonas: sillas disponibles + 10 personas de pie por zona.';
+            }
+            return;
+        }
+
+        if (aforoDiv) {
+            aforoDiv.style.display = 'block';
+        }
+
+        if (!this.aforoCargado) {
+            if (aforoTitulo) {
+                aforoTitulo.textContent = '👥 Aforo máximo';
+            }
+            if (aforoTotalSpan) {
+                aforoTotalSpan.textContent = '...';
+            }
+            if (aforoDetalle) {
+                aforoDetalle.textContent = 'Calculando aforo dinámico...';
+            }
+            if (aforoHint) {
+                aforoHint.textContent = 'Calculando aforo dinámico de las zonas seleccionadas...';
+            }
+            if (personasInput) {
+                personasInput.removeAttribute('max');
+            }
+            return;
+        }
+
+        const aforoSeleccion = this.calcularAforoSeleccionado();
+        const detalleTexto = aforoSeleccion.detalle
+            .map((zona) => `${zona.nombre}: ${zona.aforoTotal} (${zona.sillas} sillas + ${zona.parados} de pie)`)
+            .join(' | ');
+
+        if (aforoTitulo) {
+            if (cantidad === 1 && aforoSeleccion.detalle[0]) {
+                aforoTitulo.textContent = `👥 Aforo máximo de ${aforoSeleccion.detalle[0].nombre}`;
+            } else if (cantidad === 4) {
+                aforoTitulo.textContent = '👥 Aforo máximo de todo el establecimiento';
+            } else {
+                aforoTitulo.textContent = `👥 Aforo máximo entre ${cantidad} zonas seleccionadas`;
+            }
+        }
+        if (aforoTotalSpan) {
+            aforoTotalSpan.textContent = String(aforoSeleccion.aforoTotal);
+        }
+        if (aforoDetalle) {
+            aforoDetalle.textContent = detalleTexto || 'Sin datos de aforo';
+        }
+        if (personasInput) {
+            personasInput.max = String(aforoSeleccion.aforoTotal);
+            personasInput.placeholder = `Máximo ${aforoSeleccion.aforoTotal} personas`;
+        }
+        if (aforoHint) {
+            aforoHint.textContent = `Aforo calculado: ${aforoSeleccion.totalSillas} sillas + ${aforoSeleccion.totalParados} de pie = ${aforoSeleccion.aforoTotal} personas.`;
+        }
+    }
+
     actualizarPrecio() {
         const cantidad = this.zonasSeleccionadas.size;
         const precio = this.precios[cantidad] || 0;
@@ -313,6 +535,8 @@ class ReservaZonas {
         } else if (precioDiv) {
             precioDiv.style.display = 'none';
         }
+
+        this.actualizarAforoSeleccionado();
     }
 
     async crearReservaZona(data) {
@@ -363,6 +587,7 @@ class ReservaZonas {
                                 <div class="col-md-6">
                                     <h6 class="text-success mb-3">💰 Información de Pago</h6>
                                     <p class="mb-2"><strong>🪑 Mesas incluidas:</strong> ${result.data.cantidad_mesas}</p>
+                                    <p class="mb-2"><strong>👥 Aforo máximo:</strong> ${(result.data.capacidad && typeof result.data.capacidad.aforo_total !== 'undefined') ? result.data.capacidad.aforo_total : 'N/D'} personas</p>
                                     <p class="mb-3"><strong>� Total a pagar:</strong> 
                                         <span class="badge bg-success fs-6">$${result.data.precio_total}</span>
                                     </p>

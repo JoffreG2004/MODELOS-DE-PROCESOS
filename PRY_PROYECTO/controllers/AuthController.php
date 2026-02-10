@@ -20,6 +20,7 @@ class AuthController {
         $cliente = $this->clienteModel->validarCredenciales($email, $password);
         
         if ($cliente) {
+            session_regenerate_id(true);
             $_SESSION['cliente_id'] = $cliente['id'];
             $_SESSION['cliente_nombre'] = $cliente['nombre'];
             $_SESSION['cliente_apellido'] = $cliente['apellido'];
@@ -46,6 +47,7 @@ class AuthController {
             // Auto-login
             $cliente = $this->clienteModel->getByEmail($data['email']);
             
+            session_regenerate_id(true);
             $_SESSION['cliente_id'] = $cliente['id'];
             $_SESSION['cliente_nombre'] = $cliente['nombre'];
             $_SESSION['cliente_apellido'] = $cliente['apellido'];

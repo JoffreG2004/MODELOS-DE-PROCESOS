@@ -7,6 +7,7 @@ require_once __DIR__ . '/../validacion/ValidadorNombres.php';
 require_once __DIR__ . '/../validacion/ValidadorCedula.php';
 require_once __DIR__ . '/../validacion/ValidadorUsuario.php';
 require_once __DIR__ . '/../validacion/ValidadorTelefono.php';
+require_once __DIR__ . '/../utils/security/password_utils.php';
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -110,7 +111,7 @@ try {
     $apellido = ValidadorNombres::limpiar($apellido);
     $telefono = ValidadorTelefono::limpiar($telefono);
     
-    // Insertar nuevo cliente (password sin hash en columna password_hash)
+    // Insertar nuevo cliente con contraseña hasheada
     $insert_sql = "INSERT INTO clientes (nombre, apellido, cedula, telefono, ciudad, usuario, password_hash, email) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $insert_stmt = $mysqli->prepare($insert_sql);
@@ -119,13 +120,15 @@ try {
         throw new Exception('Error al preparar inserción: ' . $mysqli->error);
     }
     
-    $insert_stmt->bind_param('ssssssss', $nombre, $apellido, $cedula, $telefono, $ciudad, $usuario, $password, $email);
+    $passwordHash = hashPasswordSeguro($password);
+    $insert_stmt->bind_param('ssssssss', $nombre, $apellido, $cedula, $telefono, $ciudad, $usuario, $passwordHash, $email);
     
     if ($insert_stmt->execute()) {
         $nuevo_id = $insert_stmt->insert_id;
         $insert_stmt->close();
         
         // Crear sesión automáticamente después del registro
+        session_regenerate_id(true);
         $_SESSION['cliente_id'] = $nuevo_id;
         $_SESSION['cliente_usuario'] = $usuario;
         $_SESSION['cliente_nombre'] = $nombre;

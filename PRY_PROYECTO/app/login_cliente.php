@@ -43,6 +43,7 @@ try {
 
     // Iniciar sesión
     session_start();
+    session_regenerate_id(true);
     $_SESSION['cliente_authenticated'] = true;
     $_SESSION['cliente_id'] = $cliente['id'];
     $_SESSION['cliente_nombre'] = $cliente['nombre'] . ' ' . $cliente['apellido'];

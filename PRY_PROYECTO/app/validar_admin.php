@@ -4,6 +4,7 @@ session_start();
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../conexion/db.php';
+require_once __DIR__ . '/../utils/security/password_utils.php';
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -63,15 +64,20 @@ try {
             exit;
         }
 
-        $password_ok = false;
-        if (!empty($admin['password']) && password_verify($password, $admin['password'])) {
-            $password_ok = true;
-        } elseif ($admin['password'] === $password) {
-            // temporary fallback for plaintext passwords
-            $password_ok = true;
+        $password_ok = verificarPasswordSeguro($password, $admin['password']);
+
+        if ($password_ok && (!esPasswordHash($admin['password']) || requiereRehashPassword($admin['password']))) {
+            $nuevoHash = hashPasswordSeguro($password);
+            $updPass = $mysqli->prepare("UPDATE administradores SET password = ? WHERE id = ?");
+            if ($updPass) {
+                $updPass->bind_param('si', $nuevoHash, $admin['id']);
+                $updPass->execute();
+                $updPass->close();
+            }
         }
 
         if ($password_ok) {
+            session_regenerate_id(true);
             // Create session
             $_SESSION['admin_id'] = $admin['id'];
             $_SESSION['admin_usuario'] = $admin['usuario'];

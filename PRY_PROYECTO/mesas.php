@@ -1699,7 +1699,7 @@ if ($mesa_seleccionada_id) {
     </script>
 
     <!-- Script de reserva de zonas -->
-    <script src="public/js/reserva-zonas.js"></script>
+    <script src="public/js/reserva-zonas.js?v=20260210-aforo2"></script>
 
     <!-- Script de Seguridad: Deshabilitar click derecho en formularios -->
     <script src="public/js/security.js"></script>

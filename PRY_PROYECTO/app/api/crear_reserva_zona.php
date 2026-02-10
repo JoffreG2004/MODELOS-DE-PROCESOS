@@ -44,6 +44,13 @@ try {
         exit;
     }
 
+    $nombres_zonas = [
+        'interior' => 'Salón Principal',
+        'terraza' => 'Terraza',
+        'vip' => 'Área VIP',
+        'bar' => 'Bar & Lounge'
+    ];
+
     if (empty($fecha_reserva) || empty($hora_reserva)) {
         echo json_encode(['success' => false, 'message' => 'Fecha y hora son requeridas']);
         exit;
@@ -125,8 +132,8 @@ try {
         exit;
     }
     
-    // Validación de número de personas: solo enteros (sin puntos ni comas) hasta aforo 100
-    $validacionPersonas = ValidadorReserva::validarNumeroPersonas($numero_personas, 1, 100);
+    // Validación de número de personas: solo enteros (sin puntos ni comas)
+    $validacionPersonas = ValidadorReserva::validarNumeroPersonas($numero_personas, 1, null);
     if (!$validacionPersonas['valido']) {
         echo json_encode(['success' => false, 'message' => $validacionPersonas['mensaje']]);
         exit;
@@ -145,41 +152,89 @@ try {
     $cantidad_zonas = count($zonas);
     $precio_total = $precios[$cantidad_zonas] ?? $precios[1];
     
-    // Contar las mesas totales DISPONIBLES en las zonas seleccionadas
-    // Y verificar que la capacidad máxima total sea suficiente
+    // Calcular aforo dinámico por zonas:
+    // aforo por zona = total de sillas + 10 personas de pie
     $placeholders = str_repeat('?,', count($zonas) - 1) . '?';
     $query_mesas = "
-        SELECT COUNT(*) as total_mesas, COALESCE(SUM(capacidad_maxima), 0) as capacidad_total
+        SELECT ubicacion, COUNT(*) as total_mesas, COALESCE(SUM(capacidad_maxima), 0) as total_sillas
         FROM mesas 
         WHERE ubicacion IN ($placeholders)
         AND estado = 'disponible'
+        GROUP BY ubicacion
     ";
     $stmt = $pdo->prepare($query_mesas);
     if (!$stmt->execute(array_values($zonas))) {
         echo json_encode(['success' => false, 'message' => 'Error al validar mesas disponibles']);
         exit;
     }
-    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    // Asegurar conversión correcta de tipos
-    $cantidad_mesas = (int)($resultado['total_mesas'] ?? 0);
-    $capacidad_total = (int)($resultado['capacidad_total'] ?? 0);
-    
-    // Validar que hay mesas disponibles
-    if ($cantidad_mesas <= 0) {
-        echo json_encode(['success' => false, 'message' => 'No hay mesas disponibles en las zonas seleccionadas']);
+    $resultadoZonas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $aforo_por_zona = [];
+    foreach ($zonas as $zona) {
+        $aforo_por_zona[$zona] = [
+            'zona' => $zona,
+            'nombre' => $nombres_zonas[$zona] ?? $zona,
+            'mesas' => 0,
+            'sillas' => 0,
+            'personas_paradas' => 0,
+            'aforo_total' => 0
+        ];
+    }
+
+    foreach ($resultadoZonas as $fila) {
+        $zona = $fila['ubicacion'];
+        if (!isset($aforo_por_zona[$zona])) {
+            continue;
+        }
+
+        $mesasZona = (int)($fila['total_mesas'] ?? 0);
+        $sillasZona = (int)($fila['total_sillas'] ?? 0);
+        $paradosZona = $mesasZona > 0 ? 10 : 0;
+
+        $aforo_por_zona[$zona]['mesas'] = $mesasZona;
+        $aforo_por_zona[$zona]['sillas'] = $sillasZona;
+        $aforo_por_zona[$zona]['personas_paradas'] = $paradosZona;
+        $aforo_por_zona[$zona]['aforo_total'] = $sillasZona + $paradosZona;
+    }
+
+    $detalle_aforo = array_values($aforo_por_zona);
+    $zonasSinMesas = array_values(array_filter($detalle_aforo, function ($zona) {
+        return (int)$zona['mesas'] <= 0;
+    }));
+
+    if (!empty($zonasSinMesas)) {
+        $nombresSinMesas = array_map(function ($zona) {
+            return $zona['nombre'];
+        }, $zonasSinMesas);
+        echo json_encode([
+            'success' => false,
+            'message' => 'No hay mesas disponibles en las zonas seleccionadas: ' . implode(', ', $nombresSinMesas)
+        ]);
         exit;
     }
-    
-    // Validar que hay mesas disponibles
-    if ($cantidad_mesas <= 0) {
-        echo json_encode(['success' => false, 'message' => 'No hay mesas disponibles en las zonas seleccionadas']);
-        exit;
-    }
-    
-    // Validar que la capacidad total es suficiente para el número de personas
-    if ($capacidad_total < $numero_personas) {
-        echo json_encode(['success' => false, 'message' => 'Capacidad insuficiente en las zonas seleccionadas para ' . $numero_personas . ' personas. Máximo disponible: ' . $capacidad_total]);
+
+    $cantidad_mesas = array_sum(array_map(function ($zona) {
+        return (int)$zona['mesas'];
+    }, $detalle_aforo));
+    $total_sillas = array_sum(array_map(function ($zona) {
+        return (int)$zona['sillas'];
+    }, $detalle_aforo));
+    $total_personas_paradas = array_sum(array_map(function ($zona) {
+        return (int)$zona['personas_paradas'];
+    }, $detalle_aforo));
+    $aforo_total = array_sum(array_map(function ($zona) {
+        return (int)$zona['aforo_total'];
+    }, $detalle_aforo));
+
+    // Validar aforo total dinámico
+    if ($aforo_total < $numero_personas) {
+        $detalleTexto = implode(' | ', array_map(function ($zona) {
+            return "{$zona['nombre']}: {$zona['aforo_total']} ({$zona['sillas']} sillas + {$zona['personas_paradas']} de pie)";
+        }, $detalle_aforo));
+        echo json_encode([
+            'success' => false,
+            'message' => 'Capacidad insuficiente en las zonas seleccionadas para ' . $numero_personas . ' personas. Máximo disponible: ' . $aforo_total . ' (' . $total_sillas . ' sillas + ' . $total_personas_paradas . ' de pie). Detalle por zona: ' . $detalleTexto
+        ]);
         exit;
     }
     
@@ -233,14 +288,6 @@ try {
     
     $reserva_id = $pdo->lastInsertId();
     
-    // Nombres de zonas para mostrar
-    $nombres_zonas = [
-        'interior' => 'Salón Principal',
-        'terraza' => 'Terraza',
-        'vip' => 'Área VIP',
-        'bar' => 'Bar & Lounge'
-    ];
-    
     $zonas_texto = array_map(function($z) use ($nombres_zonas) {
         return $nombres_zonas[$z] ?? $z;
     }, $zonas);
@@ -252,6 +299,12 @@ try {
             'reserva_id' => $reserva_id,
             'zonas' => $zonas_texto,
             'cantidad_mesas' => $cantidad_mesas,
+            'capacidad' => [
+                'aforo_total' => $aforo_total,
+                'total_sillas' => $total_sillas,
+                'total_personas_paradas' => $total_personas_paradas,
+                'detalle_zonas' => $detalle_aforo
+            ],
             'precio_total' => $precio_total,
             'fecha' => $fecha_reserva,
             'hora' => $hora_reserva,
