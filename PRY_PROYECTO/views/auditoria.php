@@ -22,16 +22,19 @@ $admin_id = $_SESSION['admin_id'];
         :root {
             --dark-bg: #0a0e27;
             --dark-card: #151932;
+            --dark-soft: #1f2646;
             --accent-gold: #ffd700;
             --accent-cyan: #00d4ff;
-            --text-primary: #ffffff;
-            --text-secondary: #a0aec0;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-strong: #e2e8f0;
         }
 
         body {
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
             color: var(--text-primary);
-            font-family: Inter, Segoe UI, sans-serif;
+            font-family: "Inter", "Segoe UI", sans-serif;
+            letter-spacing: 0.01em;
         }
 
         .panel-shell {
@@ -44,6 +47,7 @@ $admin_id = $_SESSION['admin_id'];
             border: 1px solid rgba(255, 215, 0, 0.18);
             border-radius: 16px;
             color: var(--text-primary);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
         }
 
         .card .text-muted,
@@ -72,24 +76,50 @@ $admin_id = $_SESSION['admin_id'];
             font-size: 0.84rem;
             color: #dbeafe;
             overflow-x: auto;
+            border: 1px solid rgba(148, 163, 184, 0.22);
         }
 
         .diff-removed { background: rgba(239, 68, 68, 0.15); color: #fecaca; }
         .diff-added { background: rgba(34, 197, 94, 0.15); color: #bbf7d0; }
 
+        .form-label {
+            color: var(--text-strong);
+            font-weight: 600;
+        }
+
         .form-select,
         .form-control {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 215, 0, 0.25);
-            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.28);
+            color: #ffffff;
         }
 
         .form-select:focus,
         .form-control:focus {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             color: #fff;
             border-color: var(--accent-gold);
             box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.2);
+        }
+
+        .form-select option {
+            background: #111827;
+            color: #f8fafc;
+        }
+
+        .toolbar-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.25);
+        }
+
+        .search-hint {
+            color: #e2e8f0;
+            font-size: 0.92rem;
+        }
+
+        .result-meta {
+            color: #93c5fd;
+            font-weight: 600;
         }
 
         .btn-primary {
@@ -102,10 +132,31 @@ $admin_id = $_SESSION['admin_id'];
             background: linear-gradient(135deg, #16a34a, #15803d);
         }
 
+        .btn-outline-light {
+            border-color: rgba(248, 250, 252, 0.35);
+            color: #f8fafc;
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(248, 250, 252, 0.16);
+            color: #fff;
+        }
+
         .alert-info {
             background: rgba(14, 165, 233, 0.12);
             border: 1px solid rgba(14, 165, 233, 0.35);
             color: #bae6fd;
+        }
+
+        .stats-title {
+            font-size: 1.85rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .stats-title {
+                font-size: 1.45rem;
+            }
         }
     </style>
 </head>
@@ -114,7 +165,7 @@ $admin_id = $_SESSION['admin_id'];
         <div class="row mb-4">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2><i class="bi bi-clipboard-data"></i> Auditoría del Sistema</h2>
+                    <h2 class="stats-title"><i class="bi bi-clipboard-data"></i> Auditoría del Sistema</h2>
                     <div>
                         <span class="badge bg-primary me-2"><?php echo htmlspecialchars($admin_nombre); ?></span>
                         <a href="../admin.php" class="btn btn-secondary">
@@ -162,10 +213,10 @@ $admin_id = $_SESSION['admin_id'];
         </div>
 
         <!-- Filtros -->
-        <div class="card mb-4">
+        <div class="card toolbar-card mb-4">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
+                <div class="row g-3">
+                    <div class="col-md-3">
                         <label class="form-label">Tipo de Auditoría</label>
                         <select id="tipo-auditoria" class="form-select">
                             <option value="horarios">Cambios de Horarios</option>
@@ -174,7 +225,7 @@ $admin_id = $_SESSION['admin_id'];
                             <option value="resumen">Resumen General</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label class="form-label">Límite de Registros</label>
                         <select id="limite" class="form-select">
                             <option value="25">25</option>
@@ -184,17 +235,46 @@ $admin_id = $_SESSION['admin_id'];
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label class="form-label">&nbsp;</label>
-                        <button class="btn btn-primary w-100" onclick="cargarAuditoria()">
-                            <i class="bi bi-search"></i> Buscar
+                        <label class="form-label">Texto</label>
+                        <input id="filtro-texto" type="text" class="form-control" placeholder="Admin, acción, IP, motivo...">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Desde</label>
+                        <input id="fecha-inicio" type="date" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Hasta</label>
+                        <input id="fecha-fin" type="date" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-1 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label">ID Reserva (opcional)</label>
+                        <input id="filtro-reserva-id" type="number" min="1" class="form-control" placeholder="Solo para tipo Reservas">
+                    </div>
+                    <div class="col-md-3 d-grid">
+                        <button class="btn btn-primary" onclick="cargarAuditoria()">
+                            <i class="bi bi-search me-1"></i> Buscar
+                        </button>
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button class="btn btn-outline-light" onclick="limpiarFiltrosAuditoria()">
+                            <i class="bi bi-eraser me-1"></i> Limpiar
+                        </button>
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button class="btn btn-success" onclick="exportarCSV()">
+                            <i class="bi bi-file-earmark-excel me-1"></i> Exportar
                         </button>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label">&nbsp;</label>
-                        <button class="btn btn-success w-100" onclick="exportarCSV()">
-                            <i class="bi bi-file-earmark-excel"></i> Exportar
-                        </button>
+                        <div id="info-resultados" class="result-meta">Sin búsqueda</div>
                     </div>
+                </div>
+
+                <div class="mt-3 search-hint">
+                    Usa texto y fechas para filtrar. Si eliges "Reservas", también puedes buscar por ID de reserva.
                 </div>
             </div>
         </div>
@@ -249,6 +329,61 @@ $admin_id = $_SESSION['admin_id'];
             return data;
         }
 
+        function obtenerParametrosBusqueda() {
+            const tipo = document.getElementById('tipo-auditoria').value;
+            const limite = document.getElementById('limite').value;
+            const texto = (document.getElementById('filtro-texto').value || '').trim();
+            const fechaInicio = document.getElementById('fecha-inicio').value || '';
+            const fechaFin = document.getElementById('fecha-fin').value || '';
+            const reservaIdRaw = document.getElementById('filtro-reserva-id').value || '';
+            const reservaId = reservaIdRaw ? parseInt(reservaIdRaw, 10) : null;
+
+            return {
+                tipo,
+                limite,
+                texto,
+                fechaInicio,
+                fechaFin,
+                reservaId: Number.isInteger(reservaId) && reservaId > 0 ? reservaId : null
+            };
+        }
+
+        function actualizarInfoResultados(texto) {
+            const el = document.getElementById('info-resultados');
+            if (el) {
+                el.textContent = texto;
+            }
+        }
+
+        function limpiarFiltrosAuditoria() {
+            document.getElementById('filtro-texto').value = '';
+            document.getElementById('fecha-inicio').value = '';
+            document.getElementById('fecha-fin').value = '';
+            document.getElementById('filtro-reserva-id').value = '';
+            actualizarInfoResultados('Filtros limpiados');
+            cargarAuditoria();
+        }
+        window.limpiarFiltrosAuditoria = limpiarFiltrosAuditoria;
+
+        function activarEventosFiltros() {
+            const camposEnter = ['filtro-texto', 'filtro-reserva-id', 'fecha-inicio', 'fecha-fin'];
+            camposEnter.forEach((id) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        cargarAuditoria();
+                    }
+                });
+            });
+            ['tipo-auditoria', 'limite'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('change', () => cargarAuditoria());
+            });
+        }
+
         // Cargar resumen al inicio
         cargarResumen();
 
@@ -268,8 +403,12 @@ $admin_id = $_SESSION['admin_id'];
         }
 
         async function cargarAuditoria() {
-            const tipo = document.getElementById('tipo-auditoria').value;
-            const limite = document.getElementById('limite').value;
+            const filtros = obtenerParametrosBusqueda();
+
+            if (filtros.fechaInicio && filtros.fechaFin && filtros.fechaInicio > filtros.fechaFin) {
+                Swal.fire('Fechas inválidas', 'La fecha "Desde" no puede ser mayor que "Hasta".', 'warning');
+                return;
+            }
             
             Swal.fire({
                 title: 'Cargando...',
@@ -280,14 +419,26 @@ $admin_id = $_SESSION['admin_id'];
             });
             
             try {
-                const data = await fetchJsonSeguro(`${AUDITORIA_API}?tipo=${encodeURIComponent(tipo)}&limite=${encodeURIComponent(limite)}`);
+                const params = new URLSearchParams();
+                params.set('tipo', filtros.tipo);
+                params.set('limite', filtros.limite);
+                if (filtros.texto) params.set('q', filtros.texto);
+                if (filtros.fechaInicio) params.set('fecha_inicio', filtros.fechaInicio);
+                if (filtros.fechaFin) params.set('fecha_fin', filtros.fechaFin);
+                if (filtros.reservaId && filtros.tipo === 'reservas') {
+                    params.set('reserva_id', String(filtros.reservaId));
+                }
+
+                const data = await fetchJsonSeguro(`${AUDITORIA_API}?${params.toString()}`);
                 
                 Swal.close();
                 
                 if (data.success) {
                     ultimoResultadoAuditoria = data;
-                    ultimoTipoAuditoria = tipo;
-                    mostrarResultados(data, tipo);
+                    ultimoTipoAuditoria = filtros.tipo;
+                    mostrarResultados(data, filtros.tipo);
+                    const total = Number(data.total ?? (Array.isArray(data.datos) ? data.datos.length : 0));
+                    actualizarInfoResultados(`${total} registro(s) encontrado(s)`);
                     if (data.warning) {
                         Swal.fire({
                             icon: 'warning',
@@ -301,6 +452,7 @@ $admin_id = $_SESSION['admin_id'];
                     Swal.fire('Error', data.message, 'error');
                 }
             } catch (error) {
+                actualizarInfoResultados('Error en búsqueda');
                 Swal.fire('Error', error.message || 'No se pudo cargar la auditoría', 'error');
                 console.error(error);
             }
@@ -348,9 +500,9 @@ $admin_id = $_SESSION['admin_id'];
                                         <i class="bi bi-clock-history"></i> Cambio de Horarios
                                     </h5>
                                     <p class="text-muted mb-2">
-                                        <span class="badge badge-admin">${item.admin}</span>
-                                        <span class="ms-2"><i class="bi bi-calendar"></i> ${item.fecha}</span>
-                                        <span class="ms-2"><i class="bi bi-geo-alt"></i> ${item.ip}</span>
+                                        <span class="badge badge-admin">${escaparHtml(item.admin)}</span>
+                                        <span class="ms-2"><i class="bi bi-calendar"></i> ${escaparHtml(item.fecha || '-')}</span>
+                                        <span class="ms-2"><i class="bi bi-geo-alt"></i> ${escaparHtml(item.ip || '-')}</span>
                                     </p>
                                 </div>
                                 <div class="text-end">
@@ -363,7 +515,7 @@ $admin_id = $_SESSION['admin_id'];
                             
                             ${item.observaciones ? `
                                 <div class="alert alert-warning mt-3 mb-0">
-                                    <i class="bi bi-exclamation-triangle"></i> ${item.observaciones}
+                                    <i class="bi bi-exclamation-triangle"></i> ${escaparHtml(item.observaciones)}
                                 </div>
                             ` : ''}
                             
@@ -414,13 +566,13 @@ $admin_id = $_SESSION['admin_id'];
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <span class="badge ${item.tipo === 'horarios' ? 'bg-info' : 'bg-success'}">
-                                        ${item.tipo.toUpperCase()}
+                                        ${escaparHtml((item.tipo || '').toUpperCase())}
                                     </span>
-                                    <strong class="ms-2">${item.accion}</strong>
+                                    <strong class="ms-2">${escaparHtml(item.accion || '-')}</strong>
                                 </div>
-                                <small class="text-muted">${item.fecha}</small>
+                                <small class="text-muted">${escaparHtml(item.fecha || '-')}</small>
                             </div>
-                            ${item.observaciones ? `<p class="mb-0 mt-2">${item.observaciones}</p>` : ''}
+                            ${item.observaciones ? `<p class="mb-0 mt-2">${escaparHtml(item.observaciones)}</p>` : ''}
                             ${item.reservas_afectadas ? `
                                 <span class="badge bg-warning text-dark mt-2">${item.reservas_afectadas} reservas afectadas</span>
                             ` : ''}
@@ -563,6 +715,11 @@ $admin_id = $_SESSION['admin_id'];
             a.remove();
             URL.revokeObjectURL(url);
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            activarEventosFiltros();
+            cargarAuditoria();
+        });
     </script>
 </body>
 </html>

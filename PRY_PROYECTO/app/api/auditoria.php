@@ -41,6 +41,31 @@ function safeDate($value) {
     return $ts ? date('d/m/Y H:i:s', $ts) : null;
 }
 
+function normalizeDate(?string $value): ?string {
+    $value = trim((string)$value);
+    if ($value === '') {
+        return null;
+    }
+    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+        return null;
+    }
+    [$y, $m, $d] = array_map('intval', explode('-', $value));
+    if (!checkdate($m, $d, $y)) {
+        return null;
+    }
+    return $value;
+}
+
+function bindStatementParams(PDOStatement $stmt, array $params): void {
+    foreach ($params as $key => $value) {
+        if (is_int($value)) {
+            $stmt->bindValue($key, $value, PDO::PARAM_INT);
+        } else {
+            $stmt->bindValue($key, $value, PDO::PARAM_STR);
+        }
+    }
+}
+
 try {
     $auditoriaController = new AuditoriaController($pdo);
 
@@ -48,6 +73,16 @@ try {
     $limite = isset($_GET['limite']) ? (int)$_GET['limite'] : 50;
     $limite = max(1, min($limite, 500));
     $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    $q = trim((string)($_GET['q'] ?? ''));
+    if (strlen($q) > 120) {
+        $q = substr($q, 0, 120);
+    }
+    $qLike = $q !== '' ? '%' . $q . '%' : null;
+    $fechaInicio = normalizeDate($_GET['fecha_inicio'] ?? null);
+    $fechaFin = normalizeDate($_GET['fecha_fin'] ?? null);
+    if ($fechaInicio && $fechaFin && $fechaInicio > $fechaFin) {
+        [$fechaInicio, $fechaFin] = [$fechaFin, $fechaInicio];
+    }
 
     $hasHorarios = tableExists($pdo, 'auditoria_horarios');
     $hasReservas = tableExists($pdo, 'auditoria_reservas');
@@ -84,13 +119,56 @@ try {
                         h.user_agent
                     FROM auditoria_horarios h
                     LEFT JOIN administradores u ON h.admin_id = u.id
-                    WHERE h.id = ?
+                    WHERE h.id = :id
                     LIMIT 1
                 ");
-                $stmt->execute([$id]);
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
                 $datosRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
             } else {
-                $datosRaw = $auditoriaController->obtenerHistorialHorarios($limite);
+                $sql = "
+                    SELECT 
+                        h.id,
+                        h.admin_id,
+                        CONCAT(COALESCE(u.nombre,''), ' ', COALESCE(u.apellido,'')) as admin_nombre,
+                        h.accion,
+                        h.fecha_cambio,
+                        h.configuracion_anterior,
+                        h.configuracion_nueva,
+                        h.reservas_afectadas,
+                        h.reservas_canceladas,
+                        h.notificaciones_enviadas,
+                        h.observaciones,
+                        h.ip_address,
+                        h.user_agent
+                    FROM auditoria_horarios h
+                    LEFT JOIN administradores u ON h.admin_id = u.id
+                    WHERE 1=1
+                ";
+                $params = [];
+                if ($fechaInicio) {
+                    $sql .= " AND DATE(h.fecha_cambio) >= :fecha_inicio ";
+                    $params[':fecha_inicio'] = $fechaInicio;
+                }
+                if ($fechaFin) {
+                    $sql .= " AND DATE(h.fecha_cambio) <= :fecha_fin ";
+                    $params[':fecha_fin'] = $fechaFin;
+                }
+                if ($qLike) {
+                    $sql .= " AND (
+                        CONCAT(COALESCE(u.nombre,''), ' ', COALESCE(u.apellido,'')) LIKE :q
+                        OR h.accion LIKE :q
+                        OR h.observaciones LIKE :q
+                        OR h.ip_address LIKE :q
+                    )";
+                    $params[':q'] = $qLike;
+                }
+                $sql .= " ORDER BY h.fecha_cambio DESC LIMIT :limite ";
+                $stmt = $pdo->prepare($sql);
+                bindStatementParams($stmt, $params);
+                $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+                $stmt->execute();
+                $datosRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
 
             $resultado = array_map(function($item) {
@@ -138,16 +216,54 @@ try {
                         CONCAT(COALESCE(a.nombre,''), ' ', COALESCE(a.apellido,'')) as admin_nombre_completo
                     FROM auditoria_reservas ar
                     LEFT JOIN administradores a ON ar.admin_id = a.id
-                    WHERE ar.id = ?
+                    WHERE ar.id = :id
                     LIMIT 1
                 ");
-                $stmt->execute([$id]);
+                $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                $stmt->execute();
                 $datosRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } elseif ($reservaIdFiltro) {
-                $datosRaw = $auditoriaController->obtenerHistorialReserva($reservaIdFiltro);
-                $datosRaw = array_slice($datosRaw, 0, $limite);
             } else {
-                $datosRaw = $auditoriaController->obtenerHistorialReservas($limite);
+                $sql = "
+                    SELECT 
+                        ar.*,
+                        CONCAT(COALESCE(a.nombre,''), ' ', COALESCE(a.apellido,'')) as admin_nombre_completo
+                    FROM auditoria_reservas ar
+                    LEFT JOIN administradores a ON ar.admin_id = a.id
+                    WHERE 1=1
+                ";
+                $params = [];
+
+                if ($reservaIdFiltro && $reservaIdFiltro > 0) {
+                    $sql .= " AND ar.reserva_id = :reserva_id ";
+                    $params[':reserva_id'] = $reservaIdFiltro;
+                }
+                if ($fechaInicio) {
+                    $sql .= " AND DATE(ar.fecha_accion) >= :fecha_inicio ";
+                    $params[':fecha_inicio'] = $fechaInicio;
+                }
+                if ($fechaFin) {
+                    $sql .= " AND DATE(ar.fecha_accion) <= :fecha_fin ";
+                    $params[':fecha_fin'] = $fechaFin;
+                }
+                if ($qLike) {
+                    $sql .= " AND (
+                        CAST(ar.reserva_id AS CHAR) LIKE :q
+                        OR ar.accion LIKE :q
+                        OR ar.estado_anterior LIKE :q
+                        OR ar.estado_nuevo LIKE :q
+                        OR ar.motivo LIKE :q
+                        OR CONCAT(COALESCE(a.nombre,''), ' ', COALESCE(a.apellido,'')) LIKE :q
+                        OR ar.ip_address LIKE :q
+                    )";
+                    $params[':q'] = $qLike;
+                }
+
+                $sql .= " ORDER BY ar.fecha_accion DESC LIMIT :limite ";
+                $stmt = $pdo->prepare($sql);
+                bindStatementParams($stmt, $params);
+                $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+                $stmt->execute();
+                $datosRaw = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
 
             $resultado = array_map(function($item) {
@@ -360,4 +476,3 @@ try {
         'message' => $e->getMessage()
     ]);
 }
-
