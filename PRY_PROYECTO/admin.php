@@ -1559,7 +1559,7 @@ try {
                                         </ul>
                                     </div>
                                     
-                                    <form id="formSubirExcel" enctype="multipart/form-data">
+                                    <form id="formSubirExcel" method="post" enctype="multipart/form-data" onsubmit="event.preventDefault(); subirExcelMenu(); return false;">
                                         <div class="mb-3">
                                             <label class="form-label">Seleccionar archivo Excel *</label>
                                             <input type="file" class="form-control" id="archivoExcel" 
@@ -3385,6 +3385,17 @@ try {
                 });
             }
         };
+
+        // Evitar submit clásico (GET) en navegadores/escenarios donde se presiona Enter
+        const formSubirExcel = document.getElementById('formSubirExcel');
+        if (formSubirExcel) {
+            formSubirExcel.addEventListener('submit', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.subirExcelMenu();
+                return false;
+            });
+        }
         
         // =================================================================
         // FILTRO DE RESERVAS POR MESA Y FECHA

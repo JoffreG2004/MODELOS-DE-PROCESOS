@@ -13,13 +13,127 @@ Uso:
       --mysql-user crud_proyecto --mysql-pass 12345
 """
 import argparse
+import re
 import sys
 import pymysql
 import pandas as pd
-from slugify import slugify
 
 CAT_SHEET = "categorias"
 PLA_SHEET = "platos"
+MAX_ISSUES_TO_PRINT = 30
+
+
+def clean_text(value, default=""):
+    if value is None or pd.isna(value):
+        return default
+    text = str(value).strip()
+    if text.lower() in {"nan", "none", "null"}:
+        return default
+    return text
+
+
+def parse_number(value):
+    """Acepta números como 12.5, 12,50, 1.234,56 o 1,234.56."""
+    if value is None or pd.isna(value):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+
+    text = clean_text(value)
+    if not text:
+        return None
+
+    # Quitar símbolos comunes de moneda/espacios
+    text = re.sub(r"[^\d,.\-]", "", text)
+    if not text:
+        return None
+
+    if "," in text and "." in text:
+        # Si la última coma aparece después del último punto, asumimos formato 1.234,56
+        if text.rfind(",") > text.rfind("."):
+            text = text.replace(".", "").replace(",", ".")
+        else:
+            # Formato 1,234.56
+            text = text.replace(",", "")
+    elif "," in text:
+        text = text.replace(",", ".")
+
+    return float(text)
+
+
+def to_binary(value, default, warnings, ctx, field):
+    if value is None or pd.isna(value):
+        return default
+
+    if isinstance(value, str):
+        raw = value.strip().lower()
+    else:
+        raw = str(value).strip().lower()
+
+    if raw in {"", "nan", "none", "null"}:
+        return default
+    if raw in {"1", "true", "t", "si", "sí", "yes", "y", "activo"}:
+        return 1
+    if raw in {"0", "false", "f", "no", "n", "inactivo"}:
+        return 0
+
+    try:
+        num = parse_number(value)
+        if num is None:
+            raise ValueError("vacío")
+        if num in (0.0, 1.0):
+            return int(num)
+        converted = 1 if num > 0 else 0
+        warnings.append(
+            f"{ctx}: {field}={value!r} no es binario, se convirtió a {converted}."
+        )
+        return converted
+    except Exception:
+        warnings.append(
+            f"{ctx}: {field}={value!r} inválido, se usó valor por defecto {default}."
+        )
+        return default
+
+
+def to_non_negative_int(value, default, warnings, ctx, field):
+    try:
+        num = parse_number(value)
+    except Exception:
+        warnings.append(
+            f"{ctx}: {field}={value!r} inválido, se usó valor por defecto {default}."
+        )
+        return default
+    if num is None:
+        return default
+
+    intval = int(round(num))
+    if abs(num - intval) > 1e-9:
+        warnings.append(f"{ctx}: {field}={value!r} se redondeó a {intval}.")
+    if intval < 0:
+        warnings.append(f"{ctx}: {field}={value!r} era negativo, se usó 0.")
+        return 0
+    return intval
+
+
+def to_non_negative_float(value, default, warnings, ctx, field):
+    try:
+        num = parse_number(value)
+    except Exception:
+        warnings.append(
+            f"{ctx}: {field}={value!r} inválido, se usó valor por defecto {default}."
+        )
+        return float(default)
+    if num is None:
+        return default
+    if num < 0:
+        warnings.append(f"{ctx}: {field}={value!r} era negativo, se usó 0.")
+        return 0.0
+    return float(num)
+
+
+def normalize_columns(df):
+    df.columns = [clean_text(c).lower() for c in df.columns]
+    return df
 
 def connect_mysql(host, db, user, pwd, charset="utf8mb4"):
     return pymysql.connect(
@@ -64,17 +178,14 @@ def upsert_categoria(conn, row, categorias_table='categorias'):
             c.execute(f"""
                 UPDATE {categorias_table} SET descripcion=%s, orden_menu=%s, activo=%s
                 WHERE id=%s
-            """, (row["descripcion"], int(row["orden_menu"]) if pd.notna(row["orden_menu"]) else None,
-                  int(row["activo"]) if pd.notna(row["activo"]) else 1, r["id"]))
+            """, (row["descripcion"], row["orden_menu"], row["activo"], r["id"]))
             return r["id"], "updated"
         else:
             # Insert
             c.execute(f"""
                 INSERT INTO {categorias_table} (nombre, descripcion, orden_menu, activo)
                 VALUES (%s,%s,%s,%s)
-            """, (row["nombre"], row["descripcion"],
-                  int(row["orden_menu"]) if pd.notna(row["orden_menu"]) else None,
-                  int(row["activo"]) if pd.notna(row["activo"]) else 1))
+            """, (row["nombre"], row["descripcion"], row["orden_menu"], row["activo"]))
             return c.lastrowid, "inserted"
 
 def upsert_plato(conn, row, categoria_id, platos_table='platos', available_columns=None):
@@ -95,13 +206,13 @@ def upsert_plato(conn, row, categoria_id, platos_table='platos', available_colum
         # Build values aligned with fields
         val_map = {
             "descripcion": row.get("descripcion", ""),
-            "precio": (float(row["precio"]) if pd.notna(row.get("precio")) else None),
-            "stock_disponible": (int(row["stock_disponible"]) if pd.notna(row.get("stock_disponible")) else 0),
-            "tiempo_preparacion": (int(row["tiempo_preparacion"]) if pd.notna(row.get("tiempo_preparacion")) else None),
+            "precio": row.get("precio", 0.0),
+            "stock_disponible": row.get("stock_disponible", 0),
+            "tiempo_preparacion": row.get("tiempo_preparacion", 0),
             "imagen_url": row.get("imagen_url", ""),
             "ingredientes": row.get("ingredientes", ""),
-            "es_especial": (int(row.get("es_especial", 0)) if pd.notna(row.get("es_especial")) else 0),
-            "activo": (int(row.get("activo", 1)) if pd.notna(row.get("activo")) else 1),
+            "es_especial": row.get("es_especial", 0),
+            "activo": row.get("activo", 1),
         }
 
         values = tuple(val_map[f] for f in fields)
@@ -151,24 +262,84 @@ def load_frames(path):
     cat_sheet_name = choose_sheet(CAT_SHEET, sheet_names)
     pla_sheet_name = choose_sheet(PLA_SHEET, sheet_names)
 
-    cats = pd.read_excel(xls, cat_sheet_name)
-    platos = pd.read_excel(xls, pla_sheet_name)
-    
-    # Llenar valores nulos con defaults - Compatible con pandas 2.x
-    cats = cats.fillna(value={"descripcion":"", "activo":1})
-    cats["orden_menu"] = cats["orden_menu"].fillna(0)
-    
-    platos = platos.fillna(value={
-        "descripcion":"", "precio":0, "stock_disponible":0, 
-        "tiempo_preparacion":0, "imagen_url":"", "ingredientes":"", 
-        "es_especial":0, "activo":1
-    })
-    
-    # Normalizaciones
-    cats["nombre"] = cats["nombre"].astype(str).str.strip()
-    platos["nombre"] = platos["nombre"].astype(str).str.strip()
-    platos["categoria"] = platos["categoria"].astype(str).str.strip()
+    cats = normalize_columns(pd.read_excel(xls, cat_sheet_name))
+    platos = normalize_columns(pd.read_excel(xls, pla_sheet_name))
+
+    # Columnas mínimas requeridas
+    if "nombre" not in cats.columns:
+        raise ValueError("La hoja de categorías debe incluir la columna 'nombre'.")
+    if "nombre" not in platos.columns or "categoria" not in platos.columns:
+        raise ValueError("La hoja de platos debe incluir columnas 'categoria' y 'nombre'.")
+
+    # Completar opcionales para evitar KeyError
+    for col, default in {
+        "descripcion": "",
+        "orden_menu": 0,
+        "activo": 1
+    }.items():
+        if col not in cats.columns:
+            cats[col] = default
+
+    for col, default in {
+        "descripcion": "",
+        "precio": 0,
+        "stock_disponible": 0,
+        "tiempo_preparacion": 0,
+        "imagen_url": "",
+        "ingredientes": "",
+        "es_especial": 0,
+        "activo": 1
+    }.items():
+        if col not in platos.columns:
+            platos[col] = default
+
+    # Normalizar textos clave
+    cats["nombre"] = cats["nombre"].apply(lambda v: clean_text(v))
+    platos["nombre"] = platos["nombre"].apply(lambda v: clean_text(v))
+    platos["categoria"] = platos["categoria"].apply(lambda v: clean_text(v))
+
     return cats, platos
+
+
+def sanitize_categoria_row(row, row_number, warnings, errors):
+    ctx = f"[categorias fila {row_number}]"
+    nombre = clean_text(row.get("nombre"))
+    if not nombre:
+        errors.append(f"{ctx} sin nombre, se omitió.")
+        return None
+
+    return {
+        "nombre": nombre,
+        "descripcion": clean_text(row.get("descripcion"), ""),
+        "orden_menu": to_non_negative_int(row.get("orden_menu"), 0, warnings, ctx, "orden_menu"),
+        "activo": to_binary(row.get("activo"), 1, warnings, ctx, "activo"),
+    }
+
+
+def sanitize_plato_row(row, row_number, warnings, errors):
+    ctx = f"[platos fila {row_number}]"
+    nombre = clean_text(row.get("nombre"))
+    categoria = clean_text(row.get("categoria"))
+
+    if not nombre:
+        errors.append(f"{ctx} sin nombre, se omitió.")
+        return None
+    if not categoria:
+        errors.append(f"{ctx} sin categoría, se omitió.")
+        return None
+
+    return {
+        "categoria": categoria,
+        "nombre": nombre,
+        "descripcion": clean_text(row.get("descripcion"), ""),
+        "precio": to_non_negative_float(row.get("precio"), 0.0, warnings, ctx, "precio"),
+        "stock_disponible": to_non_negative_int(row.get("stock_disponible"), 0, warnings, ctx, "stock_disponible"),
+        "tiempo_preparacion": to_non_negative_int(row.get("tiempo_preparacion"), 0, warnings, ctx, "tiempo_preparacion"),
+        "imagen_url": clean_text(row.get("imagen_url"), ""),
+        "ingredientes": clean_text(row.get("ingredientes"), ""),
+        "es_especial": to_binary(row.get("es_especial"), 0, warnings, ctx, "es_especial"),
+        "activo": to_binary(row.get("activo"), 1, warnings, ctx, "activo"),
+    }
 
 def main():
     ap = argparse.ArgumentParser()
@@ -182,6 +353,16 @@ def main():
 
     cats_df, platos_df = load_frames(args.input)
     conn = connect_mysql(args.mysql_host, args.mysql_db, args.mysql_user, args.mysql_pass)
+    warnings = []
+    errors = []
+    counters = {
+        "categorias_inserted": 0,
+        "categorias_updated": 0,
+        "categorias_skipped": 0,
+        "platos_inserted": 0,
+        "platos_updated": 0,
+        "platos_skipped": 0,
+    }
     try:
         # Detectar nombres de tablas y columnas reales para ser tolerante a cambios de esquema
         # Priorizar `categorias_platos` (usado en este proyecto) si existe
@@ -202,34 +383,76 @@ def main():
                 c.execute("SET FOREIGN_KEY_CHECKS=1")
                 print(f"✅ Tablas limpiadas: pre_pedidos, {platos_table}, {categorias_table}")
 
-        ensure_unique_indexes(conn, categorias_table=categorias_table, platos_table=platos_table)
+        try:
+            ensure_unique_indexes(conn, categorias_table=categorias_table, platos_table=platos_table)
+        except Exception as idx_err:
+            warnings.append(f"No se pudieron crear/validar índices únicos: {idx_err}")
 
         # Upsert categorías
         cat_map = {}
-        for _, row in cats_df.iterrows():
-            if not row["nombre"]:
+        for idx, row in cats_df.iterrows():
+            safe_row = sanitize_categoria_row(row, idx + 2, warnings, errors)
+            if not safe_row:
+                counters["categorias_skipped"] += 1
                 continue
-            cat_id, action = upsert_categoria(conn, row, categorias_table=categorias_table)
-            cat_map[row["nombre"]] = cat_id
+            try:
+                cat_id, action = upsert_categoria(conn, safe_row, categorias_table=categorias_table)
+                cat_map[safe_row["nombre"]] = cat_id
+                counters[f"categorias_{action}"] += 1
+            except Exception as row_err:
+                counters["categorias_skipped"] += 1
+                errors.append(f"[categorias fila {idx + 2}] error DB: {row_err}")
 
         # Upsert platos
-        for _, row in platos_df.iterrows():
-            if not row["nombre"] or not row["categoria"]:
+        for idx, row in platos_df.iterrows():
+            safe_row = sanitize_plato_row(row, idx + 2, warnings, errors)
+            if not safe_row:
+                counters["platos_skipped"] += 1
                 continue
-            categoria_name = row["categoria"]
+            categoria_name = safe_row["categoria"]
             if categoria_name not in cat_map:
                 # Crear categoría al vuelo si no está
-                cat_id, _ = upsert_categoria(conn, {
+                cat_id, action = upsert_categoria(conn, {
                     "nombre": categoria_name,
                     "descripcion": "",
-                    "orden_menu": None,
+                    "orden_menu": 0,
                     "activo": 1
                 }, categorias_table=categorias_table)
                 cat_map[categoria_name] = cat_id
-            upsert_plato(conn, row, cat_map[categoria_name], platos_table=platos_table, available_columns=platos_columns)
+                counters[f"categorias_{action}"] += 1
+            try:
+                _, action = upsert_plato(conn, safe_row, cat_map[categoria_name], platos_table=platos_table, available_columns=platos_columns)
+                counters[f"platos_{action}"] += 1
+            except Exception as row_err:
+                counters["platos_skipped"] += 1
+                errors.append(f"[platos fila {idx + 2}] error DB: {row_err}")
 
         conn.commit()
-        print("Actualización exitosa ✅")
+        print("Actualización completada ✅")
+        print(
+            f"Categorías -> insertadas: {counters['categorias_inserted']}, "
+            f"actualizadas: {counters['categorias_updated']}, "
+            f"omitidas: {counters['categorias_skipped']}"
+        )
+        print(
+            f"Platos -> insertados: {counters['platos_inserted']}, "
+            f"actualizados: {counters['platos_updated']}, "
+            f"omitidos: {counters['platos_skipped']}"
+        )
+
+        if warnings:
+            print(f"Advertencias ({len(warnings)}):")
+            for item in warnings[:MAX_ISSUES_TO_PRINT]:
+                print(f" - {item}")
+            if len(warnings) > MAX_ISSUES_TO_PRINT:
+                print(f" - ... y {len(warnings) - MAX_ISSUES_TO_PRINT} más")
+
+        if errors:
+            print(f"Filas con error/omitidas ({len(errors)}):")
+            for item in errors[:MAX_ISSUES_TO_PRINT]:
+                print(f" - {item}")
+            if len(errors) > MAX_ISSUES_TO_PRINT:
+                print(f" - ... y {len(errors) - MAX_ISSUES_TO_PRINT} más")
     except Exception as e:
         conn.rollback()
         print("Error ❌:", e, file=sys.stderr)

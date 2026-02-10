@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, X-HTTP-Method-Override');
 
-require_once '../../conexion/db.php';
+require_once __DIR__ . '/../../conexion/db.php';
 
 // Soportar preflight CORS
 $requestMethod = strtoupper($_SERVER['REQUEST_METHOD'] ?? '');
@@ -33,16 +33,29 @@ if ($requestMethod !== 'POST' && !($esMultipart || $hayArchivo)) {
     exit;
 }
 
-// Crear directorio de logs si no existe
-$logDir = '../../storage/logs/';
-if (!file_exists($logDir)) {
-    mkdir($logDir, 0777, true);
+// Paths absolutos para evitar problemas por CWD distinto
+$projectRoot = realpath(__DIR__ . '/../../');
+if ($projectRoot === false) {
+    $projectRoot = dirname(__DIR__, 2);
 }
-$logFile = $logDir . 'excel_upload.log';
+$logDir = $projectRoot . '/storage/logs';
+$uploadDir = $projectRoot . '/uploads';
+$logFile = $logDir . '/excel_upload.log';
+$logEnabled = false;
+
+if (!is_dir($logDir)) {
+    @mkdir($logDir, 0777, true);
+}
+if (is_dir($logDir) && is_writable($logDir)) {
+    $logEnabled = true;
+}
 
 function writeLog($message) {
-    global $logFile;
-    file_put_contents($logFile, date('[Y-m-d H:i:s] ') . $message . PHP_EOL, FILE_APPEND);
+    global $logFile, $logEnabled;
+    if (!$logEnabled) {
+        return;
+    }
+    @file_put_contents($logFile, date('[Y-m-d H:i:s] ') . $message . PHP_EOL, FILE_APPEND);
 }
 
 try {
@@ -62,14 +75,16 @@ try {
     writeLog("Archivo recibido: {$file['name']} ({$file['size']} bytes)");
     
     // Crear directorio uploads si no existe
-    $uploadDir = '../../uploads/';
-    if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+    if (!is_dir($uploadDir)) {
+        @mkdir($uploadDir, 0777, true);
+    }
+    if (!is_dir($uploadDir) || !is_writable($uploadDir)) {
+        throw new Exception('No se puede escribir en el directorio de uploads');
     }
     
     // Generar nombre único
     $fileName = 'menu_' . date('YmdHis') . '.' . $fileExt;
-    $filePath = $uploadDir . $fileName;
+    $filePath = $uploadDir . '/' . $fileName;
     
     // Mover archivo
     if (!move_uploaded_file($file['tmp_name'], $filePath)) {
