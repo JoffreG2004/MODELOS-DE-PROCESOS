@@ -1059,7 +1059,9 @@ if ($mesa_seleccionada_id) {
                         mesa_id: <?php echo $mesa_seleccionada['id'] ?? 0; ?>,
                         fecha_reserva: datos.fecha,
                         hora_reserva: datos.hora,
-                        numero_personas: datos.personas
+                        numero_personas: datos.personas,
+                        crear_nota_consumo: true,
+                        subtotal_nota: <?php echo (float)($mesa_seleccionada['precio_reserva'] ?? 0); ?>
                     })
                 });
                 
@@ -1068,28 +1070,25 @@ if ($mesa_seleccionada_id) {
                 if (data.success) {
                     // Limpiar datos temporales
                     sessionStorage.removeItem('reserva_temporal');
-                    
-                    // Preparar datos para WhatsApp
-                    const datosWhatsApp = {
-                        clienteNombre: '<?php echo $cliente_nombre . " " . $cliente_apellido; ?>',
-                        clienteTelefono: '<?php echo $_SESSION["cliente_telefono"] ?? ""; ?>',
-                        numeroMesa: '<?php echo $mesa_seleccionada["numero_mesa"] ?? ""; ?>',
-                        fechaReserva: datos.fecha,
-                        horaReserva: datos.hora,
-                        numeroPersonas: datos.personas,
-                        numeroNota: 'NC-' + fechaLocalISO().replace(/-/g, '') + '-000000',
-                        platosIncluidos: [],
-                        precioMesa: <?php echo $mesa_seleccionada['precio_reserva'] ?? 0; ?>,
-                        subtotalPlatos: 0,
-                        impuesto: 0,
-                        total: <?php echo $mesa_seleccionada['precio_reserva'] ?? 0; ?>,
-                        tienePlatos: false
-                    };
+
+                    const nota = data.nota_consumo || null;
+                    const numeroNota = nota?.numero_nota || ('NC-' + fechaLocalISO().replace(/-/g, '') + '-' + String(data.id).padStart(6, '0'));
+                    const totalNota = nota?.total ?? <?php echo (float)($mesa_seleccionada['precio_reserva'] ?? 0); ?>;
                     
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reserva Confirmada!',
-                        text: 'Tu reserva ha sido creada exitosamente',
+                        html: `
+                            <div style="text-align:left; color:white;">
+                                <p><strong>Nota:</strong> ${numeroNota}</p>
+                                <p><strong>Mesa:</strong> <?php echo $mesa_seleccionada['numero_mesa'] ?? ''; ?></p>
+                                <p><strong>Fecha:</strong> ${datos.fecha}</p>
+                                <p><strong>Hora:</strong> ${datos.hora}</p>
+                                <p><strong>Personas:</strong> ${datos.personas}</p>
+                                <hr style="border-color: rgba(212, 175, 55, 0.3);">
+                                <p><strong style="color: var(--gold-color);">Total nota: $${parseFloat(totalNota).toFixed(2)}</strong></p>
+                            </div>
+                        `,
                         background: '#1a1a1a',
                         color: '#ffffff',
                         confirmButtonColor: '#d4af37',

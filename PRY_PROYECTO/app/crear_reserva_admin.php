@@ -22,6 +22,8 @@ try {
     $duracion_horas = $data['duracion_horas'] ?? 3; // Por defecto 3 horas
     $es_zona_completa = $data['es_zona_completa'] ?? false;
     $estado = $data['estado'] ?? 'pendiente';
+    $crear_nota_consumo = !empty($data['crear_nota_consumo']);
+    $subtotal_nota_input = isset($data['subtotal_nota']) ? (float)$data['subtotal_nota'] : null;
     
     if (empty($cliente_id) || empty($mesa_id) || empty($fecha_reserva) || empty($hora_reserva)) {
         throw new Exception('Todos los campos obligatorios son requeridos');
@@ -57,8 +59,8 @@ try {
         throw new Exception('El cliente no existe');
     }
     
-    // Verificar que la mesa existe y obtener zona/capacidad
-    $stmt = $pdo->prepare("SELECT id, ubicacion, capacidad_minima, capacidad_maxima FROM mesas WHERE id = ?");
+    // Verificar que la mesa existe y obtener zona/capacidad/precio
+    $stmt = $pdo->prepare("SELECT id, ubicacion, capacidad_minima, capacidad_maxima, precio_reserva FROM mesas WHERE id = ?");
     $stmt->execute([$mesa_id]);
     $mesa = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$mesa) {
@@ -151,6 +153,8 @@ try {
         $duracion_horas = $duracion_horas ?? 3; // 3 horas por defecto para reservas normales
     }
     
+    $pdo->beginTransaction();
+
     $query = "INSERT INTO reservas (cliente_id, mesa_id, fecha_reserva, hora_reserva, numero_personas, duracion_horas, estado) 
               VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($query);
@@ -165,6 +169,57 @@ try {
     ]);
     
     $reserva_id = $pdo->lastInsertId();
+    $nota_consumo = null;
+
+    if ($crear_nota_consumo) {
+        $subtotal_nota = $subtotal_nota_input;
+        if ($subtotal_nota === null) {
+            $subtotal_nota = isset($mesa['precio_reserva']) ? (float)$mesa['precio_reserva'] : 0.00;
+        }
+        if ($subtotal_nota < 0) {
+            $subtotal_nota = 0.00;
+        }
+
+        $impuesto_nota = 0.00;
+        $total_nota = round($subtotal_nota + $impuesto_nota, 2);
+        $numero_nota = 'NC-' . date('Ymd') . '-' . str_pad($reserva_id, 6, '0', STR_PAD_LEFT);
+
+        // Crear nota solo si la tabla existe (compatibilidad con instalaciones antiguas)
+        $stmtExisteTabla = $pdo->prepare("
+            SELECT COUNT(1)
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME = 'notas_consumo'
+        ");
+        $stmtExisteTabla->execute();
+        $existeTablaNotas = ((int)$stmtExisteTabla->fetchColumn()) > 0;
+
+        if ($existeTablaNotas) {
+            $stmtNota = $pdo->prepare("
+                INSERT INTO notas_consumo
+                (reserva_id, numero_nota, subtotal, impuesto, total, estado, observaciones)
+                VALUES
+                (?, ?, ?, ?, ?, 'borrador', ?)
+            ");
+            $obsNota = 'Nota creada automáticamente desde flujo cliente (reserva sin platos).';
+            $stmtNota->execute([
+                $reserva_id,
+                $numero_nota,
+                $subtotal_nota,
+                $impuesto_nota,
+                $total_nota,
+                $obsNota
+            ]);
+
+            $nota_consumo = [
+                'numero_nota' => $numero_nota,
+                'subtotal' => $subtotal_nota,
+                'impuesto' => $impuesto_nota,
+                'total' => $total_nota,
+                'estado' => 'borrador'
+            ];
+        }
+    }
     
     // Si el admin crea con estado confirmada, enviar WhatsApp
     if ($estado === 'confirmada') {
@@ -187,15 +242,21 @@ try {
             error_log("Error al enviar WhatsApp: " . $e->getMessage());
         }
     }
+
+    $pdo->commit();
     
     echo json_encode([
         'success' => true,
         'message' => 'Reserva creada exitosamente',
         'id' => $reserva_id,
-        'duracion_horas' => $duracion_horas
+        'duracion_horas' => $duracion_horas,
+        'nota_consumo' => $nota_consumo
     ]);
     
 } catch (Exception $e) {
+    if (isset($pdo) && $pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     http_response_code(500);
     echo json_encode([
         'success' => false,

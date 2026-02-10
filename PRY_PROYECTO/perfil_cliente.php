@@ -501,22 +501,146 @@ usort($reservas, function($a, $b) {
             }
         }
 
-        async function imprimirNota(reservaId) {
+        function formatearMoneda(valor) {
+            return Number(valor || 0).toFixed(2);
+        }
+
+        function escaparHtml(texto) {
+            return String(texto ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        async function imprimirNota(reservaId, tipoReserva = 'normal') {
             try {
-                // Aquí implementaremos la impresión de la nota más adelante
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Próximamente',
-                    text: 'La función de imprimir nota estará disponible pronto',
-                    background: '#1a1a1a',
-                    color: '#ffffff',
-                    confirmButtonColor: '#d4af37'
+                const response = await fetch('app/api/obtener_nota_cliente.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reserva_id: Number(reservaId),
+                        tipo_reserva: tipoReserva
+                    })
                 });
+
+                const data = await response.json();
+                if (!data.success || !data.nota) {
+                    throw new Error(data.message || 'No se pudo obtener la nota');
+                }
+
+                const nota = data.nota;
+                const fechaHora = new Date().toLocaleString('es-EC');
+                const itemsHtml = (nota.items && nota.items.length > 0)
+                    ? nota.items.map(item => `
+                        <tr>
+                            <td>${escaparHtml(item.nombre)}</td>
+                            <td style="text-align:center;">${item.cantidad}</td>
+                            <td style="text-align:right;">$${formatearMoneda(item.precio_unitario)}</td>
+                            <td style="text-align:right;">$${formatearMoneda(item.subtotal)}</td>
+                        </tr>
+                    `).join('')
+                    : `<tr><td colspan="4" style="text-align:center; color:#666;">Sin platos asociados</td></tr>`;
+
+                const ventana = window.open('', '_blank', 'width=900,height=700');
+                if (!ventana) {
+                    throw new Error('El navegador bloqueó la ventana de impresión. Habilita popups para este sitio.');
+                }
+
+                const html = `
+                    <!DOCTYPE html>
+                    <html lang="es">
+                    <head>
+                        <meta charset="UTF-8">
+                        <title>Nota ${escaparHtml(nota.numero_nota)}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 24px; color: #111; }
+                            .header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #d4af37; padding-bottom:12px; margin-bottom:16px; }
+                            .title { font-size: 22px; font-weight: 700; }
+                            .subtitle { color: #666; font-size: 13px; }
+                            .card { border:1px solid #ddd; border-radius:8px; padding:12px; margin-bottom:12px; }
+                            .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+                            table { width:100%; border-collapse: collapse; margin-top:8px; }
+                            th, td { border:1px solid #ddd; padding:8px; font-size: 13px; }
+                            th { background: #f7f7f7; }
+                            .totales { margin-top:10px; width:320px; margin-left:auto; }
+                            .totales-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed #ddd; }
+                            .total-final { font-size:18px; font-weight:700; border-bottom:none; }
+                            .muted { color:#666; font-size:12px; margin-top:20px; }
+                            @media print { .no-print { display:none; } body { margin: 10mm; } }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <div>
+                                <div class="title">Le Salon de Lumiere</div>
+                                <div class="subtitle">Nota de consumo / venta</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div><strong>${escaparHtml(nota.numero_nota)}</strong></div>
+                                <div class="subtitle">Emitida: ${escaparHtml(fechaHora)}</div>
+                            </div>
+                        </div>
+
+                        <div class="card grid">
+                            <div><strong>Cliente:</strong> ${escaparHtml(nota.cliente_nombre)}</div>
+                            <div><strong>Email:</strong> ${escaparHtml(nota.cliente_email || '-')}</div>
+                            <div><strong>Reserva:</strong> ${escaparHtml(nota.detalle_reserva)}</div>
+                            <div><strong>Estado:</strong> ${escaparHtml(nota.estado)}</div>
+                            <div><strong>Fecha:</strong> ${escaparHtml(nota.fecha_reserva)}</div>
+                            <div><strong>Hora:</strong> ${escaparHtml(nota.hora_reserva)}</div>
+                            <div><strong>Personas:</strong> ${escaparHtml(nota.numero_personas)}</div>
+                            <div><strong>Tipo:</strong> ${escaparHtml(nota.tipo_reserva)}</div>
+                        </div>
+
+                        <div class="card">
+                            <strong>Detalle de consumo</strong>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Concepto</th>
+                                        <th style="width:80px;">Cant.</th>
+                                        <th style="width:120px;">P. Unit.</th>
+                                        <th style="width:120px;">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Reserva (${escaparHtml(nota.detalle_reserva)})</td>
+                                        <td style="text-align:center;">1</td>
+                                        <td style="text-align:right;">$${formatearMoneda(nota.subtotal_mesa)}</td>
+                                        <td style="text-align:right;">$${formatearMoneda(nota.subtotal_mesa)}</td>
+                                    </tr>
+                                    ${itemsHtml}
+                                </tbody>
+                            </table>
+
+                            <div class="totales">
+                                <div class="totales-row"><span>Subtotal mesa:</span><span>$${formatearMoneda(nota.subtotal_mesa)}</span></div>
+                                <div class="totales-row"><span>Subtotal platos:</span><span>$${formatearMoneda(nota.subtotal_platos)}</span></div>
+                                <div class="totales-row"><span>Impuesto:</span><span>$${formatearMoneda(nota.impuesto)}</span></div>
+                                <div class="totales-row"><span>Descuento:</span><span>$${formatearMoneda(nota.descuento || 0)}</span></div>
+                                <div class="totales-row total-final"><span>TOTAL:</span><span>$${formatearMoneda(nota.total)}</span></div>
+                            </div>
+                        </div>
+
+                        <p class="muted">Documento generado desde el perfil del cliente.</p>
+                        <button class="no-print" onclick="window.print()" style="padding:10px 18px; border:none; background:#d4af37; border-radius:6px; cursor:pointer;">Imprimir</button>
+                    </body>
+                    </html>
+                `;
+
+                ventana.document.open();
+                ventana.document.write(html);
+                ventana.document.close();
+                ventana.focus();
+                setTimeout(() => ventana.print(), 400);
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'No se pudo generar la nota',
+                    text: error.message || 'No se pudo generar la nota',
                     background: '#1a1a1a',
                     color: '#ffffff',
                     confirmButtonColor: '#d4af37'
