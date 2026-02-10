@@ -154,8 +154,15 @@ CREATE TABLE `reservas` (
   `fecha_reserva` date NOT NULL,
   `hora_reserva` time NOT NULL,
   `numero_personas` int(11) NOT NULL,
-  `estado` enum('pendiente','confirmada','en_curso','finalizada','cancelada') DEFAULT 'pendiente',
+  `estado` enum('pendiente','confirmada','preparando','en_curso','finalizada','cancelada') DEFAULT 'pendiente',
   `motivo_cancelacion` VARCHAR(255) NULL DEFAULT NULL,
+  `duracion_estimada` int(11) DEFAULT 120 COMMENT 'Duración estimada en minutos',
+  `cliente_llego` tinyint(1) DEFAULT 0 COMMENT '0=No llegó, 1=Llegó',
+  `hora_llegada` datetime DEFAULT NULL COMMENT 'Hora real de llegada',
+  `hora_finalizacion` datetime DEFAULT NULL COMMENT 'Hora de finalización',
+  `finalizada_por` varchar(100) DEFAULT NULL COMMENT 'Usuario admin que finalizó',
+  `observaciones_finalizacion` text DEFAULT NULL COMMENT 'Notas de finalización',
+  `notificacion_noshow_enviada` tinyint(1) DEFAULT 0 COMMENT '0=No enviada, 1=Enviada',
   PRIMARY KEY (`id`),
   KEY `idx_fecha_hora` (`fecha_reserva`,`hora_reserva`),
   KEY `idx_mesa_fecha` (`mesa_id`,`fecha_reserva`),
@@ -168,7 +175,7 @@ CREATE TABLE `reservas` (
 COMMENT='Reservas de mesas con estado y seguimiento temporal';
 
 -- Datos de ejemplo básicos
-INSERT INTO `reservas` VALUES 
+INSERT INTO `reservas` (`id`, `cliente_id`, `mesa_id`, `fecha_reserva`, `hora_reserva`, `numero_personas`, `estado`, `motivo_cancelacion`) VALUES 
 (1,1,1,'2025-11-15','19:30:00',4,'pendiente',NULL),
 (2,1,2,'2025-11-16','20:00:00',3,'en_curso',NULL),
 (3,1,3,'2025-11-12','17:00:00',2,'confirmada',NULL);
@@ -335,6 +342,27 @@ INSERT INTO `configuracion_restaurante` (`clave`, `valor`, `descripcion`) VALUES
 ('intervalo_reservas', '15', 'Tiempo de preparación entre reservas en minutos')
 ON DUPLICATE KEY UPDATE valor=valor;
 
+-- Configuración de duraciones predefinidas para reservas
+DROP TABLE IF EXISTS `configuracion_duraciones`;
+CREATE TABLE `configuracion_duraciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `minutos` int(11) NOT NULL,
+  `descripcion` varchar(200) DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+COMMENT='Duraciones predefinidas para reservas y eventos';
+
+INSERT INTO `configuracion_duraciones` (`id`, `nombre`, `minutos`, `descripcion`, `activo`) VALUES
+(1, 'Corta', 90, 'Almuerzo rápido - 1.5 horas', 1),
+(2, 'Normal', 120, 'Cena normal - 2 horas', 1),
+(3, 'Larga', 240, 'Evento pequeño - 4 horas', 1),
+(4, 'Evento', 480, 'Evento grande - 8 horas', 1),
+(5, 'Medio día', 720, 'Alquiler medio día - 12 horas', 1),
+(6, 'Día completo', 1440, 'Alquiler día completo - 24 horas', 1);
+
 -- =============================================
 -- SECCIÓN 12: TABLA notificaciones_whatsapp
 -- Registro de notificaciones enviadas vía WhatsApp (Twilio)
@@ -370,8 +398,15 @@ CREATE TABLE `reservas_zonas` (
   `numero_personas` int(11) NOT NULL,
   `precio_total` decimal(10,2) NOT NULL,
   `cantidad_mesas` int(11) NOT NULL COMMENT 'Total de mesas incluidas',
-  `estado` enum('pendiente','confirmada','cancelada','finalizada') DEFAULT 'pendiente',
+  `estado` enum('pendiente','confirmada','preparando','en_curso','cancelada','finalizada') DEFAULT 'pendiente',
   `motivo_cancelacion` text DEFAULT NULL,
+  `duracion_estimada` int(11) DEFAULT 240 COMMENT 'Duración estimada en minutos para reservas de zona',
+  `cliente_llego` tinyint(1) DEFAULT 0 COMMENT '0=No llegó, 1=Llegó',
+  `hora_llegada` datetime DEFAULT NULL COMMENT 'Hora real de llegada',
+  `hora_finalizacion` datetime DEFAULT NULL COMMENT 'Hora de finalización',
+  `finalizada_por` varchar(100) DEFAULT NULL COMMENT 'Usuario admin que finalizó',
+  `observaciones_finalizacion` text DEFAULT NULL COMMENT 'Notas de finalización',
+  `notificacion_noshow_enviada` tinyint(1) DEFAULT 0 COMMENT '0=No enviada, 1=Enviada',
   `fecha_creacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fecha_actualizacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -457,6 +492,22 @@ CREATE TABLE `auditoria_sistema` (
     INDEX `idx_accion` (`accion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 COMMENT='Auditoría general de todo el sistema';
+
+-- Tabla de auditoría para cambios operativos (finalización manual y otros)
+DROP TABLE IF EXISTS `auditoria_cambios`;
+CREATE TABLE `auditoria_cambios` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tabla_afectada` varchar(50) NOT NULL,
+  `accion` varchar(100) NOT NULL,
+  `registro_id` int(11) NOT NULL,
+  `usuario` varchar(100) NOT NULL,
+  `detalles` text DEFAULT NULL,
+  `fecha_hora` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_tabla_accion` (`tabla_afectada`, `accion`),
+  KEY `idx_fecha` (`fecha_hora`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+COMMENT='Auditoría de cambios operativos ejecutados por admin/sistema';
 
 -- =============================================
 -- SECCIÓN 15: TRIGGERS
@@ -617,7 +668,7 @@ SELECT '✅ ============================================' as ' ';
 SELECT '' as ' ';
 SELECT 'Base de datos: crud_proyecto' as 'INFORMACIÓN';
 SELECT 'Charset: utf8mb4' as ' ';
-SELECT 'Tablas principales: 17' as ' ';
+SELECT 'Tablas principales: 19' as ' ';
 SELECT 'Triggers: 4' as ' ';
 SELECT 'Procedimientos: 1' as ' ';
 SELECT 'Vistas: 2' as ' ';

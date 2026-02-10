@@ -45,7 +45,7 @@ try {
                         h.ip_address,
                         h.user_agent
                     FROM auditoria_horarios h
-                    LEFT JOIN usuarios u ON h.admin_id = u.id
+                    LEFT JOIN administradores u ON h.admin_id = u.id
                     WHERE h.id = ?
                 ");
                 $stmt->execute([$id]);
