@@ -1757,6 +1757,9 @@
                                             <i class="bi bi-person"></i> Nombre
                                         </label>
                                         <input type="text" class="form-control" id="regNombre" required
+                                            minlength="2" maxlength="50"
+                                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+"
+                                            title="Solo letras (sin números ni signos)"
                                             placeholder="Tu nombre">
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -1764,6 +1767,9 @@
                                             <i class="bi bi-person"></i> Apellido
                                         </label>
                                         <input type="text" class="form-control" id="regApellido" required
+                                            minlength="2" maxlength="50"
+                                            pattern="[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+"
+                                            title="Solo letras (sin números ni signos)"
                                             placeholder="Tu apellido">
                                     </div>
                                 </div>
@@ -2568,6 +2574,13 @@
                 return;
             } else {
                 errorDiv.classList.add('d-none');
+            }
+
+            const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+$/;
+            if (!soloLetras.test(nombre) || !soloLetras.test(apellido)) {
+                errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Nombre y apellido solo pueden tener letras (sin números ni signos)';
+                errorDiv.classList.remove('d-none');
+                return;
             }
 
             const passwordPolicy = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -4007,25 +4020,25 @@
         // VALIDACIÓN EN TIEMPO REAL DE FORMULARIOS
         // ========================================
 
-        // Validar que NOMBRE solo acepte letras (sin números)
+        // Validar que NOMBRE solo acepte letras (sin números ni signos)
         document.getElementById('regNombre').addEventListener('input', function (e) {
-            // Remover cualquier número que se intente escribir
-            this.value = this.value.replace(/[0-9]/g, '');
+            // Permitir únicamente letras con tildes/ñ/ü
+            this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü]/g, '');
 
             // Opcional: mostrar feedback visual
-            if (/[0-9]/.test(e.data)) {
+            if (e.data && /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü]/.test(e.data)) {
                 this.classList.add('is-invalid');
                 setTimeout(() => this.classList.remove('is-invalid'), 1000);
             }
         });
 
-        // Validar que APELLIDO solo acepte letras (sin números)
+        // Validar que APELLIDO solo acepte letras (sin números ni signos)
         document.getElementById('regApellido').addEventListener('input', function (e) {
-            // Remover cualquier número que se intente escribir
-            this.value = this.value.replace(/[0-9]/g, '');
+            // Permitir únicamente letras con tildes/ñ/ü
+            this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü]/g, '');
 
             // Opcional: mostrar feedback visual
-            if (/[0-9]/.test(e.data)) {
+            if (e.data && /[^A-Za-zÁÉÍÓÚáéíóúÑñÜü]/.test(e.data)) {
                 this.classList.add('is-invalid');
                 setTimeout(() => this.classList.remove('is-invalid'), 1000);
             }
@@ -4043,18 +4056,18 @@
             this.value = this.value.replace(/[^0-9]/g, '').substring(0, 10);
         });
 
-        // Prevenir pegado de números en nombre y apellido
+        // Prevenir pegado de números/signos en nombre y apellido
         document.getElementById('regNombre').addEventListener('paste', function (e) {
             e.preventDefault();
             const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-            const cleanText = pastedText.replace(/[0-9]/g, '');
+            const cleanText = pastedText.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü]/g, '');
             document.execCommand('insertText', false, cleanText);
         });
 
         document.getElementById('regApellido').addEventListener('paste', function (e) {
             e.preventDefault();
             const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-            const cleanText = pastedText.replace(/[0-9]/g, '');
+            const cleanText = pastedText.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñÜü]/g, '');
             document.execCommand('insertText', false, cleanText);
         });
 

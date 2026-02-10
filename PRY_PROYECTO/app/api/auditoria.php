@@ -328,39 +328,72 @@ try {
 
         case 'admin':
             $adminId = isset($_GET['admin_id']) ? (int)$_GET['admin_id'] : (int)$_SESSION['admin_id'];
-            $fechaInicio = $_GET['fecha_inicio'] ?? null;
-            $fechaFin = $_GET['fecha_fin'] ?? null;
             $datos = [];
 
-            if ($hasHorarios || $hasReservas) {
-                if ($hasHorarios && $hasReservas) {
-                    $datos = $auditoriaController->obtenerAccionesAdmin($adminId, $fechaInicio, $fechaFin, $limite);
-                } else {
-                    // Fallback cuando solo existe una de las dos tablas
-                    if ($hasHorarios) {
-                        $stmt = $pdo->prepare("
-                            SELECT 'horarios' as tipo, accion, fecha_cambio as fecha,
-                                   reservas_afectadas, observaciones
-                            FROM auditoria_horarios
-                            WHERE admin_id = ?
-                            ORDER BY fecha_cambio DESC
-                            LIMIT ?
-                        ");
-                        $stmt->execute([$adminId, $limite]);
-                        $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    } else {
-                        $stmt = $pdo->prepare("
-                            SELECT 'reservas' as tipo, accion, fecha_accion as fecha,
-                                   NULL as reservas_afectadas, motivo as observaciones
-                            FROM auditoria_reservas
-                            WHERE admin_id = ?
-                            ORDER BY fecha_accion DESC
-                            LIMIT ?
-                        ");
-                        $stmt->execute([$adminId, $limite]);
-                        $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    }
+            $subqueries = [];
+            $params = [];
+
+            if ($hasHorarios) {
+                $queryHorarios = "
+                    SELECT 'horarios' as tipo, h.accion, h.fecha_cambio as fecha,
+                           h.reservas_afectadas, h.observaciones
+                    FROM auditoria_horarios h
+                    WHERE h.admin_id = :admin_id_h
+                ";
+                $params[':admin_id_h'] = $adminId;
+                if ($fechaInicio) {
+                    $queryHorarios .= " AND DATE(h.fecha_cambio) >= :fecha_inicio_h ";
+                    $params[':fecha_inicio_h'] = $fechaInicio;
                 }
+                if ($fechaFin) {
+                    $queryHorarios .= " AND DATE(h.fecha_cambio) <= :fecha_fin_h ";
+                    $params[':fecha_fin_h'] = $fechaFin;
+                }
+                if ($qLike) {
+                    $queryHorarios .= " AND (
+                        h.accion LIKE :q_h
+                        OR h.observaciones LIKE :q_h
+                        OR h.admin_nombre LIKE :q_h
+                    )";
+                    $params[':q_h'] = $qLike;
+                }
+                $subqueries[] = $queryHorarios;
+            }
+
+            if ($hasReservas) {
+                $queryReservas = "
+                    SELECT 'reservas' as tipo, ar.accion, ar.fecha_accion as fecha,
+                           NULL as reservas_afectadas, ar.motivo as observaciones
+                    FROM auditoria_reservas ar
+                    WHERE ar.admin_id = :admin_id_r
+                ";
+                $params[':admin_id_r'] = $adminId;
+                if ($fechaInicio) {
+                    $queryReservas .= " AND DATE(ar.fecha_accion) >= :fecha_inicio_r ";
+                    $params[':fecha_inicio_r'] = $fechaInicio;
+                }
+                if ($fechaFin) {
+                    $queryReservas .= " AND DATE(ar.fecha_accion) <= :fecha_fin_r ";
+                    $params[':fecha_fin_r'] = $fechaFin;
+                }
+                if ($qLike) {
+                    $queryReservas .= " AND (
+                        ar.accion LIKE :q_r
+                        OR ar.motivo LIKE :q_r
+                        OR CAST(ar.reserva_id AS CHAR) LIKE :q_r
+                    )";
+                    $params[':q_r'] = $qLike;
+                }
+                $subqueries[] = $queryReservas;
+            }
+
+            if (!empty($subqueries)) {
+                $sql = implode(" UNION ALL ", $subqueries) . " ORDER BY fecha DESC LIMIT :limite ";
+                $stmt = $pdo->prepare($sql);
+                bindStatementParams($stmt, $params);
+                $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+                $stmt->execute();
+                $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
 
             $datos = array_map(function($item) {

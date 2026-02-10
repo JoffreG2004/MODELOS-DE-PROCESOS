@@ -142,6 +142,21 @@ $admin_id = $_SESSION['admin_id'];
             color: #fff;
         }
 
+        .card .border.rounded {
+            border-color: rgba(148, 163, 184, 0.35) !important;
+            background: rgba(148, 163, 184, 0.08);
+            color: #e2e8f0;
+        }
+
+        .swal2-popup {
+            color: #111827 !important;
+        }
+
+        .swal2-title,
+        .swal2-html-container {
+            color: #111827 !important;
+        }
+
         .alert-info {
             background: rgba(14, 165, 233, 0.12);
             border: 1px solid rgba(14, 165, 233, 0.35);
@@ -380,8 +395,25 @@ $admin_id = $_SESSION['admin_id'];
             ['tipo-auditoria', 'limite'].forEach((id) => {
                 const el = document.getElementById(id);
                 if (!el) return;
-                el.addEventListener('change', () => cargarAuditoria());
+                el.addEventListener('change', () => {
+                    if (id === 'tipo-auditoria') {
+                        actualizarEstadoFiltroReserva();
+                    }
+                    cargarAuditoria();
+                });
             });
+        }
+
+        function actualizarEstadoFiltroReserva() {
+            const tipo = document.getElementById('tipo-auditoria').value;
+            const input = document.getElementById('filtro-reserva-id');
+            if (!input) return;
+            const habilitado = tipo === 'reservas';
+            input.disabled = !habilitado;
+            input.placeholder = habilitado ? 'Solo para tipo Reservas' : 'Disponible al elegir "Reservas"';
+            if (!habilitado) {
+                input.value = '';
+            }
         }
 
         // Cargar resumen al inicio
@@ -718,6 +750,7 @@ $admin_id = $_SESSION['admin_id'];
 
         document.addEventListener('DOMContentLoaded', () => {
             activarEventosFiltros();
+            actualizarEstadoFiltroReserva();
             cargarAuditoria();
         });
     </script>
