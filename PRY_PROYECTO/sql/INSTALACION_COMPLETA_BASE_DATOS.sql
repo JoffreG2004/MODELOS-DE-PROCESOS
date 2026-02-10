@@ -174,11 +174,18 @@ CREATE TABLE `reservas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 COMMENT='Reservas de mesas con estado y seguimiento temporal';
 
--- Datos de ejemplo básicos
-INSERT INTO `reservas` (`id`, `cliente_id`, `mesa_id`, `fecha_reserva`, `hora_reserva`, `numero_personas`, `estado`, `motivo_cancelacion`) VALUES 
-(1,1,1,'2025-11-15','19:30:00',4,'pendiente',NULL),
-(2,1,2,'2025-11-16','20:00:00',3,'en_curso',NULL),
-(3,1,3,'2025-11-12','17:00:00',2,'confirmada',NULL);
+-- Datos de ejemplo básicos (10 reservas coherentes con fecha/hora actual)
+INSERT INTO `reservas` (`id`, `cliente_id`, `mesa_id`, `fecha_reserva`, `hora_reserva`, `numero_personas`, `estado`, `motivo_cancelacion`) VALUES
+(1,1,1,DATE_ADD(CURDATE(), INTERVAL 1 DAY),'19:30:00',4,'pendiente',NULL),
+(2,2,2,DATE_ADD(CURDATE(), INTERVAL 2 DAY),'20:00:00',3,'confirmada',NULL),
+(3,3,3,DATE(DATE_ADD(NOW(), INTERVAL 45 MINUTE)),TIME(DATE_ADD(NOW(), INTERVAL 45 MINUTE)),2,'en_curso',NULL),
+(4,4,4,DATE(DATE_SUB(NOW(), INTERVAL 30 MINUTE)),TIME(DATE_SUB(NOW(), INTERVAL 30 MINUTE)),5,'en_curso',NULL),
+(5,5,5,DATE_SUB(CURDATE(), INTERVAL 1 DAY),'18:00:00',6,'finalizada',NULL),
+(6,6,6,DATE_SUB(CURDATE(), INTERVAL 3 DAY),'21:00:00',2,'finalizada',NULL),
+(7,7,7,DATE_SUB(CURDATE(), INTERVAL 2 DAY),'19:00:00',4,'cancelada','Cancelada por cliente'),
+(8,8,8,DATE_ADD(CURDATE(), INTERVAL 3 DAY),'20:30:00',8,'confirmada',NULL),
+(9,9,9,DATE_ADD(CURDATE(), INTERVAL 5 DAY),'17:45:00',10,'pendiente',NULL),
+(10,10,10,DATE_ADD(CURDATE(), INTERVAL 7 DAY),'19:15:00',3,'confirmada',NULL);
 
 -- =============================================
 -- SECCIÓN 7: TABLA platos
