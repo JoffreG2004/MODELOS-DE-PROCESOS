@@ -137,10 +137,10 @@ class ReservaZonas {
                             Número de Personas
                         </label>
                         <input type="number" class="form-control" id="personasReservaZona" 
-                               min="10" max="200" value="20" required placeholder="Mínimo 10 personas"
+                               min="1" max="100" value="1" required placeholder="Máximo 100 personas"
                                step="1" inputmode="numeric" pattern="\\d*"
                                style="color: var(--text-primary) !important;">
-                        <small class="text-muted">Mínimo 10 personas para reserva de zona completa</small>
+                        <small class="text-muted">Máximo 100 personas (aforo)</small>
                     </div>
 
                     <div class="alert alert-warning mt-3">
@@ -210,8 +210,13 @@ class ReservaZonas {
                     return false;
                 }
 
-                if (!personas || personas < 10) {
-                    Swal.showValidationMessage('👥 Mínimo 10 personas para reserva de zona');
+                if (!personas || personas < 1) {
+                    Swal.showValidationMessage('👥 Debes ingresar al menos 1 persona');
+                    return false;
+                }
+
+                if (personas > 100) {
+                    Swal.showValidationMessage('👥 Máximo 100 personas (aforo)');
                     return false;
                 }
 

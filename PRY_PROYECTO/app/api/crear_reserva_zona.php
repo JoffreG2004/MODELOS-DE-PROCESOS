@@ -125,18 +125,14 @@ try {
         exit;
     }
     
-    // Validación de número de personas: solo enteros (sin puntos ni comas)
-    $validacionPersonas = ValidadorReserva::validarNumeroPersonas($numero_personas, 1, null);
+    // Validación de número de personas: solo enteros (sin puntos ni comas) hasta aforo 100
+    $validacionPersonas = ValidadorReserva::validarNumeroPersonas($numero_personas, 1, 100);
     if (!$validacionPersonas['valido']) {
         echo json_encode(['success' => false, 'message' => $validacionPersonas['mensaje']]);
         exit;
     }
 
     $numero_personas = $validacionPersonas['valor'];
-    if ($numero_personas > 50) {
-        echo json_encode(['success' => false, 'message' => 'Para grupos mayores a 50 personas contacte directamente al restaurante']);
-        exit;
-    }
     
     // Calcular precio según cantidad de zonas
     $precios = [

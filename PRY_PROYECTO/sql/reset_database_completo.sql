@@ -85,7 +85,7 @@ INSERT INTO `mesas` (`numero_mesa`, `capacidad_minima`, `capacidad_maxima`, `pre
 ('M04', 2, 5, 9.00, 'interior', 'disponible', 'Mesa principal cerca de la cocina');
 
 -- =============================================
--- PASO 8: INSERTAR DATOS - RESERVAS (25)
+-- PASO 8: INSERTAR DATOS - RESERVAS (100)
 -- Reglas:
 -- - Del 20 nov 2025 al 6 feb 2026: todas finalizadas o canceladas
 -- - Del 7 al 10 feb 2026: algunas confirmadas y pendientes
@@ -93,40 +93,115 @@ INSERT INTO `mesas` (`numero_mesa`, `capacidad_minima`, `capacidad_maxima`, `pre
 -- =============================================
 
 INSERT INTO `reservas` (`cliente_id`, `mesa_id`, `fecha_reserva`, `hora_reserva`, `numero_personas`, `estado`, `motivo_cancelacion`) VALUES
--- NOVIEMBRE 2025 - 5 reservas finalizadas
-(1, 1, '2025-11-20', '19:00:00', 4, 'finalizada', NULL),
-(2, 2, '2025-11-25', '20:00:00', 6, 'finalizada', NULL),
-(3, 3, '2025-11-27', '18:30:00', 3, 'cancelada', 'Cliente no pudo asistir'),
-(4, 4, '2025-11-28', '19:30:00', 5, 'finalizada', NULL),
-(5, 5, '2025-11-30', '20:30:00', 8, 'finalizada', NULL),
+-- NOVIEMBRE 2025 - 20 reservas
+(1, 1, '2025-11-20', '12:00:00', 4, 'finalizada', NULL),
+(2, 2, '2025-11-20', '13:00:00', 6, 'finalizada', NULL),
+(3, 3, '2025-11-20', '19:00:00', 3, 'finalizada', NULL),
+(4, 4, '2025-11-20', '20:00:00', 5, 'finalizada', NULL),
+(5, 5, '2025-11-21', '12:30:00', 8, 'finalizada', NULL),
+(6, 6, '2025-11-21', '18:30:00', 10, 'finalizada', NULL),
+(7, 7, '2025-11-21', '19:30:00', 8, 'finalizada', NULL),
+(8, 8, '2025-11-22', '20:30:00', 10, 'cancelada', 'Cliente canceló'),
+(9, 9, '2025-11-23', '13:00:00', 4, 'finalizada', NULL),
+(10, 10, '2025-11-23', '19:00:00', 4, 'finalizada', NULL),
+(1, 1, '2025-11-24', '20:00:00', 4, 'finalizada', NULL),
+(2, 2, '2025-11-25', '12:00:00', 5, 'finalizada', NULL),
+(3, 3, '2025-11-25', '13:00:00', 3, 'finalizada', NULL),
+(4, 4, '2025-11-26', '18:00:00', 4, 'finalizada', NULL),
+(5, 5, '2025-11-26', '19:00:00', 7, 'finalizada', NULL),
+(6, 6, '2025-11-27', '12:30:00', 9, 'finalizada', NULL),
+(7, 7, '2025-11-27', '19:30:00', 8, 'cancelada', 'Mesa reservada por error'),
+(8, 8, '2025-11-28', '20:30:00', 11, 'finalizada', NULL),
+(9, 1, '2025-11-29', '13:00:00', 4, 'finalizada', NULL),
+(10, 2, '2025-11-30', '19:00:00', 6, 'finalizada', NULL),
 
--- DICIEMBRE 2025 - 6 reservas finalizadas
-(6, 6, '2025-12-05', '19:00:00', 10, 'finalizada', NULL),
-(7, 7, '2025-12-10', '20:00:00', 8, 'finalizada', NULL),
-(8, 8, '2025-12-15', '18:30:00', 10, 'finalizada', NULL),
-(9, 9, '2025-12-20', '19:30:00', 4, 'finalizada', NULL),
-(10, 10, '2025-12-24', '21:00:00', 4, 'finalizada', NULL),
-(1, 1, '2025-12-28', '19:00:00', 4, 'cancelada', 'Emergencia familiar'),
+-- DICIEMBRE 2025 - 40 reservas
+(1, 3, '2025-12-01', '12:00:00', 3, 'finalizada', NULL),
+(2, 4, '2025-12-01', '13:00:00', 4, 'finalizada', NULL),
+(3, 5, '2025-12-01', '18:30:00', 7, 'finalizada', NULL),
+(4, 6, '2025-12-01', '19:30:00', 9, 'finalizada', NULL),
+(5, 7, '2025-12-02', '12:30:00', 8, 'finalizada', NULL),
+(6, 8, '2025-12-02', '19:00:00', 10, 'finalizada', NULL),
+(7, 9, '2025-12-03', '20:00:00', 4, 'finalizada', NULL),
+(8, 10, '2025-12-03', '12:00:00', 4, 'finalizada', NULL),
+(9, 1, '2025-12-04', '19:00:00', 3, 'finalizada', NULL),
+(10, 2, '2025-12-05', '12:00:00', 5, 'finalizada', NULL),
+(1, 3, '2025-12-05', '13:00:00', 3, 'finalizada', NULL),
+(2, 4, '2025-12-06', '19:00:00', 4, 'cancelada', 'Emergencia familiar'),
+(3, 5, '2025-12-06', '12:30:00', 7, 'finalizada', NULL),
+(4, 6, '2025-12-07', '18:30:00', 8, 'finalizada', NULL),
+(5, 7, '2025-12-08', '19:30:00', 8, 'finalizada', NULL),
+(6, 8, '2025-12-10', '12:00:00', 10, 'finalizada', NULL),
+(7, 9, '2025-12-10', '19:00:00', 4, 'finalizada', NULL),
+(8, 10, '2025-12-11', '20:00:00', 4, 'finalizada', NULL),
+(9, 1, '2025-12-12', '12:30:00', 4, 'finalizada', NULL),
+(10, 2, '2025-12-12', '19:30:00', 5, 'finalizada', NULL),
+(1, 3, '2025-12-13', '20:30:00', 3, 'finalizada', NULL),
+(2, 4, '2025-12-14', '12:00:00', 4, 'finalizada', NULL),
+(3, 5, '2025-12-15', '13:00:00', 7, 'finalizada', NULL),
+(4, 6, '2025-12-15', '19:00:00', 8, 'finalizada', NULL),
+(5, 7, '2025-12-16', '12:30:00', 8, 'finalizada', NULL),
+(6, 8, '2025-12-17', '19:30:00', 10, 'finalizada', NULL),
+(7, 9, '2025-12-18', '20:30:00', 3, 'finalizada', NULL),
+(8, 10, '2025-12-19', '12:00:00', 4, 'finalizada', NULL),
+(9, 1, '2025-12-20', '19:00:00', 4, 'finalizada', NULL),
+(10, 2, '2025-12-20', '20:00:00', 5, 'finalizada', NULL),
+(1, 3, '2025-12-21', '12:30:00', 3, 'finalizada', NULL),
+(2, 4, '2025-12-22', '19:30:00', 4, 'finalizada', NULL),
+(3, 5, '2025-12-22', '20:30:00', 6, 'cancelada', 'Cambio de planes'),
+(4, 6, '2025-12-24', '19:00:00', 8, 'finalizada', NULL),
+(5, 7, '2025-12-24', '20:00:00', 8, 'finalizada', NULL),
+(6, 8, '2025-12-24', '21:00:00', 10, 'finalizada', NULL),
+(7, 9, '2025-12-25', '13:00:00', 4, 'finalizada', NULL),
+(8, 10, '2025-12-26', '14:00:00', 4, 'finalizada', NULL),
+(9, 1, '2025-12-28', '12:00:00', 3, 'finalizada', NULL),
+(10, 2, '2025-12-30', '19:00:00', 5, 'finalizada', NULL),
 
--- ENERO 2026 - 7 reservas finalizadas
-(2, 2, '2026-01-03', '20:00:00', 5, 'finalizada', NULL),
-(3, 3, '2026-01-08', '18:30:00', 3, 'finalizada', NULL),
-(4, 4, '2026-01-12', '19:30:00', 4, 'finalizada', NULL),
-(5, 5, '2026-01-15', '20:30:00', 6, 'finalizada', NULL),
-(6, 6, '2026-01-20', '19:00:00', 8, 'finalizada', NULL),
-(7, 7, '2026-01-25', '20:00:00', 8, 'cancelada', 'Viaje cancelado'),
-(8, 8, '2026-01-30', '18:30:00', 10, 'finalizada', NULL),
+-- ENERO 2026 - 30 reservas
+(1, 3, '2026-01-02', '20:00:00', 3, 'finalizada', NULL),
+(2, 4, '2026-01-03', '12:00:00', 4, 'finalizada', NULL),
+(3, 5, '2026-01-03', '13:00:00', 6, 'finalizada', NULL),
+(4, 6, '2026-01-04', '19:00:00', 8, 'finalizada', NULL),
+(5, 7, '2026-01-05', '12:30:00', 8, 'finalizada', NULL),
+(6, 8, '2026-01-06', '19:30:00', 10, 'finalizada', NULL),
+(7, 9, '2026-01-07', '20:30:00', 4, 'finalizada', NULL),
+(8, 10, '2026-01-08', '12:00:00', 4, 'finalizada', NULL),
+(9, 1, '2026-01-09', '19:00:00', 3, 'finalizada', NULL),
+(10, 2, '2026-01-10', '20:00:00', 5, 'finalizada', NULL),
+(1, 3, '2026-01-11', '12:30:00', 3, 'cancelada', 'No pudo asistir'),
+(2, 4, '2026-01-12', '19:30:00', 4, 'finalizada', NULL),
+(3, 5, '2026-01-13', '20:30:00', 6, 'finalizada', NULL),
+(4, 6, '2026-01-14', '12:00:00', 8, 'finalizada', NULL),
+(5, 7, '2026-01-15', '19:00:00', 8, 'finalizada', NULL),
+(6, 8, '2026-01-16', '20:00:00', 10, 'finalizada', NULL),
+(7, 9, '2026-01-17', '12:30:00', 4, 'finalizada', NULL),
+(8, 10, '2026-01-18', '19:30:00', 4, 'finalizada', NULL),
+(9, 1, '2026-01-19', '20:30:00', 3, 'finalizada', NULL),
+(10, 2, '2026-01-20', '12:00:00', 5, 'finalizada', NULL),
+(1, 3, '2026-01-21', '19:00:00', 3, 'finalizada', NULL),
+(2, 4, '2026-01-22', '20:00:00', 4, 'finalizada', NULL),
+(3, 5, '2026-01-23', '12:30:00', 6, 'finalizada', NULL),
+(4, 6, '2026-01-24', '19:30:00', 8, 'cancelada', 'Viaje cancelado'),
+(5, 7, '2026-01-25', '12:00:00', 8, 'finalizada', NULL),
+(6, 8, '2026-01-26', '19:00:00', 10, 'finalizada', NULL),
+(7, 9, '2026-01-28', '20:00:00', 4, 'finalizada', NULL),
+(8, 10, '2026-01-29', '12:30:00', 4, 'finalizada', NULL),
+(9, 1, '2026-01-30', '19:30:00', 3, 'finalizada', NULL),
+(10, 2, '2026-01-31', '20:30:00', 5, 'finalizada', NULL),
 
--- FEBRERO 2026 (1-6) - 3 reservas finalizadas
-(9, 9, '2026-02-02', '19:30:00', 4, 'finalizada', NULL),
-(10, 10, '2026-02-04', '20:00:00', 4, 'finalizada', NULL),
-(1, 1, '2026-02-06', '19:00:00', 4, 'cancelada', 'Problema de salud'),
+-- FEBRERO 2026 (1-6) - 4 finalizadas/canceladas
+(1, 3, '2026-02-02', '12:00:00', 3, 'finalizada', NULL),
+(2, 4, '2026-02-03', '19:00:00', 4, 'finalizada', NULL),
+(3, 5, '2026-02-05', '20:00:00', 6, 'cancelada', 'Problema de salud'),
+(4, 6, '2026-02-06', '12:30:00', 8, 'finalizada', NULL),
 
--- FEBRERO 2026 (7-10) - 4 reservas activas (confirmadas y pendientes)
-(2, 2, '2026-02-07', '20:00:00', 5, 'confirmada', NULL),
-(3, 3, '2026-02-08', '19:00:00', 3, 'pendiente', NULL),
-(4, 4, '2026-02-09', '18:30:00', 4, 'confirmada', NULL),
-(5, 5, '2026-02-10', '19:30:00', 6, 'pendiente', NULL);
+-- FEBRERO 2026 (7-10) - 6 reservas activas (confirmadas y pendientes)
+(5, 7, '2026-02-07', '19:00:00', 8, 'confirmada', NULL),
+(6, 8, '2026-02-07', '20:00:00', 10, 'pendiente', NULL),
+(7, 9, '2026-02-08', '12:00:00', 4, 'confirmada', NULL),
+(8, 10, '2026-02-09', '19:00:00', 4, 'pendiente', NULL),
+(9, 1, '2026-02-09', '20:00:00', 3, 'confirmada', NULL),
+(10, 2, '2026-02-10', '19:30:00', 5, 'pendiente', NULL);
 
 -- =============================================
 -- PASO 9: INSERTAR DATOS - RESERVAS ZONAS (3)
